@@ -1,0 +1,42 @@
+
+
+import 'package:fahad_tutor/controller/color_controller.dart';
+import 'package:fahad_tutor/res/reusableText.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+
+Widget reusableRadioBtn(BuildContext context, String value1, String value2, String? _groupValue, void Function(String?)? onChanged, String name1, String name2) {
+  return Container(
+    width: MediaQuery.of(context).size.width * 1,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          width: MediaQuery.of(context).size.width * .4,
+    height: MediaQuery.of(context).size.height * .08,
+          child: RadioListTile(
+            value: value1,
+            groupValue: _groupValue,
+            onChanged: onChanged,
+            activeColor: MaterialStateColor.resolveWith((states) => colorController.blueColor),
+            title: reusableText(name1,fontsize: 14),
+          ),
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width * .4,
+    height: MediaQuery.of(context).size.height * .08,
+          child: RadioListTile(
+            value: value2,
+            groupValue: _groupValue,
+            onChanged: onChanged,
+            activeColor: MaterialStateColor.resolveWith((states) => colorController.blueColor),
+            overlayColor: MaterialStateColor.resolveWith(
+                      (states) => colorController.blueColor),
+            title: reusableText(name2,fontsize: 14),
+          ),
+        ),
+      ],
+    ),
+  );
+}

@@ -36,6 +36,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
   cached_network_image: 
+  get: 
+  get_storage: 
 
 dev_dependencies:
   flutter_test:
@@ -78,7 +80,7 @@ flutter:
   fonts:
     - family: tutorPhi
       fonts:
-        - asset: assets/fonts/phi.ttf
+        - asset: assets/fonts/phi2.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
