@@ -106,7 +106,7 @@ class _LoginState extends State<Login> {
             reusablaSizaBox(context, .02),
             reusableTextField(context ,_emailCon, 'Email Address', _emailfocusNode.hasFocus ? colorController.blueColor : colorController.textfieldBorderColorBefore,_emailfocusNode,keyboardType: TextInputType.emailAddress,),
             reusablaSizaBox(context, .04),
-            reusableTextField(context, _passCon, 'Password',_passfocusNode.hasFocus ? colorController.blueColor : colorController.textfieldBorderColorBefore,_passfocusNode,),
+            reusableTextField(context, _passCon, 'Password',_passfocusNode.hasFocus ? colorController.blueColor : colorController.textfieldBorderColorBefore,_passfocusNode,keyboardType: TextInputType.text,obscureText: true),
             reusablaSizaBox(context, .02),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,

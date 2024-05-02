@@ -3,10 +3,13 @@ import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableTextField.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusableradiobtn.dart';
+import 'package:fahad_tutor/res/reusableregistertextfield.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
 class Rigister extends StatefulWidget {
   const Rigister({super.key});
@@ -16,29 +19,80 @@ class Rigister extends StatefulWidget {
 }
 
 class _RigisterState extends State<Rigister> {
-  TextEditingController _emailCon = TextEditingController();
+  TextEditingController _teacherCon = TextEditingController();
+  TextEditingController _fatherCon = TextEditingController();
+  TextEditingController _contactCon = TextEditingController();
+  TextEditingController _alterContactCon = TextEditingController();
+  TextEditingController _cnicCon = TextEditingController();
   TextEditingController _passCon = TextEditingController();
+  TextEditingController _rePassCon = TextEditingController();
+  TextEditingController _religionCon = TextEditingController();
+  // TextEditingController _selectDateCon = TextEditingController();
   String? _selectedValue;
-  String? _selectedItem;
+  String? _selectedCountry;
+  String? _selectedCity;
+  String? _selectedArea;
 
-  late FocusNode _emailfocusNode;
+  late FocusNode _teacherfocusNode;
+  late FocusNode _fatherfocusNode;
+  late FocusNode _contactfocusNode ;
+  late FocusNode _alterContactfocusNode;
+  late FocusNode _cnicfocusNode;
   late FocusNode _passfocusNode;
+  late FocusNode _rePassfocusNode;
+  late FocusNode _religionfocusNode ;
+  // late FocusNode _selectDatefocusNode;
+
+   late DateTime selectedTime = DateTime.now();
+    bool checkbox1 = false;
+  bool checkbox2 = false;
+  bool checkbox3 = false;
 
   @override
   void initState() {
     super.initState();
-    _emailfocusNode = FocusNode();
-    _emailfocusNode.addListener(_onFocusChange);
+    _teacherfocusNode = FocusNode();
+    _teacherfocusNode.addListener(_onFocusChange);
+    _fatherfocusNode = FocusNode();
+    _fatherfocusNode.addListener(_onFocusChange);
+    _contactfocusNode = FocusNode();
+    _contactfocusNode.addListener(_onFocusChange);
+    _alterContactfocusNode = FocusNode();
+    _alterContactfocusNode.addListener(_onFocusChange);
+    _cnicfocusNode = FocusNode();
+    _cnicfocusNode.addListener(_onFocusChange);
     _passfocusNode = FocusNode();
     _passfocusNode.addListener(_onFocusChange);
+    _rePassfocusNode = FocusNode();
+    _rePassfocusNode.addListener(_onFocusChange);
+    _religionfocusNode = FocusNode();
+    _religionfocusNode.addListener(_onFocusChange);
+    // _teacherfocusNode = FocusNode();
+    // _teacherfocusNode.addListener(_onFocusChange);
+    // _passfocusNode = FocusNode();
+    // _passfocusNode.addListener(_onFocusChange);
   }
 
   @override
   void dispose() {
-    _emailfocusNode.removeListener(_onFocusChange);
-    _emailfocusNode.dispose();
-    _passfocusNode.removeListener(_onFocusChange);
+    // _emailfocusNode.removeListener(_onFocusChange);
+    // _emailfocusNode.dispose();
+    _teacherfocusNode.dispose();
+    _teacherfocusNode.removeListener(_onFocusChange);
+    _fatherfocusNode.dispose();
+    _fatherfocusNode.removeListener(_onFocusChange);
+    _contactfocusNode.dispose();
+    _contactfocusNode.removeListener(_onFocusChange);
+    _alterContactfocusNode.dispose();
+    _alterContactfocusNode.removeListener(_onFocusChange);
+    _cnicfocusNode.dispose();
+    _cnicfocusNode.removeListener(_onFocusChange);
     _passfocusNode.dispose();
+    _passfocusNode.removeListener(_onFocusChange);
+    _rePassfocusNode.dispose();
+    _rePassfocusNode.removeListener(_onFocusChange);
+    _religionfocusNode.dispose();
+    _religionfocusNode.removeListener(_onFocusChange);
     super.dispose();
   }
 
@@ -111,10 +165,10 @@ class _RigisterState extends State<Rigister> {
                 // Border radius
               ),
               child: DropdownButton<String>(
-                value: _selectedItem,
+                value: _selectedCountry,
                 onChanged: (String? newValue) {
                   setState(() {
-                    _selectedItem = newValue;
+                    _selectedCountry = newValue;
                   });
                 },
                 hint: reusableText('Select Country',
@@ -134,7 +188,8 @@ class _RigisterState extends State<Rigister> {
                 style: TextStyle(color: Colors.black), // Dropdown text color
                 icon: Icon(Icons.arrow_drop_down), // Dropdown icon
                 underline: Container(), // Remove underline
-                elevation: 0,
+                // elevation: 0,
+
               ),
             ),
             reusablaSizaBox(context, .015),
@@ -149,10 +204,10 @@ class _RigisterState extends State<Rigister> {
                 borderRadius: BorderRadius.circular(10.0), // Border radius
               ),
               child: DropdownButton<String>(
-                value: _selectedItem,
+                value: _selectedCity,
                 onChanged: (String? newValue) {
                   setState(() {
-                    _selectedItem = newValue;
+                    _selectedCity = newValue;
                   });
                 },
                 hint: reusableText('Select City',
@@ -176,65 +231,329 @@ class _RigisterState extends State<Rigister> {
               ),
             ),
             reusablaSizaBox(context, .015),
-            Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * .055,
-                child: reusableTextField(
+            reusableregistertextfield(
+                context,
+                  reusableTextField(
+                    context,
+                    _teacherCon,
+                    'Teacher Name',
+                    _teacherfocusNode.hasFocus
+                        ? colorController.blueColor
+                        : colorController.textfieldBorderColorBefore,
+                    _teacherfocusNode,
+                    keyboardType: TextInputType.text,
+                  )),
+            reusablaSizaBox(context, .015),
+            reusableregistertextfield(
+                context,
+                reusableTextField(
                   context,
-                  _emailCon,
-                  'Teacher Name',
-                  _emailfocusNode.hasFocus
+                  _fatherCon,
+                  'Father/Husband Name',
+                  _fatherfocusNode.hasFocus
                       ? colorController.blueColor
                       : colorController.textfieldBorderColorBefore,
-                  _emailfocusNode,
-                  keyboardType: TextInputType.emailAddress,
-                ))
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.start,
-            //   children: [
-            //     Radio<String>(
-            //       value: 'Option 3',
-            //       groupValue: _selectedValue,
-            //       activeColor: MaterialStateColor.resolveWith(
-            //           (states) => colorController.blueColor),
-            //       onChanged: (value) {
-            //         setState(() {
-            //           _selectedValue = value;
-            //         });
-            //       },
-            //     ),
-            //     reusableText('Tutor', fontsize: 16, fontweight: FontWeight.w200),
-            //   ],
-            // ),
-            // reusablaSizaBox(context, .02),
-            // reusableTextField(context ,_emailCon, 'Email Address', _emailfocusNode.hasFocus ? colorController.blueColor : colorController.textfieldBorderColorBefore,_emailfocusNode,keyboardType: TextInputType.emailAddress,),
-            // reusablaSizaBox(context, .04),
-            // reusableTextField(context, _passCon, 'Password',_passfocusNode.hasFocus ? colorController.blueColor : colorController.textfieldBorderColorBefore,_passfocusNode,),
-            // reusablaSizaBox(context, .02),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.end,
-            //   children: [
-            //     reusableText('Forgot Password ',fontsize: 13, color: colorController.grayTextColor,fontweight: FontWeight.w400),
-            //     reusableText('Reset',fontsize: 13, color: colorController.blueColor,fontweight: FontWeight.bold)
-            //   ],
-            // ),
-            // reusablaSizaBox(context, .02),
-            // reusableBtn(context, 'Login'),
-            // reusablaSizaBox(context, .03),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     reusableText("Don't have an account? ",fontsize: 13, color: colorController.grayTextColor,fontweight: FontWeight.w400),
-            //     reusableText('Register Now',fontsize: 13, color: colorController.blueColor,fontweight: FontWeight.bold)
-            //   ],
-            // ),
-            // reusablaSizaBox(context, .03),
-            // reusableBtn(context, 'View Tuitions'),
-            // reusablaSizaBox(context, .025),
-            // Center(child: reusableText('Support',fontsize: 13, color: colorController.blueColor,fontweight: FontWeight.bold),)
+                  _fatherfocusNode,
+                  keyboardType: TextInputType.text,
+                )),
+            reusablaSizaBox(context, .015),
+            reusableregistertextfield(
+                context,
+                reusableTextField(
+                  context,
+                  _contactCon,
+                  'Contact No',
+                  _contactfocusNode.hasFocus
+                      ? colorController.blueColor
+                      : colorController.textfieldBorderColorBefore,
+                  _contactfocusNode,
+                  keyboardType: TextInputType.phone,
+                )),
+            reusablaSizaBox(context, .015),
+            reusableregistertextfield(
+                context,
+                reusableTextField(
+                  context,
+                  _alterContactCon,
+                  'Alternate Contact No',
+                  _alterContactfocusNode.hasFocus
+                      ? colorController.blueColor
+                      : colorController.textfieldBorderColorBefore,
+                  _alterContactfocusNode,
+                  keyboardType: TextInputType.phone,
+                )),
+            reusablaSizaBox(context, .015),
+            reusableregistertextfield(
+                context,
+                reusableTextField(
+                  context,
+                  _cnicCon,
+                  'CNIC',
+                  _cnicfocusNode.hasFocus
+                      ? colorController.blueColor
+                      : colorController.textfieldBorderColorBefore,
+                  _cnicfocusNode,
+                  keyboardType: TextInputType.number,
+                )),
+            reusablaSizaBox(context, .015),
+            reusableregistertextfield(
+                context,
+                reusableTextField(
+                    context,
+                    _passCon,
+                    'Password',
+                    _passfocusNode.hasFocus
+                        ? colorController.blueColor
+                        : colorController.textfieldBorderColorBefore,
+                    _passfocusNode,
+                    keyboardType: TextInputType.text,
+                    obscureText: true)),
+            reusablaSizaBox(context, .015),
+            reusableregistertextfield(
+                context,
+                reusableTextField(
+                    context,
+                    _rePassCon,
+                    'Re Enter Password',
+                    _rePassfocusNode.hasFocus
+                        ? colorController.blueColor
+                        : colorController.textfieldBorderColorBefore,
+                    _rePassfocusNode,
+                    keyboardType: TextInputType.text,
+                    obscureText: true)),
+            reusablaSizaBox(context, .015),
+            reusableregistertextfield(
+                context,
+                reusableTextField(
+                  context,
+                  _religionCon,
+                  'Religion',
+                  _religionfocusNode.hasFocus
+                      ? colorController.blueColor
+                      : colorController.textfieldBorderColorBefore,
+                  _religionfocusNode,
+                  keyboardType: TextInputType.text,
+                )),
+                reusablaSizaBox(context, .015),
+            
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * .055,
+                decoration: BoxDecoration(border: Border.all(color: colorController.grayTextColor,width: 1.5),borderRadius: BorderRadius.circular(10)),
+                  child: InkWell(
+                    
+                    onTap: ()async{
+                      
+                      final DateTime? timeofday = await showDatePicker(
+                                context: context, 
+                                firstDate: selectedTime ,
+                                lastDate: selectedTime,
+                                // initialDate: selectedTime,
+                                initialEntryMode: DatePickerEntryMode.calendar
+                                );
+                                if(timeofday != null){
+                  setState(() {
+                    selectedTime = timeofday;
+                  });
+                                }
+                    },
+                    child: ListTile(
+                      enabled: false,
+                      trailing: Icon(Icons.date_range_outlined),
+                      title: Text(selectedTime == DateTime.now()
+                    ? 'Select Date'
+                    : '${DateFormat('yyyy-MM-dd').format(selectedTime!)}',style: TextStyle(color: colorController.grayTextColor,fontSize: 14),),
+                    )
+                  ),
+                ),
+                reusablaSizaBox(context, .015),
+                Container(
+              padding: EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width * .01),
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * .055,
+              decoration: BoxDecoration(
+                border:
+                    Border.all(color: Colors.grey, width: 1.5), // Border color
+                borderRadius: BorderRadius.circular(10.0), // Border radius
+              ),
+              child: DropdownButton<String>(
+                value: _selectedArea,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedArea = newValue;
+                  });
+                },
+                hint: reusableText('Select Area',
+                    color: colorController.grayTextColor, fontsize: 14),
+                items: <String>['Option 1', 'Option 2', 'Option 3', 'Option 4']
+                    .map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Container(
+                        width: MediaQuery.of(context).size.width * .81,
+                        child: reusableText(value,
+                            color: colorController.grayTextColor,
+                            fontsize: 14)),
+                    // Display 'Select value' if value is null
+                  );
+                }).toList(),
+                style: TextStyle(color: Colors.black), // Dropdown text color
+                icon: Icon(Icons.arrow_drop_down), // Dropdown icon
+                underline: Container(), // Remove underline
+                elevation: 0,
+              ),
+            ),
+            reusablaSizaBox(context, .015),
+            reusableregistertextfield(
+                context,
+                reusableTextField(
+                  context,
+                  _religionCon,
+                  'Home Address',
+                  _religionfocusNode.hasFocus
+                      ? colorController.blueColor
+                      : colorController.textfieldBorderColorBefore,
+                  _religionfocusNode,
+                  keyboardType: TextInputType.text,
+                )),
+                reusablaSizaBox(context, .015),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    
+                Container(
+              padding: EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width * .01),
+              width: MediaQuery.of(context).size.width * .43,
+              height: MediaQuery.of(context).size.height * .055,
+              decoration: BoxDecoration(
+                border:
+                    Border.all(color: Colors.grey, width: 1.5), // Border color
+                borderRadius: BorderRadius.circular(10.0), // Border radius
+              ),
+              child: DropdownButton<String>(
+                value: _selectedArea,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedArea = newValue;
+                  });
+                },
+                hint: reusableText('Gender',
+                    color: colorController.grayTextColor, fontsize: 14),
+                items: <String>['Option 1', 'Option 2', 'Option 3', 'Option 4']
+                    .map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Container(
+                        width: MediaQuery.of(context).size.width * .3,
+                        child: reusableText(value,
+                            color: colorController.grayTextColor,
+                            fontsize: 14)),
+                    // Display 'Select value' if value is null
+                  );
+                }).toList(),
+                style: TextStyle(color: Colors.black), // Dropdown text color
+                icon: Icon(Icons.arrow_drop_down), // Dropdown icon
+                underline: Container(), // Remove underline
+                elevation: 0,
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width * .01),
+              width: MediaQuery.of(context).size.width * .42,
+              height: MediaQuery.of(context).size.height * .055,
+              decoration: BoxDecoration(
+                border:
+                    Border.all(color: Colors.grey, width: 1.5), // Border color
+                borderRadius: BorderRadius.circular(10.0), // Border radius
+              ),
+              child: DropdownButton<String>(
+                value: _selectedArea,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedArea = newValue;
+                  });
+                },
+                hint: reusableText('Marital Status',
+                    color: colorController.grayTextColor, fontsize: 14),
+                items: <String>['Option 1', 'Option 2', 'Option 3', 'Option 4']
+                    .map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Container(
+                        width: MediaQuery.of(context).size.width * .3,
+                        child: reusableText(value,
+                            color: colorController.grayTextColor,
+                            fontsize: 14)),
+                    // Display 'Select value' if value is null
+                  );
+                }).toList(),
+                style: TextStyle(color: Colors.black), // Dropdown text color
+                icon: Icon(Icons.arrow_drop_down), // Dropdown icon
+                underline: Container(), // Remove underline
+                elevation: 0,
+              ),
+            ),
+                  ],
+                ),
+                reusablaSizaBox(context, .03),
+                reusableText('Tutors Placment',fontsize: 21),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    buildCheckboxWithTitle('Home', checkbox1),
+          buildCheckboxWithTitle('Online', checkbox2),
+                  ],
+                ),
+          buildCheckboxWithTitle("At Tutor's Place", checkbox3),
+          reusablaSizaBox(context, .02),
+          reusableBtn(context, 'Rigester'),
+          reusablaSizaBox(context, .02),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              reusableText('Already ')
+            ],
+          )
           ]),
         ),
       )),
     );
   }
+  Widget buildCheckboxWithTitle(String title, bool value) {
+    return 
+    // Row(
+    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //   children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Checkbox(
+              shape: ContinuousRectangleBorder(),
+              overlayColor: MaterialStatePropertyAll(colorController.blueColor),
+              activeColor: colorController.blueColor,
+              side: BorderSide(color: colorController.blueColor,width: 1.5),
+              value: value,
+              onChanged: (newValue) {
+                setState(() {
+                  if (title == 'Home') {
+                    checkbox1 = newValue ?? false;
+                  } else if (title == 'Online') {
+                    checkbox2 = newValue ?? false;
+                  } else if (title == "At Tutor's Place") {
+                    checkbox3 = newValue ?? false;
+                  }
+                });
+              },
+            ),
+            reusableText(title,fontsize: 15),
+          ],
+        );
+    //     SizedBox(width: 20), // Adjust spacing between checkbox and title
+    //   ],
+    // );
+  }
 }
+

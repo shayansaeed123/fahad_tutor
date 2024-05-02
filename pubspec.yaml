@@ -38,6 +38,7 @@ dependencies:
   cached_network_image: 
   get: 
   get_storage: 
+  intl: 
 
 dev_dependencies:
   flutter_test:

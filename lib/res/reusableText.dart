@@ -5,6 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
-Widget reusableText(String text,{Color color = Colors.black,double fontsize = 12, FontWeight fontweight = FontWeight.normal}){
+Widget reusableText(String text,{Color color = Colors.black54,double fontsize = 12, FontWeight fontweight = FontWeight.normal}){
   return Text(text, style: TextStyle(color: color,fontSize: fontsize,fontWeight: fontweight,));
 }
