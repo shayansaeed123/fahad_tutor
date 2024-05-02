@@ -40,6 +40,7 @@ dependencies:
   get_storage: 
   intl: 
   device_preview: 
+  url_launcher: 
 
 dev_dependencies:
   flutter_test:

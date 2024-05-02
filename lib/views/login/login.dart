@@ -6,6 +6,7 @@ import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/views/login/register.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -139,10 +140,15 @@ class _LoginState extends State<Login> {
                     fontsize: 13,
                     color: colorController.grayTextColor,
                     fontweight: FontWeight.w400),
-                reusableText('Reset',
-                    fontsize: 13,
-                    color: colorController.blueColor,
-                    fontweight: FontWeight.bold)
+                InkWell(
+                  onTap: (){
+                    launch('https://fahadtutors.com/login.php?Forgotten=0');
+                  },
+                  child: reusableText('Reset',
+                      fontsize: 13,
+                      color: colorController.blueColor,
+                      fontweight: FontWeight.bold),
+                )
               ],
             ),
             reusablaSizaBox(context, .02),
@@ -173,10 +179,15 @@ class _LoginState extends State<Login> {
             reusableBtn(context, 'View Tuitions'),
             reusablaSizaBox(context, .025),
             Center(
-              child: reusableText('Support',
-                  fontsize: 13,
-                  color: colorController.blueColor,
-                  fontweight: FontWeight.bold),
+              child: InkWell(
+                onTap: (){
+                  launch('https://fahadtutors.com/contact.php');
+                },
+                child: reusableText('Support',
+                    fontsize: 13,
+                    color: colorController.blueColor,
+                    fontweight: FontWeight.bold),
+              ),
             )
           ]),
         ),
