@@ -3,7 +3,6 @@ import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableTextField.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusableradiobtn.dart';
-import 'package:fahad_tutor/res/reusableregistertextfield.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -192,7 +191,6 @@ class _RigisterState extends State<Rigister> {
                 icon: Icon(Icons.arrow_drop_down), // Dropdown icon
                 underline: Container(), // Remove underline
                 // elevation: 0,
-
               ),
             ),
             reusablaSizaBox(context, .015),
@@ -234,8 +232,6 @@ class _RigisterState extends State<Rigister> {
               ),
             ),
             reusablaSizaBox(context, .015),
-            reusableregistertextfield(
-                context,
                   reusableTextField(
                     context,
                     _teacherCon,
@@ -245,10 +241,8 @@ class _RigisterState extends State<Rigister> {
                         : colorController.textfieldBorderColorBefore,
                     _teacherfocusNode,
                     keyboardType: TextInputType.text,
-                  )),
+                  ),
             reusablaSizaBox(context, .015),
-            reusableregistertextfield(
-                context,
                 reusableTextField(
                   context,
                   _fatherCon,
@@ -258,10 +252,8 @@ class _RigisterState extends State<Rigister> {
                       : colorController.textfieldBorderColorBefore,
                   _fatherfocusNode,
                   keyboardType: TextInputType.text,
-                )),
+                ),
             reusablaSizaBox(context, .015),
-            reusableregistertextfield(
-                context,
                 reusableTextField(
                   context,
                   _contactCon,
@@ -271,10 +263,8 @@ class _RigisterState extends State<Rigister> {
                       : colorController.textfieldBorderColorBefore,
                   _contactfocusNode,
                   keyboardType: TextInputType.phone,
-                )),
+                ),
             reusablaSizaBox(context, .015),
-            reusableregistertextfield(
-                context,
                 reusableTextField(
                   context,
                   _alterContactCon,
@@ -284,10 +274,8 @@ class _RigisterState extends State<Rigister> {
                       : colorController.textfieldBorderColorBefore,
                   _alterContactfocusNode,
                   keyboardType: TextInputType.phone,
-                )),
+                ),
             reusablaSizaBox(context, .015),
-            reusableregistertextfield(
-                context,
                 reusableTextField(
                   context,
                   _cnicCon,
@@ -297,10 +285,8 @@ class _RigisterState extends State<Rigister> {
                       : colorController.textfieldBorderColorBefore,
                   _cnicfocusNode,
                   keyboardType: TextInputType.number,
-                )),
+                ),
             reusablaSizaBox(context, .015),
-            reusableregistertextfield(
-                context,
                 reusableTextField(
                     context,
                     _passCon,
@@ -310,10 +296,9 @@ class _RigisterState extends State<Rigister> {
                         : colorController.textfieldBorderColorBefore,
                     _passfocusNode,
                     keyboardType: TextInputType.text,
-                    obscureText: true)),
+                    obscureText: true
+                    ),
             reusablaSizaBox(context, .015),
-            reusableregistertextfield(
-                context,
                 reusableTextField(
                     context,
                     _rePassCon,
@@ -323,10 +308,9 @@ class _RigisterState extends State<Rigister> {
                         : colorController.textfieldBorderColorBefore,
                     _rePassfocusNode,
                     keyboardType: TextInputType.text,
-                    obscureText: true)),
+                    obscureText: true
+                    ),
             reusablaSizaBox(context, .015),
-            reusableregistertextfield(
-                context,
                 reusableTextField(
                   context,
                   _religionCon,
@@ -336,29 +320,24 @@ class _RigisterState extends State<Rigister> {
                       : colorController.textfieldBorderColorBefore,
                   _religionfocusNode,
                   keyboardType: TextInputType.text,
-                )),
+                ),
                 reusablaSizaBox(context, .015),
-            
                 Container(
                   width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * .055,
                 decoration: BoxDecoration(border: Border.all(color: colorController.grayTextColor,width: 1.5),borderRadius: BorderRadius.circular(10)),
                   child: InkWell(
-                    
                     onTap: ()async{
-                      
                       final DateTime? timeofday = await showDatePicker(
                                 context: context, 
                                 firstDate: selectedTime ,
                                 lastDate: selectedTime,
-                                // initialDate: selectedTime,
                                 initialEntryMode: DatePickerEntryMode.calendar
                                 );
                                 if(timeofday != null){
                   setState(() {
                     selectedTime = timeofday;
-                  });
-                                }
+                  }); }
                     },
                     child: ListTile(
                       enabled: false,
@@ -408,8 +387,6 @@ class _RigisterState extends State<Rigister> {
               ),
             ),
             reusablaSizaBox(context, .015),
-            reusableregistertextfield(
-                context,
                 reusableTextField(
                   context,
                   _religionCon,
@@ -419,12 +396,11 @@ class _RigisterState extends State<Rigister> {
                       : colorController.textfieldBorderColorBefore,
                   _religionfocusNode,
                   keyboardType: TextInputType.text,
-                )),
+                ),
                 reusablaSizaBox(context, .015),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    
                 Container(
               padding: EdgeInsets.only(
                   left: MediaQuery.of(context).size.width * .01),
@@ -512,7 +488,7 @@ class _RigisterState extends State<Rigister> {
                 ),
           buildCheckboxWithTitle("At Tutor's Place", checkbox3),
           reusablaSizaBox(context, .02),
-          reusableBtn(context, 'Rigester'),
+          reusableBtn(context, 'Register'),
           reusablaSizaBox(context, .02),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

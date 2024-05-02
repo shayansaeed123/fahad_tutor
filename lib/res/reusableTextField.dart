@@ -2,11 +2,12 @@ import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:flutter/material.dart';
 
 Widget reusableTextField(BuildContext context ,TextEditingController controller,String labelText, Color color, FocusNode focusnode,
-    {TextInputType keyboardType = TextInputType.text,
+    {TextInputType keyboardType = TextInputType.text,  
     bool obscureText = false,}) {
   return Container(
+    // margin: EdgeInsets.only(bottom: 10),
     width: MediaQuery.of(context).size.width * 1,
-    height: MediaQuery.of(context).size.width * .14,
+    height: MediaQuery.of(context).size.height * .060,
     child: TextField(
       controller: controller,
       keyboardType: keyboardType,
