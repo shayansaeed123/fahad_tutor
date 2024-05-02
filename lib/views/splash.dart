@@ -1,5 +1,3 @@
-
-
 import 'package:fahad_tutor/views/login/login.dart';
 import 'package:flutter/material.dart';
 
@@ -15,21 +13,27 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(Duration(seconds: 3),(){
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Login(),));
+    Future.delayed(Duration(seconds: 3), () {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Login(),
+          ));
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Image.asset('assets/images/logo1.png',
-        filterQuality: FilterQuality.high, 
-        fit: BoxFit.contain,
-        width: MediaQuery.of(context).size.width * .8,
-        height: MediaQuery.of(context).size.height * .28,
+        child: Image.asset(
+          'assets/images/logo1.png',
+          filterQuality: FilterQuality.high,
+          fit: BoxFit.contain,
+          width: MediaQuery.of(context).size.width * .8,
+          height: MediaQuery.of(context).size.height * .28,
         ),
-        ),
+      ),
     );
   }
 }

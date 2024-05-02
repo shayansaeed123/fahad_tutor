@@ -45,6 +45,7 @@ class _LoginState extends State<Login> {
       // Redraw the UI when the focus changes
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +55,8 @@ class _LoginState extends State<Login> {
         padding: EdgeInsets.symmetric(
             horizontal: MediaQuery.of(context).size.width * .05),
         child: SingleChildScrollView(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -74,7 +76,7 @@ class _LoginState extends State<Login> {
             reusablaSizaBox(context, .03),
             reusableText('Welcome Back!',
                 fontsize: 26, fontweight: FontWeight.bold),
-                reusablaSizaBox(context, .01),
+            reusablaSizaBox(context, .01),
             reusableText(
               'Sign in to continue',
               color: colorController.textfieldBorderColorBefore,
@@ -87,9 +89,12 @@ class _LoginState extends State<Login> {
                 Radio<String>(
                   overlayColor: MaterialStateColor.resolveWith(
                       (states) => colorController.blueColor),
-                  fillColor: MaterialStateColor.resolveWith((states) => colorController.blueColor), // Fill color when the radio button is selected
-        focusColor: colorController.blueColor, // Border color when the radio button is focused
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  fillColor: MaterialStateColor.resolveWith((states) =>
+                      colorController
+                          .blueColor), // Fill color when the radio button is selected
+                  focusColor: colorController
+                      .blueColor, // Border color when the radio button is focused
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   value: 'Tutor',
                   groupValue: _selectedValue,
                   // activeColor: MaterialStateColor.resolveWith(
@@ -100,19 +105,44 @@ class _LoginState extends State<Login> {
                     });
                   },
                 ),
-                reusableText('Tutor', fontsize: 14, fontweight: FontWeight.w200),
+                reusableText('Tutor',
+                    fontsize: 14, fontweight: FontWeight.w200),
               ],
             ),
             reusablaSizaBox(context, .02),
-            reusableTextField(context ,_emailCon, 'Email Address', _emailfocusNode.hasFocus ? colorController.blueColor : colorController.textfieldBorderColorBefore,_emailfocusNode,keyboardType: TextInputType.emailAddress,),
+            reusableTextField(
+              context,
+              _emailCon,
+              'Email Address',
+              _emailfocusNode.hasFocus
+                  ? colorController.blueColor
+                  : colorController.textfieldBorderColorBefore,
+              _emailfocusNode,
+              keyboardType: TextInputType.emailAddress,
+            ),
             reusablaSizaBox(context, .04),
-            reusableTextField(context, _passCon, 'Password',_passfocusNode.hasFocus ? colorController.blueColor : colorController.textfieldBorderColorBefore,_passfocusNode,keyboardType: TextInputType.text,obscureText: true),
+            reusableTextField(
+                context,
+                _passCon,
+                'Password',
+                _passfocusNode.hasFocus
+                    ? colorController.blueColor
+                    : colorController.textfieldBorderColorBefore,
+                _passfocusNode,
+                keyboardType: TextInputType.text,
+                obscureText: true),
             reusablaSizaBox(context, .02),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                reusableText('Forgot Password? ',fontsize: 13, color: colorController.grayTextColor,fontweight: FontWeight.w400),
-                reusableText('Reset',fontsize: 13, color: colorController.blueColor,fontweight: FontWeight.bold)
+                reusableText('Forgot Password? ',
+                    fontsize: 13,
+                    color: colorController.grayTextColor,
+                    fontweight: FontWeight.w400),
+                reusableText('Reset',
+                    fontsize: 13,
+                    color: colorController.blueColor,
+                    fontweight: FontWeight.bold)
               ],
             ),
             reusablaSizaBox(context, .02),
@@ -121,18 +151,33 @@ class _LoginState extends State<Login> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                reusableText("Don't have an account? ",fontsize: 13, color: colorController.grayTextColor,fontweight: FontWeight.w400),
+                reusableText("Don't have an account? ",
+                    fontsize: 13,
+                    color: colorController.grayTextColor,
+                    fontweight: FontWeight.w400),
                 InkWell(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Rigister(),));
-                  },
-                  child: reusableText('Register Now',fontsize: 13, color: colorController.blueColor,fontweight: FontWeight.bold))
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Rigister(),
+                          ));
+                    },
+                    child: reusableText('Register Now',
+                        fontsize: 13,
+                        color: colorController.blueColor,
+                        fontweight: FontWeight.bold))
               ],
             ),
             reusablaSizaBox(context, .03),
             reusableBtn(context, 'View Tuitions'),
             reusablaSizaBox(context, .025),
-            Center(child: reusableText('Support',fontsize: 13, color: colorController.blueColor,fontweight: FontWeight.bold),)
+            Center(
+              child: reusableText('Support',
+                  fontsize: 13,
+                  color: colorController.blueColor,
+                  fontweight: FontWeight.bold),
+            )
           ]),
         ),
       )),
