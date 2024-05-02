@@ -111,7 +111,7 @@ class _LoginState extends State<Login> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                reusableText('Forgot Password ',fontsize: 13, color: colorController.grayTextColor,fontweight: FontWeight.w400),
+                reusableText('Forgot Password? ',fontsize: 13, color: colorController.grayTextColor,fontweight: FontWeight.w400),
                 reusableText('Reset',fontsize: 13, color: colorController.blueColor,fontweight: FontWeight.bold)
               ],
             ),
