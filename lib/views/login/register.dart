@@ -499,7 +499,7 @@ class _RigisterState extends State<Rigister> {
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => Login(),));
                 },
-                child: reusableText('Login',color: colorController.blueColor,fontsize: 13,fontweight: FontWeight.w500)),
+                child: reusableText('Login',color: colorController.blueColor,fontsize: 13,fontweight: FontWeight.bold)),
             ],
           ),
           reusablaSizaBox(context, .04)
@@ -627,7 +627,7 @@ class _RigisterState extends State<Rigister> {
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => Login(),));
                 },
-                child: reusableText('Login',color: colorController.blueColor,fontsize: 13,fontweight: FontWeight.w500)),
+                child: reusableText('Login',color: colorController.blueColor,fontsize: 13,fontweight: FontWeight.bold)),
             ],
           ),
           reusablaSizaBox(context, .04)
