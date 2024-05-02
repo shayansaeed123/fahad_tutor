@@ -514,9 +514,11 @@ class _RigisterState extends State<Rigister> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              reusableText('Already ')
+              reusableText('Already have an account? ',fontsize: 13),
+              reusableText('Login',color: colorController.blueColor,fontsize: 13,fontweight: FontWeight.w500),
             ],
-          )
+          ),
+          reusablaSizaBox(context, .04)
           ]),
         ),
       )),
@@ -524,9 +526,6 @@ class _RigisterState extends State<Rigister> {
   }
   Widget buildCheckboxWithTitle(String title, bool value) {
     return 
-    // Row(
-    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //   children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -551,9 +550,6 @@ class _RigisterState extends State<Rigister> {
             reusableText(title,fontsize: 15),
           ],
         );
-    //     SizedBox(width: 20), // Adjust spacing between checkbox and title
-    //   ],
-    // );
   }
 }
 
