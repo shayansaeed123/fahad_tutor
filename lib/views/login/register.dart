@@ -111,7 +111,7 @@ class _RigisterState extends State<Rigister> {
         padding: EdgeInsets.symmetric(
             horizontal: MediaQuery.of(context).size.width * .05),
         child: SingleChildScrollView(
-          child: _selectedValue == 'Tutor' ? 
+          child: 
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -153,7 +153,10 @@ class _RigisterState extends State<Rigister> {
               'Student', // Name of the first radio button
               'Tutor', // Name of the second radio button
             ),
-            Container(
+            _selectedValue == 'Tutor' ?
+            Column(
+              children: [
+                Container(
               padding: EdgeInsets.only(
                   left: MediaQuery.of(context).size.width * .01),
               width: MediaQuery.of(context).size.width,
@@ -519,7 +522,9 @@ class _RigisterState extends State<Rigister> {
             ],
           ),
           reusablaSizaBox(context, .04)
-          ]) : Container(),
+              ],
+            ) : Container(),
+          ]),
         
         ),
       )),

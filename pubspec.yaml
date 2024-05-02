@@ -39,6 +39,7 @@ dependencies:
   get: 
   get_storage: 
   intl: 
+  device_preview: 
 
 dev_dependencies:
   flutter_test:

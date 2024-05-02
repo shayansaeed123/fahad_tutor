@@ -17,7 +17,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   TextEditingController _emailCon = TextEditingController();
   TextEditingController _passCon = TextEditingController();
-  String? _selectedValue;
+  String _selectedValue = 'Tutor';
 
   late FocusNode _emailfocusNode;
   late FocusNode _passfocusNode;
@@ -90,13 +90,13 @@ class _LoginState extends State<Login> {
                   fillColor: MaterialStateColor.resolveWith((states) => colorController.blueColor), // Fill color when the radio button is selected
         focusColor: colorController.blueColor, // Border color when the radio button is focused
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  value: 'Option 3',
+                  value: 'Tutor',
                   groupValue: _selectedValue,
                   // activeColor: MaterialStateColor.resolveWith(
                   //     (states) => colorController.blueColor),
                   onChanged: (value) {
                     setState(() {
-                      _selectedValue = value;
+                      _selectedValue = value!;
                     });
                   },
                 ),
