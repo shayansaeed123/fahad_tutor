@@ -28,7 +28,7 @@ class _RigisterState extends State<Rigister> {
   TextEditingController _rePassCon = TextEditingController();
   TextEditingController _religionCon = TextEditingController();
   // TextEditingController _selectDateCon = TextEditingController();
-  String? _selectedValue;
+  String _selectedValue = 'Tutor';
   String? _selectedCountry;
   String? _selectedCity;
   String? _selectedArea;
@@ -111,7 +111,7 @@ class _RigisterState extends State<Rigister> {
         padding: EdgeInsets.symmetric(
             horizontal: MediaQuery.of(context).size.width * .05),
         child: SingleChildScrollView(
-          child:
+          child: _selectedValue == 'Tutor' ? 
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -519,7 +519,8 @@ class _RigisterState extends State<Rigister> {
             ],
           ),
           reusablaSizaBox(context, .04)
-          ]),
+          ]) : Container(),
+        
         ),
       )),
     );
