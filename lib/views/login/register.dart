@@ -345,7 +345,7 @@ class _RigisterState extends State<Rigister> {
                       trailing: Icon(Icons.date_range_outlined),
                       title: Text(selectedTime == DateTime.now()
                     ? 'Select Date'
-                    : '${DateFormat('yyyy-MM-dd').format(selectedTime!)}',style: TextStyle(color: colorController.grayTextColor,fontSize: 14),),
+                    : '${DateFormat('yyyy-MM-dd').format(selectedTime)}',style: TextStyle(color: colorController.grayTextColor,fontSize: 14),),
                     )
                   ),
                 ),
