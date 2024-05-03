@@ -6,7 +6,9 @@ Widget reusableTextField(
   TextEditingController controller,
   String labelText,
   Color color,
-  FocusNode focusnode, {
+  FocusNode focusnode,
+  Function onsubmit,
+   {
   TextInputType keyboardType = TextInputType.text,
   bool obscureText = false,
 }) {
@@ -18,6 +20,9 @@ Widget reusableTextField(
       controller: controller,
       keyboardType: keyboardType,
       focusNode: focusnode,
+      onSubmitted: (value) {
+        onsubmit();
+      },
       obscureText: obscureText,
       decoration: InputDecoration(
         filled: true,

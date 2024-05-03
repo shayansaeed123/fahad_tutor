@@ -41,7 +41,7 @@ class _RigisterState extends State<Rigister> {
   late FocusNode _passfocusNode;
   late FocusNode _rePassfocusNode;
   late FocusNode _religionfocusNode ;
-  // late FocusNode _selectDatefocusNode;
+  late FocusNode _homefocusNode;
 
    late DateTime selectedTime = DateTime.now();
     bool checkbox1 = false;
@@ -67,8 +67,8 @@ class _RigisterState extends State<Rigister> {
     _rePassfocusNode.addListener(_onFocusChange);
     _religionfocusNode = FocusNode();
     _religionfocusNode.addListener(_onFocusChange);
-    // _teacherfocusNode = FocusNode();
-    // _teacherfocusNode.addListener(_onFocusChange);
+    _homefocusNode = FocusNode();
+    _homefocusNode.addListener(_onFocusChange);
     // _passfocusNode = FocusNode();
     // _passfocusNode.addListener(_onFocusChange);
   }
@@ -93,6 +93,8 @@ class _RigisterState extends State<Rigister> {
     _rePassfocusNode.removeListener(_onFocusChange);
     _religionfocusNode.dispose();
     _religionfocusNode.removeListener(_onFocusChange);
+    _homefocusNode.dispose();
+    _homefocusNode.removeListener(_onFocusChange);
     super.dispose();
   }
 
@@ -241,6 +243,10 @@ class _RigisterState extends State<Rigister> {
                         ? colorController.blueColor
                         : colorController.textfieldBorderColorBefore,
                     _teacherfocusNode,
+                    (){
+                _teacherfocusNode.unfocus();
+    FocusScope.of(context).requestFocus(_fatherfocusNode);
+              },
                     keyboardType: TextInputType.text,
                   ),
             reusablaSizaBox(context, .015),
@@ -252,6 +258,10 @@ class _RigisterState extends State<Rigister> {
                       ? colorController.blueColor
                       : colorController.textfieldBorderColorBefore,
                   _fatherfocusNode,
+                  (){
+                _fatherfocusNode.unfocus();
+    FocusScope.of(context).requestFocus(_contactfocusNode);
+              },
                   keyboardType: TextInputType.text,
                 ),
             reusablaSizaBox(context, .015),
@@ -263,6 +273,10 @@ class _RigisterState extends State<Rigister> {
                       ? colorController.blueColor
                       : colorController.textfieldBorderColorBefore,
                   _contactfocusNode,
+                  (){
+                _contactfocusNode.unfocus();
+    FocusScope.of(context).requestFocus(_alterContactfocusNode);
+              },
                   keyboardType: TextInputType.phone,
                 ),
             reusablaSizaBox(context, .015),
@@ -274,6 +288,10 @@ class _RigisterState extends State<Rigister> {
                       ? colorController.blueColor
                       : colorController.textfieldBorderColorBefore,
                   _alterContactfocusNode,
+                  (){
+                _alterContactfocusNode.unfocus();
+    FocusScope.of(context).requestFocus(_cnicfocusNode);
+              },
                   keyboardType: TextInputType.phone,
                 ),
             reusablaSizaBox(context, .015),
@@ -285,6 +303,10 @@ class _RigisterState extends State<Rigister> {
                       ? colorController.blueColor
                       : colorController.textfieldBorderColorBefore,
                   _cnicfocusNode,
+                  (){
+                _cnicfocusNode.unfocus();
+    FocusScope.of(context).requestFocus(_passfocusNode);
+              },
                   keyboardType: TextInputType.number,
                 ),
             reusablaSizaBox(context, .015),
@@ -296,6 +318,10 @@ class _RigisterState extends State<Rigister> {
                         ? colorController.blueColor
                         : colorController.textfieldBorderColorBefore,
                     _passfocusNode,
+                    (){
+                _passfocusNode.unfocus();
+    FocusScope.of(context).requestFocus(_rePassfocusNode);
+              },
                     keyboardType: TextInputType.text,
                     obscureText: true
                     ),
@@ -308,6 +334,10 @@ class _RigisterState extends State<Rigister> {
                         ? colorController.blueColor
                         : colorController.textfieldBorderColorBefore,
                     _rePassfocusNode,
+                    (){
+                _rePassfocusNode.unfocus();
+    FocusScope.of(context).requestFocus(_religionfocusNode);
+              },
                     keyboardType: TextInputType.text,
                     obscureText: true
                     ),
@@ -320,6 +350,10 @@ class _RigisterState extends State<Rigister> {
                       ? colorController.blueColor
                       : colorController.textfieldBorderColorBefore,
                   _religionfocusNode,
+                  (){
+                _religionfocusNode.unfocus();
+    FocusScope.of(context).requestFocus(_homefocusNode);
+              },
                   keyboardType: TextInputType.text,
                 ),
                 reusablaSizaBox(context, .015),
@@ -368,7 +402,7 @@ class _RigisterState extends State<Rigister> {
                   });
                 },
                 hint: reusableText('Select Area',
-                    color: colorController.grayTextColor, fontsize: 14),
+                color: colorController.grayTextColor, fontsize: 14),
                 items: <String>['Option 1', 'Option 2', 'Option 3', 'Option 4']
                     .map((String value) {
                   return DropdownMenuItem<String>(
@@ -392,10 +426,14 @@ class _RigisterState extends State<Rigister> {
                   context,
                   _religionCon,
                   'Home Address',
-                  _religionfocusNode.hasFocus
+                  _homefocusNode.hasFocus
                       ? colorController.blueColor
                       : colorController.textfieldBorderColorBefore,
-                  _religionfocusNode,
+                  _homefocusNode,
+                  (){
+                _homefocusNode.unfocus();
+    FocusScope.of(context).requestFocus(_homefocusNode);
+              },
                   keyboardType: TextInputType.text,
                 ),
                 reusablaSizaBox(context, .015),
@@ -591,6 +629,10 @@ class _RigisterState extends State<Rigister> {
                         ? colorController.blueColor
                         : colorController.textfieldBorderColorBefore,
                     _teacherfocusNode,
+                    (){
+                _teacherfocusNode.unfocus();
+    FocusScope.of(context).requestFocus(_contactfocusNode);
+              },
                     keyboardType: TextInputType.text,
                   ),
             reusablaSizaBox(context, .015),
@@ -602,6 +644,10 @@ class _RigisterState extends State<Rigister> {
                       ? colorController.blueColor
                       : colorController.textfieldBorderColorBefore,
                   _contactfocusNode,
+                  (){
+                _contactfocusNode.unfocus();
+    FocusScope.of(context).requestFocus(_passfocusNode);
+              },
                   keyboardType: TextInputType.phone,
                 ),
                 reusablaSizaBox(context, .015),
@@ -613,6 +659,10 @@ class _RigisterState extends State<Rigister> {
                         ? colorController.blueColor
                         : colorController.textfieldBorderColorBefore,
                     _passfocusNode,
+                    (){
+                _passfocusNode.unfocus();
+    FocusScope.of(context).requestFocus(_passfocusNode);
+              },
                     keyboardType: TextInputType.text,
                     obscureText: true
                     ),

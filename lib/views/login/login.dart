@@ -3,6 +3,7 @@ import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableTextField.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
+import 'package:fahad_tutor/views/dashboard/home.dart';
 import 'package:fahad_tutor/views/login/register.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -119,6 +120,10 @@ class _LoginState extends State<Login> {
                   ? colorController.blueColor
                   : colorController.textfieldBorderColorBefore,
               _emailfocusNode,
+              () {
+                _emailfocusNode.unfocus();
+                FocusScope.of(context).requestFocus(_passfocusNode);
+              },
               keyboardType: TextInputType.emailAddress,
             ),
             reusablaSizaBox(context, .04),
@@ -129,9 +134,10 @@ class _LoginState extends State<Login> {
                 _passfocusNode.hasFocus
                     ? colorController.blueColor
                     : colorController.textfieldBorderColorBefore,
-                _passfocusNode,
-                keyboardType: TextInputType.text,
-                obscureText: true),
+                _passfocusNode, () {
+              _passfocusNode.unfocus();
+              FocusScope.of(context).requestFocus(_passfocusNode);
+            }, keyboardType: TextInputType.text, obscureText: true),
             reusablaSizaBox(context, .02),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -141,7 +147,7 @@ class _LoginState extends State<Login> {
                     color: colorController.grayTextColor,
                     fontweight: FontWeight.w400),
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     launch('https://fahadtutors.com/login.php?Forgotten=0');
                   },
                   child: reusableText('Reset',
@@ -152,7 +158,11 @@ class _LoginState extends State<Login> {
               ],
             ),
             reusablaSizaBox(context, .02),
-            reusableBtn(context, 'Login'),
+            InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Home(),));
+              },
+              child: reusableBtn(context, 'Login')),
             reusablaSizaBox(context, .03),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -180,7 +190,7 @@ class _LoginState extends State<Login> {
             reusablaSizaBox(context, .025),
             Center(
               child: InkWell(
-                onTap: (){
+                onTap: () {
                   launch('https://fahadtutors.com/contact.php');
                 },
                 child: reusableText('Support',
