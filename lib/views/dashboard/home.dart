@@ -3,6 +3,7 @@
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
+import 'package:fahad_tutor/res/reusablevisibility.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -79,6 +80,8 @@ class _HomeState extends State<Home> {
                     ),
                   ),
             ),
+            reusablaSizaBox(context, .009),
+            reusableVisiblity(context, 'Apply carefully to maintain your profile', (){})
           ],),
         ),
       ),

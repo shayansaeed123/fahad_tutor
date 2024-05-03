@@ -7,7 +7,7 @@ Widget reusableBtn(
 ) {
   return Container(
     width: MediaQuery.of(context).size.width * 1,
-    height: 50,
+    height: MediaQuery.of(context).size.height * .055,
     decoration: BoxDecoration(
         color: colorController.btnColor,
         borderRadius: BorderRadius.circular(10)),
