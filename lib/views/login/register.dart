@@ -35,16 +35,16 @@ class _RigisterState extends State<Rigister> {
 
   late FocusNode _teacherfocusNode;
   late FocusNode _fatherfocusNode;
-  late FocusNode _contactfocusNode ;
+  late FocusNode _contactfocusNode;
   late FocusNode _alterContactfocusNode;
   late FocusNode _cnicfocusNode;
   late FocusNode _passfocusNode;
   late FocusNode _rePassfocusNode;
-  late FocusNode _religionfocusNode ;
+  late FocusNode _religionfocusNode;
   late FocusNode _homefocusNode;
 
-   late DateTime selectedTime = DateTime.now();
-    bool checkbox1 = false;
+  late DateTime selectedTime = DateTime.now();
+  bool checkbox1 = false;
   bool checkbox2 = false;
   bool checkbox3 = false;
 
@@ -113,7 +113,7 @@ class _RigisterState extends State<Rigister> {
         padding: EdgeInsets.symmetric(
             horizontal: MediaQuery.of(context).size.width * .05),
         child: SingleChildScrollView(
-          child: 
+          child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -155,566 +155,639 @@ class _RigisterState extends State<Rigister> {
               'Student', // Name of the first radio button
               'Tutor', // Name of the second radio button
             ),
-            _selectedValue == 'Tutor' ?
-            Column(
-              children: [
-                Container(
-              padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * .01),
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * .055,
-              decoration: BoxDecoration(
-                border:
-                    Border.all(color: Colors.grey, width: 1.5), // Border color
-                borderRadius: BorderRadius.circular(10.0),
-                // Border radius
-              ),
-              child: DropdownButton<String>(
-                value: _selectedCountry,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedCountry = newValue;
-                  });
-                },
-                hint: reusableText('Select Country',
-                    color: colorController.grayTextColor, fontsize: 14),
-                items: <String>['Option 1', 'Option 2', 'Option 3', 'Option 4']
-                    .map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Container(
-                        width: MediaQuery.of(context).size.width * .81,
-                        child: reusableText(value,
-                            color: colorController.grayTextColor,
-                            fontsize: 14)),
-                    // Display 'Select value' if value is null
-                  );
-                }).toList(),
-                style: TextStyle(color: Colors.black), // Dropdown text color
-                icon: Icon(Icons.arrow_drop_down), // Dropdown icon
-                underline: Container(), // Remove underline
-                // elevation: 0,
-              ),
-            ),
-            reusablaSizaBox(context, .015),
-            Container(
-              padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * .01),
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * .055,
-              decoration: BoxDecoration(
-                border:
-                    Border.all(color: Colors.grey, width: 1.5), // Border color
-                borderRadius: BorderRadius.circular(10.0), // Border radius
-              ),
-              child: DropdownButton<String>(
-                value: _selectedCity,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedCity = newValue;
-                  });
-                },
-                hint: reusableText('Select City',
-                    color: colorController.grayTextColor, fontsize: 14),
-                items: <String>['Option 1', 'Option 2', 'Option 3', 'Option 4']
-                    .map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Container(
-                        width: MediaQuery.of(context).size.width * .81,
-                        child: reusableText(value,
-                            color: colorController.grayTextColor,
-                            fontsize: 14)),
-                    // Display 'Select value' if value is null
-                  );
-                }).toList(),
-                style: TextStyle(color: Colors.black), // Dropdown text color
-                icon: Icon(Icons.arrow_drop_down), // Dropdown icon
-                underline: Container(), // Remove underline
-                elevation: 0,
-              ),
-            ),
-            reusablaSizaBox(context, .015),
-                  reusableTextField(
-                    context,
-                    _teacherCon,
-                    'Teacher Name',
-                    _teacherfocusNode.hasFocus
-                        ? colorController.blueColor
-                        : colorController.textfieldBorderColorBefore,
-                    _teacherfocusNode,
-                    (){
-                _teacherfocusNode.unfocus();
-    FocusScope.of(context).requestFocus(_fatherfocusNode);
-              },
-                    keyboardType: TextInputType.text,
-                  ),
-            reusablaSizaBox(context, .015),
-                reusableTextField(
-                  context,
-                  _fatherCon,
-                  'Father/Husband Name',
-                  _fatherfocusNode.hasFocus
-                      ? colorController.blueColor
-                      : colorController.textfieldBorderColorBefore,
-                  _fatherfocusNode,
-                  (){
-                _fatherfocusNode.unfocus();
-    FocusScope.of(context).requestFocus(_contactfocusNode);
-              },
-                  keyboardType: TextInputType.text,
-                ),
-            reusablaSizaBox(context, .015),
-                reusableTextField(
-                  context,
-                  _contactCon,
-                  'Contact No',
-                  _contactfocusNode.hasFocus
-                      ? colorController.blueColor
-                      : colorController.textfieldBorderColorBefore,
-                  _contactfocusNode,
-                  (){
-                _contactfocusNode.unfocus();
-    FocusScope.of(context).requestFocus(_alterContactfocusNode);
-              },
-                  keyboardType: TextInputType.phone,
-                ),
-            reusablaSizaBox(context, .015),
-                reusableTextField(
-                  context,
-                  _alterContactCon,
-                  'Alternate Contact No',
-                  _alterContactfocusNode.hasFocus
-                      ? colorController.blueColor
-                      : colorController.textfieldBorderColorBefore,
-                  _alterContactfocusNode,
-                  (){
-                _alterContactfocusNode.unfocus();
-    FocusScope.of(context).requestFocus(_cnicfocusNode);
-              },
-                  keyboardType: TextInputType.phone,
-                ),
-            reusablaSizaBox(context, .015),
-                reusableTextField(
-                  context,
-                  _cnicCon,
-                  'CNIC',
-                  _cnicfocusNode.hasFocus
-                      ? colorController.blueColor
-                      : colorController.textfieldBorderColorBefore,
-                  _cnicfocusNode,
-                  (){
-                _cnicfocusNode.unfocus();
-    FocusScope.of(context).requestFocus(_passfocusNode);
-              },
-                  keyboardType: TextInputType.number,
-                ),
-            reusablaSizaBox(context, .015),
-                reusableTextField(
-                    context,
-                    _passCon,
-                    'Password',
-                    _passfocusNode.hasFocus
-                        ? colorController.blueColor
-                        : colorController.textfieldBorderColorBefore,
-                    _passfocusNode,
-                    (){
-                _passfocusNode.unfocus();
-    FocusScope.of(context).requestFocus(_rePassfocusNode);
-              },
-                    keyboardType: TextInputType.text,
-                    obscureText: true
-                    ),
-            reusablaSizaBox(context, .015),
-                reusableTextField(
-                    context,
-                    _rePassCon,
-                    'Re Enter Password',
-                    _rePassfocusNode.hasFocus
-                        ? colorController.blueColor
-                        : colorController.textfieldBorderColorBefore,
-                    _rePassfocusNode,
-                    (){
-                _rePassfocusNode.unfocus();
-    FocusScope.of(context).requestFocus(_religionfocusNode);
-              },
-                    keyboardType: TextInputType.text,
-                    obscureText: true
-                    ),
-            reusablaSizaBox(context, .015),
-                reusableTextField(
-                  context,
-                  _religionCon,
-                  'Religion',
-                  _religionfocusNode.hasFocus
-                      ? colorController.blueColor
-                      : colorController.textfieldBorderColorBefore,
-                  _religionfocusNode,
-                  (){
-                _religionfocusNode.unfocus();
-    FocusScope.of(context).requestFocus(_homefocusNode);
-              },
-                  keyboardType: TextInputType.text,
-                ),
-                reusablaSizaBox(context, .015),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * .055,
-                decoration: BoxDecoration(border: Border.all(color: colorController.grayTextColor,width: 1.5),borderRadius: BorderRadius.circular(10)),
-                  child: InkWell(
-                    onTap: ()async{
-                      final DateTime? timeofday = await showDatePicker(
-                                context: context, 
-                                firstDate: selectedTime ,
-                                lastDate: selectedTime,
-                                initialEntryMode: DatePickerEntryMode.calendar
+            _selectedValue == 'Tutor'
+                ? Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width * .01),
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * .055,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Colors.grey, width: 1.5), // Border color
+                          borderRadius: BorderRadius.circular(10.0),
+                          // Border radius
+                        ),
+                        child: DropdownButton<String>(
+                          value: _selectedCountry,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _selectedCountry = newValue;
+                            });
+                          },
+                          hint: reusableText('Select Country',
+                              color: colorController.grayTextColor,
+                              fontsize: 14),
+                          items: <String>[
+                            'Option 1',
+                            'Option 2',
+                            'Option 3',
+                            'Option 4'
+                          ].map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * .81,
+                                  child: reusableText(value,
+                                      color: colorController.grayTextColor,
+                                      fontsize: 14)),
+                              // Display 'Select value' if value is null
+                            );
+                          }).toList(),
+                          style: TextStyle(
+                              color: Colors.black), // Dropdown text color
+                          icon: Icon(Icons.arrow_drop_down), // Dropdown icon
+                          underline: Container(), // Remove underline
+                          // elevation: 0,
+                        ),
+                      ),
+                      reusablaSizaBox(context, .015),
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width * .01),
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * .055,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Colors.grey, width: 1.5), // Border color
+                          borderRadius:
+                              BorderRadius.circular(10.0), // Border radius
+                        ),
+                        child: DropdownButton<String>(
+                          value: _selectedCity,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _selectedCity = newValue;
+                            });
+                          },
+                          hint: reusableText('Select City',
+                              color: colorController.grayTextColor,
+                              fontsize: 14),
+                          items: <String>[
+                            'Option 1',
+                            'Option 2',
+                            'Option 3',
+                            'Option 4'
+                          ].map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * .81,
+                                  child: reusableText(value,
+                                      color: colorController.grayTextColor,
+                                      fontsize: 14)),
+                              // Display 'Select value' if value is null
+                            );
+                          }).toList(),
+                          style: TextStyle(
+                              color: Colors.black), // Dropdown text color
+                          icon: Icon(Icons.arrow_drop_down), // Dropdown icon
+                          underline: Container(), // Remove underline
+                          elevation: 0,
+                        ),
+                      ),
+                      reusablaSizaBox(context, .015),
+                      reusableTextField(
+                        context,
+                        _teacherCon,
+                        'Teacher Name',
+                        _teacherfocusNode.hasFocus
+                            ? colorController.blueColor
+                            : colorController.textfieldBorderColorBefore,
+                        _teacherfocusNode,
+                        () {
+                          _teacherfocusNode.unfocus();
+                          FocusScope.of(context).requestFocus(_fatherfocusNode);
+                        },
+                        keyboardType: TextInputType.text,
+                      ),
+                      reusablaSizaBox(context, .015),
+                      reusableTextField(
+                        context,
+                        _fatherCon,
+                        'Father/Husband Name',
+                        _fatherfocusNode.hasFocus
+                            ? colorController.blueColor
+                            : colorController.textfieldBorderColorBefore,
+                        _fatherfocusNode,
+                        () {
+                          _fatherfocusNode.unfocus();
+                          FocusScope.of(context)
+                              .requestFocus(_contactfocusNode);
+                        },
+                        keyboardType: TextInputType.text,
+                      ),
+                      reusablaSizaBox(context, .015),
+                      reusableTextField(
+                        context,
+                        _contactCon,
+                        'Contact No',
+                        _contactfocusNode.hasFocus
+                            ? colorController.blueColor
+                            : colorController.textfieldBorderColorBefore,
+                        _contactfocusNode,
+                        () {
+                          _contactfocusNode.unfocus();
+                          FocusScope.of(context)
+                              .requestFocus(_alterContactfocusNode);
+                        },
+                        keyboardType: TextInputType.phone,
+                      ),
+                      reusablaSizaBox(context, .015),
+                      reusableTextField(
+                        context,
+                        _alterContactCon,
+                        'Alternate Contact No',
+                        _alterContactfocusNode.hasFocus
+                            ? colorController.blueColor
+                            : colorController.textfieldBorderColorBefore,
+                        _alterContactfocusNode,
+                        () {
+                          _alterContactfocusNode.unfocus();
+                          FocusScope.of(context).requestFocus(_cnicfocusNode);
+                        },
+                        keyboardType: TextInputType.phone,
+                      ),
+                      reusablaSizaBox(context, .015),
+                      reusableTextField(
+                        context,
+                        _cnicCon,
+                        'CNIC',
+                        _cnicfocusNode.hasFocus
+                            ? colorController.blueColor
+                            : colorController.textfieldBorderColorBefore,
+                        _cnicfocusNode,
+                        () {
+                          _cnicfocusNode.unfocus();
+                          FocusScope.of(context).requestFocus(_passfocusNode);
+                        },
+                        keyboardType: TextInputType.number,
+                      ),
+                      reusablaSizaBox(context, .015),
+                      reusableTextField(
+                          context,
+                          _passCon,
+                          'Password',
+                          _passfocusNode.hasFocus
+                              ? colorController.blueColor
+                              : colorController.textfieldBorderColorBefore,
+                          _passfocusNode, () {
+                        _passfocusNode.unfocus();
+                        FocusScope.of(context).requestFocus(_rePassfocusNode);
+                      }, keyboardType: TextInputType.text, obscureText: true),
+                      reusablaSizaBox(context, .015),
+                      reusableTextField(
+                          context,
+                          _rePassCon,
+                          'Re Enter Password',
+                          _rePassfocusNode.hasFocus
+                              ? colorController.blueColor
+                              : colorController.textfieldBorderColorBefore,
+                          _rePassfocusNode, () {
+                        _rePassfocusNode.unfocus();
+                        FocusScope.of(context).requestFocus(_religionfocusNode);
+                      }, keyboardType: TextInputType.text, obscureText: true),
+                      reusablaSizaBox(context, .015),
+                      reusableTextField(
+                        context,
+                        _religionCon,
+                        'Religion',
+                        _religionfocusNode.hasFocus
+                            ? colorController.blueColor
+                            : colorController.textfieldBorderColorBefore,
+                        _religionfocusNode,
+                        () {
+                          _religionfocusNode.unfocus();
+                          FocusScope.of(context).requestFocus(_homefocusNode);
+                        },
+                        keyboardType: TextInputType.text,
+                      ),
+                      reusablaSizaBox(context, .015),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * .055,
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                color: colorController.grayTextColor,
+                                width: 1.5),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: InkWell(
+                            onTap: () async {
+                              final DateTime? timeofday = await showDatePicker(
+                                  context: context,
+                                  firstDate: selectedTime,
+                                  lastDate: selectedTime,
+                                  initialEntryMode:
+                                      DatePickerEntryMode.calendar);
+                              if (timeofday != null) {
+                                setState(() {
+                                  selectedTime = timeofday;
+                                });
+                              }
+                            },
+                            child: ListTile(
+                              enabled: false,
+                              trailing: Icon(Icons.date_range_outlined),
+                              title: Text(
+                                selectedTime == DateTime.now()
+                                    ? 'Select Date'
+                                    : '${DateFormat('yyyy-MM-dd').format(selectedTime)}',
+                                style: TextStyle(
+                                    color: colorController.grayTextColor,
+                                    fontSize: 14),
+                              ),
+                            )),
+                      ),
+                      reusablaSizaBox(context, .015),
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width * .01),
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * .055,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Colors.grey, width: 1.5), // Border color
+                          borderRadius:
+                              BorderRadius.circular(10.0), // Border radius
+                        ),
+                        child: DropdownButton<String>(
+                          value: _selectedArea,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _selectedArea = newValue;
+                            });
+                          },
+                          hint: reusableText('Select Area',
+                              color: colorController.grayTextColor,
+                              fontsize: 14),
+                          items: <String>[
+                            'Option 1',
+                            'Option 2',
+                            'Option 3',
+                            'Option 4'
+                          ].map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * .81,
+                                  child: reusableText(value,
+                                      color: colorController.grayTextColor,
+                                      fontsize: 14)),
+                              // Display 'Select value' if value is null
+                            );
+                          }).toList(),
+                          style: TextStyle(
+                              color: Colors.black), // Dropdown text color
+                          icon: Icon(Icons.arrow_drop_down), // Dropdown icon
+                          underline: Container(), // Remove underline
+                          elevation: 0,
+                        ),
+                      ),
+                      reusablaSizaBox(context, .015),
+                      reusableTextField(
+                        context,
+                        _religionCon,
+                        'Home Address',
+                        _homefocusNode.hasFocus
+                            ? colorController.blueColor
+                            : colorController.textfieldBorderColorBefore,
+                        _homefocusNode,
+                        () {
+                          _homefocusNode.unfocus();
+                          FocusScope.of(context).requestFocus(_homefocusNode);
+                        },
+                        keyboardType: TextInputType.text,
+                      ),
+                      reusablaSizaBox(context, .015),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(
+                                left: MediaQuery.of(context).size.width * .01),
+                            width: MediaQuery.of(context).size.width * .43,
+                            height: MediaQuery.of(context).size.height * .055,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.grey,
+                                  width: 1.5), // Border color
+                              borderRadius:
+                                  BorderRadius.circular(10.0), // Border radius
+                            ),
+                            child: DropdownButton<String>(
+                              value: _selectedArea,
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  _selectedArea = newValue;
+                                });
+                              },
+                              hint: reusableText('Gender',
+                                  color: colorController.grayTextColor,
+                                  fontsize: 14),
+                              items: <String>[
+                                'Option 1',
+                                'Option 2',
+                                'Option 3',
+                                'Option 4'
+                              ].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          .3,
+                                      child: reusableText(value,
+                                          color: colorController.grayTextColor,
+                                          fontsize: 14)),
+                                  // Display 'Select value' if value is null
                                 );
-                                if(timeofday != null){
-                  setState(() {
-                    selectedTime = timeofday;
-                  }); }
-                    },
-                    child: ListTile(
-                      enabled: false,
-                      trailing: Icon(Icons.date_range_outlined),
-                      title: Text(selectedTime == DateTime.now()
-                    ? 'Select Date'
-                    : '${DateFormat('yyyy-MM-dd').format(selectedTime)}',style: TextStyle(color: colorController.grayTextColor,fontSize: 14),),
-                    )
+                              }).toList(),
+                              style: TextStyle(
+                                  color: Colors.black), // Dropdown text color
+                              icon:
+                                  Icon(Icons.arrow_drop_down), // Dropdown icon
+                              underline: Container(), // Remove underline
+                              elevation: 0,
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(
+                                left: MediaQuery.of(context).size.width * .01),
+                            width: MediaQuery.of(context).size.width * .42,
+                            height: MediaQuery.of(context).size.height * .055,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.grey,
+                                  width: 1.5), // Border color
+                              borderRadius:
+                                  BorderRadius.circular(10.0), // Border radius
+                            ),
+                            child: DropdownButton<String>(
+                              value: _selectedArea,
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  _selectedArea = newValue;
+                                });
+                              },
+                              hint: reusableText('Marital Status',
+                                  color: colorController.grayTextColor,
+                                  fontsize: 14),
+                              items: <String>[
+                                'Option 1',
+                                'Option 2',
+                                'Option 3',
+                                'Option 4'
+                              ].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          .3,
+                                      child: reusableText(value,
+                                          color: colorController.grayTextColor,
+                                          fontsize: 14)),
+                                  // Display 'Select value' if value is null
+                                );
+                              }).toList(),
+                              style: TextStyle(
+                                  color: Colors.black), // Dropdown text color
+                              icon:
+                                  Icon(Icons.arrow_drop_down), // Dropdown icon
+                              underline: Container(), // Remove underline
+                              elevation: 0,
+                            ),
+                          ),
+                        ],
+                      ),
+                      reusablaSizaBox(context, .03),
+                      reusableText('Tutors Placment', fontsize: 21),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          buildCheckboxWithTitle('Home', checkbox1),
+                          buildCheckboxWithTitle('Online', checkbox2),
+                        ],
+                      ),
+                      buildCheckboxWithTitle("At Tutor's Place", checkbox3),
+                      reusablaSizaBox(context, .02),
+                      reusableBtn(context, 'Register'),
+                      reusablaSizaBox(context, .02),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          reusableText('Already have an account? ',
+                              fontsize: 13),
+                          InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Login(),
+                                    ));
+                              },
+                              child: reusableText('Login',
+                                  color: colorController.blueColor,
+                                  fontsize: 13,
+                                  fontweight: FontWeight.bold)),
+                        ],
+                      ),
+                      reusablaSizaBox(context, .04)
+                    ],
+                  )
+                : Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width * .01),
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * .055,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Colors.grey, width: 1.5), // Border color
+                          borderRadius: BorderRadius.circular(10.0),
+                          // Border radius
+                        ),
+                        child: DropdownButton<String>(
+                          value: _selectedCountry,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _selectedCountry = newValue;
+                            });
+                          },
+                          hint: reusableText('Select Country',
+                              color: colorController.grayTextColor,
+                              fontsize: 14),
+                          items: <String>[
+                            'Option 1',
+                            'Option 2',
+                            'Option 3',
+                            'Option 4'
+                          ].map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * .81,
+                                  child: reusableText(value,
+                                      color: colorController.grayTextColor,
+                                      fontsize: 14)),
+                              // Display 'Select value' if value is null
+                            );
+                          }).toList(),
+                          style: TextStyle(
+                              color: Colors.black), // Dropdown text color
+                          icon: Icon(Icons.arrow_drop_down), // Dropdown icon
+                          underline: Container(), // Remove underline
+                          // elevation: 0,
+                        ),
+                      ),
+                      reusablaSizaBox(context, .015),
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width * .01),
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * .055,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Colors.grey, width: 1.5), // Border color
+                          borderRadius:
+                              BorderRadius.circular(10.0), // Border radius
+                        ),
+                        child: DropdownButton<String>(
+                          value: _selectedCity,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _selectedCity = newValue;
+                            });
+                          },
+                          hint: reusableText('Select City',
+                              color: colorController.grayTextColor,
+                              fontsize: 14),
+                          items: <String>[
+                            'Option 1',
+                            'Option 2',
+                            'Option 3',
+                            'Option 4'
+                          ].map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * .81,
+                                  child: reusableText(value,
+                                      color: colorController.grayTextColor,
+                                      fontsize: 14)),
+                              // Display 'Select value' if value is null
+                            );
+                          }).toList(),
+                          style: TextStyle(
+                              color: Colors.black), // Dropdown text color
+                          icon: Icon(Icons.arrow_drop_down), // Dropdown icon
+                          underline: Container(), // Remove underline
+                          elevation: 0,
+                        ),
+                      ),
+                      reusablaSizaBox(context, .015),
+                      reusableTextField(
+                        context,
+                        _teacherCon,
+                        'Name',
+                        _teacherfocusNode.hasFocus
+                            ? colorController.blueColor
+                            : colorController.textfieldBorderColorBefore,
+                        _teacherfocusNode,
+                        () {
+                          _teacherfocusNode.unfocus();
+                          FocusScope.of(context)
+                              .requestFocus(_contactfocusNode);
+                        },
+                        keyboardType: TextInputType.text,
+                      ),
+                      reusablaSizaBox(context, .015),
+                      reusableTextField(
+                        context,
+                        _contactCon,
+                        'Contact No',
+                        _contactfocusNode.hasFocus
+                            ? colorController.blueColor
+                            : colorController.textfieldBorderColorBefore,
+                        _contactfocusNode,
+                        () {
+                          _contactfocusNode.unfocus();
+                          FocusScope.of(context).requestFocus(_passfocusNode);
+                        },
+                        keyboardType: TextInputType.phone,
+                      ),
+                      reusablaSizaBox(context, .015),
+                      reusableTextField(
+                          context,
+                          _passCon,
+                          'Password',
+                          _passfocusNode.hasFocus
+                              ? colorController.blueColor
+                              : colorController.textfieldBorderColorBefore,
+                          _passfocusNode, () {
+                        _passfocusNode.unfocus();
+                        FocusScope.of(context).requestFocus(_passfocusNode);
+                      }, keyboardType: TextInputType.text, obscureText: true),
+                      reusablaSizaBox(context, .02),
+                      reusableBtn(context, 'Register'),
+                      reusablaSizaBox(context, .02),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          reusableText('Already have an account? ',
+                              fontsize: 13),
+                          InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Login(),
+                                    ));
+                              },
+                              child: reusableText('Login',
+                                  color: colorController.blueColor,
+                                  fontsize: 13,
+                                  fontweight: FontWeight.bold)),
+                        ],
+                      ),
+                      reusablaSizaBox(context, .04)
+                    ],
                   ),
-                ),
-                reusablaSizaBox(context, .015),
-                Container(
-              padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * .01),
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * .055,
-              decoration: BoxDecoration(
-                border:
-                    Border.all(color: Colors.grey, width: 1.5), // Border color
-                borderRadius: BorderRadius.circular(10.0), // Border radius
-              ),
-              child: DropdownButton<String>(
-                value: _selectedArea,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedArea = newValue;
-                  });
-                },
-                hint: reusableText('Select Area',
-                color: colorController.grayTextColor, fontsize: 14),
-                items: <String>['Option 1', 'Option 2', 'Option 3', 'Option 4']
-                    .map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Container(
-                        width: MediaQuery.of(context).size.width * .81,
-                        child: reusableText(value,
-                            color: colorController.grayTextColor,
-                            fontsize: 14)),
-                    // Display 'Select value' if value is null
-                  );
-                }).toList(),
-                style: TextStyle(color: Colors.black), // Dropdown text color
-                icon: Icon(Icons.arrow_drop_down), // Dropdown icon
-                underline: Container(), // Remove underline
-                elevation: 0,
-              ),
-            ),
-            reusablaSizaBox(context, .015),
-                reusableTextField(
-                  context,
-                  _religionCon,
-                  'Home Address',
-                  _homefocusNode.hasFocus
-                      ? colorController.blueColor
-                      : colorController.textfieldBorderColorBefore,
-                  _homefocusNode,
-                  (){
-                _homefocusNode.unfocus();
-    FocusScope.of(context).requestFocus(_homefocusNode);
-              },
-                  keyboardType: TextInputType.text,
-                ),
-                reusablaSizaBox(context, .015),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                Container(
-              padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * .01),
-              width: MediaQuery.of(context).size.width * .43,
-              height: MediaQuery.of(context).size.height * .055,
-              decoration: BoxDecoration(
-                border:
-                    Border.all(color: Colors.grey, width: 1.5), // Border color
-                borderRadius: BorderRadius.circular(10.0), // Border radius
-              ),
-              child: DropdownButton<String>(
-                value: _selectedArea,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedArea = newValue;
-                  });
-                },
-                hint: reusableText('Gender',
-                    color: colorController.grayTextColor, fontsize: 14),
-                items: <String>['Option 1', 'Option 2', 'Option 3', 'Option 4']
-                    .map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Container(
-                        width: MediaQuery.of(context).size.width * .3,
-                        child: reusableText(value,
-                            color: colorController.grayTextColor,
-                            fontsize: 14)),
-                    // Display 'Select value' if value is null
-                  );
-                }).toList(),
-                style: TextStyle(color: Colors.black), // Dropdown text color
-                icon: Icon(Icons.arrow_drop_down), // Dropdown icon
-                underline: Container(), // Remove underline
-                elevation: 0,
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * .01),
-              width: MediaQuery.of(context).size.width * .42,
-              height: MediaQuery.of(context).size.height * .055,
-              decoration: BoxDecoration(
-                border:
-                    Border.all(color: Colors.grey, width: 1.5), // Border color
-                borderRadius: BorderRadius.circular(10.0), // Border radius
-              ),
-              child: DropdownButton<String>(
-                value: _selectedArea,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedArea = newValue;
-                  });
-                },
-                hint: reusableText('Marital Status',
-                    color: colorController.grayTextColor, fontsize: 14),
-                items: <String>['Option 1', 'Option 2', 'Option 3', 'Option 4']
-                    .map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Container(
-                        width: MediaQuery.of(context).size.width * .3,
-                        child: reusableText(value,
-                            color: colorController.grayTextColor,
-                            fontsize: 14)),
-                    // Display 'Select value' if value is null
-                  );
-                }).toList(),
-                style: TextStyle(color: Colors.black), // Dropdown text color
-                icon: Icon(Icons.arrow_drop_down), // Dropdown icon
-                underline: Container(), // Remove underline
-                elevation: 0,
-              ),
-            ),
-                  ],
-                ),
-                reusablaSizaBox(context, .03),
-                reusableText('Tutors Placment',fontsize: 21),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    buildCheckboxWithTitle('Home', checkbox1),
-          buildCheckboxWithTitle('Online', checkbox2),
-                  ],
-                ),
-          buildCheckboxWithTitle("At Tutor's Place", checkbox3),
-          reusablaSizaBox(context, .02),
-          reusableBtn(context, 'Register'),
-          reusablaSizaBox(context, .02),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              reusableText('Already have an account? ',fontsize: 13),
-              InkWell(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Login(),));
-                },
-                child: reusableText('Login',color: colorController.blueColor,fontsize: 13,fontweight: FontWeight.bold)),
-            ],
-          ),
-          reusablaSizaBox(context, .04)
-              ],
-            ) : Column(
-              children: [
-                Container(
-              padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * .01),
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * .055,
-              decoration: BoxDecoration(
-                border:
-                    Border.all(color: Colors.grey, width: 1.5), // Border color
-                borderRadius: BorderRadius.circular(10.0),
-                // Border radius
-              ),
-              child: DropdownButton<String>(
-                value: _selectedCountry,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedCountry = newValue;
-                  });
-                },
-                hint: reusableText('Select Country',
-                    color: colorController.grayTextColor, fontsize: 14),
-                items: <String>['Option 1', 'Option 2', 'Option 3', 'Option 4']
-                    .map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Container(
-                        width: MediaQuery.of(context).size.width * .81,
-                        child: reusableText(value,
-                            color: colorController.grayTextColor,
-                            fontsize: 14)),
-                    // Display 'Select value' if value is null
-                  );
-                }).toList(),
-                style: TextStyle(color: Colors.black), // Dropdown text color
-                icon: Icon(Icons.arrow_drop_down), // Dropdown icon
-                underline: Container(), // Remove underline
-                // elevation: 0,
-              ),
-            ),
-            reusablaSizaBox(context, .015),
-            Container(
-              padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * .01),
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * .055,
-              decoration: BoxDecoration(
-                border:
-                    Border.all(color: Colors.grey, width: 1.5), // Border color
-                borderRadius: BorderRadius.circular(10.0), // Border radius
-              ),
-              child: DropdownButton<String>(
-                value: _selectedCity,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    _selectedCity = newValue;
-                  });
-                },
-                hint: reusableText('Select City',
-                    color: colorController.grayTextColor, fontsize: 14),
-                items: <String>['Option 1', 'Option 2', 'Option 3', 'Option 4']
-                    .map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Container(
-                        width: MediaQuery.of(context).size.width * .81,
-                        child: reusableText(value,
-                            color: colorController.grayTextColor,
-                            fontsize: 14)),
-                    // Display 'Select value' if value is null
-                  );
-                }).toList(),
-                style: TextStyle(color: Colors.black), // Dropdown text color
-                icon: Icon(Icons.arrow_drop_down), // Dropdown icon
-                underline: Container(), // Remove underline
-                elevation: 0,
-              ),
-            ),
-            reusablaSizaBox(context, .015),
-                  reusableTextField(
-                    context,
-                    _teacherCon,
-                    'Name',
-                    _teacherfocusNode.hasFocus
-                        ? colorController.blueColor
-                        : colorController.textfieldBorderColorBefore,
-                    _teacherfocusNode,
-                    (){
-                _teacherfocusNode.unfocus();
-    FocusScope.of(context).requestFocus(_contactfocusNode);
-              },
-                    keyboardType: TextInputType.text,
-                  ),
-            reusablaSizaBox(context, .015),
-            reusableTextField(
-                  context,
-                  _contactCon,
-                  'Contact No',
-                  _contactfocusNode.hasFocus
-                      ? colorController.blueColor
-                      : colorController.textfieldBorderColorBefore,
-                  _contactfocusNode,
-                  (){
-                _contactfocusNode.unfocus();
-    FocusScope.of(context).requestFocus(_passfocusNode);
-              },
-                  keyboardType: TextInputType.phone,
-                ),
-                reusablaSizaBox(context, .015),
-                reusableTextField(
-                    context,
-                    _passCon,
-                    'Password',
-                    _passfocusNode.hasFocus
-                        ? colorController.blueColor
-                        : colorController.textfieldBorderColorBefore,
-                    _passfocusNode,
-                    (){
-                _passfocusNode.unfocus();
-    FocusScope.of(context).requestFocus(_passfocusNode);
-              },
-                    keyboardType: TextInputType.text,
-                    obscureText: true
-                    ),
-                    reusablaSizaBox(context, .02),
-          reusableBtn(context, 'Register'),
-          reusablaSizaBox(context, .02),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              reusableText('Already have an account? ',fontsize: 13),
-              InkWell(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Login(),));
-                },
-                child: reusableText('Login',color: colorController.blueColor,fontsize: 13,fontweight: FontWeight.bold)),
-            ],
-          ),
-          reusablaSizaBox(context, .04)
-              ],
-            ),
           ]),
-        
         ),
       )),
     );
   }
+
   Widget buildCheckboxWithTitle(String title, bool value) {
-    return 
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Checkbox(
-              shape: ContinuousRectangleBorder(),
-              overlayColor: MaterialStatePropertyAll(colorController.blueColor),
-              activeColor: colorController.blueColor,
-              side: BorderSide(color: colorController.blueColor,width: 1.5),
-              value: value,
-              onChanged: (newValue) {
-                setState(() {
-                  if (title == 'Home') {
-                    checkbox1 = newValue ?? false;
-                  } else if (title == 'Online') {
-                    checkbox2 = newValue ?? false;
-                  } else if (title == "At Tutor's Place") {
-                    checkbox3 = newValue ?? false;
-                  }
-                });
-              },
-            ),
-            reusableText(title,fontsize: 15),
-          ],
-        );
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Checkbox(
+          shape: ContinuousRectangleBorder(),
+          overlayColor: MaterialStatePropertyAll(colorController.blueColor),
+          activeColor: colorController.blueColor,
+          side: BorderSide(color: colorController.blueColor, width: 1.5),
+          value: value,
+          onChanged: (newValue) {
+            setState(() {
+              if (title == 'Home') {
+                checkbox1 = newValue ?? false;
+              } else if (title == 'Online') {
+                checkbox2 = newValue ?? false;
+              } else if (title == "At Tutor's Place") {
+                checkbox3 = newValue ?? false;
+              }
+            });
+          },
+        ),
+        reusableText(title, fontsize: 15),
+      ],
+    );
   }
 }
-
