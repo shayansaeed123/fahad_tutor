@@ -88,8 +88,15 @@ class _HomeState extends State<Home> {
             ),
             reusablaSizaBox(context, .009),
             reusableVisiblity(context, 'Apply carefully to maintain your profile', (){}),
-            reusablaSizaBox(context, .025),
-            reusablecard(context),
+            Stack(
+              children: [
+                // reusablaSizaBox(context, .025),
+                Positioned(
+                  top: MediaQuery.of(context).size.height * .0001,
+                  child: reusablecard(context),
+                  ),
+              ],
+            )
           ],),
         ),
       ),
