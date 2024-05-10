@@ -41,6 +41,7 @@ dependencies:
   intl: 
   device_preview: 
   url_launcher: 
+  convex_bottom_bar: 
 
 dev_dependencies:
   flutter_test:

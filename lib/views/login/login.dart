@@ -4,6 +4,7 @@ import 'package:fahad_tutor/res/reusableTextField.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/views/dashboard/home.dart';
+import 'package:fahad_tutor/views/dashboard/nav_bar.dart';
 import 'package:fahad_tutor/views/login/register.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -160,7 +161,7 @@ class _LoginState extends State<Login> {
             reusablaSizaBox(context, .02),
             InkWell(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Home(),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => NavBar(),));
               },
               child: reusableBtn(context, 'Login')),
             reusablaSizaBox(context, .03),
