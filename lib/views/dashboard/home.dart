@@ -2,6 +2,7 @@
 
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
+import 'package:fahad_tutor/res/reusableappbar.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/res/reusablevisibility.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,18 +20,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        foregroundColor: Colors.transparent,
-        backgroundColor: Colors.transparent,
-        title: reusableText("Home"),
-        centerTitle: true,
-        leading: Icon(Icons.ac_unit_rounded,color: Colors.black,),
-        actions: [
-          Icon(Icons.ac_unit_rounded,color: Colors.black,),
-          SizedBox(width: MediaQuery.of(context).size.width * 0.02,)
-        ],
-      ),
+      appBar: reusableappbar(context),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -40,7 +30,7 @@ class _HomeState extends State<Home> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                reusableText('All Tuitions',fontsize: 28,fontweight: FontWeight.w900),
+                reusableText('Preffered Tuitions',fontsize: 25,color: colorController.blackColor, fontweight: FontWeight.bold),
                 reusableText('Youtube',color: colorController.blueColor,fontsize: 20)
               ],
             ),
