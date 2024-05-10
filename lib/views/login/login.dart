@@ -66,7 +66,7 @@ class _LoginState extends State<Login> {
                   padding: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.03),
                   child: Image.asset(
-                    'assets/images/logo1.png',
+                    'assets/images/logo_1.png',
                     filterQuality: FilterQuality.high,
                     fit: BoxFit.contain,
                     width: MediaQuery.of(context).size.width * .25,

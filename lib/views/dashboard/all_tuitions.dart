@@ -1,6 +1,8 @@
 
 
 
+import 'dart:async';
+
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableappbar.dart';
@@ -19,10 +21,23 @@ class AllTuitions extends StatefulWidget {
 
 class _AllTuitionsState extends State<AllTuitions> {
   final TextEditingController _searchCon = TextEditingController();
+  Color _color = colorController.yellowColor; // Initial color
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Timer(Duration(seconds: 1), () {
+      setState(() {
+        _color = _color == colorController.yellowColor ? colorController.yellowColor2 : colorController.yellowColor;
+        // colorController.yellowColor2; // New color
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: reusableappbar(context),
+      backgroundColor: colorController.whiteColor,
+      appBar: reusableappbar(context,_color),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(

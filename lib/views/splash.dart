@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Center(
         child: Image.asset(
-          'assets/images/logo1.png',
+          'assets/images/fta_logo.png',
           filterQuality: FilterQuality.high,
           fit: BoxFit.contain,
           width: MediaQuery.of(context).size.width * .8,

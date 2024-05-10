@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 Widget reusablecard(BuildContext context){
-
   return Container(
     width: MediaQuery.of(context).size.width,
     height: MediaQuery.of(context).size.height * .16,
@@ -15,5 +14,8 @@ Widget reusablecard(BuildContext context){
       color: colorController.whiteColor,
       border: Border.all(color: colorController.blueColor,width: 1.2)
     ),
+    child: Column(children: [
+      
+    ],),
   );
 }
