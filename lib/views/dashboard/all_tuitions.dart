@@ -6,6 +6,7 @@ import 'dart:async';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableappbar.dart';
+import 'package:fahad_tutor/res/reusablecard.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/res/reusablevisibility.dart';
 import 'package:fahad_tutor/res/reusableyoutubeIcon.dart';
@@ -88,7 +89,9 @@ class _AllTuitionsState extends State<AllTuitions> {
                   ),
             ),
             reusablaSizaBox(context, .009),
-            reusableVisiblity(context, 'Apply carefully to maintain your profile', (){})
+            reusableVisiblity(context, 'Apply carefully to maintain your profile', (){}),
+            reusablaSizaBox(context, .025),
+            reusablecard(context),
           ],),
         ),
       ),
