@@ -6,6 +6,7 @@ import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableappbar.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/res/reusablevisibility.dart';
+import 'package:fahad_tutor/res/reusableyoutubeIcon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +33,7 @@ class _AllTuitionsState extends State<AllTuitions> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 reusableText('All Tuitions',fontsize: 25,color: colorController.blackColor, fontweight: FontWeight.bold),
-                reusableText('Youtube',color: colorController.blueColor,fontsize: 20)
+                reusableyoutubeIcon(context),
               ],
             ),
             reusablaSizaBox(context, .007),

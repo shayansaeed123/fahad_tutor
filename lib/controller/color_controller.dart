@@ -5,9 +5,10 @@ import 'package:get/get.dart';
 class ColorController extends GetxController{
   Color textfieldBorderColorBefore= Color(0xFF9e9e9e);
   Color textfieldBorderColorAfter = Color(0xFF1e5ec0);
-  Color btnColor = Color(0xFF160376);
+  Color btnColor = Color(0xFF2d0a7f);
   Color whiteColor = Colors.white;
   Color blackColor = Colors.black;
+  Color yellowColor = Color(0xFFfbc523);
   Color grayTextColor= Color(0xFF9e9e9e);
   Color blueColor = Color(0xFF1e5ec0);
   Color textformborderColor = Color(0xFF67c9f2);
