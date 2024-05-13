@@ -11,7 +11,7 @@ import 'package:flutter/widgets.dart';
 
 Widget reusablecard(BuildContext context){
   return Container(
-    width: MediaQuery.of(context).size.width,
+    width: MediaQuery.of(context).size.width * 1,
     height: MediaQuery.of(context).size.height * .16,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(16),

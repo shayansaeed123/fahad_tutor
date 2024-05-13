@@ -174,30 +174,38 @@ Widget build(BuildContext context) {
                 children: [
                   reusablaSizaBox(context, .009),
                   reusableVisiblity(context, 'Apply carefully to maintain your profile', (){}),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.5, // Set a height for the Stack
-                    child: Stack(
-                      children: [
-                        Positioned(
-                
-                top: MediaQuery.of(context).size.height * 0.023,
-                // left: MediaQuery.of(context).size.height * 0.025,
-                // right: MediaQuery.of(context).size.height * 0.025,
-                child: reusablecard(context),
-                ),
-                Positioned(
-                  left: MediaQuery.of(context).size.width * 0.45,
-                  top: MediaQuery.of(context).size.height * 0.005,
-                  right: MediaQuery.of(context).size.width * .27,
-                  child: reusablecardbtn(context, 'Home', colorController.btnColor, colorController.whiteColor)),
-                  Positioned(
-                  left: MediaQuery.of(context).size.width * 0.72,
-                  top: MediaQuery.of(context).size.height * 0.005,
-                  right: MediaQuery.of(context).size.width * .03,
-                  child: reusablecardbtn(context, 'Open', colorController.yellowColor, colorController.whiteColor)),
-                      ],
-                    ),
-                  ),
+                  // Container(
+                  //   height: MediaQuery.of(context).size.height * 0.5, // Set a height for the Stack
+                  //   child: 
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: 10,
+                        itemBuilder: (context, index) {
+                        
+                        return Stack(
+                        children: [
+                          Positioned(
+                                      
+                                      // top: MediaQuery.of(context).size.height * 0.023,
+                                      // left: MediaQuery.of(context).size.height * 0.00,
+                                      // right: MediaQuery.of(context).size.width * 0.00,
+                                      child: reusablecard(context),
+                                      ),
+                                      Positioned(
+                                        left: MediaQuery.of(context).size.width * 0.45,
+                                        top: MediaQuery.of(context).size.height * 0.005,
+                                        right: MediaQuery.of(context).size.width * .27,
+                                        child: reusablecardbtn(context, 'Home', colorController.btnColor, colorController.whiteColor)),
+                                        Positioned(
+                                        left: MediaQuery.of(context).size.width * 0.72,
+                                        top: MediaQuery.of(context).size.height * 0.005,
+                                        right: MediaQuery.of(context).size.width * .03,
+                                        child: reusablecardbtn(context, 'Open', colorController.yellowColor, colorController.blackColor)),
+                        ],
+                      );
+                      },),
+                    )
+                  // ),
                   
                 ],
               ),

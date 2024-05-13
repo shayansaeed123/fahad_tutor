@@ -7,6 +7,7 @@ class ColorController extends GetxController{
   Color textfieldBorderColorAfter = Color(0xFF1e5ec0);
   Color btnColor = Color(0xFF2d0a7f);
   Color whiteColor = Colors.white;
+  Color tileColor =  Color.fromARGB(209, 255, 255, 255);
   Color blackColor = Colors.black;
   Color yellowColor = Color(0xFFfbc523);
   Color yellowColor2 = Color(0xFFfbc523);
