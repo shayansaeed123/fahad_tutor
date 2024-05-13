@@ -3,6 +3,7 @@
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
+import 'package:fahad_tutor/res/reusabledailog.dart';
 import 'package:fahad_tutor/res/reusablelisttile.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
@@ -70,7 +71,9 @@ class _ProfileState extends State<Profile> {
             reusableText('User Details',color: colorController.blackColor,fontsize: 21,),
             
                       reusablaSizaBox(context, .01),
-            reusablelisttile(context,(){},'assets/images/basic_info_icon.png','Basic Info',),
+            reusablelisttile(context,(){
+              reusableprofileInfoDialog(context);
+            },'assets/images/basic_info_icon.png','Basic Info',),
             reusablelisttile(context,(){},'assets/images/qual_pref_icon.png','Qulification and Preferences',),
             reusablelisttile(context,(){},'assets/images/doc_attach_icon.png','Document Attachment',),
             reusablelisttile(context,(){},'assets/images/terms_and_conditions.png','Terms & Conditions',),
