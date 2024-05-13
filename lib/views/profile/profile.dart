@@ -2,9 +2,11 @@
 
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
+import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusablelisttile.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
+import 'package:fahad_tutor/res/rusablelink.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -32,18 +34,24 @@ class _ProfileState extends State<Profile> {
                 Column(
                   children: [
                     CircleAvatar(
-                        radius: 50,
+                        // radius: 50,
+                        radius:
+                                    MediaQuery.of(context).size.width * 0.15,
                         backgroundColor: Colors.white,
-                        child: Padding(
-                          padding: EdgeInsets.all(1),
-                          child: InkWell(
+                        child: 
+                        // Padding(
+                        //   padding: EdgeInsets.all(1),
+                          // child: 
+                          InkWell(
                             onTap: () {
                             },
                             child: SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.16,
+                              width: MediaQuery.of(context).size.width * 0.28,
+                              
                               child: CircleAvatar(
                                 radius:
-                                    MediaQuery.of(context).size.width * 0.07,
+                                    MediaQuery.of(context).size.width * 0.15,
+                                    backgroundColor: colorController.blackColor,
                                 // backgroundImage: NetworkImage(
                                 //   // MySharedPrefrence()
                                 //   //     .get_user_image()
@@ -51,7 +59,7 @@ class _ProfileState extends State<Profile> {
                                 // ),
                               ),
                             ),
-                          ),
+                          // ),
                         ),
                       ),
                       reusableText('user name',color: colorController.blackColor,fontsize: 14,),
@@ -83,13 +91,21 @@ class _ProfileState extends State<Profile> {
             reusablelisttile(context,(){},'assets/images/contact_us_icon.png','Contact Us',),
             reusablelisttile(context,(){},'assets/images/about_us_icon.png','About Us',),
             reusablelisttile(context,(){},'assets/images/remove.png','Delete My Account',),
-            reusablaSizaBox(context, .06),
+            reusablaSizaBox(context, .05),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                
+                reusablelink(context, 'assets/images/fb_icon.png', (){}),
+                reusablelink(context, 'assets/images/insta_icon.png', (){}),
+                reusablelink(context, 'assets/images/web_icon.png', (){}),
+                reusablelink(context, 'assets/images/email.png', (){}),
+                reusablelink(context, 'assets/images/phone_icon.png', (){}),
+                reusablelink(context, 'assets/images/yout.png', (){}),
               ]
-            )
+            ),
+            reusablaSizaBox(context, .05),
+            reusableBtn(context, 'Logout'),
+            reusablaSizaBox(context, .05),
           ],
         ),
       ),
