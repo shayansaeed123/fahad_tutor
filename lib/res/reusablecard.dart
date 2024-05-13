@@ -39,7 +39,7 @@ Widget reusablecard(BuildContext context){
               Expanded(
                 child: Container(
                   height: MediaQuery.of(context).size.height * .025,
-                  child: Text('  Lorem Lipsam IdeazShuttle Loremfkgjlfdgfbgfg',softWrap: true,overflow: TextOverflow.ellipsis,maxLines: 2, style: TextStyle(color: colorController.blackColor,fontSize: 12,fontWeight: FontWeight.bold),)),
+                  child: Text('  Lorem Lipsam IdeazShuttle Loremfkgjlfdgfbgfg',softWrap: true,overflow: TextOverflow.ellipsis, style: TextStyle(color: colorController.blackColor,fontSize: 12,fontWeight: FontWeight.bold),)),
               ),
               // reusableText('  Lorem Lipsam IdeazShuttle Lorem',color: colorController.blackColor,fontweight: FontWeight.bold,fontsize: 12),
             ],

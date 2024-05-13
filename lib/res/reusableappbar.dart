@@ -4,6 +4,7 @@
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableappimage.dart';
+import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -38,14 +39,19 @@ reusableappbar(BuildContext context,Color color){
           ],
         ),
         centerTitle: true,
-        leading: Container(
-          padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * .03,),
-          child: reusableappimage(context, .0, .0, 'assets/images/profile.png'),
-          
-          // Image.asset(
-          //     filterQuality: FilterQuality.high,
-          //     fit: BoxFit.contain,
-          //     'assets/images/profile.png',),
+        leading: InkWell(
+          onTap: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(),));
+          },
+          child: Container(
+            padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * .03,),
+            child: reusableappimage(context, .0, .0, 'assets/images/profile.png'),
+            
+            // Image.asset(
+            //     filterQuality: FilterQuality.high,
+            //     fit: BoxFit.contain,
+            //     'assets/images/profile.png',),
+          ),
         ),
         // Icon(CupertinoIcons.circle_filled,color: colorController.blackColor,size: 40,),
         actions: [

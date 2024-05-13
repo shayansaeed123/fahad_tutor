@@ -5,10 +5,13 @@ import 'package:flutter/cupertino.dart';
 
 Widget reusablecardbtn(BuildContext context,String text,Color color,textcolor,){
   return Container(
+    width: MediaQuery.of(context).size.width * 0.45,
+    height: MediaQuery.of(context).size.height * 0.015,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(11),
       color: color,
     ),
-    child: Center(child: reusableText(text,color: textcolor,),),
+    padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.010, ),
+    child: Center(child: reusableText(text,color: textcolor,fontweight: FontWeight.bold),),
   );
 }
