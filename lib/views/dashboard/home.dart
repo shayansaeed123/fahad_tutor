@@ -22,6 +22,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  bool isLoading = false;
   final TextEditingController _searchCon = TextEditingController();
   Color _color = colorController.yellowColor; // Initial color
   @override
@@ -121,98 +122,104 @@ Widget build(BuildContext context) {
   return Scaffold(
     backgroundColor: colorController.whiteColor,
     appBar: reusableappbar(context, _color),
-    body: SafeArea(
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * .032),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    body: Stack(
+      children: [
+        SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * .032),
+            child: Column(
               children: [
-                reusableText('Preffered Tuitions',
-                    fontsize: 25,
-                    color: colorController.blackColor,
-                    fontweight: FontWeight.bold),
-                reusableyoutubeIcon(context),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    reusableText('Preffered Tuitions',
+                        fontsize: 25,
+                        color: colorController.blackColor,
+                        fontweight: FontWeight.bold),
+                    reusableyoutubeIcon(context),
+                  ],
+                ),
+                reusablaSizaBox(context, .007),
+                Container(
+                  width: MediaQuery.of(context).size.width * 1,
+                  height: MediaQuery.of(context).size.height * .065,
+                  child: TextField(
+                    controller: _searchCon,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.grey[350],
+                      hintText: 'Search Tuitions',
+                      prefixIcon: Icon(Icons.search, color: Colors.grey[270],),
+                      hintStyle: TextStyle(color: Colors.grey[250]),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide.none
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide.none
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide.none
+                      ),
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: 
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      reusablaSizaBox(context, .009),
+                      reusableVisiblity(context, 'Apply carefully to maintain your profile', (){}),
+                      // Container(
+                      //   height: MediaQuery.of(context).size.height * 0.5, // Set a height for the Stack
+                      //   child: 
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: 10,
+                            itemBuilder: (context, index) {
+                            
+                            return Stack(
+                            children: [
+                              Positioned(
+                                          
+                                          // top: MediaQuery.of(context).size.height * 0.023,
+                                          // left: MediaQuery.of(context).size.height * 0.00,
+                                          // right: MediaQuery.of(context).size.width * 0.00,
+                                          child: reusablecard(context),
+                                          ),
+                                          Positioned(
+                                            left: MediaQuery.of(context).size.width * 0.45,
+                                            top: MediaQuery.of(context).size.height * 0.005,
+                                            right: MediaQuery.of(context).size.width * .27,
+                                            child: reusablecardbtn(context, 'Home', colorController.btnColor, colorController.whiteColor)),
+                                            Positioned(
+                                            left: MediaQuery.of(context).size.width * 0.72,
+                                            top: MediaQuery.of(context).size.height * 0.005,
+                                            right: MediaQuery.of(context).size.width * .03,
+                                            child: reusablecardbtn(context, 'Open', colorController.yellowColor, colorController.blackColor)),
+                            ],
+                          );
+                          },),
+                        )
+                      // ),
+                      
+                    ],
+                  ),
+                ),
               ],
             ),
-            reusablaSizaBox(context, .007),
-            Container(
-              width: MediaQuery.of(context).size.width * 1,
-              height: MediaQuery.of(context).size.height * .065,
-              child: TextField(
-                controller: _searchCon,
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.grey[350],
-                  hintText: 'Search Tuitions',
-                  prefixIcon: Icon(Icons.search, color: Colors.grey[270],),
-                  hintStyle: TextStyle(color: Colors.grey[250]),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: BorderSide.none
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: BorderSide.none
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: BorderSide.none
-                  ),
-                  errorBorder: InputBorder.none,
-                  disabledBorder: InputBorder.none,
-                ),
-              ),
-            ),
-            Expanded(
-              child: 
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  reusablaSizaBox(context, .009),
-                  reusableVisiblity(context, 'Apply carefully to maintain your profile', (){}),
-                  // Container(
-                  //   height: MediaQuery.of(context).size.height * 0.5, // Set a height for the Stack
-                  //   child: 
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: 10,
-                        itemBuilder: (context, index) {
-                        
-                        return Stack(
-                        children: [
-                          Positioned(
-                                      
-                                      // top: MediaQuery.of(context).size.height * 0.023,
-                                      // left: MediaQuery.of(context).size.height * 0.00,
-                                      // right: MediaQuery.of(context).size.width * 0.00,
-                                      child: reusablecard(context),
-                                      ),
-                                      Positioned(
-                                        left: MediaQuery.of(context).size.width * 0.45,
-                                        top: MediaQuery.of(context).size.height * 0.005,
-                                        right: MediaQuery.of(context).size.width * .27,
-                                        child: reusablecardbtn(context, 'Home', colorController.btnColor, colorController.whiteColor)),
-                                        Positioned(
-                                        left: MediaQuery.of(context).size.width * 0.72,
-                                        top: MediaQuery.of(context).size.height * 0.005,
-                                        right: MediaQuery.of(context).size.width * .03,
-                                        child: reusablecardbtn(context, 'Open', colorController.yellowColor, colorController.blackColor)),
-                        ],
-                      );
-                      },),
-                    )
-                  // ),
-                  
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+        if(isLoading == true)
+          
+      ],
     ),
   );
 }
