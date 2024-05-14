@@ -8,8 +8,11 @@ import 'package:fahad_tutor/res/reusablelisttile.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/res/rusablelink.dart';
+import 'package:fahad_tutor/views/profile/feedback.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -88,11 +91,17 @@ class _ProfileState extends State<Profile> {
                       reusablaSizaBox(context, .01),
             reusablelisttile(context,(){},'assets/images/notification_icon.png','Notification',),
             reusablelisttile(context,(){},'assets/images/faqs_icon.png',"FAQ's",),
-            reusablelisttile(context,(){},'assets/images/feedback.png','Feedback For App',),
+            reusablelisttile(context,(){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AppFeedback(),));
+            },'assets/images/feedback.png','Feedback For App',),
             reusablelisttile(context,(){},'assets/images/enable.png','Enable Auto Update',),
-            reusablelisttile(context,(){},'assets/images/reg_charges_slip_icon.png','Share App',),
+            reusablelisttile(context,(){
+              Share.share('https://play.google.com/store/apps/details?id=com.fahadtutors.tutors');
+            },'assets/images/reg_charges_slip_icon.png','Share App',),
             reusablelisttile(context,(){},'assets/images/contact_us_icon.png','Contact Us',),
-            reusablelisttile(context,(){},'assets/images/about_us_icon.png','About Us',),
+            reusablelisttile(context,(){
+              launch('https://fahadtutors.com/aboutus.php?gad_source=1&gclid=EAIaIQobChMIv_SZ6YSNhgMVMQsGAB1ymwKqEAAYASAFEgLvSPD_BwE');
+            },'assets/images/about_us_icon.png','About Us',),
             reusablelisttile(context,(){},'assets/images/remove.png','Delete My Account',),
             reusablaSizaBox(context, .05),
             Row(
