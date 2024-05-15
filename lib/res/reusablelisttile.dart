@@ -1,10 +1,8 @@
 
 
-import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 
 Widget reusablelisttile(BuildContext context,Function ontap,String image,title){
   return Padding(

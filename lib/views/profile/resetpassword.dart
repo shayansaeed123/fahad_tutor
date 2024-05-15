@@ -50,6 +50,6 @@ class _ResetPassordState extends State<ResetPassord> {
           ],
         ),
       )
-    );;
+    );
   }
 }

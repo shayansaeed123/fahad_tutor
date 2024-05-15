@@ -5,7 +5,6 @@ import 'dart:async';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableappbar.dart';
-import 'package:fahad_tutor/res/reusableappimage.dart';
 import 'package:fahad_tutor/res/reusablecard.dart';
 import 'package:fahad_tutor/res/reusablecardbtn.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
