@@ -43,7 +43,7 @@ dependencies:
   url_launcher: 
   convex_bottom_bar: 
   lottie:
-  share:
+  share_plus: 
 
 dev_dependencies:
   flutter_test:

@@ -11,7 +11,7 @@ import 'package:fahad_tutor/res/rusablelink.dart';
 import 'package:fahad_tutor/views/profile/feedback.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Profile extends StatefulWidget {
@@ -96,7 +96,7 @@ class _ProfileState extends State<Profile> {
             },'assets/images/feedback.png','Feedback For App',),
             reusablelisttile(context,(){},'assets/images/enable.png','Enable Auto Update',),
             reusablelisttile(context,(){
-              Share.share('https://play.google.com/store/apps/details?id=com.fahadtutors.tutors');
+               Share.share('https://play.google.com/store/apps/details?id=com.fahadtutors.tutors');
             },'assets/images/reg_charges_slip_icon.png','Share App',),
             reusablelisttile(context,(){},'assets/images/contact_us_icon.png','Contact Us',),
             reusablelisttile(context,(){
