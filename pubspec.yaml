@@ -44,6 +44,7 @@ dependencies:
   convex_bottom_bar: 
   lottie:
   share_plus: 
+  http: 
 
 dev_dependencies:
   flutter_test:

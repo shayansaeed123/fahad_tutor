@@ -8,7 +8,9 @@ import 'package:fahad_tutor/res/reusablelisttile.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/res/rusablelink.dart';
+import 'package:fahad_tutor/views/profile/faq.dart';
 import 'package:fahad_tutor/views/profile/feedback.dart';
+import 'package:fahad_tutor/views/profile/resetpassword.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
@@ -83,14 +85,18 @@ class _ProfileState extends State<Profile> {
             reusablelisttile(context,(){},'assets/images/reg_charges_slip_icon.png','Registration Charges Slip',),
             reusablelisttile(context,(){},'assets/images/bank_details_icon.png','Bank Details',),
             reusablelisttile(context,(){},'assets/images/add_info_icon.png','Additional Information',),
-            reusablelisttile(context,(){},'assets/images/reset_password.png','Change Password',),
+            reusablelisttile(context,(){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>ResetPassword()));
+            },'assets/images/reset_password.png','Change Password',),
              reusablaSizaBox(context, .05),
 
             reusableText('App Settings',color: colorController.blackColor,fontsize: 21,),
             
                       reusablaSizaBox(context, .01),
             reusablelisttile(context,(){},'assets/images/notification_icon.png','Notification',),
-            reusablelisttile(context,(){},'assets/images/faqs_icon.png',"FAQ's",),
+            reusablelisttile(context,(){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => FAQ(),));
+            },'assets/images/faqs_icon.png',"FAQ's",),
             reusablelisttile(context,(){
               Navigator.push(context, MaterialPageRoute(builder: (context) => AppFeedback(),));
             },'assets/images/feedback.png','Feedback For App',),

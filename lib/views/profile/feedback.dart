@@ -29,6 +29,7 @@ class _AppFeedbackState extends State<AppFeedback> {
             TextField(
                   maxLines: 5, // Set the maximum number of lines
                   decoration: InputDecoration(
+                    alignLabelWithHint: true,
                     label: reusableText('Feedback For App'),
                     labelStyle: TextStyle(color: colorController.grayTextColor),
                     border: OutlineInputBorder(
