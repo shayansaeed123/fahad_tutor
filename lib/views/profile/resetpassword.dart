@@ -2,18 +2,19 @@
 
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
+import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:flutter/cupertino.dart';
 
-class FAQ extends StatefulWidget {
-  const FAQ({super.key});
+class ResetPassord extends StatefulWidget {
+  const ResetPassord({super.key});
 
   @override
-  State<FAQ> createState() => _FAQState();
+  State<ResetPassord> createState() => _ResetPassordState();
 }
 
-class _FAQState extends State<FAQ> {
+class _ResetPassordState extends State<ResetPassord> {
   @override
   Widget build(BuildContext context) {
     return reusableprofileidget(
@@ -23,7 +24,7 @@ class _FAQState extends State<FAQ> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            reusableText("FAQ's",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
+            reusableText('Reset Password',color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
             reusablaSizaBox(context, 0.020),
         //     TextField(
         //           maxLines: 5, // Set the maximum number of lines
@@ -44,11 +45,11 @@ class _FAQState extends State<FAQ> {
         //         color: colorController.textfieldBorderColorAfter, width: 1.5)),
         //           ),
         //     ),
-        //     reusablaSizaBox(context, 0.040),
-        //     reusableBtn(context, 'Submit')
+            reusablaSizaBox(context, 0.040),
+            reusableBtn(context, 'Reset Password')
           ],
         ),
       )
-    );
+    );;
   }
 }
