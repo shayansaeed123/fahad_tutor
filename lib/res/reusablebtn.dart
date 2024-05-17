@@ -4,17 +4,23 @@ import 'package:flutter/material.dart';
 Widget reusableBtn(
   BuildContext context,
   String btnText,
+  Function ontap,
 ) {
-  return Container(
-    width: MediaQuery.of(context).size.width * 1,
-    height: MediaQuery.of(context).size.height * .055,
-    decoration: BoxDecoration(
-        color: colorController.btnColor,
-        borderRadius: BorderRadius.circular(10)),
-    child: Center(
-        child: Text(
-      btnText,
-      style: TextStyle(color: colorController.whiteColor, fontSize: 18),
-    )),
+  return InkWell(
+    onTap: (){
+      ontap();
+    },
+    child: Container(
+      width: MediaQuery.of(context).size.width * 1,
+      height: MediaQuery.of(context).size.height * .055,
+      decoration: BoxDecoration(
+          color: colorController.btnColor,
+          borderRadius: BorderRadius.circular(10)),
+      child: Center(
+          child: Text(
+        btnText,
+        style: TextStyle(color: colorController.whiteColor, fontSize: 18),
+      )),
+    ),
   );
 }

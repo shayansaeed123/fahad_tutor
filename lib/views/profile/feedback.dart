@@ -47,7 +47,7 @@ class _AppFeedbackState extends State<AppFeedback> {
                   ),
             ),
             reusablaSizaBox(context, 0.040),
-            reusableBtn(context, 'Submit')
+            reusableBtn(context, 'Submit',(){})
           ],
         ),
       )

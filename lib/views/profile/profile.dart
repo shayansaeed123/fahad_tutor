@@ -122,7 +122,7 @@ class _ProfileState extends State<Profile> {
               ]
             ),
             reusablaSizaBox(context, .05),
-            reusableBtn(context, 'Logout'),
+            reusableBtn(context, 'Logout',(){}),
             reusablaSizaBox(context, .05),
           ],
         ),

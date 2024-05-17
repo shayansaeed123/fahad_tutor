@@ -45,6 +45,8 @@ dependencies:
   lottie:
   share_plus: 
   http: 
+  dropdown_search: ^5.0.6
+  fluttertoast:
 
 dev_dependencies:
   flutter_test:

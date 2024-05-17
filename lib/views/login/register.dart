@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableTextField.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
+import 'package:fahad_tutor/res/reusablepassfield.dart';
 import 'package:fahad_tutor/res/reusableradiobtn.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/views/login/login.dart';
@@ -52,9 +54,12 @@ class _RigisterState extends State<Rigister> {
   late FocusNode _homefocusNode;
 
   late DateTime selectedTime = DateTime.now();
+  final _formkey = GlobalKey<FormState>();
   bool checkbox1 = false;
   bool checkbox2 = false;
   bool checkbox3 = false;
+  bool pass = true;
+  bool repass = true;
 
   List<dynamic> countryList = [];
   List<dynamic> cityList = [];
@@ -70,7 +75,6 @@ class _RigisterState extends State<Rigister> {
   void initState() {
     super.initState();
     selectCountry();
-    checkAccount();
     _teacherfocusNode = FocusNode();
     _teacherfocusNode.addListener(_onFocusChange);
     _fatherfocusNode = FocusNode();
@@ -379,461 +383,597 @@ class _RigisterState extends State<Rigister> {
                   'Tutor', // Name of the second radio button
                 ),
                 _selectedValue == 'Tutor'
-                    ? Column(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width * .01),
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * .055,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Colors.grey, width: 1.5), // Border color
-                              borderRadius: BorderRadius.circular(10.0),
-                              // Border radius
-                            ),
-                            child: DropdownButton<dynamic>(
-                              value: countryLists,
-                              onChanged: (dynamic newValue) {
-            setState(() {
-              countryLists = newValue;
-              countryId = newValue.toString();
-              isCityDropdownEnabled = true;
-            });
-            selectCity(); // Call selectCity function here
-          },
-                              // (dynamic newValue) {
-                              //   setState(() {
-                              //     countryLists = newValue;
-                              //     countryId = newValue['c_id'].toString(); // Assuming 'c_id' is the key for the country ID
-                              //         isCityDropdownEnabled = true;
-                              //   });
-                              //   // selectCity(countryId.toString());
-                              //   print('Selected class ID: ${newValue['c_id']}');
-                              //   print('Selected class Name: ${newValue['c_name']}');
-                              //   print('object $countryId');
-                              //   // selectCity();
-                              // },
-                              hint: reusableText(
-                                'Select Country',
-                                color: colorController.grayTextColor,
-                                fontsize: 14,
-                              ),
-                              items: countryList.map((dynamic country) {
-                                return DropdownMenuItem<dynamic>(
-                                    value: country['c_id'].toString(),
-                                    child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width * .81,
-                                        child: reusableText(country['c_name'],
-                                            color: colorController.grayTextColor,
-                                            fontsize: 14)));
-                              }).toList(),
-                              style: TextStyle(
-                                  color: Colors.black), // Dropdown text color
-                              icon: Icon(Icons.arrow_drop_down), // Dropdown icon
-                              underline: Container(), // Remove underline
-                            ),
-                          ),
-                          reusablaSizaBox(context, .015),
-                          Container(
-                            padding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width * .01),
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * .055,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Colors.grey, width: 1.5), // Border color
-                              borderRadius:
-                                  BorderRadius.circular(10.0), // Border radius
-                            ),
-                            child: DropdownButton<dynamic>(
-                              value: cityLists,
-                              onChanged: isCityDropdownEnabled ? (dynamic newValue) {
-              setState(() {
-          cityLists = newValue;
-          cityId = newValue['c_id'].toString();
-          isAreaDropdownEnabled = true;
-              });
-              print('Selected city ID: ${newValue['c_id']}');
-              print('Selected city Name: ${newValue['c_name']}');
-              selectArea();
-            } : null,
-                              // onChanged: (dynamic newValue) {
-                              //   setState(() {
-                              //     cityLists = newValue;
-                              //     cityId = newValue['c_id'].toString();
-                              //   });
-                              //   print('Selected class ID: ${newValue['c_id']}');
-                              //   print('Selected class Name: ${newValue['c_name']}');
-                              //   // print('object $cityId');
-                              // },
-                              hint: reusableText('Select City',
-                                  color: colorController.grayTextColor,
-                                  fontsize: 14),
-                              items: cityList.map((dynamic city) {
-                                return DropdownMenuItem<dynamic>(
-                                    value: city,
-                                    child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width * .81,
-                                        child: reusableText(city['c_name'],
-                                            color: colorController.grayTextColor,
-                                            fontsize: 14)));
-                              }).toList(),
-                              style: TextStyle(
-                                  color: Colors.black), // Dropdown text color
-                              icon: Icon(Icons.arrow_drop_down), // Dropdown icon
-                              underline: Container(), // Remove underline
-                              elevation: 0,
-                            ),
-                          ),
-                          reusablaSizaBox(context, .015),
-                          reusableTextField(
-                            context,
-                            _teacherCon,
-                            'Teacher Name',
-                            _teacherfocusNode.hasFocus
-                                ? colorController.blueColor
-                                : colorController.textfieldBorderColorBefore,
-                            _teacherfocusNode,
-                            () {
-                              _teacherfocusNode.unfocus();
-                              FocusScope.of(context).requestFocus(_fatherfocusNode);
-                            },
-                            keyboardType: TextInputType.text,
-                          ),
-                          reusablaSizaBox(context, .015),
-                          reusableTextField(
-                            context,
-                            _fatherCon,
-                            'Father/Husband Name',
-                            _fatherfocusNode.hasFocus
-                                ? colorController.blueColor
-                                : colorController.textfieldBorderColorBefore,
-                            _fatherfocusNode,
-                            () {
-                              _fatherfocusNode.unfocus();
-                              FocusScope.of(context)
-                                  .requestFocus(_contactfocusNode);
-                            },
-                            keyboardType: TextInputType.text,
-                          ),
-                          reusablaSizaBox(context, .015),
-                          reusableTextField(
-                            context,
-                            _contactCon,
-                            'Contact No',
-                            _contactfocusNode.hasFocus
-                                ? colorController.blueColor
-                                : colorController.textfieldBorderColorBefore,
-                            _contactfocusNode,
-                            () {
-                              _contactfocusNode.unfocus();
-                              FocusScope.of(context)
-                                  .requestFocus(_alterContactfocusNode);
-                            },
-                            keyboardType: TextInputType.phone,
-                          ),
-                          reusablaSizaBox(context, .015),
-                          reusableTextField(
-                            context,
-                            _alterContactCon,
-                            'Alternate Contact No',
-                            _alterContactfocusNode.hasFocus
-                                ? colorController.blueColor
-                                : colorController.textfieldBorderColorBefore,
-                            _alterContactfocusNode,
-                            () {
-                              _alterContactfocusNode.unfocus();
-                              FocusScope.of(context).requestFocus(_cnicfocusNode);
-                            },
-                            keyboardType: TextInputType.phone,
-                          ),
-                          reusablaSizaBox(context, .015),
-                          reusableTextField(
-                            context,
-                            _cnicCon,
-                            'CNIC',
-                            _cnicfocusNode.hasFocus
-                                ? colorController.blueColor
-                                : colorController.textfieldBorderColorBefore,
-                            _cnicfocusNode,
-                            () {
-                              _cnicfocusNode.unfocus();
-                              FocusScope.of(context).requestFocus(_passfocusNode);
-                            },
-                            keyboardType: TextInputType.number,
-                          ),
-                          reusablaSizaBox(context, .015),
-                          reusableTextField(
-                              context,
-                              _passCon,
-                              'Password',
-                              _passfocusNode.hasFocus
-                                  ? colorController.blueColor
-                                  : colorController.textfieldBorderColorBefore,
-                              _passfocusNode, () {
-                            _passfocusNode.unfocus();
-                            FocusScope.of(context).requestFocus(_rePassfocusNode);
-                          }, keyboardType: TextInputType.text, obscureText: true),
-                          reusablaSizaBox(context, .015),
-                          reusableTextField(
-                              context,
-                              _rePassCon,
-                              'Re Enter Password',
-                              _rePassfocusNode.hasFocus
-                                  ? colorController.blueColor
-                                  : colorController.textfieldBorderColorBefore,
-                              _rePassfocusNode, () {
-                            _rePassfocusNode.unfocus();
-                            FocusScope.of(context).requestFocus(_religionfocusNode);
-                          }, keyboardType: TextInputType.text, obscureText: true),
-                          reusablaSizaBox(context, .015),
-                          reusableTextField(
-                            context,
-                            _religionCon,
-                            'Religion',
-                            _religionfocusNode.hasFocus
-                                ? colorController.blueColor
-                                : colorController.textfieldBorderColorBefore,
-                            _religionfocusNode,
-                            () {
-                              _religionfocusNode.unfocus();
-                              FocusScope.of(context).requestFocus(_homefocusNode);
-                            },
-                            keyboardType: TextInputType.text,
-                          ),
-                          reusablaSizaBox(context, .015),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * .055,
-                            decoration: BoxDecoration(
+                    ? Form(
+                      key: _formkey,
+                      child: Column(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(
+                                  left: MediaQuery.of(context).size.width * .01),
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height * .055,
+                              decoration: BoxDecoration(
                                 border: Border.all(
-                                    color: colorController.grayTextColor,
-                                    width: 1.5),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: InkWell(
-                                onTap: () async {
-                                  final DateTime? timeofday = await showDatePicker(
-                                      context: context,
-                                      firstDate: selectedTime,
-                                      lastDate: selectedTime,
-                                      initialEntryMode:
-                                          DatePickerEntryMode.calendar);
-                                  if (timeofday != null) {
-                                    setState(() {
-                                      selectedTime = timeofday;
-                                    });
-                                  }
-                                },
-                                child: ListTile(
-                                  enabled: false,
-                                  trailing: Icon(Icons.date_range_outlined),
-                                  title: Text(
-                                    selectedTime == DateTime.now()
-                                        ? 'Select Date'
-                                        : '${DateFormat('yyyy-MM-dd').format(selectedTime)}',
-                                    style: TextStyle(
-                                        color: colorController.grayTextColor,
-                                        fontSize: 14),
-                                  ),
-                                )),
-                          ),
-                          reusablaSizaBox(context, .015),
-                          Container(
-                            padding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width * .01),
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * .055,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Colors.grey, width: 1.5), // Border color
-                              borderRadius:
-                                  BorderRadius.circular(10.0), // Border radius
+                                    color: Colors.grey, width: 1.5), // Border color
+                                borderRadius: BorderRadius.circular(10.0),
+                                // Border radius
+                              ),
+                              child: DropdownSearch<dynamic>(
+                        popupProps: PopupPropsMultiSelection.dialog(
+                          fit: FlexFit.loose,
+                          showSearchBox: true,
+                          dialogProps: DialogProps(backgroundColor: colorController.whiteColor,elevation: 10,),
+                          searchFieldProps: TextFieldProps(
+                          decoration: InputDecoration(
+                            hintText: 'Search Country',
+                            fillColor: colorController.whiteColor,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(11),
                             ),
-                            child: DropdownButton<dynamic>(
-                              value: areaLists,
-                              onChanged: isAreaDropdownEnabled ? (dynamic newValue) {
-              setState(() {
-          areaLists = newValue;
-          areaId = newValue['c_id'].toString();
-              });
-              print('Selected Area ID: ${newValue['id']}');
-              print('Selected Area Name: ${newValue['area_name']}');
-            } : null,
-                              hint: reusableText('Select Area',
-                                  color: colorController.grayTextColor,
-                                  fontsize: 14),
-                              items: areaList.map((dynamic area) {
-                                return DropdownMenuItem<dynamic>(
-                                  value: area,
-                                  child: Container(
-                                      width:
-                                          MediaQuery.of(context).size.width * .81,
-                                      child: reusableText(area['area_name'].toString(),
+                          ),
+                        ),
+                        ),
+                        dropdownDecoratorProps: DropDownDecoratorProps(
+                          dropdownSearchDecoration: InputDecoration(
+                          hintText: 'Select Country',
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        ),
+                        ),
+                        items: countryList,
+                        itemAsString: (dynamic country) => country['c_name'].toString(),
+                        onChanged: (dynamic newValue) {
+                          setState(() {
+                                countryLists = newValue;
+                                countryId = newValue['c_id'].toString();
+                                isCityDropdownEnabled = true;
+                                    });
+                                    selectCity();
+                        },
+                        selectedItem: countryLists,
+                        
+                      ),
+                                //                   child: DropdownButton<dynamic>(
+                                //                     value: countryLists,
+                                //                     onChanged: (dynamic newValue) {
+                                  // setState(() {
+                                  //   countryLists = newValue;
+                                  //   countryId = newValue.toString();
+                                  //   isCityDropdownEnabled = true;
+                                  // });
+                                  // selectCity(); // Call selectCity function here
+                                // },
+                                //                     // (dynamic newValue) {
+                                //                     //   setState(() {
+                                //                     //     countryLists = newValue;
+                                //                     //     countryId = newValue['c_id'].toString(); // Assuming 'c_id' is the key for the country ID
+                                //                     //         isCityDropdownEnabled = true;
+                                //                     //   });
+                                //                     //   // selectCity(countryId.toString());
+                                //                     //   print('Selected class ID: ${newValue['c_id']}');
+                                //                     //   print('Selected class Name: ${newValue['c_name']}');
+                                //                     //   print('object $countryId');
+                                //                     //   // selectCity();
+                                //                     // },
+                                //                     hint: reusableText(
+                                //                       'Select Country',
+                                //                       color: colorController.grayTextColor,
+                                //                       fontsize: 14,
+                                //                     ),
+                                //                     items: countryList.map((dynamic country) {
+                                //                       return DropdownMenuItem<dynamic>(
+                                //                           value: country['c_id'].toString(),
+                                //                           child: Container(
+                                //                               width:
+                                //                                   MediaQuery.of(context).size.width * .81,
+                                //                               child: reusableText(country['c_name'],
+                                //                                   color: colorController.grayTextColor,
+                                //                                   fontsize: 14)));
+                                //                     }).toList(),
+                                //                     style: TextStyle(
+                                //                         color: Colors.black), // Dropdown text color
+                                //                     icon: Icon(Icons.arrow_drop_down), // Dropdown icon
+                                //                     underline: Container(), // Remove underline
+                                //                   ),
+                            ),
+                            reusablaSizaBox(context, .015),
+                            Container(
+                              padding: EdgeInsets.only(
+                                  left: MediaQuery.of(context).size.width * .01),
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height * .055,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Colors.grey, width: 1.5), // Border color
+                                borderRadius:
+                                    BorderRadius.circular(10.0), // Border radius
+                              ),
+                              child: DropdownSearch<dynamic>(
+                        popupProps: PopupPropsMultiSelection.dialog(
+                          fit: FlexFit.loose,
+                          showSearchBox: true,
+                          dialogProps: DialogProps(backgroundColor: colorController.whiteColor,elevation: 10,),
+                          searchFieldProps: TextFieldProps(
+                          decoration: InputDecoration(
+                            hintText: 'Search City',
+                            fillColor: colorController.whiteColor,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(11),
+                            ),
+                          ),
+                        ),
+                        ),
+                        dropdownDecoratorProps: DropDownDecoratorProps(
+                          dropdownSearchDecoration: InputDecoration(
+                          hintText: 'Select City',
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        ),
+                        ),
+                        items: cityList,
+                        itemAsString: (dynamic city) => city['c_name'].toString(),
+                        onChanged: isCityDropdownEnabled ? (dynamic newValue) {
+                          setState(() {
+                                cityLists = newValue;
+                                cityId = newValue['c_id'].toString();
+                                isAreaDropdownEnabled = true;
+                                    });
+                              print('Selected city ID: ${newValue['c_id']}');
+                                    print('Selected city Name: ${newValue['c_name']}');
+                                    selectArea();
+                        } : null,
+                        selectedItem: cityLists,
+                        
+                      ),
+                                //                   child: DropdownButton<dynamic>(
+                                //                     value: cityLists,
+                                //                     onChanged: isCityDropdownEnabled ? (dynamic newValue) {
+                                //     setState(() {
+                                // cityLists = newValue;
+                                // cityId = newValue['c_id'].toString();
+                                // isAreaDropdownEnabled = true;
+                                //     });
+                                    // print('Selected city ID: ${newValue['c_id']}');
+                                    // print('Selected city Name: ${newValue['c_name']}');
+                                //     selectArea();
+                                //   } : null,
+                                //                     // onChanged: (dynamic newValue) {
+                                  // setState(() {
+                                  //   cityLists = newValue;
+                                  //   cityId = newValue['c_id'].toString();
+                                  // });
+                                //                     //   print('Selected class ID: ${newValue['c_id']}');
+                                //                     //   print('Selected class Name: ${newValue['c_name']}');
+                                //                     //   // print('object $cityId');
+                                //                     // },
+                                //                     hint: reusableText('Select City',
+                                //                         color: colorController.grayTextColor,
+                                //                         fontsize: 14),
+                                //                     items: cityList.map((dynamic city) {
+                                //                       return DropdownMenuItem<dynamic>(
+                                //                           value: city,
+                                //                           child: Container(
+                                //                               width:
+                                //                                   MediaQuery.of(context).size.width * .81,
+                                //                               child: reusableText(city['c_name'],
+                                //                                   color: colorController.grayTextColor,
+                                //                                   fontsize: 14)));
+                                //                     }).toList(),
+                                //                     style: TextStyle(
+                                //                         color: Colors.black), // Dropdown text color
+                                //                     icon: Icon(Icons.arrow_drop_down), // Dropdown icon
+                                //                     underline: Container(), // Remove underline
+                                //                     elevation: 0,
+                                //                   ),
+                            ),
+                            reusablaSizaBox(context, .015),
+                            reusableTextField(
+                              context,
+                              _teacherCon,
+                              'Teacher Name',
+                              _teacherfocusNode.hasFocus
+                                  ? colorController.blueColor
+                                  : colorController.textfieldBorderColorBefore,
+                              _teacherfocusNode,
+                              () {
+                                _teacherfocusNode.unfocus();
+                                FocusScope.of(context).requestFocus(_fatherfocusNode);
+                              },
+                              true,
+                              'Name is requried',
+                              keyboardType: TextInputType.text,
+                            ),
+                            reusablaSizaBox(context, .015),
+                            reusableTextField(
+                              context,
+                              _fatherCon,
+                              'Father/Husband Name',
+                              _fatherfocusNode.hasFocus
+                                  ? colorController.blueColor
+                                  : colorController.textfieldBorderColorBefore,
+                              _fatherfocusNode,
+                              () {
+                                _fatherfocusNode.unfocus();
+                                FocusScope.of(context)
+                                    .requestFocus(_contactfocusNode);
+                              },
+                              true,
+                              'Father name is requried',
+                              keyboardType: TextInputType.text,
+                            ),
+                            reusablaSizaBox(context, .015),
+                            reusableTextField(
+                              context,
+                              _contactCon,
+                              'Contact No',
+                              _contactfocusNode.hasFocus
+                                  ? colorController.blueColor
+                                  : colorController.textfieldBorderColorBefore,
+                              _contactfocusNode,
+                              () {
+                                _contactfocusNode.unfocus();
+                                FocusScope.of(context)
+                                    .requestFocus(_alterContactfocusNode);
+                              },
+                              true,
+                              'Contact No is requried',
+                              keyboardType: TextInputType.phone,
+                            ),
+                            reusablaSizaBox(context, .015),
+                            reusableTextField(
+                              context,
+                              _alterContactCon,
+                              'Alternate Contact No',
+                              _alterContactfocusNode.hasFocus
+                                  ? colorController.blueColor
+                                  : colorController.textfieldBorderColorBefore,
+                              _alterContactfocusNode,
+                              () {
+                                _alterContactfocusNode.unfocus();
+                                FocusScope.of(context).requestFocus(_cnicfocusNode);
+                              },
+                              true,
+                              'Alternate No is requried',
+                              keyboardType: TextInputType.phone,
+                            ),
+                            reusablaSizaBox(context, .015),
+                            reusableTextField(
+                              context,
+                              _cnicCon,
+                              'CNIC',
+                              _cnicfocusNode.hasFocus
+                                  ? colorController.blueColor
+                                  : colorController.textfieldBorderColorBefore,
+                              _cnicfocusNode,
+                              () {
+                                _cnicfocusNode.unfocus();
+                                FocusScope.of(context).requestFocus(_passfocusNode);
+                              },
+                              true,
+                              'CNIC No is requried',
+                              keyboardType: TextInputType.number,
+                            ),
+                            reusablaSizaBox(context, .015),
+                            reusablePassField(
+                                context,
+                                _passCon,
+                                'Password',
+                                _passfocusNode.hasFocus
+                                    ? colorController.blueColor
+                                    : colorController.textfieldBorderColorBefore,
+                                _passfocusNode, () {
+                              _passfocusNode.unfocus();
+                              FocusScope.of(context).requestFocus(_rePassfocusNode);
+                            }, 
+                            true,
+                            'Password is requried',
+                            pass,(){
+                              setState(() {
+                                pass = !pass;
+                              });
+                            }),
+                            reusablaSizaBox(context, .015),
+                            reusablePassField(
+                                context,
+                                _rePassCon,
+                                'Re Enter Password',
+                                _rePassfocusNode.hasFocus
+                                    ? colorController.blueColor
+                                    : colorController.textfieldBorderColorBefore,
+                                _rePassfocusNode, () {
+                              _rePassfocusNode.unfocus();
+                              FocusScope.of(context).requestFocus(_religionfocusNode);
+                            }, true,
+                            'Password is requried',
+                            repass,(){
+                              setState(() {
+                                repass = !repass;
+                              });
+                            }),
+                            reusablaSizaBox(context, .015),
+                            reusableTextField(
+                              context,
+                              _religionCon,
+                              'Religion',
+                              _religionfocusNode.hasFocus
+                                  ? colorController.blueColor
+                                  : colorController.textfieldBorderColorBefore,
+                              _religionfocusNode,
+                              () {
+                                _religionfocusNode.unfocus();
+                                FocusScope.of(context).requestFocus(_homefocusNode);
+                              },
+                              true,
+                              'Religion is requried',
+                              keyboardType: TextInputType.text,
+                            ),
+                            reusablaSizaBox(context, .015),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height * .055,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: colorController.grayTextColor,
+                                      width: 1.5),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: InkWell(
+                                  onTap: () async {
+                                    final DateTime? timeofday = await showDatePicker(
+                                        context: context,
+                                        firstDate: selectedTime,
+                                        lastDate: selectedTime,
+                                        initialEntryMode:
+                                            DatePickerEntryMode.calendar);
+                                    if (timeofday != null) {
+                                      setState(() {
+                                        selectedTime = timeofday;
+                                      });
+                                    }
+                                  },
+                                  child: ListTile(
+                                    enabled: false,
+                                    trailing: Icon(Icons.date_range_outlined),
+                                    title: Text(
+                                      selectedTime == DateTime.now()
+                                          ? 'Select Date'
+                                          : '${DateFormat('yyyy-MM-dd').format(selectedTime)}',
+                                      style: TextStyle(
                                           color: colorController.grayTextColor,
-                                          fontsize: 14)),
-                                  // Display 'Select value' if value is null
-                                );
-                              }).toList(),
-                              style: TextStyle(
-                                  color: Colors.black), // Dropdown text color
-                              icon: Icon(Icons.arrow_drop_down), // Dropdown icon
-                              underline: Container(), // Remove underline
-                              elevation: 0,
+                                          fontSize: 14),
+                                    ),
+                                  )),
+                            ),
+                            reusablaSizaBox(context, .015),
+                            Container(
+                              padding: EdgeInsets.only(
+                                  left: MediaQuery.of(context).size.width * .01),
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height * .055,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Colors.grey, width: 1.5), // Border color
+                                borderRadius:
+                                    BorderRadius.circular(10.0), // Border radius
+                              ),
+                      
+                      child: DropdownSearch<dynamic>(
+                        popupProps: PopupPropsMultiSelection.dialog(
+                          fit: FlexFit.loose,
+                          showSearchBox: true,
+                          dialogProps: DialogProps(backgroundColor: colorController.whiteColor,elevation: 10,),
+                          searchFieldProps: TextFieldProps(
+                          decoration: InputDecoration(
+                            hintText: 'Search Area',
+                            fillColor: colorController.whiteColor,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(11),
                             ),
                           ),
-                          reusablaSizaBox(context, .015),
-                          reusableTextField(
-                            context,
-                            _religionCon,
-                            'Home Address',
-                            _homefocusNode.hasFocus
-                                ? colorController.blueColor
-                                : colorController.textfieldBorderColorBefore,
-                            _homefocusNode,
-                            () {
-                              _homefocusNode.unfocus();
-                              FocusScope.of(context).requestFocus(_homefocusNode);
-                            },
-                            keyboardType: TextInputType.text,
-                          ),
-                          reusablaSizaBox(context, .015),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.only(
-                                    left: MediaQuery.of(context).size.width * .01),
-                                width: MediaQuery.of(context).size.width * .43,
-                                height: MediaQuery.of(context).size.height * .055,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1.5), // Border color
-                                  borderRadius:
-                                      BorderRadius.circular(10.0), // Border radius
+                        ),
+                        ),
+                        dropdownDecoratorProps: DropDownDecoratorProps(
+                          dropdownSearchDecoration: InputDecoration(
+                          hintText: 'Select Area',
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        ),
+                        ),
+                        items: areaList,
+                        itemAsString: (dynamic area) => area['area_name'].toString(),
+                        onChanged: isAreaDropdownEnabled ? (dynamic newValue) {
+                          setState(() {
+                            areaLists = newValue;
+                            areaId = newValue['id'].toString();
+                          });
+                          print('Selected Area ID: ${newValue['id']}');
+                          print('Selected Area Name: ${newValue['area_name']}');
+                        } : null,
+                        selectedItem: areaLists,
+                        
+                      ),
+                                //                   child: DropdownButton<dynamic>(
+                                //                     value: areaLists,
+                                //                     onChanged: isAreaDropdownEnabled ? (dynamic newValue) {
+                                //     setState(() {
+                                // areaLists = newValue;
+                                // areaId = newValue['c_id'].toString();
+                                //     });
+                                //     print('Selected Area ID: ${newValue['id']}');
+                                //     print('Selected Area Name: ${newValue['area_name']}');
+                                //   } : null,
+                                //                     hint: reusableText('Select Area',
+                                //                         color: colorController.grayTextColor,
+                                //                         fontsize: 14),
+                                //                     items: areaList.map((dynamic area) {
+                                //                       return DropdownMenuItem<dynamic>(
+                                //                         value: area,
+                                //                         child: Container(
+                                //                             width:
+                                //                                 MediaQuery.of(context).size.width * .81,
+                                //                             child: reusableText(area['area_name'].toString(),
+                                //                                 color: colorController.grayTextColor,
+                                //                                 fontsize: 14)),
+                                //                         // Display 'Select value' if value is null
+                                //                       );
+                                //                     }).toList(),
+                                //                     style: TextStyle(
+                                //                         color: Colors.black), // Dropdown text color
+                                //                     icon: Icon(Icons.arrow_drop_down), // Dropdown icon
+                                //                     underline: Container(), // Remove underline
+                                //                     elevation: 0,
+                                //                   ),
+                            ),
+                            reusablaSizaBox(context, .015),
+                            reusableTextField(
+                              context,
+                              _religionCon,
+                              'Home Address',
+                              _homefocusNode.hasFocus
+                                  ? colorController.blueColor
+                                  : colorController.textfieldBorderColorBefore,
+                              _homefocusNode,
+                              () {
+                                _homefocusNode.unfocus();
+                                FocusScope.of(context).requestFocus(_homefocusNode);
+                              },
+                              true,
+                              'Address is requried',
+                              keyboardType: TextInputType.text,
+                            ),
+                            reusablaSizaBox(context, .015),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width * .01),
+                                  width: MediaQuery.of(context).size.width * .43,
+                                  height: MediaQuery.of(context).size.height * .055,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.grey,
+                                        width: 1.5), // Border color
+                                    borderRadius:
+                                        BorderRadius.circular(10.0), // Border radius
+                                  ),
+                                  child: DropdownButton<String>(
+                                    value: _selectedArea,
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        _selectedArea = newValue;
+                                      });
+                                    },
+                                    hint: reusableText('Gender',
+                                        color: colorController.grayTextColor,
+                                        fontsize: 14),
+                                    items: <String>[
+                                      'Male',
+                                      'Female',
+                                    ].map((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Container(
+                                            width: MediaQuery.of(context).size.width *
+                                                .3,
+                                            child: reusableText(value,
+                                                color: colorController.grayTextColor,
+                                                fontsize: 14)),
+                                        // Display 'Select value' if value is null
+                                      );
+                                    }).toList(),
+                                    style: TextStyle(
+                                        color: Colors.black), // Dropdown text color
+                                    icon:
+                                        Icon(Icons.arrow_drop_down), // Dropdown icon
+                                    underline: Container(), // Remove underline
+                                    elevation: 0,
+                                  ),
                                 ),
-                                child: DropdownButton<String>(
-                                  value: _selectedArea,
-                                  onChanged: (String? newValue) {
-                                    setState(() {
-                                      _selectedArea = newValue;
-                                    });
-                                  },
-                                  hint: reusableText('Gender',
-                                      color: colorController.grayTextColor,
-                                      fontsize: 14),
-                                  items: <String>[
-                                    'Option 1',
-                                    'Option 2',
-                                    'Option 3',
-                                    'Option 4'
-                                  ].map((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Container(
-                                          width: MediaQuery.of(context).size.width *
-                                              .3,
-                                          child: reusableText(value,
-                                              color: colorController.grayTextColor,
-                                              fontsize: 14)),
-                                      // Display 'Select value' if value is null
-                                    );
-                                  }).toList(),
-                                  style: TextStyle(
-                                      color: Colors.black), // Dropdown text color
-                                  icon:
-                                      Icon(Icons.arrow_drop_down), // Dropdown icon
-                                  underline: Container(), // Remove underline
-                                  elevation: 0,
+                                Container(
+                                  padding: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width * .01),
+                                  width: MediaQuery.of(context).size.width * .42,
+                                  height: MediaQuery.of(context).size.height * .055,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.grey,
+                                        width: 1.5), // Border color
+                                    borderRadius:
+                                        BorderRadius.circular(10.0), // Border radius
+                                  ),
+                                  child: DropdownButton<String>(
+                                    value: _selectedArea,
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        _selectedArea = newValue;
+                                      });
+                                    },
+                                    hint: reusableText('Marital Status',
+                                        color: colorController.grayTextColor,
+                                        fontsize: 14),
+                                    items: <String>[
+                                      'Option 1',
+                                      'Option 2',
+                                      'Option 3',
+                                      'Option 4'
+                                    ].map((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Container(
+                                            width: MediaQuery.of(context).size.width *
+                                                .3,
+                                            child: reusableText(value,
+                                                color: colorController.grayTextColor,
+                                                fontsize: 14)),
+                                        // Display 'Select value' if value is null
+                                      );
+                                    }).toList(),
+                                    style: TextStyle(
+                                        color: Colors.black), // Dropdown text color
+                                    icon:
+                                        Icon(Icons.arrow_drop_down), // Dropdown icon
+                                    underline: Container(), // Remove underline
+                                    elevation: 0,
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(
-                                    left: MediaQuery.of(context).size.width * .01),
-                                width: MediaQuery.of(context).size.width * .42,
-                                height: MediaQuery.of(context).size.height * .055,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1.5), // Border color
-                                  borderRadius:
-                                      BorderRadius.circular(10.0), // Border radius
-                                ),
-                                child: DropdownButton<String>(
-                                  value: _selectedArea,
-                                  onChanged: (String? newValue) {
-                                    setState(() {
-                                      _selectedArea = newValue;
-                                    });
-                                  },
-                                  hint: reusableText('Marital Status',
-                                      color: colorController.grayTextColor,
-                                      fontsize: 14),
-                                  items: <String>[
-                                    'Option 1',
-                                    'Option 2',
-                                    'Option 3',
-                                    'Option 4'
-                                  ].map((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Container(
-                                          width: MediaQuery.of(context).size.width *
-                                              .3,
-                                          child: reusableText(value,
-                                              color: colorController.grayTextColor,
-                                              fontsize: 14)),
-                                      // Display 'Select value' if value is null
-                                    );
-                                  }).toList(),
-                                  style: TextStyle(
-                                      color: Colors.black), // Dropdown text color
-                                  icon:
-                                      Icon(Icons.arrow_drop_down), // Dropdown icon
-                                  underline: Container(), // Remove underline
-                                  elevation: 0,
-                                ),
-                              ),
-                            ],
-                          ),
-                          reusablaSizaBox(context, .03),
-                          reusableText('Tutors Placment', fontsize: 21),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              buildCheckboxWithTitle('Home', checkbox1),
-                              buildCheckboxWithTitle('Online', checkbox2),
-                            ],
-                          ),
-                          buildCheckboxWithTitle("At Tutor's Place", checkbox3),
-                          reusablaSizaBox(context, .02),
-                          reusableBtn(context, 'Register'),
-                          reusablaSizaBox(context, .02),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              reusableText('Already have an account? ',
-                                  fontsize: 13),
-                              InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => Login(),
-                                        ));
-                                  },
-                                  child: reusableText('Login',
-                                      color: colorController.blueColor,
-                                      fontsize: 13,
-                                      fontweight: FontWeight.bold)),
-                            ],
-                          ),
-                          reusablaSizaBox(context, .04)
-                        ],
-                      )
+                              ],
+                            ),
+                            reusablaSizaBox(context, .03),
+                            reusableText('Tutors Placment', fontsize: 21),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                buildCheckboxWithTitle('Home', checkbox1),
+                                buildCheckboxWithTitle('Online', checkbox2),
+                              ],
+                            ),
+                            buildCheckboxWithTitle("At Tutor's Place", checkbox3),
+                            reusablaSizaBox(context, .02),
+                            reusableBtn(context, 'Register',(){checkAccount();}),
+                            reusablaSizaBox(context, .02),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                reusableText('Already have an account? ',
+                                    fontsize: 13),
+                                InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => Login(),
+                                          ));
+                                    },
+                                    child: reusableText('Login',
+                                        color: colorController.blueColor,
+                                        fontsize: 13,
+                                        fontweight: FontWeight.bold)),
+                              ],
+                            ),
+                            reusablaSizaBox(context, .04)
+                          ],
+                        ),
+                    )
                     : Column(
                         children: [
                           Container(
@@ -907,7 +1047,7 @@ class _RigisterState extends State<Rigister> {
                                 'Option 1',
                                 'Option 2',
                                 'Option 3',
-                                'Option 4'
+                                'Option 4',
                               ].map((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
@@ -940,7 +1080,8 @@ class _RigisterState extends State<Rigister> {
                               _teacherfocusNode.unfocus();
                               FocusScope.of(context)
                                   .requestFocus(_contactfocusNode);
-                            },
+                            },true,
+                            'Name is requried',
                             keyboardType: TextInputType.text,
                           ),
                           reusablaSizaBox(context, .015),
@@ -956,10 +1097,12 @@ class _RigisterState extends State<Rigister> {
                               _contactfocusNode.unfocus();
                               FocusScope.of(context).requestFocus(_passfocusNode);
                             },
+                            true,
+                            'Contact No is requried',
                             keyboardType: TextInputType.phone,
                           ),
                           reusablaSizaBox(context, .015),
-                          reusableTextField(
+                          reusablePassField(
                               context,
                               _passCon,
                               'Password',
@@ -969,9 +1112,11 @@ class _RigisterState extends State<Rigister> {
                               _passfocusNode, () {
                             _passfocusNode.unfocus();
                             FocusScope.of(context).requestFocus(_passfocusNode);
-                          }, keyboardType: TextInputType.text, obscureText: true),
+                          }, true,'Password is requried' ,pass,(){setState(() {
+                            pass = !pass;
+                          });} ),
                           reusablaSizaBox(context, .02),
-                          reusableBtn(context, 'Register'),
+                          reusableBtn(context, 'Register',(){checkAccount();}),
                           reusablaSizaBox(context, .02),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,

@@ -1,4 +1,5 @@
 import 'package:fahad_tutor/controller/color_controller.dart';
+import 'package:fahad_tutor/repo/utils.dart';
 import 'package:flutter/material.dart';
 
 Widget reusablePassField(
@@ -8,18 +9,28 @@ Widget reusablePassField(
     Color color,
     FocusNode focusnode,
     Function onsubmit,
+    bool validate_or_not,
+    String message,
     bool obscureText,
     Function iconBtn) {
   return Container(
     // margin: EdgeInsets.only(bottom: 10),
     width: MediaQuery.of(context).size.width * 1,
     height: MediaQuery.of(context).size.height * .060,
-    child: TextField(
+    child: TextFormField(
       controller: controller,
       keyboardType: TextInputType.text,
       focusNode: focusnode,
-      onSubmitted: (value) {
+      onFieldSubmitted: (value) {
         onsubmit();
+      },
+      validator: (value) {
+        if (validate_or_not == true) {
+          if (value!.isEmpty) {
+            return Utils.toastMessage(message);
+          }
+          return null;
+        }
       },
       obscureText: obscureText,
       decoration: InputDecoration(
