@@ -9,8 +9,8 @@ Widget reusablePassField(
     Color color,
     FocusNode focusnode,
     Function onsubmit,
-    bool validate_or_not,
-    String message,
+    // bool validate_or_not,
+    // String message,
     bool obscureText,
     Function iconBtn) {
   return Container(
@@ -24,14 +24,14 @@ Widget reusablePassField(
       onFieldSubmitted: (value) {
         onsubmit();
       },
-      validator: (value) {
-        if (validate_or_not == true) {
-          if (value!.isEmpty) {
-            return Utils.toastMessage(message);
-          }
-          return null;
-        }
-      },
+      // validator: (value) {
+      //   // if (validate_or_not==true) {
+      //     if (value!.isEmpty) {
+      //       return Utils.snakbar(context, message);
+      //     }
+      //     return null;
+      //   // }
+      // },
       obscureText: obscureText,
       decoration: InputDecoration(
         suffixIcon: IconButton(

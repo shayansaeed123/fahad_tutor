@@ -1,16 +1,19 @@
 import 'package:fahad_tutor/controller/color_controller.dart';
+import 'package:fahad_tutor/repo/utils.dart';
 import 'package:flutter/material.dart';
 
 Widget reusableBtn(
   BuildContext context,
   String btnText,
-  Function ontap,
+  Function onValidTap,
 ) {
-  return InkWell(
+  return 
+  GestureDetector(
     onTap: (){
-      ontap();
+      onValidTap();
     },
-    child: Container(
+    child: 
+    Container(
       width: MediaQuery.of(context).size.width * 1,
       height: MediaQuery.of(context).size.height * .055,
       decoration: BoxDecoration(

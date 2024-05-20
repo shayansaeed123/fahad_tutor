@@ -1,4 +1,5 @@
 import 'package:fahad_tutor/controller/color_controller.dart';
+import 'package:fahad_tutor/controller/text_field_controller.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableTextField.dart';
@@ -9,6 +10,7 @@ import 'package:fahad_tutor/views/dashboard/nav_bar.dart';
 import 'package:fahad_tutor/views/login/register.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -20,9 +22,9 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  TextEditingController _emailCon = TextEditingController();
-  TextEditingController _passCon = TextEditingController();
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  // TextEditingController _emailCon = TextEditingController();
+  // TextEditingController _passCon = TextEditingController();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _selectedValue = 'Tutor';
 
   late FocusNode _emailfocusNode;
@@ -49,12 +51,67 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 
+
   void _onFocusChange() {
     setState(() {
       // Redraw the UI when the focus changes
     });
   }
-   
+
+  
+   void _validateForm() {
+     if (reusabletextfieldcontroller.emailCon.text.isNotEmpty &&
+                    reusabletextfieldcontroller.passCon.text.isNotEmpty 
+                    // &&
+                    // reusabletextfieldcontroller
+                    //     .RegisterPassword.text.isNotEmpty &&
+                    // reusabletextfieldcontroller
+                    //     .RegistercnfmPassword.text.isNotEmpty &&
+                    // reusabletextfieldcontroller.RegisterPassword.text ==
+                    //     reusabletextfieldcontroller.RegistercnfmPassword.text &&
+                    // reusabletextfieldcontroller.RegisterPassword.text.length >=
+                    //     8 &&
+                    // reusabletextfieldcontroller.RegisterPassword.text.length <=
+                    //     15 &&
+                    // reusabletextfieldcontroller.RegisterPhone.text.length ==
+                    //     10
+                        ) {
+                  // CheckUserContactExictOrNot();
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NavBar()));
+                } else {
+                  Utils.snakbar(
+                    context,
+                    reusabletextfieldcontroller.emailCon.text.isEmpty
+                        ? "Email Is Missing"
+                        : reusabletextfieldcontroller.passCon.text.isEmpty
+                            ? "Password Is Missing"
+                            // : reusabletextfieldcontroller
+                            //         .RegisterPassword.text.isEmpty
+                            //     ? "Password Is Missing"
+                            //     : reusabletextfieldcontroller
+                            //             .RegistercnfmPassword.text.isEmpty
+                            //         ? "Confirm Password Is Missing"
+                            //         : reusabletextfieldcontroller
+                            //                     .RegisterPassword.text !=
+                            //                 reusabletextfieldcontroller
+                            //                     .RegistercnfmPassword.text
+                            //             ? "Passwords is defferent"
+                            //             : reusabletextfieldcontroller
+                            //                         .RegisterPassword
+                            //                         .text
+                            //                         .length <
+                            //                     8
+                            //                 ? "Password  Must be at least of 8 and maximum of 15 charracters"
+                            //                 : reusabletextfieldcontroller
+                            //                             .RegisterPhone
+                            //                             .text
+                            //                             .length !=
+                            //                         10
+                            //                     ? "Check Phone Number  "
+                                                : "Fill Correct Fields",
+                  );
+                }
+  }
 
 
   @override
@@ -68,7 +125,7 @@ class _LoginState extends State<Login> {
         child: SingleChildScrollView(
           child:
               Form(
-                key: formKey,
+                key: _formKey,
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                             Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -125,7 +182,7 @@ class _LoginState extends State<Login> {
                             reusablaSizaBox(context, .02),
                             reusableTextField(
                 context,
-                _emailCon,
+                reusabletextfieldcontroller.emailCon,
                 'Email Address',
                 _emailfocusNode.hasFocus
                     ? colorController.blueColor
@@ -135,15 +192,14 @@ class _LoginState extends State<Login> {
                   _emailfocusNode.unfocus();
                   FocusScope.of(context).requestFocus(_passfocusNode);
                 }, 
-                true,
-                'email is requried',
+                // true,
                 // validateEmail, 
                 keyboardType: TextInputType.emailAddress,
                             ),
                             reusablaSizaBox(context, .04),
                             reusablePassField(
                   context,
-                  _passCon,
+                  reusabletextfieldcontroller.passCon,
                   'Password',
                   _passfocusNode.hasFocus
                       ? colorController.blueColor
@@ -152,8 +208,7 @@ class _LoginState extends State<Login> {
                 _passfocusNode.unfocus();
                 FocusScope.of(context).requestFocus(_passfocusNode);
                             },
-                            true,
-                            'Password is requried',
+                            // true,
                             pass,(){
                               setState(() {
                                 pass = !pass;
@@ -179,16 +234,11 @@ class _LoginState extends State<Login> {
                 ],
                             ),
                             reusablaSizaBox(context, .02),
-                            reusableBtn(context, 'Login',(){
-                              if (formKey.currentState!.validate()) {
-      // Form is valid, continue with your logic
-      print('Form is valid');
-      Navigator.push(context, MaterialPageRoute(builder: (context) => NavBar(),));
-    } else {
-      // Form is invalid, show error message
-      print('Form is invalid');
-    }
-                            }),
+                            reusableBtn(context, 'Login',
+                            (){
+                              _validateForm();
+                            }
+                            ),
                             reusablaSizaBox(context, .03),
                             Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -199,11 +249,11 @@ class _LoginState extends State<Login> {
                       fontweight: FontWeight.w400),
                   InkWell(
                       onTap: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => Rigister(),
-                        //     ));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Rigister(),
+                            ));
                       },
                       child: reusableText('Register Now',
                           fontsize: 13,

@@ -1,8 +1,12 @@
 
 
 
+
+
 import 'package:fahad_tutor/controller/color_controller.dart';
+import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -28,6 +32,15 @@ class Utils {
       );
     }
 
+    static snakbar(BuildContext context,String message){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: colorController.redColor,
+        behavior: SnackBarBehavior.floating,
+        duration: Duration(seconds: 2),
+        content: reusableText(message,color: colorController.whiteColor),
+      ));
+
+    }
 
     static toastMessageCenter(String message){
       Fluttertoast.showToast(

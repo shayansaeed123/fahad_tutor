@@ -77,8 +77,8 @@ class _ResetPassordState extends State<ResetPassword> {
                 _oldPassfocusNode.unfocus();
                 FocusScope.of(context).requestFocus(_newPassfocusNode);
               },
-              true,
-              'Enter Old Password',
+              // true,
+              // 'Enter Old Password',
               old,
               () {
                 setState(() {
@@ -99,8 +99,8 @@ class _ResetPassordState extends State<ResetPassword> {
                 _newPassfocusNode.unfocus();
                 FocusScope.of(context).requestFocus(_confirmPassfocusNode);
               },
-              true,
-              'Enter New Password',
+              // true,
+              // 'Enter New Password',
               newp,
               () {
                 setState(() {
@@ -120,8 +120,8 @@ class _ResetPassordState extends State<ResetPassword> {
                 _confirmPassfocusNode.unfocus();
                 FocusScope.of(context).requestFocus(_confirmPassfocusNode);
               },
-              true,
-              'Confirm Old Password',
+              // true,
+              // 'Confirm Old Password',
               confirm,
               () {
                 setState(() {

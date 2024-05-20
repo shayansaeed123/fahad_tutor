@@ -47,6 +47,8 @@ dependencies:
   http: 
   dropdown_search: ^5.0.6
   fluttertoast:
+  google_sign_in: 
+  firebase_auth:
 
 dev_dependencies:
   flutter_test:

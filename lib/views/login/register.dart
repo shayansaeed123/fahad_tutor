@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
+import 'package:fahad_tutor/controller/text_field_controller.dart';
+import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableTextField.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
@@ -10,6 +12,9 @@ import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusablepassfield.dart';
 import 'package:fahad_tutor/res/reusableradiobtn.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
+import 'package:fahad_tutor/res/reusablevalidator.dart';
+import 'package:fahad_tutor/views/dashboard/home.dart';
+import 'package:fahad_tutor/views/dashboard/nav_bar.dart';
 import 'package:fahad_tutor/views/login/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,14 +32,6 @@ class Rigister extends StatefulWidget {
 }
 
 class _RigisterState extends State<Rigister> {
-  TextEditingController _teacherCon = TextEditingController();
-  TextEditingController _fatherCon = TextEditingController();
-  TextEditingController _contactCon = TextEditingController();
-  TextEditingController _alterContactCon = TextEditingController();
-  TextEditingController _cnicCon = TextEditingController();
-  TextEditingController _passCon = TextEditingController();
-  TextEditingController _rePassCon = TextEditingController();
-  TextEditingController _religionCon = TextEditingController();
 
   // TextEditingController _selectDateCon = TextEditingController();
   String _selectedValue = 'Tutor';
@@ -126,6 +123,131 @@ class _RigisterState extends State<Rigister> {
     setState(() {
       // Redraw the UI when the focus changes
     });
+  }
+
+  void _validateForm() {
+     if (reusabletextfieldcontroller.teacherCon.text.isNotEmpty &&
+                    reusabletextfieldcontroller.fatherCon.text.isNotEmpty 
+                    &&
+                    reusabletextfieldcontroller
+                        .passCon.text.isNotEmpty &&
+                    reusabletextfieldcontroller
+                        .rePassCon.text.isNotEmpty &&
+                    reusabletextfieldcontroller.passCon.text ==
+                        reusabletextfieldcontroller.rePassCon.text &&
+                    reusabletextfieldcontroller.passCon.text.length >=
+                        8 &&
+                    reusabletextfieldcontroller.rePassCon.text.length <=
+                        15 &&
+                    reusabletextfieldcontroller.contactCon.text.length ==
+                        11 && reusabletextfieldcontroller.alterContactCon.text.length ==
+                        11 && reusabletextfieldcontroller.contactCon.text.isNotEmpty && 
+                        reusabletextfieldcontroller.alterContactCon.text.isNotEmpty
+                        && reusabletextfieldcontroller.cnicCon.text.length ==
+                        14
+                        && reusabletextfieldcontroller.religionCon.text.isNotEmpty && 
+                        reusabletextfieldcontroller.addressCon.text.isNotEmpty
+                        ) {
+                  // CheckUserContactExictOrNot();
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NavBar()));
+                } else {
+                  Utils.snakbar(
+                    context,
+                    reusabletextfieldcontroller.teacherCon.text.isEmpty
+                        ? "Tutor name Is Missing"
+                        : reusabletextfieldcontroller.fatherCon.text.isEmpty
+                            ? "Father/Husband name Is Missing"
+                            : reusabletextfieldcontroller
+                                                        .contactCon
+                                                        .text
+                                                        .length !=
+                                                    11
+                                                ? "Check Phone Number  " : 
+                                                reusabletextfieldcontroller
+                                                        .alterContactCon
+                                                        .text
+                                                        .length !=
+                                                    11
+                                                ? "Check alter Phone Number  " 
+                                                : 
+                                                reusabletextfieldcontroller
+                                                        .cnicCon
+                                                        .text
+                                                        .length !=
+                                                    14
+                                                ? "Check CNIC Number  " 
+                            : 
+                            reusabletextfieldcontroller
+                                    .passCon.text.isEmpty
+                                ? "Password Is Missing"
+                                : reusabletextfieldcontroller
+                                        .rePassCon.text.isEmpty
+                                    ? "Confirm Password Is Missing"
+                                    : reusabletextfieldcontroller
+                                                .passCon.text !=
+                                            reusabletextfieldcontroller
+                                                .rePassCon.text
+                                        ? "Passwords is defferent"
+                                        : reusabletextfieldcontroller
+                                                    .passCon
+                                                    .text
+                                                    .length <
+                                                8
+                                            ? "Password  Must be at least of 8 and maximum of 15 charracters"
+                                            : 
+                                                reusabletextfieldcontroller
+                                                        .religionCon
+                                                        .text
+                                                        .isEmpty
+                                                ? "Religion is Missing " : 
+                                                reusabletextfieldcontroller
+                                                        .addressCon
+                                                        .text
+                                                        .isEmpty
+                                                ? "Address is Missing" 
+                                                : "Fill Correct Fields",
+                  );
+                }
+  }
+
+
+  signInWithGoogle() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      setState(() {
+        isLoading = false;
+      });
+      GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+      AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+          MySharedPrefrence().set_user_name(userCredential.user!.displayName);
+          MySharedPrefrence().setUserLoginStatus(true); 
+            MySharedPrefrence().set_user_email(userCredential.user!.email);
+      print(MySharedPrefrence().get_user_name());
+      print(MySharedPrefrence().getUserLoginStatus());
+      print(MySharedPrefrence().get_user_email());
+      Navigator.push(context,
+                            MaterialPageRoute(
+                              builder: (context) => WillPopScope(
+                                  onWillPop: () async => false,
+                                  child: HomePage()),
+                            ));
+    } catch (e) {
+      print('Error $e');
+      reusabledialog(context, "Login Failed",
+            "An error occurred while trying to log in.", "Ok", () {});
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   Future<void> selectCountry() async {
@@ -261,10 +383,10 @@ class _RigisterState extends State<Rigister> {
       final response = await http.post(
       Uri.parse('https://fahadtutors.com/mobile_app/acoount_check.php'),
       body: {
-        'contact_number': _contactCon.text.toString(),
-        'cnic': _cnicCon.text.toString(),
-        'alternate_number': _alterContactCon.text.toString(),
-        'email': _teacherCon.text.toString(),
+        'contact_number': reusabletextfieldcontroller.contactCon.text.toString(),
+        'cnic': reusabletextfieldcontroller.cnicCon.text.toString(),
+        'alternate_number': reusabletextfieldcontroller.alterContactCon.text.toString(),
+        'email': reusabletextfieldcontroller.teacherCon.text.toString(),
       }
     );
     if (response.statusCode == 200) {
@@ -569,7 +691,7 @@ class _RigisterState extends State<Rigister> {
                             reusablaSizaBox(context, .015),
                             reusableTextField(
                               context,
-                              _teacherCon,
+                              reusabletextfieldcontroller.teacherCon,
                               'Teacher Name',
                               _teacherfocusNode.hasFocus
                                   ? colorController.blueColor
@@ -579,14 +701,14 @@ class _RigisterState extends State<Rigister> {
                                 _teacherfocusNode.unfocus();
                                 FocusScope.of(context).requestFocus(_fatherfocusNode);
                               },
-                              true,
-                              'Name is requried',
+                              // true,
+                              // 'Name is requried',
                               keyboardType: TextInputType.text,
                             ),
                             reusablaSizaBox(context, .015),
                             reusableTextField(
                               context,
-                              _fatherCon,
+                              reusabletextfieldcontroller.fatherCon,
                               'Father/Husband Name',
                               _fatherfocusNode.hasFocus
                                   ? colorController.blueColor
@@ -597,14 +719,14 @@ class _RigisterState extends State<Rigister> {
                                 FocusScope.of(context)
                                     .requestFocus(_contactfocusNode);
                               },
-                              true,
-                              'Father name is requried',
+                              // true,
+                              // 'Father name is requried',
                               keyboardType: TextInputType.text,
                             ),
                             reusablaSizaBox(context, .015),
-                            reusableTextField(
+                            reusableContactField(
                               context,
-                              _contactCon,
+                              reusabletextfieldcontroller.contactCon,
                               'Contact No',
                               _contactfocusNode.hasFocus
                                   ? colorController.blueColor
@@ -615,14 +737,16 @@ class _RigisterState extends State<Rigister> {
                                 FocusScope.of(context)
                                     .requestFocus(_alterContactfocusNode);
                               },
-                              true,
-                              'Contact No is requried',
+                              11,
+                              // true,
+                              // 'Contact No is requried',
+                              // 'Number must start with 03 and be 11 digits long',
                               keyboardType: TextInputType.phone,
                             ),
                             reusablaSizaBox(context, .015),
-                            reusableTextField(
+                            reusableContactField(
                               context,
-                              _alterContactCon,
+                              reusabletextfieldcontroller.alterContactCon,
                               'Alternate Contact No',
                               _alterContactfocusNode.hasFocus
                                   ? colorController.blueColor
@@ -632,14 +756,16 @@ class _RigisterState extends State<Rigister> {
                                 _alterContactfocusNode.unfocus();
                                 FocusScope.of(context).requestFocus(_cnicfocusNode);
                               },
-                              true,
-                              'Alternate No is requried',
+                              11,
+                              // true,
+                              // 'Alternate No is requried',
+                              // 'Number must start with 03 and be 11 digits long',
                               keyboardType: TextInputType.phone,
                             ),
                             reusablaSizaBox(context, .015),
-                            reusableTextField(
+                            reusableContactField(
                               context,
-                              _cnicCon,
+                              reusabletextfieldcontroller.cnicCon,
                               'CNIC',
                               _cnicfocusNode.hasFocus
                                   ? colorController.blueColor
@@ -649,14 +775,15 @@ class _RigisterState extends State<Rigister> {
                                 _cnicfocusNode.unfocus();
                                 FocusScope.of(context).requestFocus(_passfocusNode);
                               },
-                              true,
-                              'CNIC No is requried',
+                              14,
+                              // true,
+                              // 'CNIC No is requried',
                               keyboardType: TextInputType.number,
                             ),
                             reusablaSizaBox(context, .015),
                             reusablePassField(
                                 context,
-                                _passCon,
+                                reusabletextfieldcontroller.passCon,
                                 'Password',
                                 _passfocusNode.hasFocus
                                     ? colorController.blueColor
@@ -665,8 +792,8 @@ class _RigisterState extends State<Rigister> {
                               _passfocusNode.unfocus();
                               FocusScope.of(context).requestFocus(_rePassfocusNode);
                             }, 
-                            true,
-                            'Password is requried',
+                            // true,
+                            // 'Password is requried',
                             pass,(){
                               setState(() {
                                 pass = !pass;
@@ -675,7 +802,7 @@ class _RigisterState extends State<Rigister> {
                             reusablaSizaBox(context, .015),
                             reusablePassField(
                                 context,
-                                _rePassCon,
+                                reusabletextfieldcontroller.rePassCon,
                                 'Re Enter Password',
                                 _rePassfocusNode.hasFocus
                                     ? colorController.blueColor
@@ -683,8 +810,9 @@ class _RigisterState extends State<Rigister> {
                                 _rePassfocusNode, () {
                               _rePassfocusNode.unfocus();
                               FocusScope.of(context).requestFocus(_religionfocusNode);
-                            }, true,
-                            'Password is requried',
+                            },
+                            //  true,
+                            // 'Password is requried',
                             repass,(){
                               setState(() {
                                 repass = !repass;
@@ -693,7 +821,7 @@ class _RigisterState extends State<Rigister> {
                             reusablaSizaBox(context, .015),
                             reusableTextField(
                               context,
-                              _religionCon,
+                              reusabletextfieldcontroller.religionCon,
                               'Religion',
                               _religionfocusNode.hasFocus
                                   ? colorController.blueColor
@@ -703,8 +831,8 @@ class _RigisterState extends State<Rigister> {
                                 _religionfocusNode.unfocus();
                                 FocusScope.of(context).requestFocus(_homefocusNode);
                               },
-                              true,
-                              'Religion is requried',
+                              // true,
+                              // 'Religion is requried',
                               keyboardType: TextInputType.text,
                             ),
                             reusablaSizaBox(context, .015),
@@ -826,7 +954,7 @@ class _RigisterState extends State<Rigister> {
                             reusablaSizaBox(context, .015),
                             reusableTextField(
                               context,
-                              _religionCon,
+                              reusabletextfieldcontroller.addressCon,
                               'Home Address',
                               _homefocusNode.hasFocus
                                   ? colorController.blueColor
@@ -836,8 +964,8 @@ class _RigisterState extends State<Rigister> {
                                 _homefocusNode.unfocus();
                                 FocusScope.of(context).requestFocus(_homefocusNode);
                               },
-                              true,
-                              'Address is requried',
+                              // true,
+                              // 'Address is requried',
                               keyboardType: TextInputType.text,
                             ),
                             reusablaSizaBox(context, .015),
@@ -949,7 +1077,11 @@ class _RigisterState extends State<Rigister> {
                             ),
                             buildCheckboxWithTitle("At Tutor's Place", checkbox3),
                             reusablaSizaBox(context, .02),
-                            reusableBtn(context, 'Register',(){checkAccount();}),
+                            reusableBtn(context, 'Register',
+                            (){
+                              _validateForm();
+                            }
+                            ),
                             reusablaSizaBox(context, .02),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -1070,7 +1202,7 @@ class _RigisterState extends State<Rigister> {
                           reusablaSizaBox(context, .015),
                           reusableTextField(
                             context,
-                            _teacherCon,
+                            reusabletextfieldcontroller.teacherCon,
                             'Name',
                             _teacherfocusNode.hasFocus
                                 ? colorController.blueColor
@@ -1080,14 +1212,15 @@ class _RigisterState extends State<Rigister> {
                               _teacherfocusNode.unfocus();
                               FocusScope.of(context)
                                   .requestFocus(_contactfocusNode);
-                            },true,
-                            'Name is requried',
+                            },
+                            // true,
+                            // 'Name is requried',
                             keyboardType: TextInputType.text,
                           ),
                           reusablaSizaBox(context, .015),
                           reusableTextField(
                             context,
-                            _contactCon,
+                            reusabletextfieldcontroller.contactCon,
                             'Contact No',
                             _contactfocusNode.hasFocus
                                 ? colorController.blueColor
@@ -1097,14 +1230,14 @@ class _RigisterState extends State<Rigister> {
                               _contactfocusNode.unfocus();
                               FocusScope.of(context).requestFocus(_passfocusNode);
                             },
-                            true,
-                            'Contact No is requried',
+                            // true,
+                            // 'Contact No is requried',
                             keyboardType: TextInputType.phone,
                           ),
                           reusablaSizaBox(context, .015),
                           reusablePassField(
                               context,
-                              _passCon,
+                              reusabletextfieldcontroller.passCon,
                               'Password',
                               _passfocusNode.hasFocus
                                   ? colorController.blueColor
@@ -1112,7 +1245,9 @@ class _RigisterState extends State<Rigister> {
                               _passfocusNode, () {
                             _passfocusNode.unfocus();
                             FocusScope.of(context).requestFocus(_passfocusNode);
-                          }, true,'Password is requried' ,pass,(){setState(() {
+                          }, 
+                          // true,'Password is requried' ,
+                          pass,(){setState(() {
                             pass = !pass;
                           });} ),
                           reusablaSizaBox(context, .02),
