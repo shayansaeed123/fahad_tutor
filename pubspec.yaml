@@ -49,6 +49,7 @@ dependencies:
   fluttertoast:
   google_sign_in: 
   firebase_auth:
+  change_app_package_name: 
 
 dev_dependencies:
   flutter_test:
