@@ -230,22 +230,28 @@ class _RigisterState extends State<Rigister> {
       );
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithCredential(credential);
-          MySharedPrefrence().set_user_name(userCredential.user!.displayName);
+          final User? user = userCredential.user;
+      if (user != null) {
+        final String? email = user.email;
+        print('User email: $email');
+        // You can now use the email variable
+      }
+          MySharedPrefrence().set_user_name(user!.displayName);
           MySharedPrefrence().setUserLoginStatus(true); 
-            MySharedPrefrence().set_user_email(userCredential.user!.email);
+            MySharedPrefrence().set_user_email(user!.email);
       print(MySharedPrefrence().get_user_name());
       print(MySharedPrefrence().getUserLoginStatus());
       print(MySharedPrefrence().get_user_email());
-      Navigator.push(context,
-                            MaterialPageRoute(
-                              builder: (context) => WillPopScope(
-                                  onWillPop: () async => false,
-                                  child: HomePage()),
-                            ));
+      // Navigator.push(context,
+      //                       MaterialPageRoute(
+      //                         builder: (context) => WillPopScope(
+      //                             onWillPop: () async => false,
+      //                             child: HomePage()),
+      //                       ));
     } catch (e) {
       print('Error $e');
-      reusabledialog(context, "Login Failed",
-            "An error occurred while trying to log in.", "Ok", () {});
+      // reusabledialog(context, "Login Failed",
+      //       "An error occurred while trying to log in.", "Ok", () {});
     } finally {
       setState(() {
         isLoading = false;
@@ -389,7 +395,7 @@ class _RigisterState extends State<Rigister> {
         'contact_number': reusabletextfieldcontroller.contactCon.text.toString(),
         'cnic': reusabletextfieldcontroller.cnicCon.text.toString(),
         'alternate_number': reusabletextfieldcontroller.alterContactCon.text.toString(),
-        'email': reusabletextfieldcontroller.teacherCon.text.toString(),
+        'email': MySharedPrefrence().get_user_email().toString(),
       }
     );
     if (response.statusCode == 200) {
@@ -1082,6 +1088,7 @@ class _RigisterState extends State<Rigister> {
                             reusablaSizaBox(context, .02),
                             reusableBtn(context, 'Register',
                             (){
+                              signInWithGoogle();
                               _validateForm();
                             }
                             ),

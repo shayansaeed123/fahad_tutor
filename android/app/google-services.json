@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "990342767537",
+    "project_id": "fahadtutors-d768d",
+    "storage_bucket": "fahadtutors-d768d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:990342767537:android:1181bd6a3686829c0f5390",
+        "android_client_info": {
+          "package_name": "com.ideaz.FahadTutor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBr7iVZjZoPUlbXzVkq-5g7ogOqv-FrG70"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
