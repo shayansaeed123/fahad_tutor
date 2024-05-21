@@ -272,8 +272,9 @@ class _RigisterState extends State<Rigister> {
     });
 
     try {
+      
       final response = await http.get(
-        Uri.parse('https://fahadtutors.com/mobile_app/country.php?code=10'),
+        Uri.parse('${Utils.baseUrl}mobile_app/country.php?code=10'),
       );
       if (response.statusCode == 200) {
         if (response.body.isNotEmpty) {
@@ -313,7 +314,7 @@ class _RigisterState extends State<Rigister> {
     });
     try {
       final response = await http.post(
-          Uri.parse('https://fahadtutors.com/mobile_app/city.php'),
+          Uri.parse('${Utils.baseUrl}mobile_app/city.php'),
           body: {
             'code': '10',
             'country_id': countryId.toString(),
@@ -356,7 +357,7 @@ class _RigisterState extends State<Rigister> {
     });
     try {
       final response = await http.post(
-          Uri.parse('https://fahadtutors.com/mobile_app/area.php'),
+          Uri.parse('${Utils.baseUrl}mobile_app/area.php'),
           body: {
             'code': '10',
             'city_id': cityId.toString(),
@@ -399,7 +400,7 @@ class _RigisterState extends State<Rigister> {
     });
     try {
       final response = await http.post(
-          Uri.parse('https://fahadtutors.com/mobile_app/acoount_check.php'),
+          Uri.parse('${Utils.baseUrl}mobile_app/acoount_check.php'),
           body: {
             'contact_number':
                 reusabletextfieldcontroller.contactCon.text.toString(),
@@ -407,6 +408,98 @@ class _RigisterState extends State<Rigister> {
             'alternate_number':
                 reusabletextfieldcontroller.alterContactCon.text.toString(),
             'email': MySharedPrefrence().get_user_email().toString(),
+          });
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData = json.decode(response.body);
+        String apiMessage = responseData['message'];
+        String number = responseData['number'];
+        if (responseData['success'] == '1') {
+          print('response:' + response.body);
+          Navigator.pop(context);
+          Navigator.push(
+              context, MaterialPageRoute(builder: ((context) => NavBar())));
+          Utils.snakbar(context, apiMessage);
+          // reusableMessagedialog(
+          //   context,
+          //   apiMessage,
+          //   'OK',
+          //   () async{
+          //     setState(() {
+          //       isLoading = false;
+          //     });
+          //                 Future<void> _signOut() async {
+          try {
+            await _googleSignIn.signOut();
+            await _auth.signOut();
+            print('User signed out');
+          } catch (e) {
+            print(e);
+          }
+          // }
+          //   },
+          // );
+        } else {
+          Utils.snakbar(context, apiMessage);
+          // reusableMessagedialog(
+          //   context,
+          //   apiMessage,
+          //   'OK',
+          //   ()async {
+          //     setState(() {
+          //       isLoading = false;
+          //     });
+          try {
+            await _googleSignIn.signOut();
+            await _auth.signOut();
+            print('User signed out');
+          } catch (e) {
+            print(e);
+          }
+          Navigator.pop(context);
+          Navigator.push(
+              context, MaterialPageRoute(builder: ((context) => Rigister())));
+          //   },
+          // );
+        }
+      } else {
+        print('Error2: ' + response.statusCode.toString());
+      }
+    } catch (e) {
+      print(e);
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  Future<void> signUpApi() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      final response = await http.post(
+          Uri.parse('${Utils.baseUrl}mobile_app/sign_up.php'),
+          body: {
+            'contact_number':reusabletextfieldcontroller.contactCon.text.toString(),
+            'cnic': reusabletextfieldcontroller.cnicCon.text.toString(),
+            'alternate_number':reusabletextfieldcontroller.alterContactCon.text.toString(),
+            'teacher_name': reusabletextfieldcontroller.teacherCon.text.toString(),
+            'father_name':reusabletextfieldcontroller.fatherCon.text.toString(),
+            'married_status': _selectedStatus.toString(),
+            'tutreligion':reusabletextfieldcontroller.religionCon.text.toString(),
+            'email': MySharedPrefrence().get_user_email().toString(),
+            'gender': _selectedGender.toString(),
+            'password': reusabletextfieldcontroller.passCon.text.toString(),
+            'city_id': cityId.toString(),
+            'area_id': areaId.toString(),
+            'home_address':reusabletextfieldcontroller.addressCon.text.toString(),
+            'date_of_birth': selectedTime.toString(),
+            'DigitalPad':reusabletextfieldcontroller.alterContactCon.text.toString(),
+            'onlineTeaching_experience': MySharedPrefrence().get_user_email().toString(),
+            'online_Skill':reusabletextfieldcontroller.contactCon.text.toString(),
+            'Biography': _biography.text.toString(),
+            'tutor_placement': _biography.text.toString(),
           });
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
@@ -980,6 +1073,7 @@ class _RigisterState extends State<Rigister> {
                                         if (timeofday != null) {
                                           setState(() {
                                             selectedTime = timeofday;
+                                            print('time date $selectedTime');
                                           });
                                         }
                                       },
@@ -1142,6 +1236,7 @@ class _RigisterState extends State<Rigister> {
                                         onChanged: (String? newValue) {
                                           setState(() {
                                             _selectedGender = newValue;
+                                            print('gender $_selectedGender');
                                           });
                                         },
                                         hint: reusableText('Gender',

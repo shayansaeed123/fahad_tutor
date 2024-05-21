@@ -66,56 +66,16 @@ class _LoginState extends State<Login> {
 
   
    void _validateForm() {
-     if (reusabletextfieldcontroller.emailCon.text.isNotEmpty &&
-                    reusabletextfieldcontroller.passCon.text.isNotEmpty 
-                    // &&
-                    // reusabletextfieldcontroller
-                    //     .RegisterPassword.text.isNotEmpty &&
-                    // reusabletextfieldcontroller
-                    //     .RegistercnfmPassword.text.isNotEmpty &&
-                    // reusabletextfieldcontroller.RegisterPassword.text ==
-                    //     reusabletextfieldcontroller.RegistercnfmPassword.text &&
-                    // reusabletextfieldcontroller.RegisterPassword.text.length >=
-                    //     8 &&
-                    // reusabletextfieldcontroller.RegisterPassword.text.length <=
-                    //     15 &&
-                    // reusabletextfieldcontroller.RegisterPhone.text.length ==
-                    //     10
+     if (reusabletextfieldcontroller.emailCon.text.isNotEmpty && reusabletextfieldcontroller.passCon.text.isNotEmpty 
                         ) {
-                  // CheckUserContactExictOrNot();
                   login();
-                  // Navigator.push(context, MaterialPageRoute(builder: (context) => NavBar()));
                 } else {
                   Utils.snakbar(
                     context,
                     reusabletextfieldcontroller.emailCon.text.isEmpty
                         ? "Email Is Missing"
                         : reusabletextfieldcontroller.passCon.text.isEmpty
-                            ? "Password Is Missing"
-                            // : reusabletextfieldcontroller
-                            //         .RegisterPassword.text.isEmpty
-                            //     ? "Password Is Missing"
-                            //     : reusabletextfieldcontroller
-                            //             .RegistercnfmPassword.text.isEmpty
-                            //         ? "Confirm Password Is Missing"
-                            //         : reusabletextfieldcontroller
-                            //                     .RegisterPassword.text !=
-                            //                 reusabletextfieldcontroller
-                            //                     .RegistercnfmPassword.text
-                            //             ? "Passwords is defferent"
-                            //             : reusabletextfieldcontroller
-                            //                         .RegisterPassword
-                            //                         .text
-                            //                         .length <
-                            //                     8
-                            //                 ? "Password  Must be at least of 8 and maximum of 15 charracters"
-                            //                 : reusabletextfieldcontroller
-                            //                             .RegisterPhone
-                            //                             .text
-                            //                             .length !=
-                            //                         10
-                            //                     ? "Check Phone Number  "
-                                                : "Fill Correct Fields",
+                            ? "Password Is Missing" : "Fill Correct Fields",
                   );
                 }
   }
@@ -125,9 +85,9 @@ class _LoginState extends State<Login> {
       isLoading = true;
     });
     try{
-      MySharedPrefrence().set_baseUrl('https://fahadtutors.com/');
+      
       final response = await http.post(
-      Uri.parse('${MySharedPrefrence().get_baseUrl()}mobile_app/login.php'),
+      Uri.parse('${Utils.baseUrl}mobile_app/login.php'),
       body: {
         'cell_access_token': '1'.toString(),
         'deviceid': '1'.toString(),
@@ -164,21 +124,6 @@ class _LoginState extends State<Login> {
                 // );
               } else {
                 Utils.snakbarFailed(context, apiMessage);
-                // reusableMessagedialog(
-                //   context,
-                //   apiMessage,
-                //   'OK',
-                //   ()async {
-                //     setState(() {
-                //       isLoading = false;
-                //     });
-                //     Navigator.pop(context);
-                //     Navigator.push(
-                //         context,
-                //         MaterialPageRoute(
-                //             builder: ((context) => Login())));
-                //   },
-                // );
               }
             } else {
               print('Error2: ' + response.statusCode.toString());

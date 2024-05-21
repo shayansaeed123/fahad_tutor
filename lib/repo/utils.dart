@@ -13,7 +13,9 @@ import 'package:get/get_core/src/get_main.dart';
 
 class Utils {
 
-  
+
+  static const String baseUrl = 'https://fahadtutors.com/' ;
+
     static void fieldFocusChange(BuildContext context , FocusNode current , FocusNode  nextFocus ){
       current.unfocus();
       FocusScope.of(context).requestFocus(nextFocus);
