@@ -13,7 +13,7 @@ import 'package:get/get_core/src/get_main.dart';
 
 class Utils {
 
-
+  
     static void fieldFocusChange(BuildContext context , FocusNode current , FocusNode  nextFocus ){
       current.unfocus();
       FocusScope.of(context).requestFocus(nextFocus);
@@ -55,7 +55,7 @@ class Utils {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: colorController.redColor,
         behavior: SnackBarBehavior.floating,
-        duration: Duration(minutes: 10),
+        duration: Duration(seconds: 10),
         content: reusableText(message,color: colorController.whiteColor),
       ));
     }

@@ -27,6 +27,7 @@ class _AppFeedbackState extends State<AppFeedback> {
             reusableText('Feedback',color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
             reusablaSizaBox(context, 0.020),
             TextField(
+              
                   maxLines: 5, // Set the maximum number of lines
                   decoration: InputDecoration(
                     alignLabelWithHint: true,

@@ -11,14 +11,15 @@ Widget reusableRadioBtn(
     String? _groupValue,
     void Function(String?)? onChanged,
     String name1,
-    String name2) {
+    String name2,
+    double width) {
   return Container(
     width: MediaQuery.of(context).size.width * 1,
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
-          width: MediaQuery.of(context).size.width * .4,
+          width: MediaQuery.of(context).size.width * width,
           height: MediaQuery.of(context).size.height * .08,
           child: RadioListTile(
             value: value1,
@@ -30,7 +31,7 @@ Widget reusableRadioBtn(
           ),
         ),
         Container(
-          width: MediaQuery.of(context).size.width * .4,
+          width: MediaQuery.of(context).size.width * width,
           height: MediaQuery.of(context).size.height * .08,
           child: RadioListTile(
             value: value2,

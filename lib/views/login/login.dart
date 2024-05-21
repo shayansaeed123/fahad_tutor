@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/controller/text_field_controller.dart';
+import 'package:fahad_tutor/database/MySharedPrefrence.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableTextField.dart';
@@ -124,8 +125,9 @@ class _LoginState extends State<Login> {
       isLoading = true;
     });
     try{
+      MySharedPrefrence().set_baseUrl('https://fahadtutors.com/');
       final response = await http.post(
-      Uri.parse('https://fahadtutors.com/mobile_app/login.php'),
+      Uri.parse('${MySharedPrefrence().get_baseUrl()}mobile_app/login.php'),
       body: {
         'cell_access_token': '1'.toString(),
         'deviceid': '1'.toString(),

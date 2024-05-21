@@ -3,6 +3,8 @@
 
 
 
+import 'dart:ui';
+
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,13 +33,21 @@ Widget reusableloadingrow(BuildContext context, bool isLoading) {
 
 
 reusableMessagedialog(
-    BuildContext context, String titletxt, String btntxt, Function btnontap) {
+    BuildContext context, String titletxt,String contenttxt, String btntxt, Function btnontap, Function canceltap){
   return showDialog(
     barrierDismissible: false,
     context: context,
-    builder: (context) => AlertDialog(
-      backgroundColor: colorController.btnColor,
-      content: reusableText(titletxt,color: colorController.whiteColor,fontsize: 18,),
+    builder: (context) { 
+      return Theme(
+          data: ThemeData.dark().copyWith(
+            dialogTheme: DialogTheme(
+              backgroundColor: colorController.btnColor, // Background color of the dialog
+            ),
+          ),
+      
+      child:  AlertDialog(
+      title: Center(child: reusableText(titletxt,color: colorController.whiteColor,fontsize: 16,)),
+      content: reusableText(contenttxt,color: colorController.whiteColor,fontsize: 14,),
       actions: [
         ElevatedButton(
           style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(colorController.whiteColor)),
@@ -52,17 +62,20 @@ reusableMessagedialog(
           ),
         ),
         ElevatedButton(
-          style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(colorController.whiteColor)),
+          style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(colorController.grayTextColor)),
           onPressed: () {
-                        Navigator.pop(context);
+                      canceltap();  
             // Navigator.push(context, MaterialPageRoute(builder: ((context) => attendance())));
           },
           child: reusableText(
             'Cancel',
-            color: colorController.btnColor,
+            color: colorController.whiteColor,
           ),
         ),
       ],
-    ),
+      )
+    );
+    }
   );
 }
+

@@ -46,8 +46,14 @@ class MySharedPrefrence {
     ''.val('version_code', getBox: preferences).val = version_code ?? '';
   }
 
+void set_baseUrl(String? baseUrl) {
+    ''.val('basrUrl', getBox: preferences).val = baseUrl ?? '';
+  }
 
-String baseUrl = 'https://fahadtutors.com/';
+  String get_baseUrl() {
+    return ''.val('basrUrl', getBox: preferences).val;
+  }
+
 
 
   void set_user_token(String? user_token) {
