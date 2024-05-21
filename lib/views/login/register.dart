@@ -40,7 +40,8 @@ class _RigisterState extends State<Rigister> {
   String _selectedValue = 'Tutor';
   String? _selectedCountry;
   String? _selectedCity;
-  String? _selectedArea;
+  String? _selectedGender;
+  String? _selectedStatus;
   late bool isLoading;
 
   late FocusNode _teacherfocusNode;
@@ -54,6 +55,8 @@ class _RigisterState extends State<Rigister> {
   late FocusNode _homefocusNode;
 
   late DateTime selectedTime = DateTime.now();
+  late DateTime lastDate = DateTime(1995, 1, 1);
+  
   final _formkey = GlobalKey<FormState>();
   bool checkbox1 = false;
   bool checkbox2 = false;
@@ -129,7 +132,9 @@ class _RigisterState extends State<Rigister> {
   }
 
   void _validateForm() {
-     if (reusabletextfieldcontroller.teacherCon.text.isNotEmpty &&
+     if (
+      cityName.isNotEmpty &&
+      reusabletextfieldcontroller.teacherCon.text.isNotEmpty &&
                     reusabletextfieldcontroller.fatherCon.text.isNotEmpty 
                     &&
                     reusabletextfieldcontroller
@@ -149,13 +154,16 @@ class _RigisterState extends State<Rigister> {
                         && reusabletextfieldcontroller.cnicCon.text.length ==
                         14
                         && reusabletextfieldcontroller.religionCon.text.isNotEmpty && 
+                        areaName.isNotEmpty &&
                         reusabletextfieldcontroller.addressCon.text.isNotEmpty
                         ) {
                   // CheckUserContactExictOrNot();
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NavBar()));
+                  signInWithGoogle();
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) => NavBar()));
                 } else {
                   Utils.snakbar(
                     context,
+                    cityName.isEmpty ? 'City is Missing' :
                     reusabletextfieldcontroller.teacherCon.text.isEmpty
                         ? "Tutor name Is Missing"
                         : reusabletextfieldcontroller.fatherCon.text.isEmpty
@@ -202,7 +210,7 @@ class _RigisterState extends State<Rigister> {
                                                         .religionCon
                                                         .text
                                                         .isEmpty
-                                                ? "Religion is Missing " : 
+                                                ? "Religion is Missing " : areaName.isEmpty ? 'Area is Missing' :
                                                 reusabletextfieldcontroller
                                                         .addressCon
                                                         .text
@@ -212,6 +220,8 @@ class _RigisterState extends State<Rigister> {
                   );
                 }
   }
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
 
   signInWithGoogle() async {
@@ -242,6 +252,7 @@ class _RigisterState extends State<Rigister> {
       print(MySharedPrefrence().get_user_name());
       print(MySharedPrefrence().getUserLoginStatus());
       print(MySharedPrefrence().get_user_email());
+      checkAccount();
       // Navigator.push(context,
       //                       MaterialPageRoute(
       //                         builder: (context) => WillPopScope(
@@ -384,11 +395,11 @@ class _RigisterState extends State<Rigister> {
     }
   }
 
-  Future<Map<String, dynamic>> checkAccount()async{
+  Future<void> checkAccount()async{
     setState(() {
       isLoading = true;
     });
-    // try{
+    try{
       final response = await http.post(
       Uri.parse('https://fahadtutors.com/mobile_app/acoount_check.php'),
       body: {
@@ -399,34 +410,67 @@ class _RigisterState extends State<Rigister> {
       }
     );
     if (response.statusCode == 200) {
-      // if (response.body.isNotEmpty) {
-        final Map<String, dynamic> jsonResponse = json.decode(response.body);
-        // areaList = jsonResponse['area_listing'];
-        // if (areaList.isNotEmpty) {
-          setState(() {
-            // areaName = areaList[0]['area_name'];
-            // countryId = countryList[0]['c_id'];
-            print(jsonResponse);
-            print(jsonResponse);
-          });
-          
-          return jsonResponse;
-        // } else {
-        //   throw Exception('Area list is empty');
-        // }
-      // } else {
-      //   throw Exception('Empty response body');
-      // }
-      
-    } else {
-      
-      throw Exception('Failed to load country details');
+              final Map<String, dynamic> responseData =
+                  json.decode(response.body);
+              String apiMessage = responseData['message'];
+              String number = responseData['number'];
+              if (responseData['success'] == '1') {
+                print('response:' + response.body);
+                Navigator.pop(context);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: ((context) => NavBar())));
+                reusableMessagedialog(
+                  context,
+                  apiMessage,
+                  'OK',
+                  () async{
+                    setState(() {
+                      isLoading = false;
+                    });
+    //                 Future<void> _signOut() async {
+    try {
+      await _googleSignIn.signOut();
+      await _auth.signOut();
+      print('User signed out');
+    } catch (e) {
+      print(e);
     }
-    // }catch(e){
-    //   print(e);
-    // }finally{
-    //   setState(() {isLoading = false;});
-    // }
+  // }
+                  },
+                );
+              } else {
+                reusableMessagedialog(
+                  context,
+                  apiMessage,
+                  'OK',
+                  ()async {
+                    setState(() {
+                      isLoading = false;
+                    });
+                    try {
+      await _googleSignIn.signOut();
+      await _auth.signOut();
+      print('User signed out');
+    } catch (e) {
+      print(e);
+    }
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: ((context) => Rigister())));
+                  },
+                );
+              }
+            } else {
+              print('Error2: ' + response.statusCode.toString());
+            }
+    
+    }catch(e){
+      print(e);
+    }finally{
+      setState(() {isLoading = false;});
+    }
   }
 
 // List<DropdownMenuItem<String>> _buildCountryDropdownItems(List<dynamic> countryList) {
@@ -462,6 +506,7 @@ class _RigisterState extends State<Rigister> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       backgroundColor: colorController.whiteColor,
       body: Stack(
@@ -857,10 +902,26 @@ class _RigisterState extends State<Rigister> {
                                   onTap: () async {
                                     final DateTime? timeofday = await showDatePicker(
                                         context: context,
-                                        firstDate: selectedTime,
+                                        firstDate: lastDate,
                                         lastDate: selectedTime,
-                                        initialEntryMode:
-                                            DatePickerEntryMode.calendar);
+                                        initialDate: selectedTime,
+                                        initialEntryMode:DatePickerEntryMode.calendar,
+                                        builder: (BuildContext context, Widget? child) {
+                    return Theme(
+                      data: ThemeData.dark().copyWith(
+                        // primaryColor: colorController.btnColor, 
+                        colorScheme: ColorScheme.light(
+                          primary: colorController.btnColor, // Header background color
+                          onPrimary: colorController.whiteColor, // Header text color
+                          onSurface: colorController.btnColor, // Body text color
+                        ),
+                        dialogBackgroundColor: Colors.white, // Background color
+                        bannerTheme: MaterialBannerThemeData(backgroundColor: colorController.btnColor)
+                      ),
+                      child: child!,
+                    );
+                  },
+                                        );
                                     if (timeofday != null) {
                                       setState(() {
                                         selectedTime = timeofday;
@@ -870,7 +931,8 @@ class _RigisterState extends State<Rigister> {
                                   child: ListTile(
                                     enabled: false,
                                     trailing: Icon(Icons.date_range_outlined),
-                                    title: Text(
+                                    title:  
+                                    Text(
                                       selectedTime == DateTime.now()
                                           ? 'Select Date'
                                           : '${DateFormat('yyyy-MM-dd').format(selectedTime)}',
@@ -994,10 +1056,11 @@ class _RigisterState extends State<Rigister> {
                                         BorderRadius.circular(10.0), // Border radius
                                   ),
                                   child: DropdownButton<String>(
-                                    value: _selectedArea,
+                                    dropdownColor: colorController.whiteColor,
+                                    value: _selectedGender,
                                     onChanged: (String? newValue) {
                                       setState(() {
-                                        _selectedArea = newValue;
+                                        _selectedGender = newValue;
                                       });
                                     },
                                     hint: reusableText('Gender',
@@ -1023,7 +1086,7 @@ class _RigisterState extends State<Rigister> {
                                     icon:
                                         Icon(Icons.arrow_drop_down), // Dropdown icon
                                     underline: Container(), // Remove underline
-                                    elevation: 0,
+                                    // elevation: 0,
                                   ),
                                 ),
                                 Container(
@@ -1039,20 +1102,21 @@ class _RigisterState extends State<Rigister> {
                                         BorderRadius.circular(10.0), // Border radius
                                   ),
                                   child: DropdownButton<String>(
-                                    value: _selectedArea,
+                                    dropdownColor: colorController.whiteColor,
+                                    value: _selectedStatus,
                                     onChanged: (String? newValue) {
                                       setState(() {
-                                        _selectedArea = newValue;
+                                        _selectedStatus = newValue;
+                                        print('Status : $_selectedStatus');
                                       });
                                     },
                                     hint: reusableText('Marital Status',
                                         color: colorController.grayTextColor,
                                         fontsize: 14),
                                     items: <String>[
-                                      'Option 1',
-                                      'Option 2',
-                                      'Option 3',
-                                      'Option 4'
+                                      'Married',
+                                      'Single',
+                                      'Widowed',
                                     ].map((String value) {
                                       return DropdownMenuItem<String>(
                                         value: value,
@@ -1070,7 +1134,7 @@ class _RigisterState extends State<Rigister> {
                                     icon:
                                         Icon(Icons.arrow_drop_down), // Dropdown icon
                                     underline: Container(), // Remove underline
-                                    elevation: 0,
+                                    // elevation: 0,
                                   ),
                                 ),
                               ],
@@ -1088,7 +1152,7 @@ class _RigisterState extends State<Rigister> {
                             reusablaSizaBox(context, .02),
                             reusableBtn(context, 'Register',
                             (){
-                              signInWithGoogle();
+                              
                               _validateForm();
                             }
                             ),
@@ -1288,7 +1352,7 @@ class _RigisterState extends State<Rigister> {
               ]),
             ),
           )),
-          if(isLoading == true)
+          // if(isLoading == true)
             reusableloadingrow(context, isLoading),
         ],
       ),

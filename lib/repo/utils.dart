@@ -42,6 +42,24 @@ class Utils {
 
     }
 
+    static snakbarSuccess(BuildContext context,String message){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: colorController.yellowColor,
+        behavior: SnackBarBehavior.floating,
+        duration: Duration(seconds: 6),
+        content: reusableText(message,color: colorController.btnColor),
+      ));
+    }
+
+    static snakbarFailed(BuildContext context,String message){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: colorController.redColor,
+        behavior: SnackBarBehavior.floating,
+        duration: Duration(minutes: 10),
+        content: reusableText(message,color: colorController.whiteColor),
+      ));
+    }
+
     static toastMessageCenter(String message){
       Fluttertoast.showToast(
         msg: message ,
