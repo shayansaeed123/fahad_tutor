@@ -50,6 +50,15 @@ class _RigisterState extends State<Rigister> {
     });
   }
 
+  List<String> selectedPlacements = [];
+
+void updateTutorPlacement() {
+  selectedPlacements.clear();
+  if (checkbox1) selectedPlacements.add('Home');
+  if (checkbox2) selectedPlacements.add('Online');
+  if (checkbox3) selectedPlacements.add("At Tutor's Place");
+}
+
 
   String? _selectedCountry;
   String? _selectedCity;
@@ -113,6 +122,7 @@ class _RigisterState extends State<Rigister> {
     // _passfocusNode = FocusNode();
     // _passfocusNode.addListener(_onFocusChange);
   }
+  
 
   @override
   void dispose() {
@@ -478,6 +488,7 @@ class _RigisterState extends State<Rigister> {
       isLoading = true;
     });
     try {
+      updateTutorPlacement(); // Ensure the selected placements are updated
       final response = await http.post(
           Uri.parse('${Utils.baseUrl}mobile_app/sign_up.php'),
           body: {
@@ -499,7 +510,7 @@ class _RigisterState extends State<Rigister> {
             'onlineTeaching_experience': MySharedPrefrence().get_user_email().toString(),
             'online_Skill':reusabletextfieldcontroller.contactCon.text.toString(),
             'Biography': _biography.text.toString(),
-            'tutor_placement': _biography.text.toString(),
+            // 'tutor_placement': ,
           });
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
@@ -1340,12 +1351,30 @@ class _RigisterState extends State<Rigister> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    buildCheckboxWithTitle('Home', checkbox1),
-                                    buildCheckboxWithTitle('Online', checkbox2),
+                                    buildCheckboxWithTitle('Home', checkbox1,(){
+                                      setState(() {});
+                                      reusableMessagedialog(context, 'Placment',
+                    "You will have to visit at student's place", 'Confirm', () {
+                      setState(() {});
+                      checkbox1 = true;
+                      updateTutorPlacement();
+                      print(selectedPlacements);
+                    Navigator.pop(context);
+                    setState(() {});
+                }, () {
+                  setState(() {});
+                  checkbox1 = false;
+                  updateTutorPlacement();
+                  print(selectedPlacements);
+                  Navigator.pop(context);
+                  setState(() {});
+                });
+                                    }),
+                                    buildCheckboxWithTitle('Online', checkbox2,(){},),
                                   ],
                                 ),
                                 buildCheckboxWithTitle(
-                                    "At Tutor's Place", checkbox3),
+                                    "At Tutor's Place", checkbox3, (){},),
                                 reusablaSizaBox(context, .02),
                                 onlineVisibility(
                                   context,
@@ -1609,7 +1638,7 @@ class _RigisterState extends State<Rigister> {
     );
   }
 
-  Widget buildCheckboxWithTitle(String title, bool value) {
+  Widget buildCheckboxWithTitle(String title, bool value,Function ontap,){
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -1622,24 +1651,20 @@ class _RigisterState extends State<Rigister> {
           onChanged: (newValue) {
             setState(() {
               if (title == 'Home') {
-                checkbox1 = newValue ?? false;
-                reusableMessagedialog(context, 'Placment',
-                    "You will have to visit at student's place", 'Confirm', () {
-                  value = true;
-                  Navigator.pop(context);
-                }, () {
-                  value = false;
-                  Navigator.pop(context);
-                });
+                // checkbox1 = newValue ?? false;
+                ontap();
               } else if (title == 'Online') {
                 checkbox2 = newValue ?? false;
                 if (newValue == true) {
                   isHomeWidgetVisible = true;
+                  updateTutorPlacement();
                 } else {
+                  updateTutorPlacement();
                   isHomeWidgetVisible = false;
                 }
               } else if (title == "At Tutor's Place") {
                 checkbox3 = newValue ?? false;
+                updateTutorPlacement();
               }
             });
           },
