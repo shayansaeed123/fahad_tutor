@@ -119,12 +119,69 @@ void set_user_ID(String? userID) {
     return ''.val('user_type', getBox: preferences).val;
   }
 
-  void set_device_token(String? user_token) {
-    ''.val('device_token', getBox: preferences).val = user_token ?? '';
+  void set_share_date(String? share_date) {
+    ''.val('share_date', getBox: preferences).val = share_date ?? '';
   }
 
-  String get_device_token() {
-    return ''.val('device_token', getBox: preferences).val;
+  String get_share_date() {
+    return ''.val('share_date', getBox: preferences).val;
+  }
+
+
+  void set_tuition_name(String? tuition_name) {
+    ''.val('tuition_name', getBox: preferences).val = tuition_name ?? '';
+  }
+
+  String get_tuition_name() {
+    return ''.val('tuition_name', getBox: preferences).val;
+  }
+
+  void set_class_name(String? class_name) {
+    ''.val('class_name', getBox: preferences).val = class_name ?? '';
+  }
+
+  String get_class_name() {
+    return ''.val('class_name', getBox: preferences).val;
+  }
+
+  void set_subject(String? subject) {
+    ''.val('subject', getBox: preferences).val = subject ?? '';
+  }
+
+  String get_subject() {
+    return ''.val('subject', getBox: preferences).val;
+  }
+
+  void set_Placement(String? Placement) {
+    ''.val('Placement', getBox: preferences).val = Placement ?? '';
+  }
+
+  String get_Placement() {
+    return ''.val('Placement', getBox: preferences).val;
+  }
+
+  void set_location(String? location) {
+    ''.val('location', getBox: preferences).val = location ?? '';
+  }
+
+  String get_location() {
+    return ''.val('location', getBox: preferences).val;
+  }
+
+  void set_limit(String? limit) {
+    ''.val('limit', getBox: preferences).val = limit ?? '';
+  }
+
+  String get_limit() {
+    return ''.val('limit', getBox: preferences).val;
+  }
+
+  void set_remarks(String? remarks) {
+    ''.val('remarks', getBox: preferences).val = remarks ?? '';
+  }
+
+  String get_remarks() {
+    return ''.val('remarks', getBox: preferences).val;
   }
 
   // Future<void> setVersionName() async {

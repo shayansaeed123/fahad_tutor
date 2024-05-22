@@ -449,7 +449,13 @@ void updateTutorPlacement() {
           //   },
           // );
         } else {
-          Utils.snakbarFailed(context, 'check ${ apiMessage}');
+          InkWell(
+            onTap: (){
+              Utils.launchWhatsApp(context);
+            },
+            child: Utils.snakbarFailed(context, 'check ${ apiMessage}'),
+          );
+          
           // reusableMessagedialog(
           //   context,
           //   apiMessage,
@@ -466,8 +472,8 @@ void updateTutorPlacement() {
             print(e);
           }
           Navigator.pop(context);
-          Navigator.push(
-              context, MaterialPageRoute(builder: ((context) => Rigister())));
+          // Navigator.push(
+          //     context, MaterialPageRoute(builder: ((context) => Rigister())));
           //   },
           // );
         }
@@ -522,10 +528,14 @@ void updateTutorPlacement() {
           Navigator.pop(context);
           Navigator.push(
               context, MaterialPageRoute(builder: ((context) => NavBar())));
-          Utils.snakbar(context, apiMessage);
+          Utils.snakbarSuccess(context, apiMessage);
         } else {
-          Utils.snakbar(context, apiMessage);
-          Navigator.pop(context);
+          InkWell(
+            onTap: (){
+              Utils.launchWhatsApp(context);
+            },
+            child: Utils.snakbarFailed(context, apiMessage),
+          );
           Navigator.push(
               context, MaterialPageRoute(builder: ((context) => Rigister())));
           //   },

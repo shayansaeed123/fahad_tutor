@@ -2,6 +2,7 @@
 
 
 import 'package:fahad_tutor/controller/color_controller.dart';
+import 'package:fahad_tutor/database/MySharedPrefrence.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableappimage.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
@@ -26,20 +27,20 @@ Widget reusablecard(BuildContext context){
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          reusableText('T55708',color: colorController.grayTextColor,fontsize: 15,fontweight: FontWeight.bold),
+          reusableText('${MySharedPrefrence().get_tuition_name()}',color: colorController.grayTextColor,fontsize: 15,fontweight: FontWeight.bold),
           reusablaSizaBox(context, .005),
-          reusableText('Classes/Course: Olevel-1',color: colorController.blackColor,fontsize: 16,fontweight: FontWeight.bold),
+          reusableText('${MySharedPrefrence().get_class_name()}',color: colorController.blackColor,fontsize: 16,fontweight: FontWeight.bold),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               reusableappimage(context, .039, .05, 'assets/images/calendar_date.png'),
-              reusableText('  May-04-2024',color: colorController.blackColor,fontweight: FontWeight.bold,fontsize: 12),
+              reusableText(' ${MySharedPrefrence().get_share_date()}',color: colorController.blackColor,fontweight: FontWeight.bold,fontsize: 12),
               SizedBox(width: MediaQuery.of(context).size.width * .09,),
               reusableappimage(context, .039, .05, 'assets/images/pin_point.png'),
               Expanded(
                 child: Container(
                   height: MediaQuery.of(context).size.height * .025,
-                  child: Text('  Lorem Lipsam IdeazShuttle Loremfkgjlfdgfbgfg',softWrap: true,overflow: TextOverflow.ellipsis, style: TextStyle(color: colorController.blackColor,fontSize: 12,fontWeight: FontWeight.bold),)),
+                  child: Text(' ${MySharedPrefrence().get_location()}',softWrap: true,overflow: TextOverflow.ellipsis, style: TextStyle(color: colorController.blackColor,fontSize: 12,fontWeight: FontWeight.bold),)),
               ),
               // reusableText('  Lorem Lipsam IdeazShuttle Lorem',color: colorController.blackColor,fontweight: FontWeight.bold,fontsize: 12),
             ],
@@ -51,7 +52,7 @@ Widget reusablecard(BuildContext context){
               color: colorController.btnColor,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: reusableText('All Subjects',color: colorController.whiteColor,fontsize: 12,),
+            child: reusableText('${MySharedPrefrence().get_subject()}',color: colorController.whiteColor,fontsize: 12,),
           ),
         ],),
       ),

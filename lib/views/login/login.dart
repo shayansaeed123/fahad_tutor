@@ -124,6 +124,7 @@ class _LoginState extends State<Login> {
             }
     
     }catch(e){
+      Utils.snakbar(context, 'Check your Internet Connection');
       print('login Api Error $e');
     }finally{
       setState(() {isLoading = false;});

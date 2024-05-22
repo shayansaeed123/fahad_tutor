@@ -1,6 +1,7 @@
 
 
 import 'package:fahad_tutor/controller/color_controller.dart';
+import 'package:fahad_tutor/database/MySharedPrefrence.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusablecardbtn.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
@@ -9,15 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 reusabletutorDetails(BuildContext context, 
-// String titletxt, String contenttxt,
-    // String btntxt, Function btnontap
+String details,
     ) {
   return showDialog(
     
     context: context,
     builder: (context) => AlertDialog(
         backgroundColor: colorController.whiteColor,
-        title: Center(child: reusableText('Class/Course: ',color: colorController.blackColor,fontsize: 17,fontweight: FontWeight.bold)),
+        title: Center(child: reusableText('${MySharedPrefrence().get_class_name()}',color: colorController.blackColor,fontsize: 17,fontweight: FontWeight.bold)),
         content: Container(
            width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height  * .5,
@@ -27,7 +27,7 @@ reusabletutorDetails(BuildContext context,
                 opacity: 0.2,
                 child: Center(child: Positioned(child: Image.asset('assets/images/logo_1.png')))),
               Positioned(child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    // mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
@@ -35,7 +35,7 @@ reusabletutorDetails(BuildContext context,
                         children: [
                           Row(children: [Padding(
                         padding: const EdgeInsets.all(0.0),
-                        child: reusableText('T55708 ',color: colorController.grayTextColor,fontsize: 15),
+                        child: reusableText('${MySharedPrefrence().get_tuition_name()} ',color: colorController.grayTextColor,fontsize: 15),
                       ),],),
                       Expanded(
                         child: Row(
@@ -48,45 +48,24 @@ reusabletutorDetails(BuildContext context,
                       ),
                       Padding(
                         padding: const EdgeInsets.all(5.0),
-                        child: reusablecardbtn(context, 'All Subject', colorController.btnColor, colorController.whiteColor,),
+                        child: reusablecardbtn(context, '${MySharedPrefrence().get_subject()}', colorController.btnColor, colorController.whiteColor,),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(5.0),
-                        child: reusableText('May-04-2024',color: colorController.blackColor,fontsize: 13.7),
+                        child: reusableText('${MySharedPrefrence().get_share_date()}',color: colorController.blackColor,fontsize: 13.7),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(5.0),
-                        child: reusableText('Lorem Lipsam IdeazShuttle Loremfkgjlfdgfbgfg',color: colorController.blackColor,fontsize: 13.7),
+                        child: reusableText('${MySharedPrefrence().get_location()}',color: colorController.blackColor,fontsize: 13.7),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal:  5.0,vertical: 7.0),
                         child: reusableText('Details',color: colorController.blackColor,fontsize: 14.2),
                       ),
-                      reusableText('City : ',color: colorController.grayTextColor,fontsize: 13.7),
-                      reusableText('Area : ',color: colorController.grayTextColor,fontsize: 13.7),
-                      reusableText('Home Address : ',color: colorController.grayTextColor,fontsize: 13.7),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 7.0),
-                        child: reusableText('Home-Tuition',color: colorController.grayTextColor,fontsize: 13.7),
+                        padding: const EdgeInsets.only(left: 5.0),
+                        child: reusableText(details,color: colorController.grayTextColor,fontsize: 13.7),
                       ),
-                      reusableText('Addresss',color: colorController.grayTextColor,fontsize: 13.7),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(5.0),
-                      //   child: reusableText('Password : ',color: colorController.grayTextColor,fontsize: 13.7),
-                      // ),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(5.0),
-                      //   child: reusableText('Religion : ',color: colorController.grayTextColor,fontsize: 13.7),
-                      // ),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(5.0),
-                      //   child: reusableText('Last Registration : ',color: colorController.grayTextColor,fontsize: 13.7),
-                      // ),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(5.0),
-                      //   child: reusableText('Tutor ID : ',color: colorController.grayTextColor,fontsize: 13.7),
-                      // ),
-                      // reusableText('If you want to update your basic details, email your details ',color: colorController.homeTxtColor,fontsize: 13.7,fontweight: FontWeight.bold),
                     ],
                   ),
                 ),
@@ -94,7 +73,7 @@ reusabletutorDetails(BuildContext context,
           ),
         ),
         actions: [
-          Center(child: reusableText('You can attemptfor three tuitions in 24 hours.',color: colorController.blackColor)),
+          Center(child: reusableText('${MySharedPrefrence().get_limit()}',color: colorController.blackColor)),
           SizedBox(width: MediaQuery.of(context).size.width * .010,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
