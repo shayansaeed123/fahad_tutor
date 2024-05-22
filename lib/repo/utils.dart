@@ -57,7 +57,7 @@ class Utils {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: colorController.redColor,
         behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: 10),
+        duration: Duration(seconds: 6),
         content: reusableText(message,color: colorController.whiteColor),
       ));
     }

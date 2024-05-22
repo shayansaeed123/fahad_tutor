@@ -1,6 +1,7 @@
 
 
 import 'package:fahad_tutor/controller/color_controller.dart';
+import 'package:fahad_tutor/database/MySharedPrefrence.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusabledailog.dart';
@@ -24,6 +25,22 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+                String formattedInfo = "";
+  String formatInfo(String info) {
+    return info.replaceAll(',', '\n');
+  }
+  void _launchEmail(String email) async {
+    final Uri emailUri = Uri(
+      scheme: 'mailto',
+      path: email,
+    );
+    if (await canLaunchUrl(emailUri)) {
+      await launchUrl(emailUri);
+    } else {
+      throw 'Could not launch $emailUri';
+    }
+  }
+       
   @override
   Widget build(BuildContext context) {
     return reusableprofileidget(
@@ -45,9 +62,6 @@ class _ProfileState extends State<Profile> {
                                     MediaQuery.of(context).size.width * 0.15,
                         backgroundColor: Colors.white,
                         child: 
-                        // Padding(
-                        //   padding: EdgeInsets.all(1),
-                          // child: 
                           InkWell(
                             onTap: () {
                             },
@@ -68,7 +82,7 @@ class _ProfileState extends State<Profile> {
                           // ),
                         ),
                       ),
-                      reusableText('user name',color: colorController.blackColor,fontsize: 14,),
+                      reusableText('${MySharedPrefrence().get_tutor_name()}',color: colorController.blackColor,fontsize: 14,),
                   ],
                 )
               ],
@@ -77,7 +91,7 @@ class _ProfileState extends State<Profile> {
             
                       reusablaSizaBox(context, .01),
             reusablelisttile(context,(){
-              reusableprofileInfoDialog(context);
+              reusableprofileInfoDialog(context,'${formatInfo(MySharedPrefrence().get_info())}',() => _launchEmail("info@fahadtutors.com"),);
             },'assets/images/basic_info_icon.png','Basic Info',),
             reusablelisttile(context,(){},'assets/images/qual_pref_icon.png','Qulification and Preferences',),
             reusablelisttile(context,(){},'assets/images/doc_attach_icon.png','Document Attachment',),

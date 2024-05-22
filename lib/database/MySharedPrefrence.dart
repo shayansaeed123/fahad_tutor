@@ -38,20 +38,28 @@ class MySharedPrefrence {
   }
 
 
-  String get_versioncode() {
-    return ''.val('version_code', getBox: preferences).val;
+  String get_info() {
+    return ''.val('info', getBox: preferences).val;
   }
 
-  void set_versioncode(String? version_code) {
-    ''.val('version_code', getBox: preferences).val = version_code ?? '';
+  void set_info(String? info) {
+    ''.val('info', getBox: preferences).val = info ?? '';
   }
 
-void set_baseUrl(String? baseUrl) {
-    ''.val('basrUrl', getBox: preferences).val = baseUrl ?? '';
+void set_user_ID(String? userID) {
+    ''.val('userID', getBox: preferences).val = userID ?? '';
   }
 
-  String get_baseUrl() {
-    return ''.val('basrUrl', getBox: preferences).val;
+  String get_user_ID() {
+    return ''.val('userID', getBox: preferences).val;
+  }
+
+  void set_tutor_name(String? tutorName) {
+    ''.val('tutorName', getBox: preferences).val = tutorName ?? '';
+  }
+
+  String get_tutor_name() {
+    return ''.val('tutorName', getBox: preferences).val;
   }
 
 

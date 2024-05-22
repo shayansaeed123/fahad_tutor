@@ -64,7 +64,7 @@ class _LoginState extends State<Login> {
     });
   }
 
-  
+
    void _validateForm() {
      if (reusabletextfieldcontroller.emailCon.text.isNotEmpty && reusabletextfieldcontroller.passCon.text.isNotEmpty 
                         ) {
@@ -102,9 +102,13 @@ class _LoginState extends State<Login> {
                   print('response $responseData');
               String apiMessage = responseData['message'];
               print('message $apiMessage');
+              MySharedPrefrence().set_user_ID(responseData['ID']);
+              MySharedPrefrence().set_tutor_name(responseData['teacher_name']);
               if (responseData['success'] == 1) {
                 print('Shayan');
                 print('response:' + response.body);
+                print('Tutor ID ${MySharedPrefrence().get_user_ID()}');
+                basicInfo();
                 // Navigator.pop(context);
                 setState(() {
                   
@@ -112,16 +116,6 @@ class _LoginState extends State<Login> {
                     Navigator.push(context,
                         MaterialPageRoute(builder: ((context) => NavBar())));
                         Utils.snakbarSuccess(context, apiMessage);
-                // reusableMessagedialog(
-                //   context,
-                //   apiMessage,
-                //   'OK',
-                //   () async{
-                //     setState(() {
-                //       isLoading = false;
-                //     });
-                //   },
-                // );
               } else {
                 Utils.snakbarFailed(context, apiMessage);
               }
@@ -131,6 +125,31 @@ class _LoginState extends State<Login> {
     
     }catch(e){
       print('login Api Error $e');
+    }finally{
+      setState(() {isLoading = false;});
+    }
+  }
+
+  Future<void> basicInfo()async{
+    setState(() {
+      isLoading = true;
+    });
+    try{
+      final response = await http.post(
+      Uri.parse('${Utils.baseUrl}mobile_app/step_1.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
+    );
+    if (response.statusCode == 200) {
+              final Map<String, dynamic> responseData =
+                  json.decode(response.body);
+              MySharedPrefrence().set_info(responseData['info']);
+              print('basic Info ${MySharedPrefrence().get_info()}');
+              setState(() {});
+            } else {
+              print('Error2: ' + response.statusCode.toString());
+            }
+    
+    }catch(e){
+      print('Data Not Load $e');
     }finally{
       setState(() {isLoading = false;});
     }

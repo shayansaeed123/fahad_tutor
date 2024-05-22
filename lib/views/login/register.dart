@@ -119,8 +119,6 @@ void updateTutorPlacement() {
     _religionfocusNode.addListener(_onFocusChange);
     _homefocusNode = FocusNode();
     _homefocusNode.addListener(_onFocusChange);
-    // _passfocusNode = FocusNode();
-    // _passfocusNode.addListener(_onFocusChange);
   }
   
 
@@ -253,10 +251,10 @@ void updateTutorPlacement() {
         // You can now use the email variable
       }
       MySharedPrefrence().set_user_name(user!.displayName);
-      MySharedPrefrence().setUserLoginStatus(true);
-      MySharedPrefrence().set_user_email(user!.email);
+      // MySharedPrefrence().setUserLoginStatus(true);
+      MySharedPrefrence().set_user_email(user.email);
       print(MySharedPrefrence().get_user_name());
-      print(MySharedPrefrence().getUserLoginStatus());
+      // print(MySharedPrefrence().getUserLoginStatus());
       print(MySharedPrefrence().get_user_email());
       checkAccount();
       // Navigator.push(context,
@@ -410,25 +408,24 @@ void updateTutorPlacement() {
     });
     try {
       final response = await http.post(
-          Uri.parse('${Utils.baseUrl}mobile_app/acoount_check.php'),
+          Uri.parse('https://fahadtutors.com/mobile_app/acoount_check.php'),
           body: {
-            'contact_number':
-                reusabletextfieldcontroller.contactCon.text.toString(),
+            'contact_number':reusabletextfieldcontroller.contactCon.text.toString(),
             'cnic': reusabletextfieldcontroller.cnicCon.text.toString(),
-            'alternate_number':
-                reusabletextfieldcontroller.alterContactCon.text.toString(),
+            'alternate_number':reusabletextfieldcontroller.alterContactCon.text.toString(),
             'email': MySharedPrefrence().get_user_email().toString(),
           });
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
         String apiMessage = responseData['message'];
-        String number = responseData['number'];
-        if (responseData['success'] == '1') {
+        // String number = responseData['number'];
+        if (responseData['success'] == 1) {
           print('response:' + response.body);
-          Navigator.pop(context);
-          Navigator.push(
-              context, MaterialPageRoute(builder: ((context) => NavBar())));
-          Utils.snakbar(context, apiMessage);
+          // Navigator.pop(context);
+          // Navigator.push(
+          //     context, MaterialPageRoute(builder: ((context) => NavBar())));
+          // signUpApi();
+          // Utils.snakbarSuccess(context, apiMessage);
           // reusableMessagedialog(
           //   context,
           //   apiMessage,
@@ -445,11 +442,14 @@ void updateTutorPlacement() {
           } catch (e) {
             print(e);
           }
+          setState(() {
+            signUpApi();
+          });
           // }
           //   },
           // );
         } else {
-          Utils.snakbar(context, apiMessage);
+          Utils.snakbarFailed(context, 'check ${ apiMessage}');
           // reusableMessagedialog(
           //   context,
           //   apiMessage,
@@ -475,7 +475,7 @@ void updateTutorPlacement() {
         print('Error2: ' + response.statusCode.toString());
       }
     } catch (e) {
-      print(e);
+      print('heloooo $e');
     } finally {
       setState(() {
         isLoading = false;
@@ -489,6 +489,7 @@ void updateTutorPlacement() {
     });
     try {
       updateTutorPlacement(); // Ensure the selected placements are updated
+      print('check email ${MySharedPrefrence().get_user_email()}');
       final response = await http.post(
           Uri.parse('${Utils.baseUrl}mobile_app/sign_up.php'),
           body: {
@@ -506,58 +507,24 @@ void updateTutorPlacement() {
             'area_id': areaId.toString(),
             'home_address':reusabletextfieldcontroller.addressCon.text.toString(),
             'date_of_birth': selectedTime.toString(),
-            'DigitalPad':reusabletextfieldcontroller.alterContactCon.text.toString(),
-            'onlineTeaching_experience': MySharedPrefrence().get_user_email().toString(),
-            'online_Skill':reusabletextfieldcontroller.contactCon.text.toString(),
+            'DigitalPad':_selectedValue1.toString(),
+            'onlineTeaching_experience': _selectedValue2.toString(),
+            'online_Skill':'',
             'Biography': _biography.text.toString(),
-            // 'tutor_placement': ,
+            'tutor_placement': jsonEncode(selectedPlacements),
           });
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
         String apiMessage = responseData['message'];
-        String number = responseData['number'];
-        if (responseData['success'] == '1') {
+        // String number = responseData['number'];
+        if (responseData['success'] == 1) {
           print('response:' + response.body);
           Navigator.pop(context);
           Navigator.push(
               context, MaterialPageRoute(builder: ((context) => NavBar())));
           Utils.snakbar(context, apiMessage);
-          // reusableMessagedialog(
-          //   context,
-          //   apiMessage,
-          //   'OK',
-          //   () async{
-          //     setState(() {
-          //       isLoading = false;
-          //     });
-          //                 Future<void> _signOut() async {
-          try {
-            await _googleSignIn.signOut();
-            await _auth.signOut();
-            print('User signed out');
-          } catch (e) {
-            print(e);
-          }
-          // }
-          //   },
-          // );
         } else {
           Utils.snakbar(context, apiMessage);
-          // reusableMessagedialog(
-          //   context,
-          //   apiMessage,
-          //   'OK',
-          //   ()async {
-          //     setState(() {
-          //       isLoading = false;
-          //     });
-          try {
-            await _googleSignIn.signOut();
-            await _auth.signOut();
-            print('User signed out');
-          } catch (e) {
-            print(e);
-          }
           Navigator.pop(context);
           Navigator.push(
               context, MaterialPageRoute(builder: ((context) => Rigister())));
@@ -1388,6 +1355,7 @@ void updateTutorPlacement() {
                                     // onChanged function
                                     setState(() {
                                       _selectedValue1 = value!;
+                                      print('digitalPad $_selectedValue1');
                                     });
                                   },
                                     'Yes',
@@ -1400,6 +1368,7 @@ void updateTutorPlacement() {
                                     // onChanged function
                                     setState(() {
                                       _selectedValue2 = value!;
+                                      print('Experience $_selectedValue2');
                                     });
                                   },
                                   _biography,
@@ -1658,13 +1627,16 @@ void updateTutorPlacement() {
                 if (newValue == true) {
                   isHomeWidgetVisible = true;
                   updateTutorPlacement();
+                   print(selectedPlacements);
                 } else {
                   updateTutorPlacement();
+                   print(selectedPlacements);
                   isHomeWidgetVisible = false;
                 }
               } else if (title == "At Tutor's Place") {
                 checkbox3 = newValue ?? false;
                 updateTutorPlacement();
+                 print(selectedPlacements);
               }
             });
           },
