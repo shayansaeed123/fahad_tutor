@@ -1,8 +1,8 @@
 
 
 import 'package:fahad_tutor/controller/color_controller.dart';
-import 'package:fahad_tutor/database/MySharedPrefrence.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
+import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusablecardbtn.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,12 +11,20 @@ import 'package:flutter/widgets.dart';
 
 reusabletutorDetails(BuildContext context, 
 String details,
+String class_name,
+String tuition_name,
+String Placement,
+int job,
+String subject,
+String share_date,
+String location,
+String limit,
     ) {
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
         backgroundColor: colorController.whiteColor,
-        title: Center(child: reusableText('${MySharedPrefrence().get_class_name()}',color: colorController.blackColor,fontsize: 17,fontweight: FontWeight.bold)),
+        title: Center(child: reusableText('${class_name}',color: colorController.blackColor,fontsize: 17,fontweight: FontWeight.bold)),
         content: Container(
            width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height  * .5,
@@ -36,28 +44,28 @@ String details,
                           children: [
                             Row(children: [Padding(
                           padding: const EdgeInsets.all(0.0),
-                          child: reusableText('${MySharedPrefrence().get_tuition_name()} ',color: colorController.grayTextColor,fontsize: 15),
+                          child: reusableText('${tuition_name} ',color: colorController.grayTextColor,fontsize: 15),
                         ),],),
                         Expanded(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
-                            children: [reusablecardbtn(context, '${MySharedPrefrence().get_Placement()}', colorController.btnColor, colorController.whiteColor,width: 0.030),
+                            children: [reusablecardbtn(context, '${Placement}', colorController.btnColor, colorController.whiteColor,width: 0.030),
                             SizedBox(width: MediaQuery.of(context).size.width * 0.010,),
-                          reusablecardbtn(context, MySharedPrefrence().get_job() == 0 ? 'Open' : 'Closed', MySharedPrefrence().get_job() == 0 ? colorController.yellowColor : colorController.redColor, MySharedPrefrence().get_job() == 0 ? colorController.blackColor : colorController.whiteColor,width: 0.030),],),
+                          reusablecardbtn(context, job == 0 ? 'Open' : 'Closed', job == 0 ? colorController.yellowColor : colorController.redColor, job == 0 ? colorController.blackColor : colorController.whiteColor,width: 0.030),],),
                         )
                           ],
                         ),
                         Padding(
                           padding: const EdgeInsets.all(5.0),
-                          child: reusablecardbtn(context, '${MySharedPrefrence().get_subject()}', colorController.btnColor, colorController.whiteColor,),
+                          child: reusablecardbtn(context, '${subject}', colorController.btnColor, colorController.whiteColor,),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(5.0),
-                          child: reusableText('${MySharedPrefrence().get_share_date()}',color: colorController.blackColor,fontsize: 13.7),
+                          child: reusableText('${share_date}',color: colorController.blackColor,fontsize: 13.7),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(5.0),
-                          child: reusableText('${MySharedPrefrence().get_location()}',color: colorController.blackColor,fontsize: 13.7),
+                          child: reusableText('${location}',color: colorController.blackColor,fontsize: 13.7),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal:  5.0,vertical: 7.0),
@@ -75,12 +83,12 @@ String details,
           ),
         ),
         actions: [
-          Center(child: reusableText('${MySharedPrefrence().get_limit()}',color: colorController.blackColor)),
+          Center(child: reusableText('${limit}',color: colorController.blackColor)),
           SizedBox(width: MediaQuery.of(context).size.width * .010,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ElevatedButton(
+              job == 0 ? ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateColor.resolveWith((states) =>  colorController.btnColor),
                 ),
@@ -88,9 +96,11 @@ String details,
                   // btnontap();
                   Navigator.pop(context);
                 },
-                child: MySharedPrefrence().get_job() == 0 ? reusableText('Apply',color: colorController.whiteColor) : Container(),
-              ),
-              ElevatedButton(
+                child: reusableText('Apply',color: colorController.whiteColor),
+              ) : Visibility(
+                visible: true,
+                child: Container()),
+             job == 0 ? ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateColor.resolveWith((states) =>  colorController.grayTextColor),
                 ),
@@ -99,8 +109,8 @@ String details,
                   Navigator.pop(context);
                 },
                 child: reusableText( 'Close',color: colorController.whiteColor,)
-              ),
-            ],
+              ) : Expanded(child: reusableBtn(context, 'Close', (){Navigator.pop(context);})),
+            ]
           ),
           reusablaSizaBox(context, .01)
         ],

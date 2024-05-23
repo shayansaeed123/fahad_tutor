@@ -1,6 +1,7 @@
 
 
 
+import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableappimage.dart';
 import 'package:fahad_tutor/views/profile/profile.dart';
@@ -11,12 +12,12 @@ import 'package:flutter/widgets.dart';
 reusableappbar(BuildContext context,Color color){
   return AppBar(
         elevation: 0.0,
-        foregroundColor: Colors.transparent,
-        backgroundColor: Colors.transparent,
+        foregroundColor: colorController.whiteColor,
+        backgroundColor: colorController.whiteColor,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            reusableappimage(context, .10, .04, 'assets/images/coin_icon.png'),
+            reusableappimage(context, .10, .035, 'assets/images/coin_icon.png'),
             // Image.asset(
             // width: MediaQuery.of(context).size.width * .10,
             // height: MediaQuery.of(context).size.height * .04,
@@ -27,7 +28,7 @@ reusableappbar(BuildContext context,Color color){
             AnimatedContainer(
               duration: Duration(seconds: 1),
               width: MediaQuery.of(context).size.width * .4,
-            height: MediaQuery.of(context).size.height * .035,
+            height: MediaQuery.of(context).size.height * .028,
             decoration: BoxDecoration(
               color: color,
               borderRadius: BorderRadius.circular(16.0),
@@ -53,7 +54,7 @@ reusableappbar(BuildContext context,Color color){
         ),
         // Icon(CupertinoIcons.circle_filled,color: colorController.blackColor,size: 40,),
         actions: [
-          reusableappimage(context, .115, .1, 'assets/images/not_icon.png'),
+          reusableappimage(context, .115, .075, 'assets/images/not_icon.png'),
           // Icon(CupertinoIcons.bell_circle_fill,color: colorController.yellowColor,size: 40,),
           // Image.asset(
           //   width: MediaQuery.of(context).size.width * .115,

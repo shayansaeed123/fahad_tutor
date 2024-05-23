@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/controller/text_field_controller.dart';
-import 'package:fahad_tutor/database/MySharedPrefrence.dart';
+import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableTextField.dart';
@@ -110,6 +110,7 @@ class _LoginState extends State<Login> {
               MySharedPrefrence().set_tutor_name(responseData['teacher_name']);
               setState(() {});
                 print('Tutor ID ${MySharedPrefrence().get_user_ID()}');
+                print('tutor status ${MySharedPrefrence().getUserLoginStatus()}');
                 basicInfo();
                 // Navigator.pop(context);
                 setState(() {

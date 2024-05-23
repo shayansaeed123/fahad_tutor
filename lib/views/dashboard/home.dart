@@ -3,7 +3,6 @@
 import 'dart:async';
 
 import 'package:fahad_tutor/controller/color_controller.dart';
-import 'package:fahad_tutor/database/MySharedPrefrence.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableappbar.dart';
 import 'package:fahad_tutor/res/reusablecard.dart';
@@ -113,7 +112,9 @@ Widget build(BuildContext context) {
                               left: MediaQuery.of(context).size.width * 0.001,
                                               right: MediaQuery.of(context).size.width * .001,
                               child: InkWell(
-                                onTap: (){reusabletutorDetails(context,formatInfo(MySharedPrefrence().get_remarks()));},
+                                onTap: (){
+                                  // reusabletutorDetails(context,formatInfo(MySharedPrefrence().get_remarks()));
+                                },
                                 child: reusablecard(context)),
                               ),
                               Positioned(
@@ -121,14 +122,18 @@ Widget build(BuildContext context) {
                                               top: MediaQuery.of(context).size.height * 0.005,
                                               right: MediaQuery.of(context).size.width * .27,
                                               child: InkWell(
-                                                onTap: (){reusabletutorDetails(context,formatInfo(MySharedPrefrence().get_remarks()));},
+                                                onTap: (){
+                                                  // reusabletutorDetails(context,formatInfo(MySharedPrefrence().get_remarks()));
+                                                  },
                                                 child: reusablecardbtn(context, 'Home', colorController.btnColor, colorController.whiteColor))),
                                               Positioned(
                                               left: MediaQuery.of(context).size.width * 0.72,
                                               top: MediaQuery.of(context).size.height * 0.005,
                                               right: MediaQuery.of(context).size.width * .03,
                                               child: InkWell(
-                                                onTap: (){reusabletutorDetails(context,formatInfo(MySharedPrefrence().get_remarks()));},
+                                                onTap: (){
+                                                  // reusabletutorDetails(context,formatInfo(MySharedPrefrence().get_remarks()));
+                                                  },
                                                 child: reusablecardbtn(context, 'Open', colorController.yellowColor, colorController.blackColor))),
                           ],
                                                   // );

@@ -485,7 +485,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:fahad_tutor/controller/color_controller.dart';
-import 'package:fahad_tutor/database/MySharedPrefrence.dart';
+import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/repo/check_connectivity.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
@@ -649,15 +649,24 @@ class _AllTuitionsState extends State<AllTuitions> {
                         itemBuilder: (context, index) {
                           if (index < tuitions.length) {
                             var data = tuitions[index];
-                            MySharedPrefrence().set_share_date(data['share_date']);
-                            MySharedPrefrence().set_tuition_name(data['tuition_name']);
-                            MySharedPrefrence().set_class_name(data['class_name']);
-                            MySharedPrefrence().set_subject(data['subject']);
-                            MySharedPrefrence().set_Placement(data['Placement']);
-                            MySharedPrefrence().set_location(data['location']);
-                            MySharedPrefrence().set_limit(data['limit_statement']);
-                            MySharedPrefrence().set_remarks(data['remarks']);
-                            MySharedPrefrence().set_job(data['job_closed']);
+                            String remarks = data['remarks'];
+                            String class_name = data['class_name'];
+                            String tuition_name = data['tuition_name'];
+                            String Placement = data['Placement'];
+                            int job = data['job_closed'];
+                            String subject = data['subject'];
+                            String share_date = data['share_date'];
+                            String location = data['location'];
+                            String limit = data['limit_statement'];
+                          //  MySharedPrefrence().set_share_date(data['share_date']);
+                          //   MySharedPrefrence().set_tuition_name(data['tuition_name']);
+                          //   MySharedPrefrence().set_class_name(data['class_name']);
+                          //   MySharedPrefrence().set_subject(data['subject']);
+                          //   MySharedPrefrence().set_Placement(data['Placement']);
+                          //   MySharedPrefrence().set_location(data['location']);
+                          //   MySharedPrefrence().set_limit(data['limit_statement']);
+                          //   MySharedPrefrence().set_remarks(data['remarks']);
+                          //   MySharedPrefrence().set_job(data['job_closed']);
                             return Container(
                               height: MediaQuery.of(context).size.height * 0.19,
                               child: Stack(
@@ -669,9 +678,16 @@ class _AllTuitionsState extends State<AllTuitions> {
                                     child: InkWell(
                                         onTap: () {
                                           reusabletutorDetails(
-                                              context,
-                                              formatInfo(MySharedPrefrence()
-                                                  .get_remarks()));
+                                              context,formatInfo(remarks),
+                                              class_name,
+                                              tuition_name,
+                                              Placement,
+                                              job,
+                                              subject,
+                                              share_date,
+                                              location,
+                                              limit,
+                                                  );
                                         },
                                         child: reusablecard(context)),
                                   ),
@@ -682,13 +698,20 @@ class _AllTuitionsState extends State<AllTuitions> {
                                       child: InkWell(
                                           onTap: () {
                                             reusabletutorDetails(
-                                                context,
-                                                formatInfo(MySharedPrefrence()
-                                                    .get_remarks()));
+                                                context,formatInfo(remarks),
+                                              class_name,
+                                              tuition_name,
+                                              Placement,
+                                              job,
+                                              subject,
+                                              share_date,
+                                              location,
+                                              limit,
+                                                );
                                           },
                                           child: reusablecardbtn(
                                               context,
-                                              '${MySharedPrefrence().get_Placement()}',
+                                              '${Placement}',
                                               colorController.btnColor,
                                               colorController.whiteColor))),
                                   Positioned(
@@ -698,11 +721,18 @@ class _AllTuitionsState extends State<AllTuitions> {
                                       child: InkWell(
                                           onTap: () {
                                             reusabletutorDetails(
-                                                context,
-                                                formatInfo(MySharedPrefrence()
-                                                    .get_remarks()));
+                                                context,formatInfo(remarks),
+                                              class_name,
+                                              tuition_name,
+                                              Placement,
+                                              job,
+                                              subject,
+                                              share_date,
+                                              location,
+                                              limit,
+                                                );
                                           },
-                                          child: reusablecardbtn(context, MySharedPrefrence().get_job() == 0 ? 'Open' : 'Closed', MySharedPrefrence().get_job() == 0 ? colorController.yellowColor : colorController.redColor, MySharedPrefrence().get_job() == 0 ? colorController.blackColor : colorController.whiteColor))),
+                                          child: reusablecardbtn(context, job == 0 ? 'Open' : 'Closed', job == 0 ? colorController.yellowColor : colorController.redColor, job == 0 ? colorController.blackColor : colorController.whiteColor))),
                                 ],
                               ),
                             );

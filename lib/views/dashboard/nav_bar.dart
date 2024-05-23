@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/controller/navigation_controller.dart';
-import 'package:fahad_tutor/database/MySharedPrefrence.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/views/dashboard/all_tuitions.dart';
 import 'package:fahad_tutor/views/dashboard/home.dart';

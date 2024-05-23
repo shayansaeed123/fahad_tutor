@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:fahad_tutor/database/MySharedPrefrence.dart';
+
+import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/views/dashboard/nav_bar.dart';
 import 'package:fahad_tutor/views/login/login.dart';
 import 'package:flutter/material.dart';
@@ -14,20 +15,6 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   bool _isLoggedIn = false;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    // Future.delayed(Duration(seconds: 3), () {
-    //   Navigator.push(
-    //       context,
-    //       MaterialPageRoute(
-    //         builder: (context) => WillPopScope(onWillPop: () async => false, child: Login()),
-    //       ));
-    // });
-    checkLoginStatus();
-  }
 
   Future<void> checkLoginStatus() async {
     bool isLoggedIn = await MySharedPrefrence().getUserLoginStatus();
@@ -41,6 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> navigateToScreen() async {
     print('tutor ID ${MySharedPrefrence().get_user_ID()}');
+    print('tutor status ${MySharedPrefrence().getUserLoginStatus()}');
     if (MySharedPrefrence().get_user_ID() != '') {
       Navigator.push(
         context,
@@ -56,6 +44,13 @@ class _SplashScreenState extends State<SplashScreen> {
                 WillPopScope(onWillPop: () async => false, child: Login())),
       );
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checkLoginStatus();
   }
 
   @override

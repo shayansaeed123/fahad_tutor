@@ -2,7 +2,7 @@
 
 
 import 'package:fahad_tutor/controller/color_controller.dart';
-import 'package:fahad_tutor/database/MySharedPrefrence.dart';
+import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableappimage.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';

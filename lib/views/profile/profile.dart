@@ -1,7 +1,7 @@
 
 
 import 'package:fahad_tutor/controller/color_controller.dart';
-import 'package:fahad_tutor/database/MySharedPrefrence.dart';
+import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusabledailog.dart';
@@ -136,7 +136,9 @@ class _ProfileState extends State<Profile> {
               ]
             ),
             reusablaSizaBox(context, .05),
-            reusableBtn(context, 'Logout',(){}),
+            reusableBtn(context, 'Logout',(){
+              MySharedPrefrence().logout();
+            }),
             reusablaSizaBox(context, .05),
           ],
         ),

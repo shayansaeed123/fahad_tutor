@@ -27,8 +27,6 @@ class MySharedPrefrence {
   }
 
 
-
-
   String get_user_loginstatus() {
     return ''.val('login_status', getBox: preferences).val;
   }
