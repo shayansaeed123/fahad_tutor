@@ -516,7 +516,7 @@ class _AllTuitionsState extends State<AllTuitions> {
   bool visible = true;
   bool showLoadMoreButton = false;
   bool hasMoreData = true;
-  int start = 1;
+  int start = 0;
   final int limit = 10;
   final ScrollController _scrollController = ScrollController();
   final Color _color = colorController.yellowColor; // Initial color
