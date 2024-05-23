@@ -486,6 +486,7 @@ import 'dart:convert';
 
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/database/MySharedPrefrence.dart';
+import 'package:fahad_tutor/repo/check_connectivity.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableappbar.dart';
@@ -641,10 +642,12 @@ class _AllTuitionsState extends State<AllTuitions> {
                     });
                   }, visible),
                   reusablaSizaBox(context, .025),
-                  StreamBuilder<ConnectivityResult>(
+                  StreamBuilder(
                     stream: connectivity.onConnectivityChanged,
                     builder: (context, snapshot) {
-                      return Expanded(
+                      return checkConnection(
+                        snapshot,
+                        Expanded(
                         child: ListView.builder(
                           controller: _scrollController,
                           itemCount: tuitions.length + (isLoading ? 1 : 0),
@@ -716,6 +719,7 @@ class _AllTuitionsState extends State<AllTuitions> {
                             }
                           },
                         ),
+                      )
                       );
                     }
                   ),
