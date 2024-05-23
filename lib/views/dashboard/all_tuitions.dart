@@ -243,33 +243,33 @@
 // //                 );
 // //                 }
 // //                 else{
-// //                   return Padding(
-// //                     padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .32,
-// //                     vertical: MediaQuery.of(context).size.height * .03
-// //                     ),
-// //                     child: Center(child: CircularProgressIndicator()),
-// //                     // reusableBtn(context, 'Load More', (){
-// //                     //   // loadMoreTuitions();
-// //                     // }),
-// //                   );
-// //                 }
-// //               },
-// //             );
-// //           } else {
-// //             return Center(
-// //               child: Text('No Tuitions Found'),
-// //             );
-// //           }
-// //         },
-// //       ),
-// //             ),
-// //             // reusablecard(context),
-// //           ],),
-// //         ),
-// //       ),
-// //     );
-// //   }
-// // }
+                  // return Padding(
+                  //   padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .32,
+                  //   vertical: MediaQuery.of(context).size.height * .03
+                  //   ),
+                  //   child: Center(child: CircularProgressIndicator()),
+                  //   // reusableBtn(context, 'Load More', (){
+                  //   //   // loadMoreTuitions();
+                  //   // }),
+                  // );
+//                 }
+//               },
+//             );
+//           } else {
+//             return Center(
+//               child: Text('No Tuitions Found'),
+//             );
+//           }
+//         },
+//       ),
+//             ),
+//             // reusablecard(context),
+//           ],),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 
 // import 'dart:async';
@@ -514,8 +514,9 @@ class _AllTuitionsState extends State<AllTuitions> {
   List<dynamic> tuitions = [];
   bool isLoading = false;
   bool visible = true;
+  bool showLoadMoreButton = false;
   bool hasMoreData = true;
-  int start = 10;
+  int start = 1;
   final int limit = 10;
   final ScrollController _scrollController = ScrollController();
   final Color _color = colorController.yellowColor; // Initial color
@@ -528,17 +529,17 @@ class _AllTuitionsState extends State<AllTuitions> {
     _scrollController.addListener(_scrollListener);
   }
 
-  Future<void> _scrollListener() async {
+  void _scrollListener() {
     if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent && !isLoading) {
-          setState(() {
-      hasMoreData = true;
-    });
-          start += limit;
-      fetchTuitions();
+            _scrollController.position.maxScrollExtent &&
+        !isLoading) {
       setState(() {
-      hasMoreData = true;
-    });
+        showLoadMoreButton = true;
+      });
+      start += limit;
+      setState(() {
+        showLoadMoreButton = true;
+      });
     }
   }
 
@@ -546,13 +547,12 @@ class _AllTuitionsState extends State<AllTuitions> {
     // if (isLoading || !hasMoreData) return;
     setState(() {
       isLoading = true;
+      showLoadMoreButton = false;
     });
-    print('object');
     try {
       String url =
           '${Utils.baseUrl}mobile_app/tuitions.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=${limit}';
       final response = await http.get(Uri.parse(url));
-      print(url);
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
         List<dynamic> newItems = responseData['tuition_listing'];
@@ -560,9 +560,7 @@ class _AllTuitionsState extends State<AllTuitions> {
           // if (newItems.length < limit) {
           //   hasMoreData = false;
           // }
-          // print(responseData);
           tuitions.addAll(newItems);
-          // print(tuitions);
           
         });
       } else {
@@ -590,86 +588,97 @@ class _AllTuitionsState extends State<AllTuitions> {
         child: Padding(
           padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * .032),
-          child: 
-          // Stack(
-          //   children: [
-              Column(
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      reusableText('All Tuitions',
-                          fontsize: 25,
-                          color: colorController.blackColor,
-                          fontweight: FontWeight.bold),
-                      reusableyoutubeIcon(context),
-                    ],
-                  ),
-                  reusablaSizaBox(context, .007),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 1,
-                    height: MediaQuery.of(context).size.height * .065,
-                    child: TextField(
-                      controller: _searchCon,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.grey[350],
-                        hintText: 'Search Tuitions',
-                        prefixIcon: Icon(
-                          Icons.search,
-                          color: Colors.grey[270],
-                        ),
-                        hintStyle: TextStyle(color: Colors.grey[250]),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide.none),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide.none),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide.none),
-                        errorBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                      ),
+                  reusableText('All Tuitions',
+                      fontsize: 25,
+                      color: colorController.blackColor,
+                      fontweight: FontWeight.bold),
+                  reusableyoutubeIcon(context),
+                ],
+              ),
+              reusablaSizaBox(context, .007),
+              Container(
+                width: MediaQuery.of(context).size.width * 1,
+                height: MediaQuery.of(context).size.height * .065,
+                child: TextField(
+                  controller: _searchCon,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.grey[350],
+                    hintText: 'Search Tuitions',
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Colors.grey[270],
                     ),
+                    hintStyle: TextStyle(color: Colors.grey[250]),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide.none),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide.none),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide.none),
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
                   ),
-                  reusablaSizaBox(context, .009),
-                  reusableVisiblity(context, 'Apply carefully to maintain your profile', () {
-                    setState(() {
-                      visible = false;
-                    });
-                  }, visible),
-                  reusablaSizaBox(context, .025),
-                  StreamBuilder(
-                    stream: connectivity.onConnectivityChanged,
-                    builder: (context, snapshot) {
-                      return checkConnection(
-                        snapshot,
-                        Expanded(
-                        child: ListView.builder(
-                          controller: _scrollController,
-                          itemCount: tuitions.length + (isLoading ? 1 : 0),
-                          itemBuilder: (context, index) {
-                            if (index < tuitions.length) {
-                              var data = tuitions[index];
-                              MySharedPrefrence().set_share_date(data['share_date']);
-                              MySharedPrefrence().set_tuition_name(data['tuition_name']);
-                              MySharedPrefrence().set_class_name(data['class_name']);
-                              MySharedPrefrence().set_subject(data['subject']);
-                              MySharedPrefrence().set_Placement(data['Placement']);
-                              MySharedPrefrence().set_location(data['location']);
-                              MySharedPrefrence().set_limit(data['limit_statement']);
-                              MySharedPrefrence().set_remarks(data['remarks']);
-                              return Container(
-                                height: MediaQuery.of(context).size.height * 0.19,
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      top: MediaQuery.of(context).size.height * 0.023,
-                                      left: MediaQuery.of(context).size.width * 0.001,
-                                      right: MediaQuery.of(context).size.width * .001,
+                ),
+              ),
+              reusablaSizaBox(context, .009),
+              reusableVisiblity(context, 'Apply carefully to maintain your profile', () {
+                setState(() {
+                  visible = false;
+                });
+              }, visible),
+              reusablaSizaBox(context, .025),
+              StreamBuilder(
+                stream: connectivity.onConnectivityChanged,
+                builder: (context, snapshot) {
+                  return checkConnection(
+                    snapshot,
+                    Expanded(
+                      child: ListView.builder(
+                        controller: _scrollController,
+                        itemCount: tuitions.length + 1,
+                        itemBuilder: (context, index) {
+                          if (index < tuitions.length) {
+                            var data = tuitions[index];
+                            MySharedPrefrence().set_share_date(data['share_date']);
+                            MySharedPrefrence().set_tuition_name(data['tuition_name']);
+                            MySharedPrefrence().set_class_name(data['class_name']);
+                            MySharedPrefrence().set_subject(data['subject']);
+                            MySharedPrefrence().set_Placement(data['Placement']);
+                            MySharedPrefrence().set_location(data['location']);
+                            MySharedPrefrence().set_limit(data['limit_statement']);
+                            MySharedPrefrence().set_remarks(data['remarks']);
+                            MySharedPrefrence().set_job(data['job_closed']);
+                            return Container(
+                              height: MediaQuery.of(context).size.height * 0.19,
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    top: MediaQuery.of(context).size.height * 0.023,
+                                    left: MediaQuery.of(context).size.width * 0.001,
+                                    right: MediaQuery.of(context).size.width * .001,
+                                    child: InkWell(
+                                        onTap: () {
+                                          reusabletutorDetails(
+                                              context,
+                                              formatInfo(MySharedPrefrence()
+                                                  .get_remarks()));
+                                        },
+                                        child: reusablecard(context)),
+                                  ),
+                                  Positioned(
+                                      left: MediaQuery.of(context).size.width * 0.45,
+                                      top: MediaQuery.of(context).size.height * 0.005,
+                                      right: MediaQuery.of(context).size.width * .27,
                                       child: InkWell(
                                           onTap: () {
                                             reusabletutorDetails(
@@ -677,62 +686,288 @@ class _AllTuitionsState extends State<AllTuitions> {
                                                 formatInfo(MySharedPrefrence()
                                                     .get_remarks()));
                                           },
-                                          child: reusablecard(context)),
-                                    ),
-                                    Positioned(
-                                        left: MediaQuery.of(context).size.width * 0.45,
-                                        top: MediaQuery.of(context).size.height * 0.005,
-                                        right: MediaQuery.of(context).size.width * .27,
-                                        child: InkWell(
-                                            onTap: () {
-                                              reusabletutorDetails(
-                                                  context,
-                                                  formatInfo(MySharedPrefrence()
-                                                      .get_remarks()));
-                                            },
-                                            child: reusablecardbtn(
+                                          child: reusablecardbtn(
+                                              context,
+                                              '${MySharedPrefrence().get_Placement()}',
+                                              colorController.btnColor,
+                                              colorController.whiteColor))),
+                                  Positioned(
+                                      left: MediaQuery.of(context).size.width * 0.72,
+                                      top: MediaQuery.of(context).size.height * 0.005,
+                                      right: MediaQuery.of(context).size.width * .03,
+                                      child: InkWell(
+                                          onTap: () {
+                                            reusabletutorDetails(
                                                 context,
-                                                'Home',
-                                                colorController.btnColor,
-                                                colorController.whiteColor))),
-                                    Positioned(
-                                        left: MediaQuery.of(context).size.width * 0.72,
-                                        top: MediaQuery.of(context).size.height * 0.005,
-                                        right: MediaQuery.of(context).size.width * .03,
-                                        child: InkWell(
-                                            onTap: () {
-                                              reusabletutorDetails(
-                                                  context,
-                                                  formatInfo(MySharedPrefrence()
-                                                      .get_remarks()));
-                                            },
-                                            child: reusablecardbtn(
-                                                context,
-                                                'Open',
-                                                colorController.yellowColor,
-                                                colorController.blackColor))),
-                                  ],
-                                ),
-                              );
-                            } else {
-                              return Center(child: CircularProgressIndicator());
-                            }
-                          },
-                        ),
-                      )
-                      );
-                    }
-                  ),
-                ],
+                                                formatInfo(MySharedPrefrence()
+                                                    .get_remarks()));
+                                          },
+                                          child: reusablecardbtn(context, MySharedPrefrence().get_job() == 0 ? 'Open' : 'Closed', MySharedPrefrence().get_job() == 0 ? colorController.yellowColor : colorController.redColor, MySharedPrefrence().get_job() == 0 ? colorController.blackColor : colorController.whiteColor))),
+                                ],
+                              ),
+                            );
+                          } else{
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: MediaQuery.of(context).size.width * .32,
+                                vertical: MediaQuery.of(context).size.height * .03,
+                              ),
+                              child: isLoading ? 
+                              Center(child: CircularProgressIndicator(color: colorController.btnColor,)) :
+                               reusableBtn(context,  'Load More', () {
+                                fetchTuitions();
+                              }),
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  );
+                },
               ),
-              // if(isLoading==true)
-              // Center(child: reusableloadingrow(context, isLoading)),
-          //   ],
-          // ),
+              // if (isLoading)
+              //   Center(child: CircularProgressIndicator(color: colorController.btnColor,)),
+            ],
+          ),
         ),
       ),
     );
   }
 }
+
+
+
+// class _AllTuitionsState extends State<AllTuitions> {
+//   final TextEditingController _searchCon = TextEditingController();
+//   List<dynamic> tuitions = [];
+//   bool isLoading = false;
+//   bool visible = true;
+//   bool hasMoreData = true;
+//   int start = 0;
+//   final int limit = 10;
+//   final ScrollController _scrollController = ScrollController();
+//   final Color _color = colorController.yellowColor; // Initial color
+//   Connectivity connectivity = Connectivity();
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     fetchTuitions();
+//     _scrollController.addListener(_scrollListener);
+//   }
+
+//   Future<void> _scrollListener() async {
+//     if (_scrollController.position.pixels ==
+//         _scrollController.position.maxScrollExtent && !isLoading) {
+//           setState(() {
+//       hasMoreData = true;
+//     });
+//           start += limit;
+//       fetchTuitions();
+//       setState(() {
+//       hasMoreData = true;
+//     });
+//     }
+//   }
+
+//   Future<void> fetchTuitions() async {
+//     // if (isLoading || !hasMoreData) return;
+//     setState(() {
+//       isLoading = true;
+//     });
+//     print('object');
+//     try {
+//       String url =
+//           '${Utils.baseUrl}mobile_app/tuitions.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=${limit}';
+//       final response = await http.get(Uri.parse(url));
+//       print(url);
+//       if (response.statusCode == 200) {
+//         final Map<String, dynamic> responseData = json.decode(response.body);
+//         List<dynamic> newItems = responseData['tuition_listing'];
+//         setState(() {
+//           // if (newItems.length < limit) {
+//           //   hasMoreData = false;
+//           // }
+//           // print(responseData);
+//           tuitions.addAll(newItems);
+//           // print(tuitions);
+          
+//         });
+//       } else {
+//         print('Error: ${response.statusCode}');
+//       }
+//     } catch (e) {
+//       print('No Data Found $e');
+//     } finally {
+//       setState(() {
+//         isLoading = false;
+//       });
+//     }
+//   }
+
+//   String formatInfo(String info) {
+//     return info.replaceAll(';', '\n');
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: colorController.whiteColor,
+//       appBar: reusableappbar(context, _color),
+//       body: SafeArea(
+//         child: Padding(
+//           padding: EdgeInsets.symmetric(
+//               horizontal: MediaQuery.of(context).size.width * .032),
+//           child: 
+//           // Stack(
+//           //   children: [
+//               Column(
+//                 children: [
+//                   Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                     children: [
+//                       reusableText('All Tuitions',
+//                           fontsize: 25,
+//                           color: colorController.blackColor,
+//                           fontweight: FontWeight.bold),
+//                       reusableyoutubeIcon(context),
+//                     ],
+//                   ),
+//                   reusablaSizaBox(context, .007),
+//                   Container(
+//                     width: MediaQuery.of(context).size.width * 1,
+//                     height: MediaQuery.of(context).size.height * .065,
+//                     child: TextField(
+//                       controller: _searchCon,
+//                       keyboardType: TextInputType.text,
+//                       decoration: InputDecoration(
+//                         filled: true,
+//                         fillColor: Colors.grey[350],
+//                         hintText: 'Search Tuitions',
+//                         prefixIcon: Icon(
+//                           Icons.search,
+//                           color: Colors.grey[270],
+//                         ),
+//                         hintStyle: TextStyle(color: Colors.grey[250]),
+//                         border: OutlineInputBorder(
+//                             borderRadius: BorderRadius.circular(15),
+//                             borderSide: BorderSide.none),
+//                         enabledBorder: OutlineInputBorder(
+//                             borderRadius: BorderRadius.circular(15),
+//                             borderSide: BorderSide.none),
+//                         focusedBorder: OutlineInputBorder(
+//                             borderRadius: BorderRadius.circular(15),
+//                             borderSide: BorderSide.none),
+//                         errorBorder: InputBorder.none,
+//                         disabledBorder: InputBorder.none,
+//                       ),
+//                     ),
+//                   ),
+//                   reusablaSizaBox(context, .009),
+//                   reusableVisiblity(context, 'Apply carefully to maintain your profile', () {
+//                     setState(() {
+//                       visible = false;
+//                     });
+//                   }, visible),
+//                   reusablaSizaBox(context, .025),
+//                   StreamBuilder(
+//                     stream: connectivity.onConnectivityChanged,
+//                     builder: (context, snapshot) {
+//                       return checkConnection(
+//                         snapshot,
+//                         Expanded(
+//                         child: ListView.builder(
+//                           controller: _scrollController,
+//                           itemCount: tuitions.length + (isLoading ? 1 : 0),
+//                           itemBuilder: (context, index) {
+//                             if (index < tuitions.length) {
+//                               var data = tuitions[index];
+//                               MySharedPrefrence().set_share_date(data['share_date']);
+//                               MySharedPrefrence().set_tuition_name(data['tuition_name']);
+//                               MySharedPrefrence().set_class_name(data['class_name']);
+//                               MySharedPrefrence().set_subject(data['subject']);
+//                               MySharedPrefrence().set_Placement(data['Placement']);
+//                               MySharedPrefrence().set_location(data['location']);
+//                               MySharedPrefrence().set_limit(data['limit_statement']);
+//                               MySharedPrefrence().set_remarks(data['remarks']);
+//                               return Container(
+//                                 height: MediaQuery.of(context).size.height * 0.19,
+//                                 child: Stack(
+//                                   children: [
+//                                     Positioned(
+//                                       top: MediaQuery.of(context).size.height * 0.023,
+//                                       left: MediaQuery.of(context).size.width * 0.001,
+//                                       right: MediaQuery.of(context).size.width * .001,
+//                                       child: InkWell(
+//                                           onTap: () {
+//                                             reusabletutorDetails(
+//                                                 context,
+//                                                 formatInfo(MySharedPrefrence()
+//                                                     .get_remarks()));
+//                                           },
+//                                           child: reusablecard(context)),
+//                                     ),
+//                                     Positioned(
+//                                         left: MediaQuery.of(context).size.width * 0.45,
+//                                         top: MediaQuery.of(context).size.height * 0.005,
+//                                         right: MediaQuery.of(context).size.width * .27,
+//                                         child: InkWell(
+//                                             onTap: () {
+//                                               reusabletutorDetails(
+//                                                   context,
+//                                                   formatInfo(MySharedPrefrence()
+//                                                       .get_remarks()));
+//                                             },
+//                                             child: reusablecardbtn(
+//                                                 context,
+//                                                 'Home',
+//                                                 colorController.btnColor,
+//                                                 colorController.whiteColor))),
+//                                     Positioned(
+//                                         left: MediaQuery.of(context).size.width * 0.72,
+//                                         top: MediaQuery.of(context).size.height * 0.005,
+//                                         right: MediaQuery.of(context).size.width * .03,
+//                                         child: InkWell(
+//                                             onTap: () {
+//                                               reusabletutorDetails(
+//                                                   context,
+//                                                   formatInfo(MySharedPrefrence()
+//                                                       .get_remarks()));
+//                                             },
+//                                             child: reusablecardbtn(
+//                                                 context,
+//                                                 'Open',
+//                                                 colorController.yellowColor,
+//                                                 colorController.blackColor))),
+//                                   ],
+//                                 ),
+//                               );
+//                             } else {
+//                               Padding(
+//                     padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .32,
+//                     vertical: MediaQuery.of(context).size.height * .03
+//                     ),
+//                     child: reusableBtn(context, 'Load More', (){
+//                       // user click this button and then call _scrollcontroller not automatic
+//                     }),
+//                   );
+//                             }
+//                           },
+//                         ),
+//                       )
+//                       );
+//                     }
+//                   ),
+//                 ],
+//               ),
+//               // if(isLoading==true)
+//               // Center(child: reusableloadingrow(context, isLoading)),
+//           //   ],
+//           // ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 

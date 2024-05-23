@@ -41,9 +41,9 @@ String details,
                         Expanded(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
-                            children: [reusablecardbtn(context, 'Home', colorController.btnColor, colorController.whiteColor,width: 0.030),
+                            children: [reusablecardbtn(context, '${MySharedPrefrence().get_Placement()}', colorController.btnColor, colorController.whiteColor,width: 0.030),
                             SizedBox(width: MediaQuery.of(context).size.width * 0.010,),
-                          reusablecardbtn(context, 'Open', colorController.yellowColor, colorController.blackColor,width: 0.030),],),
+                          reusablecardbtn(context, MySharedPrefrence().get_job() == 0 ? 'Open' : 'Closed', MySharedPrefrence().get_job() == 0 ? colorController.yellowColor : colorController.redColor, MySharedPrefrence().get_job() == 0 ? colorController.blackColor : colorController.whiteColor,width: 0.030),],),
                         )
                           ],
                         ),
@@ -88,7 +88,7 @@ String details,
                   // btnontap();
                   Navigator.pop(context);
                 },
-                child: reusableText('Apply',color: colorController.whiteColor),
+                child: MySharedPrefrence().get_job() == 0 ? reusableText('Apply',color: colorController.whiteColor) : Container(),
               ),
               ElevatedButton(
                 style: ButtonStyle(
