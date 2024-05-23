@@ -26,6 +26,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   bool isLoading = false;
+  bool visible = true;
   final TextEditingController _searchCon = TextEditingController();
   Color _color = colorController.yellowColor; // Initial color
   @override
@@ -41,87 +42,6 @@ class _HomeState extends State<Home> {
   String formatInfo(String info) {
     return info.replaceAll(';', '\n');
   }
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     backgroundColor: colorController.whiteColor,
-  //     appBar: reusableappbar(context,_color),
-  //     body: SafeArea(
-  //       child: Padding(
-  //         padding: EdgeInsets.symmetric(
-  //           horizontal: MediaQuery.of(context).size.width * .032),
-  //         child: Column(children: [
-  //           // reusablaSizaBox(context, .01),
-  //           Row(
-  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //             children: [
-  //               reusableText('Preffered Tuitions',fontsize: 25,color: colorController.blackColor, fontweight: FontWeight.bold),
-  //               reusableyoutubeIcon(context),
-  //             ],
-  //           ),
-  //           reusablaSizaBox(context, .007),
-  //           Container(
-  //             width: MediaQuery.of(context).size.width * 1,
-  //             height: MediaQuery.of(context).size.height * .065,
-  //             child: TextField(
-  //                   controller: _searchCon,
-  //                   keyboardType: TextInputType.text,
-  //                   decoration: InputDecoration(
-  //                     filled: true,
-  //                     fillColor: Colors.grey[350],
-  //                     hintText: 'Search Tuitions',
-  //                     prefixIcon: Icon(Icons.search,color: Colors.grey[270],),
-  //                     // prefixIcon: const Icon(Icons.password_outlined, color: Colors.white),
-  //                     hintStyle: TextStyle(color: Colors.grey[250]),
-  //                     border: OutlineInputBorder(
-  //             borderRadius: BorderRadius.circular(15),
-  //             borderSide: BorderSide.none
-  //                 ),
-  //                     enabledBorder: OutlineInputBorder(
-  //             borderRadius: BorderRadius.circular(15),
-  //             borderSide: BorderSide.none
-  //             // borderSide: BorderSide(
-  //             //     color: colorController.textfieldBorderColorBefore, width: 1.5)
-  //                 ),
-  //                     focusedBorder: OutlineInputBorder(
-  //             borderRadius: BorderRadius.circular(15),
-  //             borderSide: BorderSide.none
-  //             // borderSide: BorderSide(
-  //             //     color: colorController.grayTextColor, width: 1.5)
-  //                 ),
-  //                     errorBorder: InputBorder.none,
-  //                     disabledBorder: InputBorder.none,
-  //                     // contentPadding: EdgeInsets.symmetric(vertical: 25, horizontal: 30),
-  //                   ),
-  //                 ),
-  //           ),
-  //           Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               reusablaSizaBox(context, .009),
-  //           reusableVisiblity(context, 'Apply carefully to maintain your profile', (){}),
-  //           Stack(
-  //           children: [
-              // Positioned(
-                
-              //   top: MediaQuery.of(context).size.height * 0.001,
-              //   // left: MediaQuery.of(context).size.height * 0.025,
-              //   // right: MediaQuery.of(context).size.height * 0.025,
-              //   child: reusablecard(context),
-              //   ),
-              //   Positioned(
-              //     left: MediaQuery.of(context).size.width * 0.45,
-              //     top: MediaQuery.of(context).size.height * 0.001,
-              //     right: MediaQuery.of(context).size.width * .27,
-              //     child: reusablecardbtn(context, 'Home', colorController.btnColor, colorController.whiteColor))
-  //           ],
-  //                       ),
-  //             ]
-  //           ),
-  //         ],),
-  //       ),
-  //     ),
-  //   );
 
   @override
 Widget build(BuildContext context) {
@@ -177,7 +97,9 @@ Widget build(BuildContext context) {
                   ),
                 ),
                   reusablaSizaBox(context, .009),
-                      reusableVisiblity(context, 'Apply carefully to maintain your profile', (){}),
+                      reusableVisiblity(context, 'Apply carefully to maintain your profile', (){
+                        setState(() {});
+                        visible = false;},visible),
                       Expanded(
                         child: 
                         // ListView.builder(
@@ -213,49 +135,6 @@ Widget build(BuildContext context) {
                                                   // },
                                                   )
                       )
-                // Expanded(
-                //   child: 
-                //   Column(
-                //     crossAxisAlignment: CrossAxisAlignment.start,
-                //     children: [
-                      // reusablaSizaBox(context, .009),
-                      // reusableVisiblity(context, 'Apply carefully to maintain your profile', (){}),
-                //       // Container(
-                //       //   height: MediaQuery.of(context).size.height * 0.5, // Set a height for the Stack
-                //       //   child: 
-                //         Expanded(
-                //           child: ListView.builder(
-                //             itemCount: 10,
-                //             itemBuilder: (context, index) {
-                            
-                //             return Stack(
-                //             children: [
-                //               Positioned(
-                                          
-                //                           // top: MediaQuery.of(context).size.height * 0.023,
-                //                           // left: MediaQuery.of(context).size.height * 0.00,
-                //                           // right: MediaQuery.of(context).size.width * 0.00,
-                //                           child: reusablecard(context),
-                //                           ),
-                                          // Positioned(
-                                          //   left: MediaQuery.of(context).size.width * 0.45,
-                                          //   top: MediaQuery.of(context).size.height * 0.005,
-                                          //   right: MediaQuery.of(context).size.width * .27,
-                                          //   child: reusablecardbtn(context, 'Home', colorController.btnColor, colorController.whiteColor)),
-                                          //   Positioned(
-                                          //   left: MediaQuery.of(context).size.width * 0.72,
-                                          //   top: MediaQuery.of(context).size.height * 0.005,
-                                          //   right: MediaQuery.of(context).size.width * .03,
-                                          //   child: reusablecardbtn(context, 'Open', colorController.yellowColor, colorController.blackColor)),
-                //             ],
-                //           );
-                //           },),
-                //         )
-                //       // ),
-                      
-                //     ],
-                //   ),
-                // ),
               ],
             ),
           ),

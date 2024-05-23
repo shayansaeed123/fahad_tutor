@@ -101,12 +101,14 @@ class _LoginState extends State<Login> {
                   json.decode(response.body);
                   print('response $responseData');
               String apiMessage = responseData['message'];
-              print('message $apiMessage');
-              MySharedPrefrence().set_user_ID(responseData['ID']);
-              MySharedPrefrence().set_tutor_name(responseData['teacher_name']);
               if (responseData['success'] == 1) {
-                print('Shayan');
-                print('response:' + response.body);
+                setState(() {});
+              print('message $apiMessage');
+              MySharedPrefrence().setUserLoginStatus(true);
+              MySharedPrefrence().set_user_ID(responseData['ID']);
+              setState(() {});
+              MySharedPrefrence().set_tutor_name(responseData['teacher_name']);
+              setState(() {});
                 print('Tutor ID ${MySharedPrefrence().get_user_ID()}');
                 basicInfo();
                 // Navigator.pop(context);

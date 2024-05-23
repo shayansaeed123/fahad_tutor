@@ -13,7 +13,6 @@ reusabletutorDetails(BuildContext context,
 String details,
     ) {
   return showDialog(
-    
     context: context,
     builder: (context) => AlertDialog(
         backgroundColor: colorController.whiteColor,
@@ -26,48 +25,51 @@ String details,
               Opacity(
                 opacity: 0.2,
                 child: Center(child: Positioned(child: Image.asset('assets/images/logo_1.png')))),
-              Positioned(child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(children: [Padding(
-                        padding: const EdgeInsets.all(0.0),
-                        child: reusableText('${MySharedPrefrence().get_tuition_name()} ',color: colorController.grayTextColor,fontsize: 15),
-                      ),],),
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [reusablecardbtn(context, 'Home', colorController.btnColor, colorController.whiteColor,width: 0.030),
-                          SizedBox(width: MediaQuery.of(context).size.width * 0.010,),
-                        reusablecardbtn(context, 'Open', colorController.yellowColor, colorController.blackColor,width: 0.030),],),
-                      )
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: reusablecardbtn(context, '${MySharedPrefrence().get_subject()}', colorController.btnColor, colorController.whiteColor,),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: reusableText('${MySharedPrefrence().get_share_date()}',color: colorController.blackColor,fontsize: 13.7),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: reusableText('${MySharedPrefrence().get_location()}',color: colorController.blackColor,fontsize: 13.7),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal:  5.0,vertical: 7.0),
-                        child: reusableText('Details',color: colorController.blackColor,fontsize: 14.2),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5.0),
-                        child: reusableText(details,color: colorController.grayTextColor,fontsize: 13.7),
-                      ),
-                    ],
-                  ),
+              Positioned(child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                      // mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(children: [Padding(
+                          padding: const EdgeInsets.all(0.0),
+                          child: reusableText('${MySharedPrefrence().get_tuition_name()} ',color: colorController.grayTextColor,fontsize: 15),
+                        ),],),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [reusablecardbtn(context, 'Home', colorController.btnColor, colorController.whiteColor,width: 0.030),
+                            SizedBox(width: MediaQuery.of(context).size.width * 0.010,),
+                          reusablecardbtn(context, 'Open', colorController.yellowColor, colorController.blackColor,width: 0.030),],),
+                        )
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: reusablecardbtn(context, '${MySharedPrefrence().get_subject()}', colorController.btnColor, colorController.whiteColor,),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: reusableText('${MySharedPrefrence().get_share_date()}',color: colorController.blackColor,fontsize: 13.7),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: reusableText('${MySharedPrefrence().get_location()}',color: colorController.blackColor,fontsize: 13.7),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal:  5.0,vertical: 7.0),
+                          child: reusableText('Details',color: colorController.blackColor,fontsize: 14.2),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 5.0),
+                          child: reusableText(details,color: colorController.grayTextColor,fontsize: 13.7),
+                        ),
+                      ],
+                    ),
+              ),
                 ),
             ],
           ),

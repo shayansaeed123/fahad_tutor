@@ -184,6 +184,14 @@ void set_user_ID(String? userID) {
     return ''.val('remarks', getBox: preferences).val;
   }
 
+  void set_tutor_id(String? tutor_id) {
+    ''.val('tutor_id', getBox: preferences).val = tutor_id ?? '';
+  }
+
+  String get_tutor_id() {
+    return ''.val('tutor_id', getBox: preferences).val;
+  }
+
   // Future<void> setVersionName() async {
   //   await PackageInfo.fromPlatform().then((PackageInfo? packageInfo) {
   //     String? version = packageInfo?.version;
