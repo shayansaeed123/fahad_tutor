@@ -35,7 +35,6 @@ class MySharedPrefrence {
         all_tuitions ?? {};
   }
 
-
   Map<String, dynamic>? getViewTuitions() {
     return <String, dynamic>{}.val('view_tuitions', getBox: preferences).val;
   }

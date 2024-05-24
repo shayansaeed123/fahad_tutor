@@ -13,12 +13,12 @@ class TutorRepository{
   bool get isLoading => _isLoading;
   List<dynamic> _listResponse = [];
   List<dynamic> get listResponse => _listResponse;
-  Future<List<dynamic>> fetchTuitions(int start,int limit,) async {
+  Future<List<dynamic>> fetchViewTuitions(int start,int limit,) async {
     _isLoading = true;
    try{
     _isLoading = false;
     String url =
-          '${Utils.baseUrl}mobile_app/tuitions.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=${limit}';
+          '${Utils.baseUrl}mobile_app/tuitions.php?code=10&tutor_id=31110&start=$start&end=${limit}';
      final response = await http.get(Uri.parse(url));
      print('url $url');
 
