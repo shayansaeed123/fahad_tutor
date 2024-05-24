@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-Widget reusablecard(BuildContext context){
+Widget reusablecard(BuildContext context, String tuition_name, String class_name, String share_date, String location, String subject){
   return Container(
     width: MediaQuery.of(context).size.width,
     height: MediaQuery.of(context).size.height * .16,
@@ -27,20 +27,20 @@ Widget reusablecard(BuildContext context){
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          reusableText('${MySharedPrefrence().get_tuition_name()}',color: colorController.grayTextColor,fontsize: 15,fontweight: FontWeight.bold),
+          reusableText('${tuition_name}',color: colorController.grayTextColor,fontsize: 15,fontweight: FontWeight.bold),
           reusablaSizaBox(context, .005),
-          reusableText('${MySharedPrefrence().get_class_name()}',color: colorController.blackColor,fontsize: 16,fontweight: FontWeight.bold),
+          reusableText('${class_name}',color: colorController.blackColor,fontsize: 16,fontweight: FontWeight.bold),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               reusableappimage(context, .039, .05, 'assets/images/calendar_date.png'),
-              reusableText(' ${MySharedPrefrence().get_share_date()}',color: colorController.blackColor,fontweight: FontWeight.bold,fontsize: 12),
+              reusableText(' ${share_date}',color: colorController.blackColor,fontweight: FontWeight.bold,fontsize: 12),
               SizedBox(width: MediaQuery.of(context).size.width * .09,),
               reusableappimage(context, .039, .05, 'assets/images/pin_point.png'),
               Expanded(
                 child: Container(
                   height: MediaQuery.of(context).size.height * .025,
-                  child: Text(' ${MySharedPrefrence().get_location()}',softWrap: true,overflow: TextOverflow.ellipsis, style: TextStyle(color: colorController.blackColor,fontSize: 12,fontWeight: FontWeight.bold),)),
+                  child: Text(' ${location}',softWrap: true,overflow: TextOverflow.ellipsis, style: TextStyle(color: colorController.blackColor,fontSize: 12,fontWeight: FontWeight.bold),)),
               ),
               // reusableText('  Lorem Lipsam IdeazShuttle Lorem',color: colorController.blackColor,fontweight: FontWeight.bold,fontsize: 12),
             ],
@@ -52,7 +52,7 @@ Widget reusablecard(BuildContext context){
               color: colorController.btnColor,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: reusableText('${MySharedPrefrence().get_subject()}',color: colorController.whiteColor,fontsize: 12,),
+            child: reusableText('${subject}',color: colorController.whiteColor,fontsize: 12,),
           ),
         ],),
       ),

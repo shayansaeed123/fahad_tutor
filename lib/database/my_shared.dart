@@ -26,6 +26,25 @@ class MySharedPrefrence {
         alarmStatus ?? false;
   }
 
+  Map<String, dynamic>? getAllTuitions() {
+    return <String, dynamic>{}.val('all_tuitions', getBox: preferences).val;
+  }
+
+  void setAllTuitions(Map<String, dynamic>? all_tuitions) {
+    <String, dynamic>{}.val('all_tuitions', getBox: preferences).val =
+        all_tuitions ?? {};
+  }
+
+
+  Map<String, dynamic>? getViewTuitions() {
+    return <String, dynamic>{}.val('view_tuitions', getBox: preferences).val;
+  }
+
+  void setViewTuitions(Map<String, dynamic>? view_tuitions) {
+    <String, dynamic>{}.val('view_tuitions', getBox: preferences).val =
+        view_tuitions ?? {};
+  }
+
 
   String get_user_loginstatus() {
     return ''.val('login_status', getBox: preferences).val;

@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/controller/navigation_controller.dart';
+import 'package:fahad_tutor/database/my_shared.dart';
+import 'package:fahad_tutor/repo/tutor_repo.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/views/dashboard/all_tuitions.dart';
 import 'package:fahad_tutor/views/dashboard/home.dart';
@@ -21,48 +23,52 @@ class NavBar extends StatefulWidget {
 class _NavBarState extends State<NavBar> {
   BottomNavigationController bottomNavigationController =
       Get.put(BottomNavigationController());
+  TutorRepository _repository = TutorRepository();
 
-  
-  bool isLoading = false;
+      bool isLoading = false;
+  // bool hasMoreData = true;
+  int start = 0;
+  int limit = 10;
 
-  // Future<Map<String, dynamic>> allTuitions(int start)async{
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-  //   try {
-  //   final response = await http.get(
-  //     Uri.parse('${Utils.baseUrl}mobile_app/tuitions.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=10'),
-  //   );
 
-  //   if (response.statusCode == 200) {
-  //     final Map<String, dynamic> responseData = json.decode(response.body);
-  //     print('All Tuitions $responseData');
-  //     return responseData;
-  //   } else {
-  //     print('Error2: ' + response.statusCode.toString());
-  //     return {};
-  //   }
-  // } catch (e) {
-  //   print('No Data Found $e');
-  //   throw Exception('No Data Found $e');
-  // } finally {
-  //   setState(() {
-  //     isLoading = false;
-  //   });
-  // }
-  // }
-  // // int start = 0;
-  // // Future<Map<String, dynamic>>? _futureTuitions;
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   // _futureTuitions = allTuitions(start);
-  // }
-  final screens = [Home(), AllTuitions()];
+  Future<List<dynamic>> fetchTuitions(int start, int limit) async {
+    setState(() {
+      isLoading = true;
+    });
+    List<dynamic> newItems = [];
+    try {
+      String url =
+          '${Utils.baseUrl}mobile_app/tuitions.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=${limit}';
+      final response = await http.get(Uri.parse(url));
+      print('urlllll $url');
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData = json.decode(response.body);
+        newItems = responseData['tuition_listing'];
+        print('shaya $newItems');
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('No Data Found $e');
+    }finally{
+      setState(() {
+        isLoading = false;
+      });
+    }
+    return newItems;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchTuitions(start, limit); // Initial fetch
+    // _repository.fetchTuitions(start, limit);
+  }
+
 
   @override
   Widget build(BuildContext context) {
+    final screens = [Home(isLoading2: _repository.isLoading,), AllTuitions(isLoading2: isLoading,)];
     return Scaffold(
       body: Obx(() => IndexedStack(
             children: screens,
@@ -94,8 +100,15 @@ class _NavBarState extends State<NavBar> {
         onTap: (index) {
           // allTuitions(0);
           bottomNavigationController.changeIndex(index);
+          if (index == 1) {
+            // _repository.fetchTuitions(start, limit);
+            fetchTuitions(start, limit);
+          }
         },
       ),
     );
   }
 }
+
+
+

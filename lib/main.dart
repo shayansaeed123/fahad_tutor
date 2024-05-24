@@ -23,9 +23,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    print(MySharedPrefrence().get_tutor_name());
-    print(MySharedPrefrence().getUserLoginStatus());
-    print(MySharedPrefrence().get_user_ID());
+    // print(MySharedPrefrence().get_tutor_name());
+    // print(MySharedPrefrence().getUserLoginStatus());
+    // print(MySharedPrefrence().get_user_ID());
     return MaterialApp(
       theme: ThemeData(
         useMaterial3: true,

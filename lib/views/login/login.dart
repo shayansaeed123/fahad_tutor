@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/controller/text_field_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
+import 'package:fahad_tutor/repo/tutor_repo.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableTextField.dart';
@@ -11,6 +12,7 @@ import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusablepassfield.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/views/dashboard/nav_bar.dart';
+import 'package:fahad_tutor/views/dashboard/view_tuitions.dart';
 import 'package:fahad_tutor/views/login/register.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -159,7 +161,7 @@ class _LoginState extends State<Login> {
     }
   }
 
-
+TutorRepository _repository = TutorRepository();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -310,7 +312,9 @@ class _LoginState extends State<Login> {
                     ],
                                 ),
                                 reusablaSizaBox(context, .03),
-                                reusableBtn(context, 'View Tuitions',(){}),
+                                reusableBtn(context, 'View Tuitions',()async{
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ViewTuitions(),));
+                                }),
                                 reusablaSizaBox(context, .025),
                                 Center(
                     child: InkWell(
