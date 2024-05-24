@@ -40,8 +40,5 @@ class TutorRepository{
       _isLoading = false;
    }
   }
-
-
-  
   
 }
