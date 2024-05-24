@@ -41,46 +41,6 @@ class TutorRepository{
    }
   }
 
-  // Future<List<dynamic>> fetchTuitions(int start, int limit) async {
-  //   // if (isLoading || !hasMoreData) return;
-  //   // setState(() {
-  //   //   isLoading = true;
-  //   //   showLoadMoreButton = false;
-  //   // });
-  //   List<dynamic> newItems = [];
-  //   try {
-      
-  //     String url =
-  //         '${Utils.baseUrl}mobile_app/tuitions.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=${limit}';
-  //     final response = await http.get(Uri.parse(url));
-  //     if (response.statusCode == 200) {
-  //       final Map<String, dynamic> responseData = json.decode(response.body);
-  //        newItems = responseData['tuition_listing'];
-  //       print('llllll $newItems');
-  //       return newItems;
-  //       // setState(() {
-  //       //   // if (newItems.length < limit) {
-  //       //   //   hasMoreData = false;
-  //       //   // }
-  //       //   tuitions.addAll(newItems);
-  //       //   print(tuitions);
-          
-  //       // });
-  //     } else {
-  //       print('Error: ${response.statusCode}');
-  //     }
-      
-  //   } catch (e) {
-  //     print('No Data Found $e');
-  //   } 
-  //   return newItems;
-    
-  //   // finally {
-  //   //   setState(() {
-  //   //     isLoading = false;
-  //   //   });
-  //   // }
-  // }
 
   
   
