@@ -66,7 +66,7 @@ reusableMessagedialog(
         ElevatedButton(
           style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(colorController.grayTextColor)),
           onPressed: () {
-                      canceltap();  
+                      canceltap();
             // Navigator.push(context, MaterialPageRoute(builder: ((context) => attendance())));
           },
           child: reusableText(

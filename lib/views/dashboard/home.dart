@@ -17,6 +17,7 @@ import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/res/reusabletutordetails.dart';
 import 'package:fahad_tutor/res/reusablevisibility.dart';
 import 'package:fahad_tutor/res/reusableyoutubeIcon.dart';
+import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -73,7 +74,7 @@ class _HomeState extends State<Home> {
 Widget build(BuildContext context) {
   return Scaffold(
     backgroundColor: colorController.whiteColor,
-    appBar: reusableappbar(context, colorController.yellowColor),
+    appBar: reusableappbar(context, colorController.yellowColor,(){Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(),));}),
     body: 
     // Stack(
     //   children: [
@@ -162,7 +163,9 @@ Widget build(BuildContext context) {
                                               data['subject'],
                                               data['share_date'],
                                               data['location'],
-                                              data['limit_statement'],(){}
+                                              data['limit_statement'],(){},
+                                              data['group_id'],
+                                              data['tuition_id']
                                                   );
                                         },
                                         child: reusablecard(context,
@@ -188,7 +191,9 @@ Widget build(BuildContext context) {
                                               data['subject'],
                                               data['share_date'],
                                               data['location'],
-                                              data['limit_statement'],(){}
+                                              data['limit_statement'],(){},
+                                              data['group_id'],
+                                              data['tuition_id']
                                                 );
                                           },
                                           child: reusablecardbtn(
@@ -211,7 +216,9 @@ Widget build(BuildContext context) {
                                               data['subject'],
                                               data['share_date'],
                                               data['location'],
-                                              data['limit_statement'],(){}
+                                              data['limit_statement'],(){},
+                                              data['group_id'],
+                                              data['tuition_id']
                                                 );
                                           },
                                           child: reusablecardbtn(context, data['job_closed'] == 0 ? 'Open' : 'Closed', data['job_closed'] == 0 ? colorController.yellowColor : colorController.redColor, data['job_closed'] == 0 ? colorController.blackColor : colorController.whiteColor))),

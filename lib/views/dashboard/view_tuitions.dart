@@ -353,7 +353,7 @@ class _ViewTuitionsState extends State<ViewTuitions> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorController.whiteColor,
-      appBar: reusableappbar(context, colorController.yellowColor),
+      appBar: reusableappbar(context, colorController.yellowColor,(){}),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -450,7 +450,9 @@ class _ViewTuitionsState extends State<ViewTuitions> {
                                               Navigator.pop(context);
                                               Navigator.pop(context);
                                               Navigator.push(context,MaterialPageRoute(builder: (context) => Login()),);
-                                            }, (){Navigator.pop(context);});}
+                                            }, (){Navigator.pop(context);});},
+                                            data['group_id'],
+                                            data['tuition_id']
                                           );
                                         },
                                         child: reusablecard(
@@ -481,7 +483,13 @@ class _ViewTuitionsState extends State<ViewTuitions> {
                                               data['share_date'],
                                               data['location'],
                                               data['limit_statement'],
-                                              (){}
+                                              (){reusableMessagedialog(context, 'Login', 'Please Login to Apply for Tuition', 'Login', (){
+                                              Navigator.pop(context);
+                                              Navigator.pop(context);
+                                              Navigator.push(context,MaterialPageRoute(builder: (context) => Login()),);
+                                            }, (){Navigator.pop(context);});},
+                                              data['group_id'],
+                                              data['tuition_id']
                                             );
                                           },
                                           child: reusablecardbtn(
@@ -509,9 +517,13 @@ class _ViewTuitionsState extends State<ViewTuitions> {
                                               data['share_date'],
                                               data['location'],
                                               data['limit_statement'],
-                                              (){
-
-                                              }
+                                              (){reusableMessagedialog(context, 'Login', 'Please Login to Apply for Tuition', 'Login', (){
+                                              Navigator.pop(context);
+                                              Navigator.pop(context);
+                                              Navigator.push(context,MaterialPageRoute(builder: (context) => Login()),);
+                                            }, (){Navigator.pop(context);});},
+                                              data['group_id'],
+                                              data['tuition_id']
                                             );
                                           },
                                           child: reusablecardbtn(

@@ -17,6 +17,7 @@ import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/res/reusabletutordetails.dart';
 import 'package:fahad_tutor/res/reusablevisibility.dart';
 import 'package:fahad_tutor/res/reusableyoutubeIcon.dart';
+import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -359,7 +360,7 @@ class _AllTuitionsState extends State<AllTuitions> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorController.whiteColor,
-      appBar: reusableappbar(context, colorController.yellowColor),
+      appBar: reusableappbar(context, colorController.yellowColor,(){Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(),));}),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -428,6 +429,7 @@ class _AllTuitionsState extends State<AllTuitions> {
                           if (index < tuitions.length) {
                             var data = tuitions[index];
                             MySharedPrefrence().setAllTuitions(data);
+                            
                             return Container(
                               height: MediaQuery.of(context).size.height * 0.19,
                               child: Stack(
@@ -438,6 +440,8 @@ class _AllTuitionsState extends State<AllTuitions> {
                                     right: MediaQuery.of(context).size.width * .001,
                                     child: InkWell(
                                         onTap: () {
+                                          // repository.group_id();
+                                          print('tuitions_id ${data['tuition_id']}');
                                           reusabletutorDetails(
                                               context,formatInfo(data['remarks']),
                                               data['class_name'],
@@ -447,8 +451,21 @@ class _AllTuitionsState extends State<AllTuitions> {
                                               data['subject'],
                                               data['share_date'],
                                               data['location'],
-                                              data['limit_statement'],(){}
+                                              data['limit_statement'],(){
+                                                if(data['group_id'] == '0'){
+                                                  repository.applyTuitions(data['group_id'], data['tuition_id']);
+                                                }else{
+                                                  reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm', (){
+                                                    repository.applyTuitions(data['group_id'], data['tuition_id']);
+                                                  }, (){Navigator.pop(context);});
+                                                }
+                                              },
+                                              data['group_id'],
+                                              data['tuition_id']
                                                   );
+                                                  setState(() {});
+                                                print('groupppppppppppppppppppppppppp ${data['group_id']}');
+                                                repository.group_id(data['group_id']);
                                         },
                                         child: reusablecard(context,
                                         data['tuition_name'],
@@ -473,8 +490,14 @@ class _AllTuitionsState extends State<AllTuitions> {
                                               data['subject'],
                                               data['share_date'],
                                               data['location'],
-                                              data['limit_statement'],(){}
+                                              data['limit_statement'],(){},
+                                              data['group_id'],
+                                              data['tuition_id']
                                                 );
+                                                setState(() {});
+                                                print('groupppppppppppppppppppppppppp ${data['group_id']}');
+                                                repository.group_id(data['group_id']);
+                                                
                                           },
                                           child: reusablecardbtn(
                                               context,
@@ -496,8 +519,15 @@ class _AllTuitionsState extends State<AllTuitions> {
                                               data['subject'],
                                               data['share_date'],
                                               data['location'],
-                                              data['limit_statement'],(){}
+                                              data['limit_statement'],(){
+                                                
+                                              },
+                                              data['group_id'],
+                                              data['tuition_id']
                                                 );
+                                                setState(() {});
+                                                print('groupppppppppppppppppppppppppp ${data['group_id']}');
+                                                repository.group_id(data['group_id']);
                                           },
                                           child: reusablecardbtn(context, data['job_closed'] == 0 ? 'Open' : 'Closed', data['job_closed'] == 0 ? colorController.yellowColor : colorController.redColor, data['job_closed'] == 0 ? colorController.blackColor : colorController.whiteColor))),
                                 ],

@@ -9,7 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-reusableappbar(BuildContext context,Color color){
+reusableappbar(BuildContext context,Color color,Function ontap){
   return AppBar(
         elevation: 0.0,
         foregroundColor: colorController.whiteColor,
@@ -40,7 +40,7 @@ reusableappbar(BuildContext context,Color color){
         centerTitle: true,
         leading: InkWell(
           onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(),));
+            ontap();
           },
           child: Container(
             padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * .03,),

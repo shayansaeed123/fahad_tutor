@@ -53,6 +53,14 @@ class MySharedPrefrence {
     ''.val('login_status', getBox: preferences).val = login_status ?? '';
   }
 
+  String get_group_id() {
+    return ''.val('group_id', getBox: preferences).val;
+  }
+
+  void set_group_id(String? group_id) {
+    ''.val('group_id', getBox: preferences).val = group_id ?? '';
+  }
+
 
   String get_info() {
     return ''.val('info', getBox: preferences).val;

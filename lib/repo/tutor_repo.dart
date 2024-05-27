@@ -63,6 +63,9 @@ class TutorRepository {
   List<dynamic> _prefferedTuitionsList = [];
   List<dynamic> get prefferedTuitionsList => _prefferedTuitionsList;
 
+  String _class_name = '';
+  String get class_name => _class_name; 
+
   Future<void> fetchTuitions(int start, int limit) async {
     _isLoading = true;
     _showLoadMoreButton = false;
@@ -107,6 +110,7 @@ class TutorRepository {
       if (response.statusCode == 200) {
         dynamic jsonResponse = jsonDecode(response.body);
         List<dynamic> newItems = jsonResponse['tuition_listing'];
+        
         if (start == 0) {
           _allTuitionsList = newItems;
         } else {
@@ -144,6 +148,65 @@ class TutorRepository {
           _prefferedTuitionsList.addAll(newItems);
         }
         print('Updated tuitions list: $_prefferedTuitionsList');
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception(e);
+    } finally {
+      _isLoading = false;
+      _showLoadMoreButton = true;
+    }
+  }
+
+  Future<void> group_id(String g_id) async {
+
+    if (g_id == '') {
+    print('Error: group_id is null');
+    return;
+  }
+    _isLoading = true;
+    _showLoadMoreButton = false;
+
+    try {
+      String url =
+          '${Utils.baseUrl}mobile_app/group_class.php?code=10&group_id=$g_id';
+      final response = await http.get(Uri.parse(url));
+      print('url $url');
+
+      if (response.statusCode == 200) {
+        dynamic jsonResponse = jsonDecode(response.body);
+        List<dynamic> newItems = jsonResponse['group_class_name'];
+        _class_name = newItems[0]['class_name'];
+        print('class_nameeeee $class_name');
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception(e);
+    } finally {
+      _isLoading = false;
+      _showLoadMoreButton = true;
+    }
+  }
+
+  Future<void> applyTuitions(String g_id,String tuition_id) async {
+
+    _isLoading = true;
+    _showLoadMoreButton = false;
+
+    try {
+      String url =
+          '${Utils.baseUrl}mobile_app/apply_tuition.php?code=10&group_id=$g_id&tuition_id=$tuition_id&tutor_id=${MySharedPrefrence().get_user_ID()}';
+      final response = await http.get(Uri.parse(url));
+      print('url $url');
+
+      if (response.statusCode == 200) {
+        dynamic jsonResponse = jsonDecode(response.body);
+        String msg = jsonResponse['message'];
+        print('apply message $msg');
       } else {
         print('Error: ${response.statusCode}');
       }

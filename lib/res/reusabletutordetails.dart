@@ -19,7 +19,9 @@ String subject,
 String share_date,
 String location,
 String limit,
-Function btnontap
+Function btnontap,
+String group_id,
+String tuition_id,
     ) {
   return showDialog(
     context: context,

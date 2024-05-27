@@ -422,19 +422,6 @@ void updateTutorPlacement() {
         if (responseData['success'] == 1) {
           print('response:' + response.body);
           // Navigator.pop(context);
-          // Navigator.push(
-          //     context, MaterialPageRoute(builder: ((context) => NavBar())));
-          // signUpApi();
-          // Utils.snakbarSuccess(context, apiMessage);
-          // reusableMessagedialog(
-          //   context,
-          //   apiMessage,
-          //   'OK',
-          //   () async{
-          //     setState(() {
-          //       isLoading = false;
-          //     });
-          //                 Future<void> _signOut() async {
           try {
             await _googleSignIn.signOut();
             await _auth.signOut();
@@ -455,15 +442,6 @@ void updateTutorPlacement() {
             },
             child: Utils.snakbarFailed(context, 'check ${ apiMessage}'),
           );
-          
-          // reusableMessagedialog(
-          //   context,
-          //   apiMessage,
-          //   'OK',
-          //   ()async {
-          //     setState(() {
-          //       isLoading = false;
-          //     });
           try {
             await _googleSignIn.signOut();
             await _auth.signOut();
@@ -472,10 +450,6 @@ void updateTutorPlacement() {
             print(e);
           }
           Navigator.pop(context);
-          // Navigator.push(
-          //     context, MaterialPageRoute(builder: ((context) => Rigister())));
-          //   },
-          // );
         }
       } else {
         print('Error2: ' + response.statusCode.toString());
