@@ -25,8 +25,7 @@ class TutorRepository{
     if (response.statusCode == 200) {
       dynamic jsonResponse = jsonDecode(response.body);
       _listResponse = jsonResponse['tuition_listing'];
-      print('List $_listResponse');
-      print('llllll $_listResponse');
+      print('without login view tuitions $_listResponse');
 
       return listResponse;
     } else {
