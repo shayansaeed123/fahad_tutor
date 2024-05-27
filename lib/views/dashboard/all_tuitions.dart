@@ -68,7 +68,6 @@ class _AllTuitionsState extends State<AllTuitions> {
   }
 
   Future<void> fetchTuitions() async {
-    // if (isLoading || !hasMoreData) return;
     setState(() {
       isLoading = true;
       showLoadMoreButton = false;
@@ -82,9 +81,6 @@ class _AllTuitionsState extends State<AllTuitions> {
         List<dynamic> newItems = responseData['tuition_listing'];
         print('llllll $newItems');
         setState(() {
-          // if (newItems.length < limit) {
-          //   hasMoreData = false;
-          // }
           tuitions.addAll(newItems);
           print(tuitions);
           
