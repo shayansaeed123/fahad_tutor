@@ -15,6 +15,7 @@ import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/res/reusabletutordetails.dart';
 import 'package:fahad_tutor/res/reusablevisibility.dart';
 import 'package:fahad_tutor/res/reusableyoutubeIcon.dart';
+import 'package:fahad_tutor/views/login/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -445,6 +446,11 @@ class _ViewTuitionsState extends State<ViewTuitions> {
                                             data['share_date'],
                                             data['location'],
                                             data['limit_statement'],
+                                            (){reusableMessagedialog(context, 'Login', 'Please Login to Apply for Tuition', 'Login', (){
+                                              Navigator.pop(context);
+                                              Navigator.pop(context);
+                                              Navigator.push(context,MaterialPageRoute(builder: (context) => Login()),);
+                                            }, (){Navigator.pop(context);});}
                                           );
                                         },
                                         child: reusablecard(
@@ -475,6 +481,7 @@ class _ViewTuitionsState extends State<ViewTuitions> {
                                               data['share_date'],
                                               data['location'],
                                               data['limit_statement'],
+                                              (){}
                                             );
                                           },
                                           child: reusablecardbtn(
@@ -502,6 +509,9 @@ class _ViewTuitionsState extends State<ViewTuitions> {
                                               data['share_date'],
                                               data['location'],
                                               data['limit_statement'],
+                                              (){
+
+                                              }
                                             );
                                           },
                                           child: reusablecardbtn(

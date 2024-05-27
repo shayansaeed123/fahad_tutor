@@ -6,9 +6,11 @@ import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusabledailog.dart';
 import 'package:fahad_tutor/res/reusablelisttile.dart';
+import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/res/rusablelink.dart';
+import 'package:fahad_tutor/views/login/login.dart';
 import 'package:fahad_tutor/views/profile/faq.dart';
 import 'package:fahad_tutor/views/profile/feedback.dart';
 import 'package:fahad_tutor/views/profile/resetpassword.dart';
@@ -38,6 +40,17 @@ class _ProfileState extends State<Profile> {
       await launchUrl(emailUri);
     } else {
       throw 'Could not launch $emailUri';
+    }
+  }
+  void _launchPhone(String phone) async {
+    final Uri phoneUri = Uri(
+      scheme: 'tel',
+      path: phone,
+    );
+    if (await canLaunchUrl(phoneUri)) {
+      await launchUrl(phoneUri);
+    } else {
+      throw 'Could not launch $phoneUri';
     }
   }
        
@@ -127,16 +140,21 @@ class _ProfileState extends State<Profile> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                reusablelink(context, 'assets/images/fb_icon.png', (){}),
-                reusablelink(context, 'assets/images/insta_icon.png', (){}),
-                reusablelink(context, 'assets/images/web_icon.png', (){}),
-                reusablelink(context, 'assets/images/email.png', (){}),
-                reusablelink(context, 'assets/images/phone_icon.png', (){}),
-                reusablelink(context, 'assets/images/yout.png', (){}),
+                reusablelink(context, 'assets/images/fb_icon.png', (){launch('facebook.com/FahadTutorAcademy');}),
+                reusablelink(context, 'assets/images/insta_icon.png', (){launch('instagram.com/fahadtutors');}),
+                reusablelink(context, 'assets/images/web_icon.png', (){launch('fahadtutors.com');}),
+                reusablelink(context, 'assets/images/email.png', (){_launchEmail("info@fahadtutors.com");}),
+                reusablelink(context, 'assets/images/phone_icon.png', (){_launchPhone('03002391994');}),
+                reusablelink(context, 'assets/images/yout.png', (){launch('https://youtube.com/@fahadtutorsfta?si=ntx5BBwfHIJHlTZ_');}),
               ]
             ),
             reusablaSizaBox(context, .05),
             reusableBtn(context, 'Logout',(){
+              reusableMessagedialog(context, 'Logout', 'Are you sure?', 'Confirm', (){
+                MySharedPrefrence().logout();
+                Navigator.push(context,MaterialPageRoute(
+            builder: (context) => WillPopScope( onWillPop: () async => false, child: Login())),);
+              }, (){Navigator.pop(context);});
               MySharedPrefrence().logout();
             }),
             reusablaSizaBox(context, .05),

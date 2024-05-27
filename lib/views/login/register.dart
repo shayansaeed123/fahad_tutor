@@ -351,7 +351,7 @@ void updateTutorPlacement() {
         throw Exception('Failed to load country details');
       }
     } catch (e) {
-      print(e);
+      print('$e');
     } finally {
       setState(() {
         isLoading = false;

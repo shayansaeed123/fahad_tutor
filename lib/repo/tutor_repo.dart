@@ -56,8 +56,12 @@ class TutorRepository {
   bool get showLoadMoreButton => _showLoadMoreButton;
   List<dynamic> _listResponse = [];
   List<dynamic> get listResponse => _listResponse;
-  String _name = '';
-  String get name => _name;
+
+  List<dynamic> _allTuitionsList = [];
+  List<dynamic> get allTuitionsList => _allTuitionsList;
+
+  List<dynamic> _prefferedTuitionsList = [];
+  List<dynamic> get prefferedTuitionsList => _prefferedTuitionsList;
 
   Future<void> fetchTuitions(int start, int limit) async {
     _isLoading = true;
@@ -78,6 +82,68 @@ class TutorRepository {
           _listResponse.addAll(newItems);
         }
         print('Updated tuitions list: $_listResponse');
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception(e);
+    } finally {
+      _isLoading = false;
+      _showLoadMoreButton = true;
+    }
+  }
+
+  Future<void> allTuitions(int start, int limit) async {
+    _isLoading = true;
+    _showLoadMoreButton = false;
+
+    try {
+      String url =
+          '${Utils.baseUrl}mobile_app/tuitions.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=$limit';
+      final response = await http.get(Uri.parse(url));
+      print('url $url');
+
+      if (response.statusCode == 200) {
+        dynamic jsonResponse = jsonDecode(response.body);
+        List<dynamic> newItems = jsonResponse['tuition_listing'];
+        if (start == 0) {
+          _allTuitionsList = newItems;
+        } else {
+          _allTuitionsList.addAll(newItems);
+        }
+        print('Updated tuitions list: $_allTuitionsList');
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception(e);
+    } finally {
+      _isLoading = false;
+      _showLoadMoreButton = true;
+    }
+  }
+
+  Future<void> prefferedTuitions(int start, int limit) async {
+    _isLoading = true;
+    _showLoadMoreButton = false;
+
+    try {
+      String url =
+          '${Utils.baseUrl}mobile_app/preferred_tuition.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=$limit';
+      final response = await http.get(Uri.parse(url));
+      print('url $url');
+
+      if (response.statusCode == 200) {
+        dynamic jsonResponse = jsonDecode(response.body);
+        List<dynamic> newItems = jsonResponse['tuition_listing'];
+        if (start == 0) {
+          _prefferedTuitionsList = newItems;
+        } else {
+          _prefferedTuitionsList.addAll(newItems);
+        }
+        print('Updated tuitions list: $_prefferedTuitionsList');
       } else {
         print('Error: ${response.statusCode}');
       }

@@ -19,6 +19,7 @@ String subject,
 String share_date,
 String location,
 String limit,
+Function btnontap
     ) {
   return showDialog(
     context: context,
@@ -93,8 +94,8 @@ String limit,
                   backgroundColor: MaterialStateColor.resolveWith((states) =>  colorController.btnColor),
                 ),
                 onPressed: () {
-                  // btnontap();
-                  Navigator.pop(context);
+                  btnontap();
+                  
                 },
                 child: reusableText('Apply',color: colorController.whiteColor),
               ) : Visibility(
