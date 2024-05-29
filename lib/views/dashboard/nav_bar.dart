@@ -58,7 +58,7 @@ class _NavBarState extends State<NavBar> {
 
   @override
   Widget build(BuildContext context) {
-    final screens = [Home(isLoading2: _repository.isLoading,), AllTuitions(isLoading2: isLoading,)];
+    final screens = [Home(isLoading2: isLoading,), AllTuitions(isLoading2: isLoading,)];
     return Scaffold(
       body: Obx(() => IndexedStack(
             children: screens,

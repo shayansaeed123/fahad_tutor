@@ -173,7 +173,8 @@ Widget build(BuildContext context) {
                                         data['class_name'],
                                         data['share_date'],
                                         data['location'],
-                                        data['subject']
+                                        data['subject'],
+                                        repository.success,
                                         )),
                                   ),
                                   Positioned(

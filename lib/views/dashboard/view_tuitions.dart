@@ -461,7 +461,9 @@ class _ViewTuitionsState extends State<ViewTuitions> {
                                             data['class_name'],
                                             data['share_date'],
                                             data['location'],
-                                            data['subject'])),
+                                            data['subject'],
+                                            0,
+                                            )),
                                   ),
                                   Positioned(
                                       left: MediaQuery.of(context).size.width *

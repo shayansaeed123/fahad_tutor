@@ -7,6 +7,8 @@ import 'dart:ui';
 
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
+import 'package:fahad_tutor/res/reusablebtn.dart';
+import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -31,6 +33,62 @@ Widget reusableloadingrow(BuildContext context, bool isLoading) {
           // )
       
       : Container();
+}
+
+
+void reusableloadingApply(BuildContext context, String assetPath, String message,VoidCallback onOkPressed) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Assuming reusableloadingrow is some loading animation
+            Center(
+                  child: 
+                  Lottie.asset(assetPath,
+                  alignment: Alignment.center,
+                  animate: true,
+                  filterQuality: FilterQuality.high,
+                  fit: BoxFit.contain,height: MediaQuery.of(context).size.height *0.15,
+                  repeat: true,),
+                ),
+            SizedBox(height: 20),
+            reusableText(message, fontsize: 17,),
+            SizedBox(height: 20),
+            reusableBtn(context, 'Ok', (){
+              Navigator.of(context).pop();
+              onOkPressed();
+            })
+          ],
+        ),
+      );
+    },
+  );
+
+
+      
+      // : AlertDialog(
+      //   backgroundColor: colorController.whiteColor,
+      //       title: 
+      //   Column(
+      //     children: [
+            // Center(
+            //       child: 
+            //       Lottie.asset('assets/images/success_lottie.json',
+            //       alignment: Alignment.center,
+            //       animate: true,
+            //       filterQuality: FilterQuality.high,
+            //       fit: BoxFit.contain,height: MediaQuery.of(context).size.height *0.05,
+            //       repeat: true,),
+            //     ),
+      //           reusablaSizaBox(context, .05),
+      //           reusableText(msg, fontsize: 17,)
+      //     ],
+      //   )
+      //     );
 }
 
 

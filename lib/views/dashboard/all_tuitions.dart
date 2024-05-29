@@ -318,7 +318,14 @@ class _AllTuitionsState extends State<AllTuitions> {
   final TextEditingController _searchCon = TextEditingController();
   List<dynamic> tuitions = [];
   bool isLoading = false;
+  bool isLoading2 = false;
   bool visible = true;
+  String g_id = '';
+  String tuition_id = '';
+  int success = 0;
+  int is_apply = 0;
+  List<int> successValues = [];
+  String msg = '';
   // bool showLoadMoreButton = false;
   // bool hasMoreData = true;
   int start = 0;
@@ -338,9 +345,15 @@ class _AllTuitionsState extends State<AllTuitions> {
   }
 
   Future<void> fetchInitialTuitions() async {
+    setState(() {
+      isLoading2 = true;
+    });
     await repository.allTuitions(start, limit);
     setState(() {
       tuitions = repository.allTuitionsList;
+    });
+    setState(() {
+      isLoading2 = false;
     });
   }
 
@@ -355,6 +368,57 @@ class _AllTuitionsState extends State<AllTuitions> {
       isLoading = false;
     });
   }
+
+  Future<void> applyTuitions() async {
+    setState(() {
+      isLoading2 = true;
+    });
+
+    try {
+      String url =
+          '${Utils.baseUrl}mobile_app/apply_tuition.php?code=10&group_id=$g_id&tuition_id=$tuition_id&tutor_id=${MySharedPrefrence().get_user_ID()}';
+      final response = await http.get(Uri.parse(url));
+      print('url $url');
+      print('group id $g_id');
+      print('tuition id $tuition_id');
+
+      if (response.statusCode == 200) {
+        setState(() {isLoading2= false;});
+        dynamic jsonResponse = jsonDecode(response.body);
+        msg = jsonResponse['message'];
+        success = jsonResponse['success'];
+        is_apply = jsonResponse['is_applied '];
+        print('apply message $msg');
+        print('success $success');
+        print('apply $is_apply');
+        successValues.add(success);
+        print('list ijnt  $successValues');
+        if(success == 0){
+          Navigator.pop(context);
+          reusableloadingApply(context, 'assets/images/error_lottie.json', msg, refreshPage);
+          
+        }else{
+          Navigator.pop(context);
+          reusableloadingApply(context, 'assets/images/success_lottie.json', msg,refreshPage);
+          Utils.snakbarSuccess(context, msg);
+        }
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception(e);
+    } finally {
+      setState(() {
+        isLoading2 = false;
+      });
+    }
+  }
+  void refreshPage() {
+  setState(() {
+    fetchInitialTuitions();
+  });
+}
 
   @override
   Widget build(BuildContext context) {
@@ -419,8 +483,8 @@ class _AllTuitionsState extends State<AllTuitions> {
                 builder: (context, snapshot) {
                   return checkConnection(
                     snapshot,
-                   widget.isLoading2
-                ? Center(child: reusableloadingrow(context, widget.isLoading2)):
+                   isLoading2 || widget.isLoading2
+                ? Center(child: reusableloadingrow(context, isLoading2||widget.isLoading2)):
                     Expanded(
                       child: ListView.builder(
                         controller: _scrollController,
@@ -441,6 +505,8 @@ class _AllTuitionsState extends State<AllTuitions> {
                                     child: InkWell(
                                         onTap: () {
                                           // repository.group_id();
+                                          g_id = data['group_id'];
+                                          tuition_id = data['tuition_id'];
                                           print('tuitions_id ${data['tuition_id']}');
                                           reusabletutorDetails(
                                               context,formatInfo(data['remarks']),
@@ -453,10 +519,11 @@ class _AllTuitionsState extends State<AllTuitions> {
                                               data['location'],
                                               data['limit_statement'],(){
                                                 if(data['group_id'] == '0'){
-                                                  repository.applyTuitions(data['group_id'], data['tuition_id']);
+                                                  // repository.applyTuitions(data['group_id'], data['tuition_id']);
+                                                  applyTuitions();
                                                 }else{
                                                   reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm', (){
-                                                    repository.applyTuitions(data['group_id'], data['tuition_id']);
+                                                    // repository.applyTuitions(data['group_id'], data['tuition_id']);
                                                   }, (){Navigator.pop(context);});
                                                 }
                                               },
@@ -472,7 +539,8 @@ class _AllTuitionsState extends State<AllTuitions> {
                                         data['class_name'],
                                         data['share_date'],
                                         data['location'],
-                                        data['subject']
+                                        data['subject'],
+                                        success,
                                         )),
                                   ),
                                   Positioned(
@@ -481,6 +549,7 @@ class _AllTuitionsState extends State<AllTuitions> {
                                       right: MediaQuery.of(context).size.width * .27,
                                       child: InkWell(
                                           onTap: () {
+                                            print(repository.success);
                                             reusabletutorDetails(
                                                 context,formatInfo(data['remarks']),
                                               data['class_name'],
@@ -492,10 +561,10 @@ class _AllTuitionsState extends State<AllTuitions> {
                                               data['location'],
                                               data['limit_statement'],(){
                                                 if(data['group_id'] == '0'){
-                                                  repository.applyTuitions(data['group_id'], data['tuition_id']);
+                                                  // repository.applyTuitions(data['group_id'], data['tuition_id']);
                                                 }else{
                                                   reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm', (){
-                                                    repository.applyTuitions(data['group_id'], data['tuition_id']);
+                                                    // repository.applyTuitions(data['group_id'], data['tuition_id']);
                                                   }, (){Navigator.pop(context);});
                                                 }
                                               },
@@ -529,10 +598,10 @@ class _AllTuitionsState extends State<AllTuitions> {
                                               data['location'],
                                               data['limit_statement'],(){
                                                 if(data['group_id'] == '0'){
-                                                  repository.applyTuitions(data['group_id'], data['tuition_id']);
+                                                  // repository.applyTuitions(data['group_id'], data['tuition_id']);
                                                 }else{
                                                   reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm', (){
-                                                    repository.applyTuitions(data['group_id'], data['tuition_id']);
+                                                    // repository.applyTuitions(data['group_id'], data['tuition_id']);
                                                   }, (){Navigator.pop(context);});
                                                 }
                                               },

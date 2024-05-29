@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-Widget reusablecard(BuildContext context, String tuition_name, String class_name, String share_date, String location, String subject){
+Widget reusablecard(BuildContext context, String tuition_name, String class_name, String share_date, String location, String subject , int success){
   return Container(
     width: MediaQuery.of(context).size.width,
     height: MediaQuery.of(context).size.height * .16,
@@ -29,7 +29,22 @@ Widget reusablecard(BuildContext context, String tuition_name, String class_name
           children: [
           reusableText('${tuition_name}',color: colorController.grayTextColor,fontsize: 15,fontweight: FontWeight.bold),
           reusablaSizaBox(context, .005),
-          reusableText('${class_name}',color: colorController.blackColor,fontsize: 16,fontweight: FontWeight.bold),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(child: Text(class_name,style: TextStyle(color: colorController.blackColor,fontSize: 16,fontWeight: FontWeight.bold,overflow: TextOverflow.ellipsis,),softWrap: true,maxLines: 2,)),
+              // reusableText('${class_name}',color: colorController.blackColor,fontsize: 16,fontweight: FontWeight.bold),
+              success == 1? Row(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width*0.06,
+                    height: MediaQuery.of(context).size.height*0.02,
+                    child: Image.asset('assets/images/accept.png',fit: BoxFit.contain,)),
+                  reusableText('Applied',color: colorController.appliedTextColor,fontweight: FontWeight.bold),
+                ],
+              ) : Container(),
+            ],
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [

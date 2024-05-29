@@ -66,6 +66,9 @@ class TutorRepository {
   String _class_name = '';
   String get class_name => _class_name; 
 
+  int _success = 0;
+  int get success => _success;
+
   Future<void> fetchTuitions(int start, int limit) async {
     _isLoading = true;
     _showLoadMoreButton = false;
@@ -192,30 +195,5 @@ class TutorRepository {
     }
   }
 
-  Future<void> applyTuitions(String g_id,String tuition_id) async {
-
-    _isLoading = true;
-    _showLoadMoreButton = false;
-
-    try {
-      String url =
-          '${Utils.baseUrl}mobile_app/apply_tuition.php?code=10&group_id=$g_id&tuition_id=$tuition_id&tutor_id=${MySharedPrefrence().get_user_ID()}';
-      final response = await http.get(Uri.parse(url));
-      print('url $url');
-
-      if (response.statusCode == 200) {
-        dynamic jsonResponse = jsonDecode(response.body);
-        String msg = jsonResponse['message'];
-        print('apply message $msg');
-      } else {
-        print('Error: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Error: $e');
-      throw Exception(e);
-    } finally {
-      _isLoading = false;
-      _showLoadMoreButton = true;
-    }
-  }
+  
 }
