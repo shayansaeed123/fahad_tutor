@@ -490,7 +490,15 @@ class _AllTuitionsState extends State<AllTuitions> {
                                               data['subject'],
                                               data['share_date'],
                                               data['location'],
-                                              data['limit_statement'],(){},
+                                              data['limit_statement'],(){
+                                                if(data['group_id'] == '0'){
+                                                  repository.applyTuitions(data['group_id'], data['tuition_id']);
+                                                }else{
+                                                  reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm', (){
+                                                    repository.applyTuitions(data['group_id'], data['tuition_id']);
+                                                  }, (){Navigator.pop(context);});
+                                                }
+                                              },
                                               data['group_id'],
                                               data['tuition_id']
                                                 );
@@ -520,7 +528,13 @@ class _AllTuitionsState extends State<AllTuitions> {
                                               data['share_date'],
                                               data['location'],
                                               data['limit_statement'],(){
-                                                
+                                                if(data['group_id'] == '0'){
+                                                  repository.applyTuitions(data['group_id'], data['tuition_id']);
+                                                }else{
+                                                  reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm', (){
+                                                    repository.applyTuitions(data['group_id'], data['tuition_id']);
+                                                  }, (){Navigator.pop(context);});
+                                                }
                                               },
                                               data['group_id'],
                                               data['tuition_id']
