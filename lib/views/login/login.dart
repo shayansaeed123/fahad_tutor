@@ -161,6 +161,11 @@ class _LoginState extends State<Login> {
     }
   }
 
+  void loginClear(){
+    reusabletextfieldcontroller.emailCon.clear();
+    reusabletextfieldcontroller.loginPassCon.clear();
+  }
+
 TutorRepository _repository = TutorRepository();
   @override
   Widget build(BuildContext context) {
@@ -287,6 +292,7 @@ TutorRepository _repository = TutorRepository();
                                 reusableBtn(context, 'Login',
                                 (){
                                   _validateForm();
+                                  loginClear();
                                 }
                                 ),
                                 reusablaSizaBox(context, .03),
