@@ -452,7 +452,8 @@ class _ViewTuitionsState extends State<ViewTuitions> {
                                               Navigator.push(context,MaterialPageRoute(builder: (context) => Login()),);
                                             }, (){Navigator.pop(context);});},
                                             data['group_id'],
-                                            data['tuition_id']
+                                            data['tuition_id'],
+                                            data['already']
                                           );
                                         },
                                         child: reusablecard(
@@ -491,7 +492,8 @@ class _ViewTuitionsState extends State<ViewTuitions> {
                                               Navigator.push(context,MaterialPageRoute(builder: (context) => Login()),);
                                             }, (){Navigator.pop(context);});},
                                               data['group_id'],
-                                              data['tuition_id']
+                                              data['tuition_id'],
+                                              data['already']
                                             );
                                           },
                                           child: reusablecardbtn(
@@ -525,7 +527,8 @@ class _ViewTuitionsState extends State<ViewTuitions> {
                                               Navigator.push(context,MaterialPageRoute(builder: (context) => Login()),);
                                             }, (){Navigator.pop(context);});},
                                               data['group_id'],
-                                              data['tuition_id']
+                                              data['tuition_id'],
+                                              data['already']
                                             );
                                           },
                                           child: reusablecardbtn(

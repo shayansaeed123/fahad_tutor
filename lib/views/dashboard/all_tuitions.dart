@@ -324,7 +324,6 @@ class _AllTuitionsState extends State<AllTuitions> {
   String tuition_id = '';
   int success = 0;
   int is_apply = 0;
-  List<int> successValues = [];
   String msg = '';
   // bool showLoadMoreButton = false;
   // bool hasMoreData = true;
@@ -391,8 +390,6 @@ class _AllTuitionsState extends State<AllTuitions> {
         print('apply message $msg');
         print('success $success');
         print('apply $is_apply');
-        successValues.add(success);
-        print('list ijnt  $successValues');
         if(success == 0){
           Navigator.pop(context);
           reusableloadingApply(context, 'assets/images/error_lottie.json', msg, refreshPage);
@@ -519,16 +516,16 @@ class _AllTuitionsState extends State<AllTuitions> {
                                               data['location'],
                                               data['limit_statement'],(){
                                                 if(data['group_id'] == '0'){
-                                                  // repository.applyTuitions(data['group_id'], data['tuition_id']);
                                                   applyTuitions();
                                                 }else{
                                                   reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm', (){
-                                                    // repository.applyTuitions(data['group_id'], data['tuition_id']);
+                                                    applyTuitions();
                                                   }, (){Navigator.pop(context);});
                                                 }
                                               },
                                               data['group_id'],
-                                              data['tuition_id']
+                                              data['tuition_id'],
+                                              data['already']
                                                   );
                                                   setState(() {});
                                                 print('groupppppppppppppppppppppppppp ${data['group_id']}');
@@ -540,7 +537,7 @@ class _AllTuitionsState extends State<AllTuitions> {
                                         data['share_date'],
                                         data['location'],
                                         data['subject'],
-                                        success,
+                                        data['already'],
                                         )),
                                   ),
                                   Positioned(
@@ -561,15 +558,16 @@ class _AllTuitionsState extends State<AllTuitions> {
                                               data['location'],
                                               data['limit_statement'],(){
                                                 if(data['group_id'] == '0'){
-                                                  // repository.applyTuitions(data['group_id'], data['tuition_id']);
+                                                  applyTuitions();
                                                 }else{
                                                   reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm', (){
-                                                    // repository.applyTuitions(data['group_id'], data['tuition_id']);
+                                                    applyTuitions();
                                                   }, (){Navigator.pop(context);});
                                                 }
                                               },
                                               data['group_id'],
-                                              data['tuition_id']
+                                              data['tuition_id'],
+                                              data['already']
                                                 );
                                                 setState(() {});
                                                 print('groupppppppppppppppppppppppppp ${data['group_id']}');
@@ -598,15 +596,16 @@ class _AllTuitionsState extends State<AllTuitions> {
                                               data['location'],
                                               data['limit_statement'],(){
                                                 if(data['group_id'] == '0'){
-                                                  // repository.applyTuitions(data['group_id'], data['tuition_id']);
+                                                  applyTuitions();
                                                 }else{
                                                   reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm', (){
-                                                    // repository.applyTuitions(data['group_id'], data['tuition_id']);
+                                                    applyTuitions();
                                                   }, (){Navigator.pop(context);});
                                                 }
                                               },
                                               data['group_id'],
-                                              data['tuition_id']
+                                              data['tuition_id'],
+                                              data['already']
                                                 );
                                                 setState(() {});
                                                 print('groupppppppppppppppppppppppppp ${data['group_id']}');

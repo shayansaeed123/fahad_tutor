@@ -1,12 +1,14 @@
 
 
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/repo/check_connectivity.dart';
 import 'package:fahad_tutor/repo/tutor_repo.dart';
+import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableappbar.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
@@ -21,6 +23,7 @@ import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
   Home({super.key,required this.isLoading2});
@@ -32,9 +35,15 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   bool isLoading = false;
+  bool isLoading2 = false;
   bool visible = true;
   int start = 0;
   int limit = 10;
+  int success = 0;
+  int is_apply = 0;
+  String g_id = '';
+  String tuition_id = '';
+  String msg= '';
   final TextEditingController _searchCon = TextEditingController();
   Connectivity connectivity = Connectivity();
   final ScrollController _scrollController = ScrollController();
@@ -52,9 +61,15 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> fetchInitialTuitions() async {
-    await repository.prefferedTuitions(start, limit);
     setState(() {
-      tuitions = repository.prefferedTuitionsList;
+      isLoading2 = true;
+    });
+    await repository.allTuitions(start, limit);
+    setState(() {
+      tuitions = repository.allTuitionsList;
+    });
+    setState(() {
+      isLoading2 = false;
     });
   }
 
@@ -69,6 +84,55 @@ class _HomeState extends State<Home> {
       isLoading = false;
     });
   }
+
+  Future<void> applyTuitions() async {
+    // setState(() {
+    //   isLoading2 = true;
+    // });
+
+    try {
+      String url =
+          '${Utils.baseUrl}mobile_app/apply_tuition.php?code=10&group_id=$g_id&tuition_id=$tuition_id&tutor_id=${MySharedPrefrence().get_user_ID()}';
+      final response = await http.get(Uri.parse(url));
+      print('url $url');
+      print('group id $g_id');
+      print('tuition id $tuition_id');
+
+      if (response.statusCode == 200) {
+        // setState(() {isLoading2= false;});
+        dynamic jsonResponse = jsonDecode(response.body);
+        msg = jsonResponse['message'];
+        success = jsonResponse['success'];
+        is_apply = jsonResponse['is_applied '];
+        print('apply message $msg');
+        print('success $success');
+        print('apply $is_apply');
+        if(success == 0){
+          Navigator.pop(context);
+          reusableloadingApply(context, 'assets/images/error_lottie.json', msg, refreshPage);
+          
+        }else{
+          Navigator.pop(context);
+          reusableloadingApply(context, 'assets/images/success_lottie.json', msg,refreshPage);
+          Utils.snakbarSuccess(context, msg);
+        }
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception(e);
+    } finally {
+      setState(() {
+        // isLoading2 = false;
+      });
+    }
+  }
+  void refreshPage() {
+  setState(() {
+    fetchInitialTuitions();
+  });
+}
 
   @override
 Widget build(BuildContext context) {
@@ -134,8 +198,8 @@ Widget build(BuildContext context) {
                 builder: (context, snapshot) {
                   return checkConnection(
                     snapshot,
-                //    widget.isLoading2
-                // ? Center(child: reusableloadingrow(context, widget.isLoading2)):
+                   widget.isLoading2 || isLoading2
+                ? Center(child: reusableloadingrow(context, widget.isLoading2||isLoading2)):
                     Expanded(
                       child: ListView.builder(
                         controller: _scrollController,
@@ -163,10 +227,22 @@ Widget build(BuildContext context) {
                                               data['subject'],
                                               data['share_date'],
                                               data['location'],
-                                              data['limit_statement'],(){},
+                                              data['limit_statement'],(){
+                                                if(data['group_id'] == '0'){
+                                                  applyTuitions();
+                                                }else{
+                                                  reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm', (){
+                                                    applyTuitions();
+                                                  }, (){Navigator.pop(context);});
+                                                }
+                                              },
                                               data['group_id'],
-                                              data['tuition_id']
+                                              data['tuition_id'],
+                                              data['already']
                                                   );
+                                                  setState(() {});
+                                                print('groupppppppppppppppppppppppppp ${data['group_id']}');
+                                                repository.group_id(data['group_id']);
                                         },
                                         child: reusablecard(context,
                                         data['tuition_name'],
@@ -192,10 +268,22 @@ Widget build(BuildContext context) {
                                               data['subject'],
                                               data['share_date'],
                                               data['location'],
-                                              data['limit_statement'],(){},
+                                              data['limit_statement'],(){
+                                                if(data['group_id'] == '0'){
+                                                  applyTuitions();
+                                                }else{
+                                                  reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm', (){
+                                                    applyTuitions();
+                                                  }, (){Navigator.pop(context);});
+                                                }
+                                              },
                                               data['group_id'],
-                                              data['tuition_id']
+                                              data['tuition_id'],
+                                              data['already']
                                                 );
+                                                setState(() {});
+                                                print('groupppppppppppppppppppppppppp ${data['group_id']}');
+                                                repository.group_id(data['group_id']);
                                           },
                                           child: reusablecardbtn(
                                               context,
@@ -217,10 +305,22 @@ Widget build(BuildContext context) {
                                               data['subject'],
                                               data['share_date'],
                                               data['location'],
-                                              data['limit_statement'],(){},
+                                              data['limit_statement'],(){
+                                                if(data['group_id'] == '0'){
+                                                  applyTuitions();
+                                                }else{
+                                                  reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm', (){
+                                                    applyTuitions();
+                                                  }, (){Navigator.pop(context);});
+                                                }
+                                              },
                                               data['group_id'],
-                                              data['tuition_id']
+                                              data['tuition_id'],
+                                              data['already']
                                                 );
+                                                setState(() {});
+                                                print('groupppppppppppppppppppppppppp ${data['group_id']}');
+                                                repository.group_id(data['group_id']);
                                           },
                                           child: reusablecardbtn(context, data['job_closed'] == 0 ? 'Open' : 'Closed', data['job_closed'] == 0 ? colorController.yellowColor : colorController.redColor, data['job_closed'] == 0 ? colorController.blackColor : colorController.whiteColor))),
                                 ],

@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-Widget reusablecard(BuildContext context, String tuition_name, String class_name, String share_date, String location, String subject , int success){
+Widget reusablecard(BuildContext context, String tuition_name, String class_name, String share_date, String location, String subject , int already){
   return Container(
     width: MediaQuery.of(context).size.width,
     height: MediaQuery.of(context).size.height * .16,
@@ -34,7 +34,7 @@ Widget reusablecard(BuildContext context, String tuition_name, String class_name
             children: [
               Expanded(child: Text(class_name,style: TextStyle(color: colorController.blackColor,fontSize: 16,fontWeight: FontWeight.bold,overflow: TextOverflow.ellipsis,),softWrap: true,maxLines: 2,)),
               // reusableText('${class_name}',color: colorController.blackColor,fontsize: 16,fontweight: FontWeight.bold),
-              success == 1? Row(
+              already == 1? Row(
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width*0.06,

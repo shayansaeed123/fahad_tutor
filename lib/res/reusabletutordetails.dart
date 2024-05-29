@@ -22,6 +22,7 @@ String limit,
 Function btnontap,
 String group_id,
 String tuition_id,
+int already,
     ) {
   return showDialog(
     context: context,
@@ -91,7 +92,7 @@ String tuition_id,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              job == 0 ? ElevatedButton(
+              job == 0 && already == 0 ? ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateColor.resolveWith((states) =>  colorController.btnColor),
                 ),
@@ -103,7 +104,7 @@ String tuition_id,
               ) : Visibility(
                 visible: true,
                 child: Container()),
-             job == 0 ? ElevatedButton(
+             job == 0 && already == 0 ? ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateColor.resolveWith((states) =>  colorController.grayTextColor),
                 ),
