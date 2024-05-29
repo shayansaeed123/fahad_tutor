@@ -10,8 +10,11 @@ class TextFieldController extends GetxController {
   final TextEditingController _emailCon = TextEditingController();
   TextEditingController get emailCon => _emailCon;
 
-  final TextEditingController _passCon = TextEditingController();
-  TextEditingController get passCon => _passCon;
+  final TextEditingController _loginPassCon = TextEditingController();
+  TextEditingController get loginPassCon => _loginPassCon;
+
+final TextEditingController _registerPassCon = TextEditingController();
+  TextEditingController get registerPassCon => _registerPassCon;
 
 
   final TextEditingController _teacherCon = TextEditingController();

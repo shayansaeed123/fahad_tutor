@@ -120,3 +120,52 @@ String tuition_id,
       ),
   );
 }
+
+reusableAutoUpdate(BuildContext context,Function ontap){
+  return showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+        backgroundColor: colorController.whiteColor,
+        title: Center(child: reusableText('Enable Auto Update',color: colorController.blackColor,fontsize: 18,fontweight: FontWeight.bold)),
+        content: Container(
+           width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height  * .5,
+          child: Positioned(child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding( padding: const EdgeInsets.all(0.8),
+                             child: reusableText('Tap Manage app and device',color: colorController.grayTextColor,fontsize: 12),
+                             ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(0.8),
+                                              child: reusableText("Tap Manage, then find the app that you want to \n automatically. To open the app's 'Details' \n page tap the app. Trun on Enable-auto update",color: colorController.grayTextColor,fontsize: 12),
+                                            ),
+                                            Image.asset('assets/images/updatepic.png',filterQuality: FilterQuality.high,fit: BoxFit.cover,)
+                  ]
+          ),
+            ),),
+        ),
+        actions: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+           InkWell(
+            onTap: (){Navigator.pop(context);},
+            child: Image.asset('assets/images/remove.png',height: MediaQuery.of(context).size.height * .05 ,width: MediaQuery.of(context).size.width * .1,)),
+           Container(
+            height: MediaQuery.of(context).size.height * .05 ,
+            width: MediaQuery.of(context).size.width * .1,
+             child: CircleAvatar(backgroundColor: colorController.btnColor,child: InkWell(
+              onTap: (){ontap();},
+              child: Center(child: Icon(CupertinoIcons.arrow_right,color: colorController.whiteColor,))),),
+           )
+            ]
+          ),
+          reusablaSizaBox(context, .01)
+        ],
+      ),
+  );
+}

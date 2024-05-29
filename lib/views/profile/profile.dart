@@ -9,6 +9,7 @@ import 'package:fahad_tutor/res/reusablelisttile.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
+import 'package:fahad_tutor/res/reusabletutordetails.dart';
 import 'package:fahad_tutor/res/rusablelink.dart';
 import 'package:fahad_tutor/views/login/login.dart';
 import 'package:fahad_tutor/views/profile/faq.dart';
@@ -53,6 +54,14 @@ class _ProfileState extends State<Profile> {
       throw 'Could not launch $phoneUri';
     }
   }
+  Future<void> _launchGooglePlayStore() async {
+  const url = 'https://play.google.com/store/apps/details?id=com.example.app'; // Replace with your app's URL
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
        
   @override
   Widget build(BuildContext context) {
@@ -127,9 +136,13 @@ class _ProfileState extends State<Profile> {
             reusablelisttile(context,(){
               Navigator.push(context, MaterialPageRoute(builder: (context) => AppFeedback(),));
             },'assets/images/feedback.png','Feedback For App',),
-            reusablelisttile(context,(){},'assets/images/enable.png','Enable Auto Update',),
             reusablelisttile(context,(){
-               Share.share('https://play.google.com/store/apps/details?id=com.fahadtutors.tutors');
+              reusableAutoUpdate(context,(){
+                launch('https://play.google.com/store/apps/details?id=com.fahadtutors');
+              });
+            },'assets/images/enable.png','Enable Auto Update',),
+            reusablelisttile(context,(){
+               Share.share('https://play.google.com/store/apps/details?id=com.fahadtutors');
             },'assets/images/reg_charges_slip_icon.png','Share App',),
             reusablelisttile(context,(){},'assets/images/contact_us_icon.png','Contact Us',),
             reusablelisttile(context,(){

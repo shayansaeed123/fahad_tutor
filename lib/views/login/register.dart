@@ -158,11 +158,11 @@ void updateTutorPlacement() {
     if (cityName.isNotEmpty &&
         reusabletextfieldcontroller.teacherCon.text.isNotEmpty &&
         reusabletextfieldcontroller.fatherCon.text.isNotEmpty &&
-        reusabletextfieldcontroller.passCon.text.isNotEmpty &&
+        reusabletextfieldcontroller.registerPassCon.text.isNotEmpty &&
         reusabletextfieldcontroller.rePassCon.text.isNotEmpty &&
-        reusabletextfieldcontroller.passCon.text ==
+        reusabletextfieldcontroller.registerPassCon.text ==
             reusabletextfieldcontroller.rePassCon.text &&
-        reusabletextfieldcontroller.passCon.text.length >= 8 &&
+        reusabletextfieldcontroller.registerPassCon.text.length >= 8 &&
         reusabletextfieldcontroller.rePassCon.text.length <= 15 &&
         reusabletextfieldcontroller.contactCon.text.length == 11 &&
         reusabletextfieldcontroller.alterContactCon.text.length == 11 &&
@@ -194,18 +194,18 @@ void updateTutorPlacement() {
                                     14
                                 ? "Check CNIC Number  "
                                 : reusabletextfieldcontroller
-                                        .passCon.text.isEmpty
+                                        .registerPassCon.text.isEmpty
                                     ? "Password Is Missing"
                                     : reusabletextfieldcontroller
                                             .rePassCon.text.isEmpty
                                         ? "Confirm Password Is Missing"
                                         : reusabletextfieldcontroller
-                                                    .passCon.text !=
+                                                    .registerPassCon.text !=
                                                 reusabletextfieldcontroller
                                                     .rePassCon.text
                                             ? "Passwords is defferent"
                                             : reusabletextfieldcontroller
-                                                        .passCon.text.length <
+                                                        .registerPassCon.text.length <
                                                     8
                                                 ? "Password  Must be at least of 8 and maximum of 15 charracters"
                                                 : reusabletextfieldcontroller
@@ -482,7 +482,7 @@ void updateTutorPlacement() {
             'tutreligion':reusabletextfieldcontroller.religionCon.text.toString(),
             'email': MySharedPrefrence().get_user_email().toString(),
             'gender': _selectedGender.toString(),
-            'password': reusabletextfieldcontroller.passCon.text.toString(),
+            'password': reusabletextfieldcontroller.registerPassCon.text.toString(),
             'city_id': cityId.toString(),
             'area_id': areaId.toString(),
             'home_address':reusabletextfieldcontroller.addressCon.text.toString(),
@@ -925,7 +925,7 @@ void updateTutorPlacement() {
                                 reusablaSizaBox(context, .015),
                                 reusablePassField(
                                     context,
-                                    reusabletextfieldcontroller.passCon,
+                                    reusabletextfieldcontroller.registerPassCon,
                                     'Password',
                                     _passfocusNode.hasFocus
                                         ? colorController.blueColor
@@ -1536,7 +1536,7 @@ void updateTutorPlacement() {
                               reusablaSizaBox(context, .015),
                               reusablePassField(
                                   context,
-                                  reusabletextfieldcontroller.passCon,
+                                  reusabletextfieldcontroller.registerPassCon,
                                   'Password',
                                   _passfocusNode.hasFocus
                                       ? colorController.blueColor

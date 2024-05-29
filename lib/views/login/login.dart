@@ -68,7 +68,7 @@ class _LoginState extends State<Login> {
 
 
    void _validateForm() {
-     if (reusabletextfieldcontroller.emailCon.text.isNotEmpty && reusabletextfieldcontroller.passCon.text.isNotEmpty 
+     if (reusabletextfieldcontroller.emailCon.text.isNotEmpty && reusabletextfieldcontroller.loginPassCon.text.isNotEmpty 
                         ) {
                   login();
                 } else {
@@ -76,7 +76,7 @@ class _LoginState extends State<Login> {
                     context,
                     reusabletextfieldcontroller.emailCon.text.isEmpty
                         ? "Email Is Missing"
-                        : reusabletextfieldcontroller.passCon.text.isEmpty
+                        : reusabletextfieldcontroller.loginPassCon.text.isEmpty
                             ? "Password Is Missing" : "Fill Correct Fields",
                   );
                 }
@@ -94,7 +94,7 @@ class _LoginState extends State<Login> {
         'cell_access_token': '1'.toString(),
         'deviceid': '1'.toString(),
         'tu_email': reusabletextfieldcontroller.emailCon.text.toString(),
-        'password': reusabletextfieldcontroller.passCon.text.toString(),
+        'password': reusabletextfieldcontroller.loginPassCon.text.toString(),
       }
     );
     if (response.statusCode == 200) {
@@ -249,7 +249,7 @@ TutorRepository _repository = TutorRepository();
                                 reusablaSizaBox(context, .04),
                                 reusablePassField(
                       context,
-                      reusabletextfieldcontroller.passCon,
+                      reusabletextfieldcontroller.loginPassCon,
                       'Password',
                       _passfocusNode.hasFocus
                           ? colorController.blueColor
