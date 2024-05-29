@@ -1,8 +1,5 @@
-
-
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
@@ -64,9 +61,9 @@ class _HomeState extends State<Home> {
     setState(() {
       isLoading2 = true;
     });
-    await repository.allTuitions(start, limit);
+    await repository.prefferedTuitions(start, limit);
     setState(() {
-      tuitions = repository.allTuitionsList;
+      tuitions = repository.prefferedTuitionsList;
     });
     setState(() {
       isLoading2 = false;
