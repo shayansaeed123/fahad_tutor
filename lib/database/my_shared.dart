@@ -233,6 +233,14 @@ void set_user_ID(String? userID) {
     return ''.val('tutor_id', getBox: preferences).val;
   }
 
+  void set_profile_img(String? profile_img) {
+    ''.val('profile_img', getBox: preferences).val = profile_img ?? '';
+  }
+
+  String get_profile_img() {
+    return ''.val('profile_img', getBox: preferences).val;
+  }
+
   // Future<void> setVersionName() async {
   //   await PackageInfo.fromPlatform().then((PackageInfo? packageInfo) {
   //     String? version = packageInfo?.version;

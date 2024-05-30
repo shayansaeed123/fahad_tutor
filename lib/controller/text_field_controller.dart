@@ -68,17 +68,17 @@ final TextEditingController _registerPassCon = TextEditingController();
   final TextEditingController _Specialinstructions = TextEditingController();
   TextEditingController get Specialinstructions => _Specialinstructions;
 
-  final TextEditingController _Promocodeplaceorder = TextEditingController();
-  TextEditingController get Promocodeplaceorder => _Promocodeplaceorder;
+  final TextEditingController _contactUsName = TextEditingController();
+  TextEditingController get contactUsName => _contactUsName;
 
-  final TextEditingController _Address = TextEditingController();
-  TextEditingController get Address => _Address;
+  final TextEditingController _contactUsemail = TextEditingController();
+  TextEditingController get contactUsemail => _contactUsemail;
 
-  final TextEditingController _RiderNote = TextEditingController();
-  TextEditingController get RiderNote => _RiderNote;
+  final TextEditingController _contactUsphone = TextEditingController();
+  TextEditingController get contactUsphone => _contactUsphone;
 
-  final TextEditingController _LabelAddress = TextEditingController();
-  TextEditingController get LabelAddress => _LabelAddress;
+  final TextEditingController _contactUsinfo = TextEditingController();
+  TextEditingController get contactUsinfo => _contactUsinfo;
 
 
 

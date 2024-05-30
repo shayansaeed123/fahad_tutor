@@ -12,6 +12,7 @@ import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/res/reusabletutordetails.dart';
 import 'package:fahad_tutor/res/rusablelink.dart';
 import 'package:fahad_tutor/views/login/login.dart';
+import 'package:fahad_tutor/views/profile/contactus.dart';
 import 'package:fahad_tutor/views/profile/faq.dart';
 import 'package:fahad_tutor/views/profile/feedback.dart';
 import 'package:fahad_tutor/views/profile/resetpassword.dart';
@@ -144,7 +145,9 @@ class _ProfileState extends State<Profile> {
             reusablelisttile(context,(){
                Share.share('https://play.google.com/store/apps/details?id=com.fahadtutors');
             },'assets/images/reg_charges_slip_icon.png','Share App',),
-            reusablelisttile(context,(){},'assets/images/contact_us_icon.png','Contact Us',),
+            reusablelisttile(context,(){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ContactUs(),));
+            },'assets/images/contact_us_icon.png','Contact Us',),
             reusablelisttile(context,(){
               launch('https://fahadtutors.com/aboutus.php?gad_source=1&gclid=EAIaIQobChMIv_SZ6YSNhgMVMQsGAB1ymwKqEAAYASAFEgLvSPD_BwE');
             },'assets/images/about_us_icon.png','About Us',),

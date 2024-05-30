@@ -1,5 +1,6 @@
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/repo/utils.dart';
+import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusablevalidator.dart';
 import 'package:flutter/material.dart';
 
@@ -65,6 +66,53 @@ Widget reusableTextField(
         // contentPadding: EdgeInsets.symmetric(vertical: 25, horizontal: 30),
       ),
     ),
+  );
+}
+
+reusableContactUs(BuildContext context,String text, IconData icons, TextEditingController controller,FocusNode focusnode,Function onsubmit){
+  return Column(
+    children: [
+      Row(mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        reusableText(text,color: colorController.blackColor,fontsize: 16),
+        Icon(icons,color: colorController.blackColor,size: 20,),
+      ],),
+      Container(
+        // margin: EdgeInsets.only(bottom: 10),
+        width: MediaQuery.of(context).size.width * 1,
+        height: MediaQuery.of(context).size.height * .060,
+        child: TextFormField(
+          controller: controller,
+          focusNode: focusnode,
+          onFieldSubmitted: (value) {
+                                  onsubmit();
+                                },           
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: colorController.whiteColor,
+            // labelText: labelText,
+            // labelStyle: TextStyle(color: color),
+            // prefixIcon: const Icon(Icons.password_outlined, color: Colors.white),
+            hintStyle: TextStyle(color: colorController.textfieldBorderColorBefore),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                    color: colorController.textfieldBorderColorBefore, width: 0.75)),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                    color: colorController.textfieldBorderColorBefore, width: 0.75)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                    color: colorController.appliedTextColor, width: 0.75)),
+            errorBorder: InputBorder.none,
+            disabledBorder: InputBorder.none,
+            // contentPadding: EdgeInsets.symmetric(vertical: 25, horizontal: 30),
+          ),
+        ),
+      ),
+    ],
   );
 }
 

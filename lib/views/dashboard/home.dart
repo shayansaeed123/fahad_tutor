@@ -86,7 +86,6 @@ class _HomeState extends State<Home> {
     // setState(() {
     //   isLoading2 = true;
     // });
-
     try {
       String url =
           '${Utils.baseUrl}mobile_app/apply_tuition.php?code=10&group_id=$g_id&tuition_id=$tuition_id&tutor_id=${MySharedPrefrence().get_user_ID()}';

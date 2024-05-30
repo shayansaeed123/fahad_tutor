@@ -9,6 +9,7 @@ class ColorController extends GetxController{
   Color whiteColor = Colors.white;
   Color tileColor =  Color.fromARGB(209, 255, 255, 255);
   Color blackColor = Colors.black;
+  Color lightblackColor = Colors.black87;
   Color yellowColor = Color(0xFFfbc523);
   Color yellowColor2 = Color(0xFFfbc523);
   Color grayTextColor= Color(0xFF9e9e9e);

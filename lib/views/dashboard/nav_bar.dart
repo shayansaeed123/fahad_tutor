@@ -14,11 +14,9 @@ import 'package:http/http.dart' as http;
 
 class NavBar extends StatefulWidget {
   NavBar({super.key});
-
   @override
   State<NavBar> createState() => _NavBarState();
 }
-
 class _NavBarState extends State<NavBar> {
   BottomNavigationController bottomNavigationController =
       Get.put(BottomNavigationController());
@@ -26,14 +24,12 @@ class _NavBarState extends State<NavBar> {
   bool isLoading = false;
   int start = 0;
   int limit = 10;
-
   @override
   void initState() {
     super.initState();
     // fetchAllTuitions(start, limit); // Initial fetch
     fetchPrefferedTuitions(start, limit);
   }
-
   Future<void> fetchAllTuitions(int start, int limit) async {
     setState(() {
       isLoading = true;
@@ -43,7 +39,6 @@ class _NavBarState extends State<NavBar> {
       isLoading = false;
     });
   }
-
   Future<void> fetchPrefferedTuitions(int start, int limit) async {
     setState(() {
       isLoading = true;
@@ -53,8 +48,6 @@ class _NavBarState extends State<NavBar> {
       isLoading = false;
     });
   }
-
-
   @override
   Widget build(BuildContext context) {
     final screens = [Home(isLoading2: isLoading,), AllTuitions(isLoading2: isLoading,)];
@@ -97,6 +90,3 @@ class _NavBarState extends State<NavBar> {
     );
   }
 }
-
-
-
