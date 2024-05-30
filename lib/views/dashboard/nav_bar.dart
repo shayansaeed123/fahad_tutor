@@ -65,7 +65,7 @@ class _NavBarState extends State<NavBar> {
           )),
       bottomNavigationBar: ConvexAppBar(
         backgroundColor: colorController.btnColor,
-        style: TabStyle.flip,
+        style: TabStyle.react,
         elevation: 10,
         items: [
           TabItem(

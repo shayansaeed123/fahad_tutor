@@ -141,7 +141,7 @@ class _LoginState extends State<Login> {
       isLoading = true;
     });
     try{
-      final response = await http.post(
+      final response = await http.get(
       Uri.parse('${Utils.baseUrl}mobile_app/step_1.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
     );
     if (response.statusCode == 200) {
