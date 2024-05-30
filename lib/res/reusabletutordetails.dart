@@ -35,7 +35,7 @@ int already,
           child: Stack(
             children: [
               Opacity(
-                opacity: 0.2,
+                opacity: 0.13,
                 child: Center(child: Positioned(child: Image.asset('assets/images/logo_1.png')))),
               Positioned(child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
@@ -120,6 +120,7 @@ int already,
         ],
       ),
   );
+  
 }
 
 reusableAutoUpdate(BuildContext context,Function ontap){
