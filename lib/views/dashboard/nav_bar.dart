@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/controller/navigation_controller.dart';
@@ -67,7 +66,6 @@ class _NavBarState extends State<NavBar> {
       bottomNavigationBar: ConvexAppBar(
         backgroundColor: colorController.btnColor,
         style: TabStyle.flip,
-        // cornerRadius: 20.0,
         elevation: 10,
         items: [
           TabItem(
@@ -88,7 +86,6 @@ class _NavBarState extends State<NavBar> {
               activeIcon: Icon(CupertinoIcons.book_fill,color: colorController.whiteColor,)),
         ],
         onTap: (index) {
-          // allTuitions(0);
           bottomNavigationController.changeIndex(index);
           if (index == 1) {
             fetchAllTuitions(start, limit);
