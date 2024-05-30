@@ -25,6 +25,14 @@ class MySharedPrefrence {
     false.val('user_login_status', getBox: preferences).val =
         alarmStatus ?? false;
   }
+  List<dynamic> getTuitions() {
+    return <dynamic>[].val('tuitions', getBox: preferences).val;
+  }
+
+  void setTuitions(List<dynamic>? tuitions) {
+    <dynamic>[].val('tuitions', getBox: preferences).val =
+        tuitions ?? [];
+  }
 
   Map<String, dynamic>? getAllTuitions() {
     return <String, dynamic>{}.val('all_tuitions', getBox: preferences).val;

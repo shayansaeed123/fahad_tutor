@@ -478,8 +478,21 @@ class _AllTuitionsState extends State<AllTuitions> {
               StreamBuilder(
                 stream: connectivity.onConnectivityChanged,
                 builder: (context, snapshot) {
-                  return checkConnection(
-                    snapshot,
+                  // Check connectivity status
+          bool isConnected = snapshot.data != ConnectivityResult.none;
+          
+          // if (snapshot.connectionState == ConnectionState.waiting) {
+          //   return Center(child: reusableloadingrow(context, isLoading));
+          // }
+
+          if (!isConnected) {
+            return Center(
+              child: Image.asset('assets/images/no_internet.jpg',fit: BoxFit.cover,filterQuality: FilterQuality.high,)
+            );
+          }
+                  return 
+                  // checkConnection(
+                  //   snapshot,
                    isLoading2 || widget.isLoading2
                 ? Center(child: reusableloadingrow(context, isLoading2||widget.isLoading2)):
                     Expanded(
@@ -487,6 +500,7 @@ class _AllTuitionsState extends State<AllTuitions> {
                         controller: _scrollController,
                         itemCount: tuitions.length + 1,
                         itemBuilder: (context, index) {
+                          // MySharedPrefrence().setTuitions(tuitions);
                           if (index < tuitions.length) {
                             var data = tuitions[index];
                             MySharedPrefrence().setAllTuitions(data);
@@ -636,7 +650,7 @@ class _AllTuitionsState extends State<AllTuitions> {
                           }
                         },
                       ),
-                    ),
+                    // ),
                   );
                 },
               ),

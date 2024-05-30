@@ -193,8 +193,22 @@ Widget build(BuildContext context) {
                         StreamBuilder(
                 stream: connectivity.onConnectivityChanged,
                 builder: (context, snapshot) {
-                  return checkConnection(
-                    snapshot,
+                   // Check connectivity status
+          bool isConnected = snapshot.data != ConnectivityResult.none;
+          
+          // if (snapshot.connectionState == ConnectionState.waiting) {
+          //   return Center(child: reusableloadingrow(context, isLoading));
+          // }
+
+          if (!isConnected) {
+            return Center(
+              child: Image.asset('assets/images/no_internet.jpg',fit: BoxFit.cover,filterQuality: FilterQuality.high,)
+            );
+          }
+
+                  return 
+                  // checkConnection(
+                  //   snapshot,
                    widget.isLoading2 || isLoading2
                 ? Center(child: reusableloadingrow(context, widget.isLoading2||isLoading2)):
                     Expanded(
@@ -347,8 +361,8 @@ Widget build(BuildContext context) {
                           }
                         },
                       ),
-                    ),
-                  );
+                    );
+              //     );
                 },
               ),
               ],
