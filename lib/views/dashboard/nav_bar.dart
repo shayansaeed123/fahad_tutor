@@ -31,7 +31,7 @@ class _NavBarState extends State<NavBar> {
   @override
   void initState() {
     super.initState();
-    fetchAllTuitions(start, limit); // Initial fetch
+    // fetchAllTuitions(start, limit); // Initial fetch
     fetchPrefferedTuitions(start, limit);
   }
 

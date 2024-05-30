@@ -168,7 +168,7 @@ class _ProfileState extends State<Profile> {
                 Navigator.push(context,MaterialPageRoute(
             builder: (context) => WillPopScope( onWillPop: () async => false, child: Login())),);
               }, (){Navigator.pop(context);});
-              MySharedPrefrence().logout();
+              // MySharedPrefrence().logout();
             }),
             reusablaSizaBox(context, .05),
           ],

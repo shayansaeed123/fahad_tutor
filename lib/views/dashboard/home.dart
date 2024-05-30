@@ -215,6 +215,9 @@ Widget build(BuildContext context) {
                                     right: MediaQuery.of(context).size.width * .001,
                                     child: InkWell(
                                         onTap: () {
+                                          g_id = data['group_id'];
+                                          tuition_id = data['tuition_id'];
+                                          print('Preferred tuition id: ${data['tuition_id']}');
                                           reusabletutorDetails(
                                               context,formatInfo(data['remarks']),
                                               data['class_name'],
@@ -247,7 +250,7 @@ Widget build(BuildContext context) {
                                         data['share_date'],
                                         data['location'],
                                         data['subject'],
-                                        repository.success,
+                                        data['already'],
                                         )),
                                   ),
                                   Positioned(

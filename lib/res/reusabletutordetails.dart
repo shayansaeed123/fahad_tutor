@@ -1,5 +1,3 @@
-
-
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
@@ -31,7 +29,7 @@ int already,
         title: Center(child: reusableText('${class_name}',color: colorController.blackColor,fontsize: 17,fontweight: FontWeight.bold)),
         content: Container(
            width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height  * .5,
+                      height: MediaQuery.of(context).size.height  * .39,
           child: Stack(
             children: [
               Opacity(
