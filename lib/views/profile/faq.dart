@@ -1,6 +1,7 @@
 
 
 import 'package:fahad_tutor/controller/color_controller.dart';
+import 'package:fahad_tutor/repo/tutor_repo.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
@@ -14,8 +15,10 @@ class FAQ extends StatefulWidget {
 }
 
 class _FAQState extends State<FAQ> {
+  TutorRepository repository = TutorRepository();
   @override
   Widget build(BuildContext context) {
+    print('heloooooo ${repository.faqs_images}');
     return reusableprofileidget(
       Padding(
         padding: EdgeInsets.symmetric(
@@ -25,6 +28,7 @@ class _FAQState extends State<FAQ> {
           children: [
             reusableText("FAQ's",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
             reusablaSizaBox(context, 0.020),
+            Image.network(repository.faqs_images,fit: BoxFit.cover,)
         //     TextField(
         //           maxLines: 5, // Set the maximum number of lines
         //           decoration: InputDecoration(

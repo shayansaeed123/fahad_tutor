@@ -134,7 +134,9 @@ class _HomeState extends State<Home> {
 Widget build(BuildContext context) {
   return Scaffold(
     backgroundColor: colorController.whiteColor,
-    appBar: reusableappbar(context, colorController.yellowColor,(){Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(),));}),
+    appBar: reusableappbar(context, colorController.yellowColor,()async{
+      await repository.Check_popup();
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(),));}),
     body: 
     // Stack(
     //   children: [

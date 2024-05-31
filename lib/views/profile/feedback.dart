@@ -22,11 +22,12 @@ class AppFeedback extends StatefulWidget {
 class _AppFeedbackState extends State<AppFeedback> {
   bool isLoading = false;
    TutorRepository repository = TutorRepository();
-  void validate(){
+  void validate()async{
     if(reusabletextfieldcontroller.feedback.text.isNotEmpty){
       setState(() {isLoading = true;});
-      repository.feedback();
-      Utils.snakbarSuccess(context, MySharedPrefrence().get_feedback_msg());
+      await repository.feedback();
+      Utils.snakbarSuccess(context, repository.message);
+      feedbackClear();
       setState(() {isLoading=false;});
       Navigator.pop(context);
     }else{
@@ -37,6 +38,9 @@ class _AppFeedbackState extends State<AppFeedback> {
                          : "Fill Correct Fields",
                   );
     }
+  }
+  void feedbackClear(){
+    reusabletextfieldcontroller.feedback.clear();
   }
   @override
   Widget build(BuildContext context) {
@@ -76,7 +80,7 @@ class _AppFeedbackState extends State<AppFeedback> {
                 reusableBtn(context, 'Submit',(){validate();})
               ],
             ),
-            reusableloadingrow(context, isLoading)
+            Center(child: reusableloadingrow(context, isLoading))
           ],
         ),
       )

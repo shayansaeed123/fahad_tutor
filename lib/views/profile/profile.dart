@@ -1,6 +1,7 @@
 
 
 import 'package:fahad_tutor/controller/color_controller.dart';
+import 'package:fahad_tutor/controller/text_field_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
@@ -63,6 +64,10 @@ class _ProfileState extends State<Profile> {
     throw 'Could not launch $url';
   }
 }
+void loginClear(){
+      reusabletextfieldcontroller.emailCon.clear();
+    reusabletextfieldcontroller.loginPassCon.clear();
+  }
        
   @override
   Widget build(BuildContext context) {
@@ -167,6 +172,7 @@ class _ProfileState extends State<Profile> {
             reusableBtn(context, 'Logout',(){
               reusableMessagedialog(context, 'Logout', 'Are you sure?', 'Confirm', (){
                 MySharedPrefrence().logout();
+                loginClear();
                 Navigator.push(context,MaterialPageRoute(
             builder: (context) => WillPopScope( onWillPop: () async => false, child: Login())),);
               }, (){Navigator.pop(context);});

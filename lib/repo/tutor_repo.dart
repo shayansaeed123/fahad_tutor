@@ -70,6 +70,9 @@ class TutorRepository {
   String _message = '';
   String get message => _message; 
 
+  String _faqs_images = '';
+  String get faqs_images => _faqs_images;
+
   int _success = 0;
   int get success => _success;
 
@@ -213,7 +216,7 @@ class TutorRepository {
 
       if (response.statusCode == 200) {
         dynamic jsonResponse = jsonDecode(response.body);
-        MySharedPrefrence().set_feedback_msg(jsonResponse['message']);
+        _message = jsonResponse['message'];
         // List<dynamic> newItems = jsonResponse['group_class_name'];
         
         print('message $_message');
@@ -228,5 +231,28 @@ class TutorRepository {
     }
   }
 
-  
+  Future<void> Check_popup()async{
+     _isLoading = true;
+
+    try {
+      String url =
+          '${Utils.baseUrl}mobile_app/check_popup.php?step_check=1&tutor_id=${MySharedPrefrence().get_user_ID()}';
+      final response = await http.post(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        dynamic jsonResponse = jsonDecode(response.body);
+        _faqs_images = jsonResponse['faqs_images'];
+        // List<dynamic> newItems = jsonResponse['group_class_name'];
+        
+        print('FAQ Image $_faqs_images');
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception(e);
+    } finally {
+      _isLoading = false;
+    }
+  }
 }
