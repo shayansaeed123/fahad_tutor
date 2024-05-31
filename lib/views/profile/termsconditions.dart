@@ -1,5 +1,3 @@
-
-
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/repo/tutor_repo.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
@@ -7,16 +5,15 @@ import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
-class FAQ extends StatefulWidget {
-  const FAQ({super.key});
+class TermsAndConditions extends StatefulWidget {
+  const TermsAndConditions({super.key});
 
   @override
-  State<FAQ> createState() => _FAQState();
+  State<TermsAndConditions> createState() => _TermsAndConditionsState();
 }
 
-class _FAQState extends State<FAQ> {
+class _TermsAndConditionsState extends State<TermsAndConditions> {
   bool isLoading = false;
   @override
   void initState() {
@@ -36,7 +33,7 @@ class _FAQState extends State<FAQ> {
   }
   @override
   Widget build(BuildContext context) {
-    print('img url ${repository.faqs_images}');
+    print('img url ${repository.term_condition_image}');
     return reusableprofileidget(
       Padding(
         padding: EdgeInsets.symmetric(
@@ -50,14 +47,14 @@ class _FAQState extends State<FAQ> {
                 reusablaSizaBox(context, 0.020),
                 // Image.network(repository.faqs_images,fit: BoxFit.cover,)
                 if (isLoading)
-                  Center(child: Container())
-                else if (repository.faqs_images.isNotEmpty)
-                  Image.network(repository.faqs_images, fit: BoxFit.cover)
+                  Center(child: reusableloadingrow(context, isLoading))
+                else if (repository.term_condition_image.isNotEmpty)
+                  Image.network(repository.term_condition_image, fit: BoxFit.cover)
                 else
                   Center(child: reusableText('Please Check Your Internet Connection',color: colorController.blackColor,fontsize: 16)),
               ],
             ),
-            reusableloadingrow(context, isLoading)
+            // reusableloadingrow(context, isLoading)
           ],
         ),
       )

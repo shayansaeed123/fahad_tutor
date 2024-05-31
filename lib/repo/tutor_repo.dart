@@ -73,6 +73,9 @@ class TutorRepository {
   String _faqs_images = '';
   String get faqs_images => _faqs_images;
 
+  String _term_condition_image = '';
+  String get term_condition_image => _term_condition_image;
+
   int _success = 0;
   int get success => _success;
 
@@ -237,14 +240,38 @@ class TutorRepository {
     try {
       String url =
           '${Utils.baseUrl}mobile_app/check_popup.php?step_check=1&tutor_id=${MySharedPrefrence().get_user_ID()}';
-      final response = await http.post(Uri.parse(url));
+      final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
         dynamic jsonResponse = jsonDecode(response.body);
         _faqs_images = jsonResponse['faqs_images'];
-        // List<dynamic> newItems = jsonResponse['group_class_name'];
+         _term_condition_image = jsonResponse['term_condition_image'];
         
         print('FAQ Image $_faqs_images');
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception(e);
+    } finally {
+      _isLoading = false;
+    }
+  }
+
+  Future<void> deleteAccount()async{
+     _isLoading = true;
+
+    try {
+      String url =
+          '${Utils.baseUrl}mobile_app/deletemyaccount.php';
+      final response = await http.post(Uri.parse(url),body: {
+        'celltoken' : '1',
+        'tutor_id' : MySharedPrefrence().get_user_ID().toString(),
+      });
+
+      if (response.statusCode == 200) {
+        dynamic jsonResponse = jsonDecode(response.body);
       } else {
         print('Error: ${response.statusCode}');
       }
