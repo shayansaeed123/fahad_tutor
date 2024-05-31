@@ -2,6 +2,7 @@
 
 
 import 'package:fahad_tutor/controller/color_controller.dart';
+import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableappimage.dart';
 import 'package:fahad_tutor/views/profile/profile.dart';
@@ -43,18 +44,31 @@ reusableappbar(BuildContext context,Color color,Function ontap){
             ontap();
           },
           child: Container(
+            // margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * .03),
             padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * .03,),
-            child: reusableappimage(context, .0, .0, 'assets/images/profile.png'),
+                              child: MySharedPrefrence().get_profile_img() != '' ? CircleAvatar(
+                                radius: MediaQuery.of(context).size.width * 0.07,
+                                backgroundImage: NetworkImage(
+                                  MySharedPrefrence()
+                                      .get_profile_img()
+                                      .toString(),
+                                ),
+                              ) : reusableappimage(context, .0, .0, 'assets/images/profile.png'),
+                            ),
+          // Container(
+          //   padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * .03,),
+          //   child: reusableappimage(context, .0, .0, 'assets/images/profile.png'),
             
-            // Image.asset(
-            //     filterQuality: FilterQuality.high,
-            //     fit: BoxFit.contain,
-            //     'assets/images/profile.png',),
-          ),
+          //   Image.asset(
+          //       filterQuality: FilterQuality.high,
+          //       fit: BoxFit.contain,
+          //       'assets/images/profile.png',),
+          // ),
         ),
         // Icon(CupertinoIcons.circle_filled,color: colorController.blackColor,size: 40,),
         actions: [
           reusableappimage(context, .115, .075, 'assets/images/not_icon.png'),
+
           // Icon(CupertinoIcons.bell_circle_fill,color: colorController.yellowColor,size: 40,),
           // Image.asset(
           //   width: MediaQuery.of(context).size.width * .115,

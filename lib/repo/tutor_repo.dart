@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fahad_tutor/controller/text_field_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
@@ -65,6 +66,9 @@ class TutorRepository {
 
   String _class_name = '';
   String get class_name => _class_name; 
+
+  String _message = '';
+  String get message => _message; 
 
   int _success = 0;
   int get success => _success;
@@ -192,6 +196,35 @@ class TutorRepository {
     } finally {
       _isLoading = false;
       _showLoadMoreButton = true;
+    }
+  }
+
+  Future<void> feedback()async{
+     _isLoading = true;
+
+    try {
+      String url =
+          '${Utils.baseUrl}mobile_app/feedback.php';
+      final response = await http.post(Uri.parse(url),body: {
+        'tutor_id' : MySharedPrefrence().get_user_ID().toString(),
+        'remarks' : reusabletextfieldcontroller.feedback.toString(),
+        'code':'10'.toString(),
+      });
+
+      if (response.statusCode == 200) {
+        dynamic jsonResponse = jsonDecode(response.body);
+        MySharedPrefrence().set_feedback_msg(jsonResponse['message']);
+        // List<dynamic> newItems = jsonResponse['group_class_name'];
+        
+        print('message $_message');
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception(e);
+    } finally {
+      _isLoading = false;
     }
   }
 

@@ -1,18 +1,22 @@
 
 
+import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Widget reusablelisttile(BuildContext context,Function ontap,String image,title){
-  return Padding(
-    padding: const EdgeInsets.only(bottom: 3.0),
-    child: ListTile(
+Widget reusablelisttile(BuildContext context,Function ontap,String image,title,{double borderWidth = .25}){
+  return 
+  // Padding(
+    // padding: const EdgeInsets.only(bottom: 3.0),
+    // child: 
+    ListTile(
       onTap: (){
         ontap();
       },
     contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.01), // Adjust as needed
-    tileColor: Colors.grey[200],
+    tileColor: Colors.grey.shade100,
+    shape: Border(bottom: BorderSide(color: colorController.blackColor,width: borderWidth)),
     dense: true, // Decrease the height of the ListTile
     minVerticalPadding: 0, // Reduce the vertical padding
     horizontalTitleGap: 8.0, // Increase the gap between the leading and title
@@ -21,7 +25,7 @@ Widget reusablelisttile(BuildContext context,Function ontap,String image,title){
     title: reusableText(title,fontsize: 14.5),
     // subtitle: Text('Subtitle'),
     trailing: Icon(CupertinoIcons.arrow_right),
-    ),
+    // ),
   );
 
   // ListTile(

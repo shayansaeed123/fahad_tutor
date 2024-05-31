@@ -111,8 +111,7 @@ class _ProfileState extends State<Profile> {
               ],
             ),
             reusableText('User Details',color: colorController.blackColor,fontsize: 21,),
-            
-                      reusablaSizaBox(context, .01),
+            reusablaSizaBox(context, .01),
             reusablelisttile(context,(){
               reusableprofileInfoDialog(context,'${formatInfo(MySharedPrefrence().get_info())}',() => _launchEmail("info@fahadtutors.com"),);
             },'assets/images/basic_info_icon.png','Basic Info',),
@@ -124,7 +123,7 @@ class _ProfileState extends State<Profile> {
             reusablelisttile(context,(){},'assets/images/add_info_icon.png','Additional Information',),
             reusablelisttile(context,(){
               Navigator.push(context, MaterialPageRoute(builder: (context)=>ResetPassword()));
-            },'assets/images/reset_password.png','Change Password',),
+            },'assets/images/reset_password.png','Change Password',borderWidth: 0.000001),
              reusablaSizaBox(context, .05),
 
             reusableText('App Settings',color: colorController.blackColor,fontsize: 21,),
@@ -151,7 +150,7 @@ class _ProfileState extends State<Profile> {
             reusablelisttile(context,(){
               launch('https://fahadtutors.com/aboutus.php?gad_source=1&gclid=EAIaIQobChMIv_SZ6YSNhgMVMQsGAB1ymwKqEAAYASAFEgLvSPD_BwE');
             },'assets/images/about_us_icon.png','About Us',),
-            reusablelisttile(context,(){},'assets/images/remove.png','Delete My Account',),
+            reusablelisttile(context,(){},'assets/images/remove.png','Delete My Account',borderWidth: 0.000001),
             reusablaSizaBox(context, .05),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -161,7 +160,7 @@ class _ProfileState extends State<Profile> {
                 reusablelink(context, 'assets/images/web_icon.png', (){launch('fahadtutors.com');}),
                 reusablelink(context, 'assets/images/email.png', (){_launchEmail("info@fahadtutors.com");}),
                 reusablelink(context, 'assets/images/phone_icon.png', (){_launchPhone('03002391994');}),
-                reusablelink(context, 'assets/images/yout.png', (){launch('https://youtube.com/@fahadtutorsfta?si=ntx5BBwfHIJHlTZ_');}),
+                reusablelink(context, 'assets/images/youtube.png', (){launch('https://youtube.com/@fahadtutorsfta?si=ntx5BBwfHIJHlTZ_');},),
               ]
             ),
             reusablaSizaBox(context, .05),

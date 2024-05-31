@@ -77,8 +77,8 @@ final TextEditingController _registerPassCon = TextEditingController();
   final TextEditingController _contactUsphone = TextEditingController();
   TextEditingController get contactUsphone => _contactUsphone;
 
-  final TextEditingController _contactUsinfo = TextEditingController();
-  TextEditingController get contactUsinfo => _contactUsinfo;
+  final TextEditingController _feedback = TextEditingController();
+  TextEditingController get feedback => _feedback;
 
 
 

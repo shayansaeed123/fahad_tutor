@@ -52,6 +52,7 @@ dependencies:
   change_app_package_name: 
   connectivity_plus: ^3.0.6
   shimmer: 
+  webview_flutter: ^3.0.4
 
 dev_dependencies:
   flutter_test:

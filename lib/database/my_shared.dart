@@ -241,6 +241,14 @@ void set_user_ID(String? userID) {
     return ''.val('profile_img', getBox: preferences).val;
   }
 
+  void set_feedback_msg(String? feedback_msg) {
+    ''.val('feedback_msg', getBox: preferences).val = feedback_msg ?? '';
+  }
+
+  String get_feedback_msg() {
+    return ''.val('profile_img', getBox: preferences).val;
+  }
+
   // Future<void> setVersionName() async {
   //   await PackageInfo.fromPlatform().then((PackageInfo? packageInfo) {
   //     String? version = packageInfo?.version;
