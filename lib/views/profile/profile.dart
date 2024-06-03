@@ -17,6 +17,8 @@ import 'package:fahad_tutor/views/profile/contactus.dart';
 import 'package:fahad_tutor/views/profile/documentsattach.dart';
 import 'package:fahad_tutor/views/profile/faq.dart';
 import 'package:fahad_tutor/views/profile/feedback.dart';
+import 'package:fahad_tutor/views/profile/qualification.dart';
+import 'package:fahad_tutor/views/profile/registrationcharges.dart';
 import 'package:fahad_tutor/views/profile/resetpassword.dart';
 import 'package:fahad_tutor/views/profile/termsconditions.dart';
 import 'package:flutter/cupertino.dart';
@@ -32,6 +34,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  bool isLoading = false;
                 String formattedInfo = "";
   String formatInfo(String info) {
     return info.replaceAll(',', '\n');
@@ -122,14 +125,18 @@ void loginClear(){
             reusablelisttile(context,(){
               reusableprofileInfoDialog(context,'${formatInfo(MySharedPrefrence().get_info())}',() => _launchEmail("info@fahadtutors.com"),);
             },'assets/images/basic_info_icon.png','Basic Info',),
-            reusablelisttile(context,(){},'assets/images/qual_pref_icon.png','Qulification and Preferences',),
+            reusablelisttile(context,(){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => QualificationAndPreferences(),));
+            },'assets/images/qual_pref_icon.png','Qulification and Preferences',),
             reusablelisttile(context,(){
               Navigator.push(context, MaterialPageRoute(builder: (context) => DocumentsAttach(),));
             },'assets/images/doc_attach_icon.png','Document Attachment',),
             reusablelisttile(context,(){
               Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditions(),));
             },'assets/images/terms_and_conditions.png','Terms & Conditions',),
-            reusablelisttile(context,(){},'assets/images/reg_charges_slip_icon.png','Registration Charges Slip',),
+            reusablelisttile(context,(){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationCharges(),));
+            },'assets/images/reg_charges_slip_icon.png','Registration Charges Slip',),
             reusablelisttile(context,(){},'assets/images/bank_details_icon.png','Bank Details',),
             reusablelisttile(context,(){},'assets/images/add_info_icon.png','Additional Information',),
             reusablelisttile(context,(){
@@ -188,6 +195,7 @@ void loginClear(){
           ],
         ),
       ),
+      reusableloadingrow(context, isLoading)
     );
   }
 }

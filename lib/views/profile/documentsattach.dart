@@ -199,15 +199,16 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
   @override
   Widget build(BuildContext context) {
     return 
-    // reusableprofileidget(
-      Scaffold(
-        backgroundColor: colorController.whiteColor,
-    appBar: AppBar(elevation: 0,backgroundColor: Colors.transparent,),
-        body: Stack(
-          children: [
-            SafeArea(
-              child: SingleChildScrollView(
-                child: Padding(
+    reusableprofileidget(
+    //   Scaffold(
+    //     backgroundColor: colorController.whiteColor,
+    // appBar: AppBar(elevation: 0,backgroundColor: Colors.transparent,),
+    //     body: Stack(
+    //       children: [
+    //         SafeArea(
+    //           child: SingleChildScrollView(
+    //             child: 
+                Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * .032),
                   child: 
@@ -232,13 +233,14 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
                           ),
                          
                 ),
-              ),
-            ),
-            if(isLoading == true)
-            reusableloadingrow(context, isLoading),
-          ],
-        ),
-      // )
+                reusableloadingrow(context, isLoading),
+      //         ),
+      //       ),
+            // if(isLoading == true)
+            // reusableloadingrow(context, isLoading),
+      //     ],
+      //   ),
+      // // )
     );
   }
 }

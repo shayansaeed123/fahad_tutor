@@ -135,7 +135,8 @@ class _ContactUsState extends State<ContactUs> {
             ],
           ),
         ),
-      )
+      ),
+      reusableloadingrow(context, isLoading)
     );
   }
 }

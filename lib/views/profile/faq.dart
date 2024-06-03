@@ -38,15 +38,8 @@ class _FAQState extends State<FAQ> {
   @override
   Widget build(BuildContext context) {
     return 
-    // reusableprofileidget(
-      Scaffold(
-        backgroundColor: colorController.whiteColor,
-    appBar: AppBar(elevation: 0,backgroundColor: Colors.transparent,),
-        body: Stack(
-          children: [
-            SafeArea(
-              child: SingleChildScrollView(
-                child: Padding(
+    reusableprofileidget( 
+                Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * .032),
                   child: Stack(
@@ -73,12 +66,7 @@ class _FAQState extends State<FAQ> {
                     ],
                   ),
                 ),
-              ),
-            ),
-            Center(child: reusableloadingrow(context, isLoading))
-          ],
-        ),
-      // )
+                Center(child: reusableloadingrow(context, isLoading))
     );
   }
 }

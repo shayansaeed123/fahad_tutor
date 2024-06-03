@@ -4,6 +4,7 @@ import 'package:fahad_tutor/repo/tutor_repo.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
+import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusablepassfield.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
@@ -28,6 +29,7 @@ class _ResetPassordState extends State<ResetPassword> {
   bool old = true;
   bool newp = true;
   bool confirm = true;
+  bool isLoading = false;
   TutorRepository repository = TutorRepository();
 
   void _validateForm() {
@@ -177,6 +179,8 @@ class _ResetPassordState extends State<ResetPassword> {
           reusableBtn(context, 'Reset Password',(){_validateForm();})
         ],
       ),
-    ));
+    ),
+    reusableloadingrow(context, isLoading)
+    );
   }
 }

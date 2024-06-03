@@ -78,6 +78,9 @@ class TutorRepository {
   String _term_condition_image = '';
   String get term_condition_image => _term_condition_image;
 
+  String _Registration_text = '';
+  String get Registration_text => _Registration_text;
+
   int _success = 0;
   int get success => _success;
 
@@ -248,11 +251,13 @@ class TutorRepository {
         dynamic jsonResponse = jsonDecode(response.body);
         _faqs_images = jsonResponse['faqs_images'];
         _term_condition_image = jsonResponse['term_condition_image'];
+        _Registration_text = jsonResponse['Registration_text'];
          MySharedPrefrence().set_term_condition_image(jsonResponse['term_condition_image']);
          MySharedPrefrence().set_faqs_images(jsonResponse['faqs_images']);
         
         print('FAQ Image ${MySharedPrefrence().get_feedback_msg()}');
         print('terms & conditions Image ${MySharedPrefrence().get_term_condition_image()}');
+        print('registration $_Registration_text');
       } else {
         print('Error: ${response.statusCode}');
       }

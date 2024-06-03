@@ -48,42 +48,38 @@ class _AppFeedbackState extends State<AppFeedback> {
       Padding(
         padding: EdgeInsets.symmetric(
           horizontal: MediaQuery.of(context).size.width * .032),
-        child: Stack(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                reusableText('Feedback',color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
-                reusablaSizaBox(context, 0.020),
-                TextField(
-                  controller: reusabletextfieldcontroller.feedback,
-                      maxLines: 5, // Set the maximum number of lines
-                      decoration: InputDecoration(
-                        alignLabelWithHint: true,
-                        label: reusableText('Feedback For App'),
-                        labelStyle: TextStyle(color: colorController.grayTextColor),
-                        border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                    color: colorController.textfieldBorderColorBefore, width: 1.5)),
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                    color: colorController.textfieldBorderColorBefore, width: 1.5)),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                    color: colorController.textfieldBorderColorAfter, width: 1.5)),
-                      ),
-                ),
-                reusablaSizaBox(context, 0.040),
-                reusableBtn(context, 'Submit',(){validate();})
-              ],
+            reusableText('Feedback',color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
+            reusablaSizaBox(context, 0.020),
+            TextField(
+              controller: reusabletextfieldcontroller.feedback,
+                  maxLines: 5, // Set the maximum number of lines
+                  decoration: InputDecoration(
+                    alignLabelWithHint: true,
+                    label: reusableText('Feedback For App'),
+                    labelStyle: TextStyle(color: colorController.grayTextColor),
+                    border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(
+                color: colorController.textfieldBorderColorBefore, width: 1.5)),
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(
+                color: colorController.textfieldBorderColorBefore, width: 1.5)),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(
+                color: colorController.textfieldBorderColorAfter, width: 1.5)),
+                  ),
             ),
-            Center(child: reusableloadingrow(context, isLoading))
+            reusablaSizaBox(context, 0.040),
+            reusableBtn(context, 'Submit',(){validate();})
           ],
         ),
-      )
+      ),
+      reusableloadingrow(context, isLoading)
     );
   }
 }
