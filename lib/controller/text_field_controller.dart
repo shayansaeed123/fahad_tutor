@@ -90,6 +90,28 @@ final TextEditingController _registerPassCon = TextEditingController();
   TextEditingController get conPass => _conPass;
 
 
+  ///Account Details 
+
+final TextEditingController _title = TextEditingController();
+  TextEditingController get title => _title;
+
+  final TextEditingController _bankname = TextEditingController();
+  TextEditingController get bankname => _bankname;
+
+  final TextEditingController _branchcode = TextEditingController();
+  TextEditingController get branchcode => _branchcode;
+
+  final TextEditingController _accountnumber = TextEditingController();
+  TextEditingController get accountnumber => _accountnumber;
+
+  final TextEditingController _ibannumber = TextEditingController();
+  TextEditingController get ibannumber => _ibannumber;
+
+  final TextEditingController _accounttitle = TextEditingController();
+  TextEditingController get accounttitle => _accounttitle;
+
+  final TextEditingController _mobilenumber = TextEditingController();
+  TextEditingController get mobilenumber => _mobilenumber;
 
 
 
