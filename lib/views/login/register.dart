@@ -535,36 +535,13 @@ void updateTutorPlacement() {
     }
   }
 
-// List<DropdownMenuItem<String>> _buildCountryDropdownItems(List<dynamic> countryList) {
-//   Set<String> uniqueValues = {}; // To store unique values
-//   List<DropdownMenuItem<String>> items = [];
-
-//   for (dynamic country in countryList) {
-//     String value = '${country['c_id']}'; // Use only the ID as value
-//     if (!uniqueValues.contains(value)) {
-//       uniqueValues.add(value);
-//       items.add(DropdownMenuItem(
-//         value: value,
-//         child: Text(country['c_name']),
-//       ));
-//     }
-//   }
-//   return items;
-// }
-
-// void _onCountryChanged(dynamic newValue) {
-//   setState(() {
-//     countryLists = newValue;
-//     countryId = newValue.toString();
-//   });
-//   selectCity(countryId); // Call selectCity function here
-// }
-
   dynamic countryLists;
   dynamic cityLists;
   dynamic areaLists;
   bool isCityDropdownEnabled = false;
   bool isAreaDropdownEnabled = false;
+
+  List<dynamic> selectedCountries = [];
 
   @override
   Widget build(BuildContext context) {
@@ -626,6 +603,16 @@ void updateTutorPlacement() {
                             key: _formkey,
                             child: Column(
                               children: [
+                              
+
+
+
+
+
+
+
+
+
                                 Container(
                                   padding: EdgeInsets.only(
                                       left: MediaQuery.of(context).size.width *
@@ -640,7 +627,8 @@ void updateTutorPlacement() {
                                     borderRadius: BorderRadius.circular(10.0),
                                     // Border radius
                                   ),
-                                  child: DropdownSearch<dynamic>(
+                                  child: 
+                                  DropdownSearch<dynamic>(
                                     popupProps: PopupPropsMultiSelection.dialog(
                                       fit: FlexFit.loose,
                                       showSearchBox: true,
@@ -683,48 +671,6 @@ void updateTutorPlacement() {
                                     },
                                     selectedItem: countryLists,
                                   ),
-                                  //                   child: DropdownButton<dynamic>(
-                                  //                     value: countryLists,
-                                  //                     onChanged: (dynamic newValue) {
-                                  // setState(() {
-                                  //   countryLists = newValue;
-                                  //   countryId = newValue.toString();
-                                  //   isCityDropdownEnabled = true;
-                                  // });
-                                  // selectCity(); // Call selectCity function here
-                                  // },
-                                  //                     // (dynamic newValue) {
-                                  //                     //   setState(() {
-                                  //                     //     countryLists = newValue;
-                                  //                     //     countryId = newValue['c_id'].toString(); // Assuming 'c_id' is the key for the country ID
-                                  //                     //         isCityDropdownEnabled = true;
-                                  //                     //   });
-                                  //                     //   // selectCity(countryId.toString());
-                                  //                     //   print('Selected class ID: ${newValue['c_id']}');
-                                  //                     //   print('Selected class Name: ${newValue['c_name']}');
-                                  //                     //   print('object $countryId');
-                                  //                     //   // selectCity();
-                                  //                     // },
-                                  //                     hint: reusableText(
-                                  //                       'Select Country',
-                                  //                       color: colorController.grayTextColor,
-                                  //                       fontsize: 14,
-                                  //                     ),
-                                  //                     items: countryList.map((dynamic country) {
-                                  //                       return DropdownMenuItem<dynamic>(
-                                  //                           value: country['c_id'].toString(),
-                                  //                           child: Container(
-                                  //                               width:
-                                  //                                   MediaQuery.of(context).size.width * .81,
-                                  //                               child: reusableText(country['c_name'],
-                                  //                                   color: colorController.grayTextColor,
-                                  //                                   fontsize: 14)));
-                                  //                     }).toList(),
-                                  //                     style: TextStyle(
-                                  //                         color: Colors.black), // Dropdown text color
-                                  //                     icon: Icon(Icons.arrow_drop_down), // Dropdown icon
-                                  //                     underline: Container(), // Remove underline
-                                  //                   ),
                                 ),
                                 reusablaSizaBox(context, .015),
                                 AbsorbPointer(
@@ -1300,7 +1246,7 @@ void updateTutorPlacement() {
                                               }
                                             : null,
                                         selectedItem: areaLists,
-                                      ),
+                                         ),
                                       //                   child: DropdownButton<dynamic>(
                                       //                     value: areaLists,
                                       //                     onChanged: isAreaDropdownEnabled ? (dynamic newValue) {
