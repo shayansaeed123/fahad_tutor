@@ -198,32 +198,47 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
 
   @override
   Widget build(BuildContext context) {
-    return reusableprofileidget(
-      Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: MediaQuery.of(context).size.width * .032),
-        child: 
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    reusableText('Documents \nAttachment',color: colorController.blackColor,fontsize: 25,fontweight: FontWeight.bold),
-                    reusablaSizaBox(context, 0.020),
-                    reusableDocuments(context,'','Add Image (Front)','Add Image (Back)' ,'Profile', 'CNIC Image', personal_image, cnic_front,cnic_back, (){
-                      reuablebottomsheet(context, "Choose Profile Image",(){},(){});
-                    },(){reuablebottomsheet(context, "Choose CNIC Front Image",(){},(){});},
-                    (){reuablebottomsheet(context, "Choose CNIC Back Image",(){},(){});}
-                    ),
-                     reusablaSizaBox(context, 0.020),
-                    reusableDocuments(context, 'Add Image', '', '', 'Last Qualification Proof', 'Attach other Documents(Optional)', last_document, other_1, other_2, (){
-                      reuablebottomsheet(context, "Choose Qualification Image",(){},(){});
-                    },(){reuablebottomsheet(context, "Choose Other Image",(){},(){});},
-                    (){reuablebottomsheet(context, "Choose Other Image",(){},(){});}),
-                    reusablaSizaBox(context, 0.010),
-                    // reusableBtn(context, 'Submit',(){})
-                  ],
+    return 
+    // reusableprofileidget(
+      Scaffold(
+        backgroundColor: colorController.whiteColor,
+    appBar: AppBar(elevation: 0,backgroundColor: Colors.transparent,),
+        body: Stack(
+          children: [
+            SafeArea(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * .032),
+                  child: 
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              reusableText('Documents \nAttachment',color: colorController.blackColor,fontsize: 25,fontweight: FontWeight.bold),
+                              reusablaSizaBox(context, 0.020),
+                              reusableDocuments(context,'','Add Image (Front)','Add Image (Back)' ,'Profile', 'CNIC Image', personal_image, cnic_front,cnic_back, (){
+                                reuablebottomsheet(context, "Choose Profile Image",(){},(){});
+                              },(){reuablebottomsheet(context, "Choose CNIC Front Image",(){},(){});},
+                              (){reuablebottomsheet(context, "Choose CNIC Back Image",(){},(){});}
+                              ),
+                               reusablaSizaBox(context, 0.020),
+                              reusableDocuments(context, 'Add Image', '', '', 'Last Qualification Proof', 'Attach other Documents(Optional)', last_document, other_1, other_2, (){
+                                reuablebottomsheet(context, "Choose Qualification Image",(){},(){});
+                              },(){reuablebottomsheet(context, "Choose Other Image",(){},(){});},
+                              (){reuablebottomsheet(context, "Choose Other Image",(){},(){});}),
+                              reusablaSizaBox(context, 0.010),
+                              // reusableBtn(context, 'Submit',(){})
+                            ],
+                          ),
+                         
                 ),
-               
-      )
+              ),
+            ),
+            if(isLoading == true)
+            reusableloadingrow(context, isLoading),
+          ],
+        ),
+      // )
     );
   }
 }

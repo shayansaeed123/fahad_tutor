@@ -246,7 +246,8 @@ class TutorRepository {
 
       if (response.statusCode == 200) {
         dynamic jsonResponse = jsonDecode(response.body);
-        // _faqs_images = jsonResponse['faqs_images'];
+        _faqs_images = jsonResponse['faqs_images'];
+        _term_condition_image = jsonResponse['term_condition_image'];
          MySharedPrefrence().set_term_condition_image(jsonResponse['term_condition_image']);
          MySharedPrefrence().set_faqs_images(jsonResponse['faqs_images']);
         
