@@ -1,6 +1,8 @@
 
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
+import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/repo/tutor_repo.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
@@ -8,6 +10,7 @@ import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network/cached_network.dart';
 
 class FAQ extends StatefulWidget {
   const FAQ({super.key});
@@ -17,26 +20,9 @@ class FAQ extends StatefulWidget {
 }
 
 class _FAQState extends State<FAQ> {
-  bool isLoading = false;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    check();
-  }
-  TutorRepository repository = TutorRepository();
-  void check()async{
-    setState(() {
-      isLoading = true;
-    });
-    await repository.Check_popup();
-    setState(() {
-      isLoading = false;
-    });
-  }
+  bool isLoading = true;
   @override
   Widget build(BuildContext context) {
-    print('img url ${repository.faqs_images}');
     return reusableprofileidget(
       Padding(
         padding: EdgeInsets.symmetric(
@@ -49,15 +35,19 @@ class _FAQState extends State<FAQ> {
                 reusableText("FAQ's",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
                 reusablaSizaBox(context, 0.020),
                 // Image.network(repository.faqs_images,fit: BoxFit.cover,)
-                if (isLoading)
-                  Center(child: Container())
-                else if (repository.faqs_images.isNotEmpty)
-                  Image.network(repository.faqs_images, fit: BoxFit.cover)
-                else
-                  Center(child: reusableText('Please Check Your Internet Connection',color: colorController.blackColor,fontsize: 16)),
+               CachedNetworkImage(imageUrl: MySharedPrefrence().get_faqs_images(),
+               errorWidget: (context, url, error) => reusableloadingrow(context, isLoading),
+               fit: BoxFit.cover,
+               )
+                // if (isLoading)
+                //   Center(child: Container())
+                // else if (repository.faqs_images.isNotEmpty)
+                //   Image.network(repository.faqs_images, fit: BoxFit.cover)
+                // else
+                //   Center(child: reusableText('Please Check Your Internet Connection',color: colorController.blackColor,fontsize: 16)),
               ],
             ),
-            reusableloadingrow(context, isLoading)
+            // reusableloadingrow(context, isLoading)
           ],
         ),
       )

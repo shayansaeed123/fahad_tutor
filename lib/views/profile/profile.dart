@@ -14,9 +14,11 @@ import 'package:fahad_tutor/res/reusabletutordetails.dart';
 import 'package:fahad_tutor/res/rusablelink.dart';
 import 'package:fahad_tutor/views/login/login.dart';
 import 'package:fahad_tutor/views/profile/contactus.dart';
+import 'package:fahad_tutor/views/profile/documentsattach.dart';
 import 'package:fahad_tutor/views/profile/faq.dart';
 import 'package:fahad_tutor/views/profile/feedback.dart';
 import 'package:fahad_tutor/views/profile/resetpassword.dart';
+import 'package:fahad_tutor/views/profile/termsconditions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
@@ -100,11 +102,11 @@ void loginClear(){
                                 radius:
                                     MediaQuery.of(context).size.width * 0.15,
                                     backgroundColor: colorController.blackColor,
-                                // backgroundImage: NetworkImage(
-                                //   // MySharedPrefrence()
-                                //   //     .get_user_image()
-                                //   //     .toString(),
-                                // ),
+                                backgroundImage: NetworkImage(
+                                  MySharedPrefrence()
+                                      .get_profile_img()
+                                      .toString(),
+                                ),
                               ),
                             ),
                           // ),
@@ -121,8 +123,12 @@ void loginClear(){
               reusableprofileInfoDialog(context,'${formatInfo(MySharedPrefrence().get_info())}',() => _launchEmail("info@fahadtutors.com"),);
             },'assets/images/basic_info_icon.png','Basic Info',),
             reusablelisttile(context,(){},'assets/images/qual_pref_icon.png','Qulification and Preferences',),
-            reusablelisttile(context,(){},'assets/images/doc_attach_icon.png','Document Attachment',),
-            reusablelisttile(context,(){},'assets/images/terms_and_conditions.png','Terms & Conditions',),
+            reusablelisttile(context,(){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => DocumentsAttach(),));
+            },'assets/images/doc_attach_icon.png','Document Attachment',),
+            reusablelisttile(context,(){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditions(),));
+            },'assets/images/terms_and_conditions.png','Terms & Conditions',),
             reusablelisttile(context,(){},'assets/images/reg_charges_slip_icon.png','Registration Charges Slip',),
             reusablelisttile(context,(){},'assets/images/bank_details_icon.png','Bank Details',),
             reusablelisttile(context,(){},'assets/images/add_info_icon.png','Additional Information',),

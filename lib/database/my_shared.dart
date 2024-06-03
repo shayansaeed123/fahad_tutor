@@ -246,7 +246,23 @@ void set_user_ID(String? userID) {
   }
 
   String get_feedback_msg() {
-    return ''.val('profile_img', getBox: preferences).val;
+    return ''.val('feedback_msg', getBox: preferences).val;
+  }
+
+  void set_faqs_images(String? faqs_images) {
+    ''.val('faqs_images', getBox: preferences).val = faqs_images ?? '';
+  }
+
+  String get_faqs_images() {
+    return ''.val('faqs_images', getBox: preferences).val;
+  }
+
+  void set_term_condition_image(String? term_condition_image) {
+    ''.val('term_condition_image', getBox: preferences).val = term_condition_image ?? '';
+  }
+
+  String get_term_condition_image() {
+    return ''.val('term_condition_image', getBox: preferences).val;
   }
 
   // Future<void> setVersionName() async {

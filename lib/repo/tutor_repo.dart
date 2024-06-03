@@ -4,6 +4,8 @@ import 'package:fahad_tutor/controller/text_field_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
+import 'package:fahad_tutor/views/profile/profile.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 
@@ -244,10 +246,12 @@ class TutorRepository {
 
       if (response.statusCode == 200) {
         dynamic jsonResponse = jsonDecode(response.body);
-        _faqs_images = jsonResponse['faqs_images'];
-         _term_condition_image = jsonResponse['term_condition_image'];
+        // _faqs_images = jsonResponse['faqs_images'];
+         MySharedPrefrence().set_term_condition_image(jsonResponse['term_condition_image']);
+         MySharedPrefrence().set_faqs_images(jsonResponse['faqs_images']);
         
-        print('FAQ Image $_faqs_images');
+        print('FAQ Image ${MySharedPrefrence().get_feedback_msg()}');
+        print('terms & conditions Image ${MySharedPrefrence().get_term_condition_image()}');
       } else {
         print('Error: ${response.statusCode}');
       }
@@ -272,6 +276,43 @@ class TutorRepository {
 
       if (response.statusCode == 200) {
         dynamic jsonResponse = jsonDecode(response.body);
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception(e);
+    } finally {
+      _isLoading = false;
+    }
+  }
+
+  Future<void> resetPassword(context)async{
+     _isLoading = true;
+
+    try {
+      String url =
+          '${Utils.baseUrl}mobile_app/password_rest.php';
+      final response = await http.post(Uri.parse(url),body: {
+        'tutor_id' : MySharedPrefrence().get_user_ID().toString(),
+        'code':'10'.toString(),
+        'old_pass' : reusabletextfieldcontroller.oldPass.text.toString(),
+        'new_pass' : reusabletextfieldcontroller.newPass.text.toString(),
+        'con_pass' : reusabletextfieldcontroller.conPass.text.toString()
+      });
+
+      if (response.statusCode == 200) {
+        dynamic jsonResponse = jsonDecode(response.body);
+        _message = jsonResponse['message'];
+        // List<dynamic> newItems = jsonResponse['group_class_name'];
+        if(jsonResponse['success'] == 1){
+          Utils.snakbarSuccess(context, _message);
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));
+        }else{
+          Utils.snakbarFailed(context, _message);
+        }
+        
+        print('message $_message');
       } else {
         print('Error: ${response.statusCode}');
       }

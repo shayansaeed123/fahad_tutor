@@ -80,6 +80,15 @@ final TextEditingController _registerPassCon = TextEditingController();
   final TextEditingController _feedback = TextEditingController();
   TextEditingController get feedback => _feedback;
 
+  final TextEditingController _oldPass = TextEditingController();
+  TextEditingController get oldPass => _oldPass;
+
+  final TextEditingController _newPass = TextEditingController();
+  TextEditingController get newPass => _newPass;
+
+  final TextEditingController _conPass = TextEditingController();
+  TextEditingController get conPass => _conPass;
+
 
 
 

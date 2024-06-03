@@ -1,10 +1,15 @@
 import 'package:fahad_tutor/controller/color_controller.dart';
+import 'package:fahad_tutor/controller/text_field_controller.dart';
+import 'package:fahad_tutor/repo/tutor_repo.dart';
+import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusablepassfield.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
+import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class ResetPassword extends StatefulWidget {
   const ResetPassword({super.key});
@@ -14,15 +19,55 @@ class ResetPassword extends StatefulWidget {
 }
 
 class _ResetPassordState extends State<ResetPassword> {
-  final TextEditingController _oldPassController = TextEditingController();
-  final TextEditingController _newPassController = TextEditingController();
-  final TextEditingController _confirmPassController = TextEditingController();
+  // final TextEditingController _oldPassController = TextEditingController();
+  // final TextEditingController _newPassController = TextEditingController();
+  // final TextEditingController _confirmPassController = TextEditingController();
   late FocusNode _oldPassfocusNode;
   late FocusNode _newPassfocusNode;
   late FocusNode _confirmPassfocusNode;
   bool old = true;
   bool newp = true;
   bool confirm = true;
+  TutorRepository repository = TutorRepository();
+
+  void _validateForm() {
+    if (reusabletextfieldcontroller.oldPass.text.isNotEmpty &&
+        reusabletextfieldcontroller.newPass.text.isNotEmpty &&
+        reusabletextfieldcontroller.conPass.text.isNotEmpty &&
+        reusabletextfieldcontroller.newPass.text ==
+            reusabletextfieldcontroller.conPass.text &&
+        reusabletextfieldcontroller.newPass.text.length >= 8 &&
+        reusabletextfieldcontroller.conPass.text.length <= 15 
+      ) {
+      // CheckUserContactExictOrNot();
+      repository.resetPassword(context);
+      // Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));
+    } else {
+      Utils.snakbar(
+        context,
+        reusabletextfieldcontroller
+                                        .oldPass.text.isEmpty
+                                    ? "Old Password Is Missing"
+                                    :
+        reusabletextfieldcontroller
+                                        .newPass.text.isEmpty
+                                    ? "New Password Is Missing"
+                                    : reusabletextfieldcontroller
+                                            .conPass.text.isEmpty
+                                        ? "Confirm Password Is Missing"
+                                        : reusabletextfieldcontroller
+                                                    .newPass.text !=
+                                                reusabletextfieldcontroller
+                                                    .conPass.text
+                                            ? "New Passwords is defferent"
+                                            : reusabletextfieldcontroller
+                                                        .newPass.text.length <
+                                                    8
+                                                ? "New Password  Must be at least of 8 and maximum of 15 charracters"
+                                                 : "Fill Correct Fields",
+      );
+    }
+  }
 
   @override
   void initState() {
@@ -67,7 +112,7 @@ class _ResetPassordState extends State<ResetPassword> {
           reusablaSizaBox(context, 0.020),
           reusablePassField(
               context,
-              _oldPassController,
+              reusabletextfieldcontroller.oldPass,
               'Old Password',
               _oldPassfocusNode.hasFocus
                   ? colorController.blueColor
@@ -89,7 +134,7 @@ class _ResetPassordState extends State<ResetPassword> {
               reusablaSizaBox(context, 0.020),
               reusablePassField(
               context,
-              _newPassController,
+              reusabletextfieldcontroller.newPass,
               'New Password',
               _newPassfocusNode.hasFocus
                   ? colorController.blueColor
@@ -110,7 +155,7 @@ class _ResetPassordState extends State<ResetPassword> {
               reusablaSizaBox(context, 0.020),
               reusablePassField(
               context,
-              _confirmPassController,
+              reusabletextfieldcontroller.conPass,
               'Confirm Password',
               _confirmPassfocusNode.hasFocus
                   ? colorController.blueColor
@@ -128,27 +173,8 @@ class _ResetPassordState extends State<ResetPassword> {
                   confirm = !confirm;
                 });
               }),
-          //     TextField(
-          //           maxLines: 5, // Set the maximum number of lines
-          //           decoration: InputDecoration(
-          //             label: reusableText('Feedback For App'),
-          //             labelStyle: TextStyle(color: colorController.grayTextColor),
-          //             border: OutlineInputBorder(
-          //     borderRadius: BorderRadius.circular(10),
-          //     borderSide: BorderSide(
-          //         color: colorController.textfieldBorderColorBefore, width: 1.5)),
-          // enabledBorder: OutlineInputBorder(
-          //     borderRadius: BorderRadius.circular(10),
-          //     borderSide: BorderSide(
-          //         color: colorController.textfieldBorderColorBefore, width: 1.5)),
-          // focusedBorder: OutlineInputBorder(
-          //     borderRadius: BorderRadius.circular(10),
-          //     borderSide: BorderSide(
-          //         color: colorController.textfieldBorderColorAfter, width: 1.5)),
-          //           ),
-          //     ),
           reusablaSizaBox(context, 0.040),
-          reusableBtn(context, 'Reset Password',(){})
+          reusableBtn(context, 'Reset Password',(){_validateForm();})
         ],
       ),
     ));

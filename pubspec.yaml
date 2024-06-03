@@ -53,6 +53,9 @@ dependencies:
   connectivity_plus: ^3.0.6
   shimmer: 
   webview_flutter: ^3.0.4
+  cached_network:
+  dotted_border: 
+  image_picker: 
 
 dev_dependencies:
   flutter_test:
