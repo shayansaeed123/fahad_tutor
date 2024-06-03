@@ -1,6 +1,7 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
+import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
@@ -16,16 +17,73 @@ class QualificationAndPreferences extends StatefulWidget {
 
 class _QualificationAndPreferencesState extends State<QualificationAndPreferences> {
   bool isLoading = false;
+   
+//   List<ListItem> items = [
+//   ListItem(value: 'Item 1'),
+//   ListItem(value: 'Item 2'),
+//   ListItem(value: 'Item 3'),
+// ];
+// List<String> selectedValues = [];
 
-  List<dynamic> areaList = [
-    {'id': 1, 'area_name': 'Area 1'},
-    {'id': 2, 'area_name': 'Area 2'},
-    {'id': 3, 'area_name': 'Area 3'},
-    // Add more areas as needed
-  ];
 
-  List<dynamic> selectedAreas = [];
-  bool isAreaDropdownEnabled = true;
+// bool _isDialogOpen = false;
+//   search() {
+//     setState(() {
+//       _isDialogOpen = true;
+//     });
+//   return showDialog(
+     
+//     context: context,
+//     builder: (context) => CupertinoAlertDialog(
+//       // title: reusableText('Tutor Basic Information',color: colorController.blackColor,fontsize: 22,fontweight: FontWeight.bold),
+//       content: 
+//       Column(
+//         // mainAxisAlignment: MainAxisAlignment.start,
+//         // crossAxisAlignment: CrossAxisAlignment.center,
+//         mainAxisSize: MainAxisSize.min,
+//         children: [
+//           Container(
+//             height: 100,
+//             child: ListView.builder(
+//               itemCount: items.length,
+//               itemBuilder: (context, index) {
+//               return CupertinoListTile(
+//         title: Text(items[index].value),
+//         trailing: items[index].selected ? Icon(Icons.check,color: colorController.blackColor,) : null,
+//         onTap: () {
+//                   setState(() {
+//                     // Toggle the selected flag
+//                     items[index].selected = !items[index].selected;
+
+//                     // Add or remove the value from the selectedValues list
+//                     if (items[index].selected) {
+//                       selectedValues.add(items[index].value);
+//                     } else {
+//                       selectedValues.remove(items[index].value);
+//                     }
+//                   });
+
+//                   // Print the selected values
+//                   print('Selected values: $selectedValues');
+//                 },
+//       );
+//             },),
+//           ),
+
+//         ],
+//       ),
+//       // actions: [
+//       //   ElevatedButton(
+//       //     onPressed: () {
+//       //       btnontap();
+//       //       Navigator.pop(context);
+//       //     },
+//       //     child: Text(btntxt),
+//       //   ),
+//       // ],
+//     ),
+//   );
+// }
   @override
   Widget build(BuildContext context) {
     return reusableprofileidget(
@@ -37,76 +95,8 @@ class _QualificationAndPreferencesState extends State<QualificationAndPreference
                         children: [
                           reusableText("Qualification and Preferences",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
                           reusablaSizaBox(context, 0.020),
-                           Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            DropdownSearch<dynamic>(
-              popupProps: PopupPropsMultiSelection.dialog(
-                fit: FlexFit.loose,
-                showSearchBox: true,
-                dialogProps: DialogProps(
-                  backgroundColor: colorController.whiteColor,
-                  elevation: 10,
-                ),
-                searchFieldProps: TextFieldProps(
-                  decoration: InputDecoration(
-                    hintText: 'Search Area',
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(11),
-                    ),
-                  ),
-                ),
-                showSelectedItems: true,
-                itemBuilder: (context, item, isSelected) {
-                  return ListTile(
-                    title: Text(item['area_name']),
-                    trailing: isSelected ? Icon(Icons.check) : null,
-                  );
-                },
-              ),
-              dropdownDecoratorProps: DropDownDecoratorProps(
-                dropdownSearchDecoration: InputDecoration(
-                  hintText: 'Select Area',
-                  border: InputBorder.none,
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                ),
-              ),
-              items: areaList,
-              itemAsString: (dynamic area) => area['area_name'].toString(),
-              onChanged: 
-              // isAreaDropdownEnabled
-              //     ? 
-                  (dynamic newValues) {
-                      setState(() {
-                        selectedAreas = newValues;
-                      });
-                      print('Selected Areas: ${newValues.map((e) => e['area_name']).toList()}');
-                    },
-                  // : null,
-              selectedItem: selectedAreas,
-              compareFn: (item, selectedItem) => item['id'] == selectedItem['id'],
-            ),
-            SizedBox(height: 20),
-            Text(
-              'Selected Areas:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: selectedAreas.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(selectedAreas[index]['area_name']),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
+                          //  reusableBtn(context, 'button', (){search();}),
+                            
                     ],
                   ),
                 ),
@@ -114,3 +104,4 @@ class _QualificationAndPreferencesState extends State<QualificationAndPreference
     );
   }
 }
+

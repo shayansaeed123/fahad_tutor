@@ -543,6 +543,9 @@ void updateTutorPlacement() {
 
   List<dynamic> selectedCountries = [];
 
+  
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -603,16 +606,6 @@ void updateTutorPlacement() {
                             key: _formkey,
                             child: Column(
                               children: [
-                              
-
-
-
-
-
-
-
-
-
                                 Container(
                                   padding: EdgeInsets.only(
                                       left: MediaQuery.of(context).size.width *
@@ -1774,3 +1767,11 @@ void updateTutorPlacement() {
     );
   }
 }
+
+class ListItem {
+  final String value;
+  bool selected;
+
+  ListItem({required this.value, this.selected = false});
+}
+
