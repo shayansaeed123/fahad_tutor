@@ -5,6 +5,7 @@ import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/repo/tutor_repo.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
+import 'package:fahad_tutor/res/reusableTextField.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
@@ -53,27 +54,7 @@ class _AppFeedbackState extends State<AppFeedback> {
           children: [
             reusableText('Feedback',color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
             reusablaSizaBox(context, 0.020),
-            TextField(
-              controller: reusabletextfieldcontroller.feedback,
-                  maxLines: 5, // Set the maximum number of lines
-                  decoration: InputDecoration(
-                    alignLabelWithHint: true,
-                    label: reusableText('Feedback For App'),
-                    labelStyle: TextStyle(color: colorController.grayTextColor),
-                    border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(
-                color: colorController.textfieldBorderColorBefore, width: 1.5)),
-        enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(
-                color: colorController.textfieldBorderColorBefore, width: 1.5)),
-        focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(
-                color: colorController.textfieldBorderColorAfter, width: 1.5)),
-                  ),
-            ),
+            reusablemultilineTextField(reusabletextfieldcontroller.feedback, 5, 'Feedback For App'),
             reusablaSizaBox(context, 0.040),
             reusableBtn(context, 'Submit',(){validate();})
           ],

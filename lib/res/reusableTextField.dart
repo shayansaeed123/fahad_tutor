@@ -116,6 +116,30 @@ reusableContactUs(BuildContext context,String text, IconData icons, TextEditingC
   );
 }
 
+reusablemultilineTextField(TextEditingController controller,int numLine,String name){
+  return TextField(
+              controller: controller,
+                  maxLines: numLine, // Set the maximum number of lines
+                  decoration: InputDecoration(
+                    alignLabelWithHint: true,
+                    label: reusableText('$name'),
+                    labelStyle: TextStyle(color: colorController.grayTextColor),
+                    border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(
+                color: colorController.textfieldBorderColorBefore, width: 1.5)),
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(
+                color: colorController.textfieldBorderColorBefore, width: 1.5)),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(
+                color: colorController.textfieldBorderColorAfter, width: 1.5)),
+                  ),
+            );
+}
+
 
 
 // Widget reusableTextField(

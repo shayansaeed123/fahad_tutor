@@ -1,5 +1,7 @@
 import 'package:fahad_tutor/controller/color_controller.dart';
+import 'package:fahad_tutor/controller/text_field_controller.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
+import 'package:fahad_tutor/res/reusableTextField.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
@@ -23,7 +25,9 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          reusableText("Additional\Information",color: colorController.blackColor,fontsize: 25,fontweight: FontWeight.bold),
+                          reusableText("Additional\nInformation",color: colorController.blackColor,fontsize: 25,fontweight: FontWeight.bold),
+                          reusablaSizaBox(context, 0.020),
+                          reusablemultilineTextField(reusabletextfieldcontroller.addressCon, 3, 'Home Address'),
                           reusablaSizaBox(context, 0.020),
                           //  reusableBtn(context, 'button', (){search();}),
                             

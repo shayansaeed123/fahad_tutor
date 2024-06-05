@@ -14,6 +14,7 @@ import 'package:fahad_tutor/res/reusabletutordetails.dart';
 import 'package:fahad_tutor/res/rusablelink.dart';
 import 'package:fahad_tutor/views/login/login.dart';
 import 'package:fahad_tutor/views/profile/accountdetails.dart';
+import 'package:fahad_tutor/views/profile/additionalinfo.dart';
 import 'package:fahad_tutor/views/profile/contactus.dart';
 import 'package:fahad_tutor/views/profile/documentsattach.dart';
 import 'package:fahad_tutor/views/profile/faq.dart';
@@ -93,7 +94,7 @@ void loginClear(){
                     CircleAvatar(
                         // radius: 50,
                         radius:
-                                    MediaQuery.of(context).size.width * 0.15,
+                                    MediaQuery.of(context).size.width * 0.13,
                         backgroundColor: Colors.white,
                         child: 
                           InkWell(
@@ -141,7 +142,9 @@ void loginClear(){
             reusablelisttile(context,(){
                Navigator.push(context, MaterialPageRoute(builder: (context)=>AccountDetails()));
             },'assets/images/bank_details_icon.png','Bank Details',),
-            reusablelisttile(context,(){},'assets/images/add_info_icon.png','Additional Information',),
+            reusablelisttile(context,(){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>AdditionalInfo()));
+            },'assets/images/add_info_icon.png','Additional Information',),
             reusablelisttile(context,(){
               Navigator.push(context, MaterialPageRoute(builder: (context)=>ResetPassword()));
             },'assets/images/reset_password.png','Change Password',borderWidth: 0.000001),
