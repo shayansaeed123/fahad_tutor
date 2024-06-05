@@ -3,6 +3,7 @@ import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusablevalidator.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 Widget reusableTextField(
   BuildContext context,
@@ -138,6 +139,139 @@ reusablemultilineTextField(TextEditingController controller,int numLine,String n
                 color: colorController.textfieldBorderColorAfter, width: 1.5)),
                   ),
             );
+}
+
+reusableDateofBirthField(BuildContext context,
+DateTime lastDate,
+DateTime? selectedTime,
+Function(DateTime) selectdateontap,
+Widget icon){
+  return InkWell(
+                            onTap: ()async{
+                              final DateTime? timeofday =
+                                            await showDatePicker(
+                                          context: context,
+                                          firstDate: lastDate,
+                                          // lastDate: selectedTime,
+                                          // initialDate: selectedTime,
+                                          lastDate: DateTime.now(),
+                                          initialDate: selectedTime ?? DateTime.now(),
+                                          initialEntryMode:
+                                              DatePickerEntryMode.calendar,
+                                          builder: (BuildContext context,
+                                              Widget? child) {
+                                            return Theme(
+                                              data: ThemeData.dark().copyWith(
+                                                  // primaryColor: colorController.btnColor,
+                                                  colorScheme:
+                                                      ColorScheme.light(
+                                                    primary: colorController
+                                                        .btnColor, // Header background color
+                                                    onPrimary: colorController
+                                                        .whiteColor, // Header text color
+                                                    onSurface: colorController
+                                                        .btnColor, // Body text color
+                                                  ),
+                                                  dialogBackgroundColor: Colors
+                                                      .white, // Background color
+                                                  bannerTheme:
+                                                      MaterialBannerThemeData(
+                                                          backgroundColor:
+                                                              colorController
+                                                                  .btnColor)),
+                                              child: child!,
+                                            );
+                                          },
+                                        );
+                                        if (timeofday != null) {
+                                         
+                                          selectdateontap(timeofday);
+                                        }
+                            },
+                            child: Container(
+                              height: MediaQuery.of(context).size.height * .052,
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: colorController.grayTextColor,
+                                            width: 1.5),
+                                        borderRadius: BorderRadius.circular(10)),
+                                        child: ListTile(
+                                        enabled: false,
+                                        trailing: icon,
+                                        title: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: reusableText(
+                                            selectedTime == null
+                                                ? ' Date of Birth'
+                                                : '${DateFormat(' yyyy-MM-dd').format(selectedTime)}',
+                                          ),
+                                        ),
+                                            )
+                            ),
+                          );
+}
+
+reusableDropdownfeild(BuildContext context,String? selected,Function(String?) ontap, String showTitle,List<String> values,){
+  return Container(
+                                      padding: EdgeInsets.only(
+                                          left: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              .01),
+                                      width: MediaQuery.of(context).size.width *
+                                          .43,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              .055,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.grey,
+                                            width: 1.5), // Border color
+                                        borderRadius: BorderRadius.circular(
+                                            10.0), // Border radius
+                                      ),
+                                      child: DropdownButton<String>(
+                                        dropdownColor:
+                                            colorController.whiteColor,
+                                        value: selected,
+                                  
+                                        onChanged: (String? newValue) {
+                                          ontap(newValue);
+                                          // setState(() {
+                                          //   _selectedGender = newValue;
+                                          //   print('gender $_selectedGender');
+                                          // });
+                                        },
+                                        hint: reusableText('$showTitle',
+                                            color:
+                                                colorController.grayTextColor,
+                                            fontsize: 14),
+                                        items: values.map((String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    .3,
+                                                child: reusableText(value,
+                                                    color: colorController
+                                                        .blackColor,
+                                                    fontsize: 14)),
+                                            // Display 'Select value' if value is null
+                                          );
+                                        }).toList(),
+                                        style: TextStyle(
+                                            color: Colors
+                                                .black), // Dropdown text color
+                                        icon: Icon(Icons
+                                            .arrow_drop_down), // Dropdown icon
+                                        underline:
+                                            Container(), // Remove underline
+                                        // elevation: 0,
+                                      ),
+                                    );
 }
 
 

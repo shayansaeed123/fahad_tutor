@@ -116,8 +116,8 @@ final TextEditingController _title = TextEditingController();
 
 
 
-  final TextEditingController _CartQntyController = TextEditingController();
-  TextEditingController get CartQntyController => _CartQntyController;
+  final TextEditingController _furtherInfo = TextEditingController();
+  TextEditingController get furtherInfo => _furtherInfo;
 
 
 

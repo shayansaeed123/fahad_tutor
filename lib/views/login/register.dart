@@ -76,7 +76,7 @@ void updateTutorPlacement() {
   late FocusNode _religionfocusNode;
   late FocusNode _homefocusNode;
 
-  late DateTime selectedTime = DateTime.now();
+  DateTime? selectedTime;
   late DateTime lastDate = DateTime(1995, 1, 1);
 
   final _formkey = GlobalKey<FormState>();
@@ -543,8 +543,6 @@ void updateTutorPlacement() {
 
   List<dynamic> selectedCountries = [];
 
-  
-
 
   @override
   Widget build(BuildContext context) {
@@ -733,214 +731,9 @@ void updateTutorPlacement() {
                                             : null,
                                         selectedItem: cityLists,
                                       ),
-                                      //                   child: DropdownButton<dynamic>(
-                                      //                     value: cityLists,
-                                      //                     onChanged: isCityDropdownEnabled ? (dynamic newValue) {
-                                      //     setState(() {
-                                      // cityLists = newValue;
-                                      // cityId = newValue['c_id'].toString();
-                                      // isAreaDropdownEnabled = true;
-                                      //     });
-                                      // print('Selected city ID: ${newValue['c_id']}');
-                                      // print('Selected city Name: ${newValue['c_name']}');
-                                      //     selectArea();
-                                      //   } : null,
-                                      //                     // onChanged: (dynamic newValue) {
-                                      // setState(() {
-                                      //   cityLists = newValue;
-                                      //   cityId = newValue['c_id'].toString();
-                                      // });
-                                      //                     //   print('Selected class ID: ${newValue['c_id']}');
-                                      //                     //   print('Selected class Name: ${newValue['c_name']}');
-                                      //                     //   // print('object $cityId');
-                                      //                     // },
-                                      //                     hint: reusableText('Select City',
-                                      //                         color: colorController.grayTextColor,
-                                      //                         fontsize: 14),
-                                      //                     items: cityList.map((dynamic city) {
-                                      //                       return DropdownMenuItem<dynamic>(
-                                      //                           value: city,
-                                      //                           child: Container(
-                                      //                               width:
-                                      //                                   MediaQuery.of(context).size.width * .81,
-                                      //                               child: reusableText(city['c_name'],
-                                      //                                   color: colorController.grayTextColor,
-                                      //                                   fontsize: 14)));
-                                      //                     }).toList(),
-                                      //                     style: TextStyle(
-                                      //                         color: Colors.black), // Dropdown text color
-                                      //                     icon: Icon(Icons.arrow_drop_down), // Dropdown icon
-                                      //                     underline: Container(), // Remove underline
-                                      //                     elevation: 0,
-                                      //                   ),
                                     ),
                                   ),
                                 ),
-                    //             Container(
-                    //   padding: EdgeInsets.only(
-                    //       left: MediaQuery.of(context).size.width * .01),
-                    //   width: MediaQuery.of(context).size.width,
-                    //   height: MediaQuery.of(context).size.height * .055,
-                    //   decoration: BoxDecoration(
-                    //     border: Border.all(color: Colors.grey, width: 1.5),
-                    //     borderRadius: BorderRadius.circular(10.0),
-                    //   ),
-                    //   child: DropdownSearch<dynamic>(
-                    //     popupProps: PopupPropsMultiSelection.dialog(
-                    //       fit: FlexFit.loose,
-                    //       showSearchBox: true,
-                    //       dialogProps: DialogProps(
-                    //         backgroundColor: Colors.white,
-                    //         elevation: 10,
-                    //       ),
-                    //       searchFieldProps: TextFieldProps(
-                    //         decoration: InputDecoration(
-                    //           hintText: 'Search Country',
-                    //           fillColor: Colors.white,
-                    //           border: OutlineInputBorder(
-                    //             borderRadius: BorderRadius.circular(11),
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     dropdownDecoratorProps: DropDownDecoratorProps(
-                    //       dropdownSearchDecoration: InputDecoration(
-                    //         hintText: 'Select Country',
-                    //         border: InputBorder.none,
-                    //         contentPadding: EdgeInsets.symmetric(
-                    //             horizontal: 16, vertical: 8),
-                    //       ),
-                    //     ),
-                    //     items: countryList,
-                    //     itemAsString: (dynamic country) =>
-                    //         country['c_name'].toString(),
-                    //     onChanged: (dynamic newValue) {
-                    //       setState(() {
-                    //         countryLists = newValue;
-                    //         isCityDropdownEnabled = true;
-                    //         // cityName = '';
-                    //         isAreaDropdownEnabled = false;
-                    //         // areaName = '';
-                    //       });
-                    //       selectCity();
-                    //     },
-                    //     selectedItem: countryLists,
-                    //   ),
-                    // ),
-                    // SizedBox(height: 15),
-                    // // City Dropdown
-                    // AbsorbPointer(
-                    //   absorbing: !isCityDropdownEnabled,
-                    //   child: Opacity(
-                    //     opacity: isCityDropdownEnabled ? 1.0 : 0.5,
-                    //     child: Container(
-                    //       padding: EdgeInsets.only(
-                    //           left: MediaQuery.of(context).size.width * .01),
-                    //       width: MediaQuery.of(context).size.width,
-                    //       height: MediaQuery.of(context).size.height * .055,
-                    //       decoration: BoxDecoration(
-                    //         border: Border.all(color: Colors.grey, width: 1.5),
-                    //         borderRadius: BorderRadius.circular(10.0),
-                    //       ),
-                    //       child: DropdownSearch<dynamic>(
-                    //         popupProps: PopupPropsMultiSelection.dialog(
-                    //           fit: FlexFit.loose,
-                    //           showSearchBox: true,
-                    //           dialogProps: DialogProps(
-                    //             backgroundColor: Colors.white,
-                    //             elevation: 10,
-                    //           ),
-                    //           searchFieldProps: TextFieldProps(
-                    //             decoration: InputDecoration(
-                    //               hintText: 'Search City',
-                    //               fillColor: Colors.white,
-                    //               border: OutlineInputBorder(
-                    //                 borderRadius: BorderRadius.circular(11),
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ),
-                    //         dropdownDecoratorProps: DropDownDecoratorProps(
-                    //           dropdownSearchDecoration: InputDecoration(
-                    //             hintText: 'Select City',
-                    //             border: InputBorder.none,
-                    //             contentPadding: EdgeInsets.symmetric(
-                    //                 horizontal: 16, vertical: 8),
-                    //           ),
-                    //         ),
-                    //         items: cityList,
-                    //         itemAsString: (dynamic city) =>
-                    //             city['c_name'].toString(),
-                    //         onChanged: isCityDropdownEnabled
-                    //             ? (dynamic newValue) {
-                    //                 setState(() {
-                    //                   cityLists = newValue;
-                    //                   isAreaDropdownEnabled = true;
-                    //                 });
-                    //                 selectArea();
-                    //               }
-                    //             : null,
-                    //         selectedItem: cityLists,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    // SizedBox(height: 15),
-                    // // Area Dropdown
-                    // AbsorbPointer(
-                    //   absorbing: !isAreaDropdownEnabled,
-                    //   child: Opacity(
-                    //     opacity: isAreaDropdownEnabled ? 1.0 : 0.5,
-                    //     child: Container(
-                    //       padding: EdgeInsets.only(
-                    //           left: MediaQuery.of(context).size.width * .01),
-                    //       width: MediaQuery.of(context).size.width,
-                    //       height: MediaQuery.of(context).size.height * .055,
-                    //       decoration: BoxDecoration(
-                    //         border: Border.all(color: Colors.grey, width: 1.5),
-                    //         borderRadius: BorderRadius.circular(10.0),
-                    //       ),
-                    //       child: DropdownSearch<dynamic>(
-                    //         popupProps: PopupPropsMultiSelection.dialog(
-                    //           fit: FlexFit.loose,
-                    //           showSearchBox: true,
-                    //           dialogProps: DialogProps(
-                    //             backgroundColor: Colors.white,
-                    //             elevation: 10,
-                    //           ),
-                    //           searchFieldProps: TextFieldProps(
-                    //             decoration: InputDecoration(
-                    //               hintText: 'Search Area',
-                    //               fillColor: Colors.white,
-                    //               border: OutlineInputBorder(
-                    //                 borderRadius: BorderRadius.circular(11),
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ),
-                    //         dropdownDecoratorProps: DropDownDecoratorProps(
-                    //           dropdownSearchDecoration: InputDecoration(
-                    //             hintText: 'Select Area',
-                    //             border: InputBorder.none,
-                    //             contentPadding: EdgeInsets.symmetric(
-                    //                 horizontal: 16, vertical: 8),
-                    //           ),
-                    //         ),
-                    //         items: areaList,
-                    //         itemAsString: (dynamic area) =>
-                    //             area['c_name'].toString(),
-                    //         onChanged: isAreaDropdownEnabled
-                    //             ? (dynamic newValue) {
-                    //                 setState(() {
-                    //                   areaLists = newValue;
-                    //                 });
-                    //               }
-                    //             : null,
-                    //         selectedItem: areaLists,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                                 reusablaSizaBox(context, .015),
                                 reusableTextField(
                                   context,
@@ -1107,72 +900,12 @@ void updateTutorPlacement() {
                                   keyboardType: TextInputType.text,
                                 ),
                                 reusablaSizaBox(context, .015),
-                                Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height:
-                                      MediaQuery.of(context).size.height * .055,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: colorController.grayTextColor,
-                                          width: 1.5),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: InkWell(
-                                      onTap: () async {
-                                        final DateTime? timeofday =
-                                            await showDatePicker(
-                                          context: context,
-                                          firstDate: lastDate,
-                                          lastDate: selectedTime,
-                                          initialDate: selectedTime,
-                                          initialEntryMode:
-                                              DatePickerEntryMode.calendar,
-                                          builder: (BuildContext context,
-                                              Widget? child) {
-                                            return Theme(
-                                              data: ThemeData.dark().copyWith(
-                                                  // primaryColor: colorController.btnColor,
-                                                  colorScheme:
-                                                      ColorScheme.light(
-                                                    primary: colorController
-                                                        .btnColor, // Header background color
-                                                    onPrimary: colorController
-                                                        .whiteColor, // Header text color
-                                                    onSurface: colorController
-                                                        .btnColor, // Body text color
-                                                  ),
-                                                  dialogBackgroundColor: Colors
-                                                      .white, // Background color
-                                                  bannerTheme:
-                                                      MaterialBannerThemeData(
-                                                          backgroundColor:
-                                                              colorController
-                                                                  .btnColor)),
-                                              child: child!,
-                                            );
-                                          },
-                                        );
-                                        if (timeofday != null) {
-                                          setState(() {
+                                reusableDateofBirthField(context, lastDate, selectedTime, (DateTime timeofday){
+                                  setState(() {
                                             selectedTime = timeofday;
                                             print('time date $selectedTime');
                                           });
-                                        }
-                                      },
-                                      child: ListTile(
-                                        enabled: false,
-                                        trailing:
-                                            Icon(Icons.date_range_outlined),
-                                        title: Text(
-                                          selectedTime == DateTime.now()
-                                              ? 'Select Date'
-                                              : '${DateFormat('yyyy-MM-dd').format(selectedTime)}',
-                                          style: TextStyle(
-                                              color:
-                                                  colorController.grayTextColor,
-                                              fontSize: 14),
-                                        ),
-                                      )),
-                                ),
+                                }, Icon(Icons.calendar_month_outlined)),
                                 reusablaSizaBox(context, .015),
                                 AbsorbPointer(
                                   absorbing: !isAreaDropdownEnabled,
@@ -1240,37 +973,6 @@ void updateTutorPlacement() {
                                             : null,
                                         selectedItem: areaLists,
                                          ),
-                                      //                   child: DropdownButton<dynamic>(
-                                      //                     value: areaLists,
-                                      //                     onChanged: isAreaDropdownEnabled ? (dynamic newValue) {
-                                      //     setState(() {
-                                      // areaLists = newValue;
-                                      // areaId = newValue['c_id'].toString();
-                                      //     });
-                                      //     print('Selected Area ID: ${newValue['id']}');
-                                      //     print('Selected Area Name: ${newValue['area_name']}');
-                                      //   } : null,
-                                      //                     hint: reusableText('Select Area',
-                                      //                         color: colorController.grayTextColor,
-                                      //                         fontsize: 14),
-                                      //                     items: areaList.map((dynamic area) {
-                                      //                       return DropdownMenuItem<dynamic>(
-                                      //                         value: area,
-                                      //                         child: Container(
-                                      //                             width:
-                                      //                                 MediaQuery.of(context).size.width * .81,
-                                      //                             child: reusableText(area['area_name'].toString(),
-                                      //                                 color: colorController.grayTextColor,
-                                      //                                 fontsize: 14)),
-                                      //                         // Display 'Select value' if value is null
-                                      //                       );
-                                      //                     }).toList(),
-                                      //                     style: TextStyle(
-                                      //                         color: Colors.black), // Dropdown text color
-                                      //                     icon: Icon(Icons.arrow_drop_down), // Dropdown icon
-                                      //                     underline: Container(), // Remove underline
-                                      //                     elevation: 0,
-                                      //                   ),
                                     ),
                                   ),
                                 ),
@@ -1298,128 +1000,20 @@ void updateTutorPlacement() {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Container(
-                                      padding: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              .01),
-                                      width: MediaQuery.of(context).size.width *
-                                          .43,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              .055,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors.grey,
-                                            width: 1.5), // Border color
-                                        borderRadius: BorderRadius.circular(
-                                            10.0), // Border radius
-                                      ),
-                                      child: DropdownButton<String>(
-                                        dropdownColor:
-                                            colorController.whiteColor,
-                                        value: _selectedGender,
-                                  
-                                        onChanged: (String? newValue) {
-                                          setState(() {
+                                    reusableDropdownfeild(context, _selectedGender, (String? newValue){
+                                      setState(() {
                                             _selectedGender = newValue;
                                             print('gender $_selectedGender');
                                           });
-                                        },
-                                        hint: reusableText('Gender',
-                                            color:
-                                                colorController.grayTextColor,
-                                            fontsize: 14),
-                                        items: <String>[
-                                          'Male',
-                                          'Female',
-                                        ].map((String value) {
-                                          return DropdownMenuItem<String>(
-                                            value: value,
-                                            child: Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    .3,
-                                                child: reusableText(value,
-                                                    color: colorController
-                                                        .grayTextColor,
-                                                    fontsize: 14)),
-                                            // Display 'Select value' if value is null
-                                          );
-                                        }).toList(),
-                                        style: TextStyle(
-                                            color: Colors
-                                                .black), // Dropdown text color
-                                        icon: Icon(Icons
-                                            .arrow_drop_down), // Dropdown icon
-                                        underline:
-                                            Container(), // Remove underline
-                                        // elevation: 0,
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              .01),
-                                      width: MediaQuery.of(context).size.width *
-                                          .42,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              .055,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors.grey,
-                                            width: 1.5), // Border color
-                                        borderRadius: BorderRadius.circular(
-                                            10.0), // Border radius
-                                      ),
-                                      child: DropdownButton<String>(
-                                        dropdownColor:
-                                            colorController.whiteColor,
-                                        value: _selectedStatus,
-                                        onChanged: (String? newValue) {
-                                          setState(() {
+                                    }, 'Gender', ['Male', 'Female', ]),
+                                    reusableDropdownfeild(context, _selectedStatus, (String? newValue){
+                                      setState(() {
                                             _selectedStatus = newValue;
-                                            print('Status : $_selectedStatus');
+                                            print('Status $_selectedStatus');
                                           });
-                                        },
-                                        hint: reusableText('Marital Status',
-                                            color:
-                                                colorController.grayTextColor,
-                                            fontsize: 14),
-                                        items: <String>[
-                                          'Married',
+                                    }, 'Marital Status', ['Married',
                                           'Single',
-                                          'Widowed',
-                                        ].map((String value) {
-                                          return DropdownMenuItem<String>(
-                                            value: value,
-                                            child: Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    .3,
-                                                child: reusableText(value,
-                                                    color: colorController
-                                                        .grayTextColor,
-                                                    fontsize: 14)),
-                                            // Display 'Select value' if value is null
-                                          );
-                                        }).toList(),
-                                        style: TextStyle(
-                                            color: Colors
-                                                .black), // Dropdown text color
-                                        icon: Icon(Icons
-                                            .arrow_drop_down), // Dropdown icon
-                                        underline:
-                                            Container(), // Remove underline
-                                        // elevation: 0,
-                                      ),
-                                    ),
+                                          'Widowed',])
                                   ],
                                 ),
                                 reusablaSizaBox(context, .03),
@@ -1486,17 +1080,6 @@ void updateTutorPlacement() {
                                 ),
                                 reusablaSizaBox(context, .02),
                                 reusableBtn(context, 'Register', () {
-    //                               if (_selectedGender == null) {
-    //   // _scaffoldKey.currentState!.showSnackBar(
-    //   //   SnackBar(
-    //   //     content: Text('Please select a gender.'),
-    //   //     duration: Duration(seconds: 2),
-    //   //   ),
-    //   // );
-    //   Utils.snakbar(context, 'missing gender');
-    // } else {
-    //   // Proceed with form submission
-    // }
                                   _validateForm();
                                 }),
                                 reusablaSizaBox(context, .02),
