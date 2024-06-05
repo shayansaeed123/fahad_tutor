@@ -29,7 +29,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -156,29 +155,19 @@ void loginClear(){
              reusablaSizaBox(context, .05),
 
             reusableText('App Settings',color: colorController.blackColor,fontsize: 21,),
-            
-                      reusablaSizaBox(context, .01),
-                      ListTile(
-      onTap: (){
-        setState(() {
-          isToggled = !isToggled;
-        });
-      },
-    contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.01), // Adjust as needed
-    tileColor: Colors.grey.shade100,
-    shape: Border(bottom: BorderSide(color: colorController.blackColor,width: .25)),
-    dense: true, // Decrease the height of the ListTile
-    minVerticalPadding: 0, // Reduce the vertical padding
-    horizontalTitleGap: 8.0, // Increase the gap between the leading and title
-    leading: Image.asset('assets/images/notification_icon.png',fit: BoxFit.contain,height: MediaQuery.of(context).size.height * .025,),
-    title: reusableText('Notification',fontsize: 14.5),
-    trailing: CustomAnimatedToggleSwitch(
-      current: values,
-      
-    )
-    // isToggled ? Icon(Icons.toggle_on, color: colorController.btnColor,size: 50,) :
-    // Icon(Icons.toggle_off,color: colorController.blackColor,size:55,),
-  ),
+            reusablaSizaBox(context, .01),
+  reusablelisttile(context, (){}, 'assets/images/notification_icon.png', 'Notification',widget: Switch(
+      value: isToggled, 
+      activeTrackColor: colorController.btnColor,
+      activeColor: colorController.whiteColor,
+      inactiveTrackColor: colorController.grayTextColor,
+      inactiveThumbColor: colorController.blackColor,
+      trackOutlineColor: MaterialStatePropertyAll(colorController.blackColor),
+      onChanged: (value) {
+      setState(() {
+        isToggled = value;
+      });
+    },),),
             reusablelisttile(context,(){
               Navigator.push(context, MaterialPageRoute(builder: (context) => FAQ(),));
             },'assets/images/faqs_icon.png',"FAQ's",),
@@ -230,3 +219,4 @@ void loginClear(){
     );
   }
 }
+

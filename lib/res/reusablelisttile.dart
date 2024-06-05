@@ -5,7 +5,7 @@ import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Widget reusablelisttile(BuildContext context,Function ontap,String image,title,{double borderWidth = .25}){
+Widget reusablelisttile(BuildContext context,Function ontap,String image,title,{double borderWidth = .25,Widget widget = const Icon(CupertinoIcons.arrow_right)}){
   return 
   // Padding(
     // padding: const EdgeInsets.only(bottom: 3.0),
@@ -24,7 +24,7 @@ Widget reusablelisttile(BuildContext context,Function ontap,String image,title,{
     leading: Image.asset(image,fit: BoxFit.contain,height: MediaQuery.of(context).size.height * .025,),
     title: reusableText(title,fontsize: 14.5),
     // subtitle: Text('Subtitle'),
-    trailing: Icon(CupertinoIcons.arrow_right),
+    trailing: widget,
     // ),
   );
 
