@@ -471,7 +471,7 @@ class _AllTuitionsState extends State<AllTuitions> {
                 ),
               ),
               reusablaSizaBox(context, .009),
-              reusableVisiblity(context, 'Apply carefully to maintain your profile', () {
+              reusableVisiblityMesage(context, 'Apply carefully to maintain your profile', () {
                 setState(() {
                   visible = false;
                 });

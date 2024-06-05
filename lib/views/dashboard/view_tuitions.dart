@@ -401,7 +401,7 @@ class _ViewTuitionsState extends State<ViewTuitions> {
                 ),
               ),
               reusablaSizaBox(context, .009),
-              reusableVisiblity(context,
+              reusableVisiblityMesage(context,
                   'Apply carefully to maintain your profile', () {
                 setState(() {
                   visible = false;

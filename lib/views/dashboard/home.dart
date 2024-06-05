@@ -187,7 +187,7 @@ Widget build(BuildContext context) {
                   ),
                 ),
                   reusablaSizaBox(context, .009),
-                      reusableVisiblity(context, 'Apply carefully to maintain your profile', (){
+                      reusableVisiblityMesage(context, 'Apply carefully to maintain your profile', (){
                         setState(() {});
                         visible = false;},visible),
                         reusablaSizaBox(context, .025),

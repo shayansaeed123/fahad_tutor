@@ -19,7 +19,7 @@ class ContactUs extends StatefulWidget {
 }
 
 class _ContactUsState extends State<ContactUs> {
-  bool isLoading = true;
+  bool isLoading = false;
   late WebViewController _controller;
   @override
   Widget build(BuildContext context) {

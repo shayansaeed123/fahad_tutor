@@ -12,6 +12,7 @@ import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
+import 'package:fahad_tutor/res/reusablevisibility.dart';
 import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,9 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
   String last_document = '';
   String other_1 = '';
   String other_2 = '';
+  int doc_error = 0;
+  String docs_msg = '';
+  bool visible = true;
   File? _imageupdateprofileimage;
   bool updateprofileimage = false;
   String base64updateprofileimage = 'noimage';
@@ -57,6 +61,8 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
         last_document = jsonResponse['last_document'];
         other_1 = jsonResponse['other_1'];
         other_2 = jsonResponse['other_2'];
+        doc_error = jsonResponse['docs_error'];
+        docs_msg = jsonResponse['docs_msg'];
       } else {
         print('Error: ${response.statusCode}');
       }
@@ -216,6 +222,8 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               reusableText('Documents \nAttachment',color: colorController.blackColor,fontsize: 25,fontweight: FontWeight.bold),
+                              reusablaSizaBox(context, 0.020),
+                              doc_error == 1 ? reusableVisiblityWarning(context, '${docs_msg}', (){setState(() {visible=false;});}, visible) : Container(),
                               reusablaSizaBox(context, 0.020),
                               reusableDocuments(context,'','Add Image (Front)','Add Image (Back)' ,'Profile', 'CNIC Image', personal_image, cnic_front,cnic_back, (){
                                 reuablebottomsheet(context, "Choose Profile Image",(){},(){});

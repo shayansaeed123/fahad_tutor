@@ -1,5 +1,7 @@
 
 
+import 'dart:ffi';
+
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/controller/text_field_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
@@ -27,6 +29,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -38,6 +41,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   bool isLoading = false;
   bool isToggled = false;
+  int values =0;
                 String formattedInfo = "";
   String formatInfo(String info) {
     return info.replaceAll(',', '\n');
@@ -168,8 +172,12 @@ void loginClear(){
     horizontalTitleGap: 8.0, // Increase the gap between the leading and title
     leading: Image.asset('assets/images/notification_icon.png',fit: BoxFit.contain,height: MediaQuery.of(context).size.height * .025,),
     title: reusableText('Notification',fontsize: 14.5),
-    trailing:  isToggled ? Icon(Icons.toggle_on, color: colorController.btnColor,size: 50,) :
-    Icon(Icons.toggle_off,color: colorController.blackColor,size:55,),
+    trailing: CustomAnimatedToggleSwitch(
+      current: values,
+      
+    )
+    // isToggled ? Icon(Icons.toggle_on, color: colorController.btnColor,size: 50,) :
+    // Icon(Icons.toggle_off,color: colorController.blackColor,size:55,),
   ),
             reusablelisttile(context,(){
               Navigator.push(context, MaterialPageRoute(builder: (context) => FAQ(),));
