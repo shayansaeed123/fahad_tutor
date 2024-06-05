@@ -13,6 +13,7 @@ import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/res/reusabletutordetails.dart';
 import 'package:fahad_tutor/res/rusablelink.dart';
 import 'package:fahad_tutor/views/login/login.dart';
+import 'package:fahad_tutor/views/profile/accountdetails.dart';
 import 'package:fahad_tutor/views/profile/contactus.dart';
 import 'package:fahad_tutor/views/profile/documentsattach.dart';
 import 'package:fahad_tutor/views/profile/faq.dart';
@@ -137,7 +138,9 @@ void loginClear(){
             reusablelisttile(context,(){
               Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationCharges(),));
             },'assets/images/reg_charges_slip_icon.png','Registration Charges Slip',),
-            reusablelisttile(context,(){},'assets/images/bank_details_icon.png','Bank Details',),
+            reusablelisttile(context,(){
+               Navigator.push(context, MaterialPageRoute(builder: (context)=>AccountDetails()));
+            },'assets/images/bank_details_icon.png','Bank Details',),
             reusablelisttile(context,(){},'assets/images/add_info_icon.png','Additional Information',),
             reusablelisttile(context,(){
               Navigator.push(context, MaterialPageRoute(builder: (context)=>ResetPassword()));

@@ -93,7 +93,7 @@ class _QualificationAndPreferencesState extends State<QualificationAndPreference
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          reusableText("Qualification and Preferences",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
+                          reusableText("Qualification and \nPreferences",color: colorController.blackColor,fontsize: 25,fontweight: FontWeight.bold),
                           reusablaSizaBox(context, 0.020),
                           //  reusableBtn(context, 'button', (){search();}),
                             

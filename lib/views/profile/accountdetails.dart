@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/controller/text_field_controller.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
@@ -7,6 +8,7 @@ import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class AccountDetails extends StatefulWidget {
   const AccountDetails({super.key});
@@ -24,6 +26,7 @@ class _AccountDetailsState extends State<AccountDetails> {
   late FocusNode _ibannumber;
   late FocusNode _accounttitle;
   late FocusNode _mobilenumber;
+  String methodValue = '';
 
   // String? value;
 
@@ -80,7 +83,7 @@ class _AccountDetailsState extends State<AccountDetails> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          reusableText("Qualification and Preferences",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
+                          reusableText("Account Details",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
                           reusablaSizaBox(context, 0.020),
                           reusableTextField(context, 
                           reusabletextfieldcontroller.title, 'Title', _title.hasFocus
@@ -91,7 +94,7 @@ class _AccountDetailsState extends State<AccountDetails> {
                     }, ),
                     reusablaSizaBox(context, 0.020),
                     reusableTextField(context, 
-                          reusabletextfieldcontroller.bankname, 'Title', _bankname.hasFocus
+                          reusabletextfieldcontroller.bankname, 'Bank Name', _bankname.hasFocus
                         ? colorController.blueColor
                         : colorController.textfieldBorderColorBefore, _bankname, () {
                       _bankname.unfocus();
@@ -99,7 +102,7 @@ class _AccountDetailsState extends State<AccountDetails> {
                     }, ),
                     reusablaSizaBox(context, 0.020),
                     reusableTextField(context, 
-                          reusabletextfieldcontroller.branchcode, 'Title', _branchcode.hasFocus
+                          reusabletextfieldcontroller.branchcode, 'Barnch Code', _branchcode.hasFocus
                         ? colorController.blueColor
                         : colorController.textfieldBorderColorBefore, _branchcode, () {
                       _branchcode.unfocus();
@@ -107,7 +110,7 @@ class _AccountDetailsState extends State<AccountDetails> {
                     }, ),
                     reusablaSizaBox(context, 0.020),
                     reusableTextField(context, 
-                          reusabletextfieldcontroller.accountnumber, 'Title', _accountnumber.hasFocus
+                          reusabletextfieldcontroller.accountnumber, 'Account Number', _accountnumber.hasFocus
                         ? colorController.blueColor
                         : colorController.textfieldBorderColorBefore, _accountnumber, () {
                       _accountnumber.unfocus();
@@ -115,17 +118,70 @@ class _AccountDetailsState extends State<AccountDetails> {
                     }, ),
                     reusablaSizaBox(context, 0.020),
                     reusableTextField(context, 
-                          reusabletextfieldcontroller.ibannumber, 'Title', _ibannumber.hasFocus
+                          reusabletextfieldcontroller.ibannumber, 'IBAN Number', _ibannumber.hasFocus
                         ? colorController.blueColor
                         : colorController.textfieldBorderColorBefore, _ibannumber, () {
                       _ibannumber.unfocus();
                       FocusScope.of(context).requestFocus(_accounttitle);
                     }, ),
                     reusablaSizaBox(context, 0.020),
-                    reusableText('OR',color: colorController.grayTextColor,fontsize: 16,fontweight: FontWeight.bold),
+                    Center(child: reusableText('OR',color: colorController.grayTextColor,fontsize: 16,fontweight: FontWeight.bold)),
                     reusablaSizaBox(context, 0.020),
+                    Container(
+                                  padding: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width *
+                                          .01),
+                                  width: MediaQuery.of(context).size.width,
+                                  height:
+                                      MediaQuery.of(context).size.height * .055,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.grey,
+                                        width: 1.5), // Border color
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    // Border radius
+                                  ),
+                                  child: 
+                                  DropdownSearch<String>(
+  popupProps: PopupPropsMultiSelection.dialog(
+    fit: FlexFit.loose,
+    showSearchBox: true,
+    dialogProps: DialogProps(
+      backgroundColor: colorController.whiteColor,
+      elevation: 10,
+    ),
+    searchFieldProps: TextFieldProps(
+      decoration: InputDecoration(
+        hintText: 'Search...',
+        hintStyle: TextStyle(color: colorController.blackColor),
+        fillColor: colorController.whiteColor,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(11),
+        ),
+      ),
+    ),
+  ),
+  dropdownDecoratorProps: DropDownDecoratorProps(
+    dropdownSearchDecoration: InputDecoration(
+      hintText: methodValue.isEmpty ? 'Select Method' : methodValue,
+      border: InputBorder.none,
+      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    ),
+  ),
+  items: <String>['Jazz Cash', 'Easypaisa'],
+  onChanged: (String? newValue) {
+    setState(() {
+      methodValue = newValue ?? '';
+      print(methodValue);
+    });
+  },
+  selectedItem: methodValue.isNotEmpty ? methodValue : null,
+)
+
+                                ),
+                                reusablaSizaBox(context, 0.020),
                     reusableTextField(context, 
-                          reusabletextfieldcontroller.accounttitle, 'Title', _accounttitle.hasFocus
+                          reusabletextfieldcontroller.accounttitle, 'Account Title', _accounttitle.hasFocus
                         ? colorController.blueColor
                         : colorController.textfieldBorderColorBefore, _accounttitle, () {
                       _accounttitle.unfocus();
@@ -133,13 +189,17 @@ class _AccountDetailsState extends State<AccountDetails> {
                     }, ),
                     reusablaSizaBox(context, 0.020),
                     reusableTextField(context, 
-                          reusabletextfieldcontroller.mobilenumber, 'Title', _mobilenumber.hasFocus
+                          reusabletextfieldcontroller.mobilenumber, 'Mobile Number', _mobilenumber.hasFocus
                         ? colorController.blueColor
                         : colorController.textfieldBorderColorBefore, _mobilenumber, () {
                       _mobilenumber.unfocus();
                       FocusScope.of(context).requestFocus(_mobilenumber);
                     }, ),
-                           reusableBtn(context, 'button', (){}),
+                    reusablaSizaBox(context, 0.020),
+                           Padding(
+                             padding: EdgeInsets.all(MediaQuery.of(context).size.width * .10),
+                             child: reusableBtn(context, 'Update', (){}),
+                           ),
                             
                     ],
                   ),

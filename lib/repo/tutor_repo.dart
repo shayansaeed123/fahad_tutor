@@ -255,8 +255,8 @@ class TutorRepository {
          MySharedPrefrence().set_term_condition_image(jsonResponse['term_condition_image']);
          MySharedPrefrence().set_faqs_images(jsonResponse['faqs_images']);
         
-        print('FAQ Image ${MySharedPrefrence().get_feedback_msg()}');
-        print('terms & conditions Image ${MySharedPrefrence().get_term_condition_image()}');
+        print('FAQ Image ${_faqs_images}');
+        print('terms & conditions Image ${_term_condition_image}');
         print('registration $_Registration_text');
       } else {
         print('Error: ${response.statusCode}');

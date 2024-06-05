@@ -8,6 +8,8 @@ import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RegistrationCharges extends StatefulWidget {
   const RegistrationCharges({super.key});
@@ -49,7 +51,10 @@ class _RegistrationChargesState extends State<RegistrationCharges> {
                           reusablaSizaBox(context, 0.020),
                           reusableText(repository.Registration_text,color: colorController.blackColor,fontsize: 14),
                           reusablaSizaBox(context, 0.005),
-                          Row(children: [reusableText('see ',fontsize: 13.5,fontweight: FontWeight.bold),reusableText('Bank Details',fontsize: 13.5,color: colorController.btnColor,fontweight: FontWeight.bold)],),
+                          Row(children: [reusableText('see ',fontsize: 13.5,fontweight: FontWeight.bold),
+                          InkWell(
+                            onTap: (){launch('https://fahadtutors.com/payment');},
+                            child: reusableText('Bank Details',fontsize: 13.5,color: colorController.btnColor,fontweight: FontWeight.bold))],),
                           reusablaSizaBox(context, 0.020),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
