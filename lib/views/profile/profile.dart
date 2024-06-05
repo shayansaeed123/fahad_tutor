@@ -37,6 +37,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   bool isLoading = false;
+  bool isToggled = false;
                 String formattedInfo = "";
   String formatInfo(String info) {
     return info.replaceAll(',', '\n');
@@ -153,7 +154,23 @@ void loginClear(){
             reusableText('App Settings',color: colorController.blackColor,fontsize: 21,),
             
                       reusablaSizaBox(context, .01),
-            reusablelisttile(context,(){},'assets/images/notification_icon.png','Notification',),
+                      ListTile(
+      onTap: (){
+        setState(() {
+          isToggled = !isToggled;
+        });
+      },
+    contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.01), // Adjust as needed
+    tileColor: Colors.grey.shade100,
+    shape: Border(bottom: BorderSide(color: colorController.blackColor,width: .25)),
+    dense: true, // Decrease the height of the ListTile
+    minVerticalPadding: 0, // Reduce the vertical padding
+    horizontalTitleGap: 8.0, // Increase the gap between the leading and title
+    leading: Image.asset('assets/images/notification_icon.png',fit: BoxFit.contain,height: MediaQuery.of(context).size.height * .025,),
+    title: reusableText('Notification',fontsize: 14.5),
+    trailing:  isToggled ? Icon(Icons.toggle_on, color: colorController.btnColor,size: 50,) :
+    Icon(Icons.toggle_off,color: colorController.blackColor,size:55,),
+  ),
             reusablelisttile(context,(){
               Navigator.push(context, MaterialPageRoute(builder: (context) => FAQ(),));
             },'assets/images/faqs_icon.png',"FAQ's",),
