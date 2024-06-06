@@ -645,6 +645,22 @@ bool select = false;
     );
   }
 
+void toggleSelection(String instituteId, String instituteName) {
+  setState(() {
+    if (selectedIds.any((element) => element['id'] == instituteId)) {
+      selectedIds.removeWhere((element) => element['id'] == instituteId);
+      selectedNames.remove(instituteName);
+    } else {
+      if (selectedIds.length < 2) {
+        selectedIds.add({'id': instituteId});
+        selectedNames.add(instituteName);
+      } else {
+        Utils.snakbar(context, 'Select Last 2 Institute');
+      }
+    }
+  });
+  updateSelectedNames(); // Update the names after selection/deselection
+}
   search() {
     return showDialog(
       context: context,
@@ -677,20 +693,21 @@ bool select = false;
                                 title: Text(instituteName),
                                 trailing: isSelected ? Icon(Icons.check, color: Colors.black) : null,
                                 onTap: () {
-                                  setState(() {
-                                    if (isSelected) {
-                                      selectedIds.removeWhere((element) => element['id'] == instituteId);
-                                      selectedNames.remove(instituteName);
-                                    } else {
-                                      if (selectedIds.length < 2) {
-                                        selectedIds.add({'id': instituteId});
-                                        selectedNames.add(instituteName);
-                                      } else {
-                                        Utils.snakbar(context, 'Select Last 2 Institute');
-                                      }
-                                    }
-                                    updateSelectedNames();
-                                  });
+                                  toggleSelection(instituteId, instituteName); // Toggle selection on tap
+                                  // setState(() {
+                                  //   if (isSelected) {
+                                  //     selectedIds.removeWhere((element) => element['id'] == instituteId);
+                                  //     selectedNames.remove(instituteName);
+                                  //   } else {
+                                  //     if (selectedIds.length < 2) {
+                                  //       selectedIds.add({'id': instituteId});
+                                  //       selectedNames.add(instituteName);
+                                  //     } else {
+                                  //       Utils.snakbar(context, 'Select Last 2 Institute');
+                                  //     }
+                                  //   }
+                                  //   updateSelectedNames();
+                                  // });
                                   print('Updated Selected IDs: $selectedIds');
                                 },
                               ),
@@ -713,8 +730,8 @@ bool select = false;
                       reusableBtn(context, 'Add', () {
                         // selectCountry();
                         setState((){});
-                        updateSelectedNames();
-                        setState((){});
+                        // updateSelectedNames();
+                        // setState((){});
                         Navigator.pop(context);
                       }, width: .4),
                       reusablaSizaBox(context, .03),
