@@ -25,58 +25,6 @@ Function emailTap,
             padding: const EdgeInsets.all(5.0),
             child: reusableText('$titletxt',color: colorController.grayTextColor,fontsize: 13.7),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.all(5.0),
-          //   child: reusableText('Name : Shayan Saeed',color: colorController.grayTextColor,fontsize: 13.7),
-          // ),
-      //     Padding(
-      //       padding: const EdgeInsets.all(5.0),
-      //       child: reusableText('Contact No : ',color: colorController.grayTextColor,fontsize: 13.7),
-      //     ),
-      //     Padding(
-      //       padding: const EdgeInsets.all(5.0),
-      //       child: reusableText('Alternate No : ',color: colorController.grayTextColor,fontsize: 13.7),
-      //     ),
-      //     Padding(
-      //       padding: const EdgeInsets.all(5.0),
-      //       child: reusableText('CNIC : ',color: colorController.grayTextColor,fontsize: 13.7),
-      //     ),
-      //     Padding(
-      //       padding: const EdgeInsets.all(5.0),
-      //       child: reusableText('City : ',color: colorController.grayTextColor,fontsize: 13.7),
-      //     ),
-      //     Padding(
-      //       padding: const EdgeInsets.all(5.0),
-      //       child: reusableText('Area : ',color: colorController.grayTextColor,fontsize: 13.7),
-      //     ),
-      //     Padding(
-      //       padding: const EdgeInsets.all(5.0),
-      //       child: reusableText('Home Address : ',color: colorController.grayTextColor,fontsize: 13.7),
-      //     ),
-      //     Padding(
-      //       padding: const EdgeInsets.all(5.0),
-      //       child: reusableText('DOB : ',color: colorController.grayTextColor,fontsize: 13.7),
-      //     ),
-      //     Padding(
-      //       padding: const EdgeInsets.all(5.0),
-      //       child: reusableText('Email : ',color: colorController.grayTextColor,fontsize: 13.7),
-      //     ),
-      //     Padding(
-      //       padding: const EdgeInsets.all(5.0),
-      //       child: reusableText('Password : ',color: colorController.grayTextColor,fontsize: 13.7),
-      //     ),
-      //     Padding(
-      //       padding: const EdgeInsets.all(5.0),
-      //       child: reusableText('Religion : ',color: colorController.grayTextColor,fontsize: 13.7),
-      //     ),
-      //     Padding(
-      //       padding: const EdgeInsets.all(5.0),
-      //       child: reusableText('Last Registration : ',color: colorController.grayTextColor,fontsize: 13.7),
-      //     ),
-      //     Padding(
-      //       padding: const EdgeInsets.all(5.0),
-      //       child: reusableText('Tutor ID : ',color: colorController.grayTextColor,fontsize: 13.7),
-      //     ),
           reusableText('If you want to update your basic details, email your details ',color: colorController.homeTxtColor,fontsize: 13.7,fontweight: FontWeight.bold),
            GestureDetector(
             onTap: (){
@@ -85,15 +33,6 @@ Function emailTap,
             child: reusableText('info@fahadtutors.com',color: colorController.arabicTextBtnColor,fontsize: 14,fontweight: FontWeight.bold)),
         ],
       ),
-      // actions: [
-      //   ElevatedButton(
-      //     onPressed: () {
-      //       btnontap();
-      //       Navigator.pop(context);
-      //     },
-      //     child: Text(btntxt),
-      //   ),
-      // ],
     ),
   );
 }

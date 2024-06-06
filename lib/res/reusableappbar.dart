@@ -48,6 +48,7 @@ reusableappbar(BuildContext context,Color color,Function ontap){
             padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * .03,),
                               child: MySharedPrefrence().get_profile_img() != '' ? CircleAvatar(
                                 radius: MediaQuery.of(context).size.width * 0.07,
+                                backgroundColor: colorController.blackColor,
                                 backgroundImage: NetworkImage(
                                   MySharedPrefrence()
                                       .get_profile_img()

@@ -67,28 +67,6 @@ void reusableloadingApply(BuildContext context, String assetPath, String message
       );
     },
   );
-
-
-      
-      // : AlertDialog(
-      //   backgroundColor: colorController.whiteColor,
-      //       title: 
-      //   Column(
-      //     children: [
-            // Center(
-            //       child: 
-            //       Lottie.asset('assets/images/success_lottie.json',
-            //       alignment: Alignment.center,
-            //       animate: true,
-            //       filterQuality: FilterQuality.high,
-            //       fit: BoxFit.contain,height: MediaQuery.of(context).size.height *0.05,
-            //       repeat: true,),
-            //     ),
-      //           reusablaSizaBox(context, .05),
-      //           reusableText(msg, fontsize: 17,)
-      //     ],
-      //   )
-      //     );
 }
 
 

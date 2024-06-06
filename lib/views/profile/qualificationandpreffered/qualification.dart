@@ -13,6 +13,7 @@ import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
 class QualificationAndPreferences extends StatefulWidget {
@@ -24,81 +25,90 @@ class QualificationAndPreferences extends StatefulWidget {
 
 class _QualificationAndPreferencesState extends State<QualificationAndPreferences> {
   bool isLoading = false;
-   
-//   List<ListItem> items = [
-//   ListItem(value: 'Item 1'),
-//   ListItem(value: 'Item 2'),
-//   ListItem(value: 'Item 3'),
-// ];
-// List<String> selectedValues = [];
+List<String> selectedValues = [];
+bool select = false;
 
-
-// bool _isDialogOpen = false;
   search() {
-    // setState(() {
-    //   _isDialogOpen = true;
-    // });
   return showDialog(
     context: context,
-    builder: (context) => CupertinoAlertDialog(
-      // title: reusableText('Tutor Basic Information',color: colorController.blackColor,fontsize: 22,fontweight: FontWeight.bold),
-      content: 
-      Column(
-        // mainAxisAlignment: MainAxisAlignment.start,
-        // crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height *.5,
-            width: MediaQuery.of(context).size.width,
-            child: ListView.builder(
-              itemCount: newItems.length,
-              itemBuilder: (context, index) {
-                instituteNames = newItems[index]['names'];
-                instituteIds = newItems[index]['id'];
-                print('instituteNames  $instituteNames');
-                print('instituteIds $instituteIds');
-              return CupertinoListTile(
-        title: Text(instituteNames),
-        // Text(items[index].value),
-        // trailing: items[index].selected ? Icon(Icons.check,color: colorController.blackColor,) : null,
-        onTap: () {
-                  // setState(() {
-                  //   // Toggle the selected flag
-                  //   items[index].selected = !items[index].selected;
-      
-                  //   // Add or remove the value from the selectedValues list
-                  //   if (items[index].selected) {
-                  //     selectedValues.add(items[index].value);
-                  //   } else {
-                  //     selectedValues.remove(items[index].value);
-                  //   }
-                  // });
-      
-                  // // Print the selected values
-                  // print('Selected values: $selectedValues');
-                },
-      );
-            },),
+    builder: (context) => StatefulBuilder(
+      builder: (context,StateSetter setState) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),),
+          backgroundColor: colorController.whiteColor,
+          surfaceTintColor: colorController.whiteColor,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+               Expanded(
+                 child: 
+                 Container(
+                    width: MediaQuery.of(context).size.width * .9,
+                    child: ListView.builder(
+                      itemCount: newItems.length,
+                      itemBuilder: (context, index) {
+                        String instituteName = newItems[index]['names'];
+                        String instituteId = newItems[index]['id'];
+                        bool isSelected = selectedIds.any((element) => element['id'] == instituteId);
+                        print('instituteNames  $instituteName');
+                        print('instituteIds $instituteId');
+                        print('Selected IDs: $selectedIds');
+                        return Column(
+                          children: [
+                            Padding(
+                              padding:  EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .01,vertical:MediaQuery.of(context).size.width * .00000001  ),
+                              child: ListTile(
+                                title: Text(instituteName),
+                                trailing: isSelected ? Icon(Icons.check, color: Colors.black) : null,
+                                onTap: () {
+                                  setState(() {
+                                    if (isSelected) {
+                                      selectedIds.removeWhere((element) => element['id'] == instituteId);
+                                    } else {
+                                      if (selectedIds.length < 2) {
+                                        selectedIds.add({'id': instituteId});
+                                      }else{
+                                        Utils.snakbar(context, 'Select Last 2 Institute');
+                                      }
+                                    }
+                                  });
+                                  print('Updated Selected IDs: $selectedIds');
+                                },
+                              ),
+                            ),
+                            if (index != newItems.length - 1) // Add Divider for all but the last item
+                             Divider(
+                               color: Colors.grey, // Customize the color if needed
+                               thickness: 1.0, // Customize the thickness if needed
+                               ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+               ),
+               Padding(
+                 padding: const EdgeInsets.all(8.0),
+                 child: Row(
+                  children: [
+                    reusableBtn(context, 'Add', (){selectCountry();Navigator.pop(context);},width: .4),
+                    reusablaSizaBox(context, .03),
+                    Expanded(child: reusablewhite(context, 'Cancel', (){Navigator.pop(context);},width: .5)),
+                  ],
+                 ),
+               )
+            ],
           ),
-      
-        ],
-      ),
-      // actions: [
-      //   ElevatedButton(
-      //     onPressed: () {
-      //       btnontap();
-      //       Navigator.pop(context);
-      //     },
-      //     child: Text(btntxt),
-      //   ),
-      // ],
+        );
+      }
     ),
   );
 }
-dynamic instituteIds;
-dynamic instituteNames;
+
 List<dynamic> newItems = [];
+List<Map<String, String>> selectedIds = [];
 Future<void> fetchTuitions() async {
   setState(() {
     isLoading = true;
@@ -135,11 +145,7 @@ Future<void> fetchTuitions() async {
 
         print('Updated tuitions list: $newItems');
         print('Full JSON response: $jsonResponse');
-        setState(() {
-              instituteNames = newItems[0]['names'];
-              // countryId = countryList[0]['c_id'];
-              print(instituteNames);
-            });
+        
       } else {
         print('Error: Invalid JSON format');
       }
@@ -173,12 +179,47 @@ bool isJsonValid(String jsonString) {
   }
 }
 
+Future<void> selectCountry() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      
+      final response = await http.get(
+        Uri.parse('${Utils.baseUrl}mobile_app/step_2.php?code=10&tutor_id=31225'),
+      );
+      if (response.statusCode == 200) {
+        if (response.body.isNotEmpty) {
+          final Map<String, dynamic> jsonResponse = json.decode(response.body);
+          selectedIds = jsonResponse['Institute_listing']
+            .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+            .toList();
+          print('object $selectedIds');
+        } else {
+          throw Exception('Empty response body');
+        }
+        setState(() {
+          isLoading = false;
+        });
+      } else {
+        throw Exception('Failed to load country details');
+      }
+    } catch (e) {
+      print(e);
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     fetchTuitions();
+    selectCountry();
   }
   @override
   Widget build(BuildContext context) {
@@ -191,13 +232,29 @@ bool isJsonValid(String jsonString) {
                         children: [
                           reusableText("Qualification and \nPreferences",color: colorController.blackColor,fontsize: 25,fontweight: FontWeight.bold),
                           reusablaSizaBox(context, 0.020),
-                           reusableBtn(context, 'button', (){search();}),
-                            
+                          reusablequlification(context, 'Institute', (){search();}),
+                          Expanded(
+                            flex: 1,
+                            child: ListView.builder(
+                              itemCount: selectedIds.length,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  padding: EdgeInsets.all(5.0),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: colorController.redColor,
+                                    ),
+                                    child: reusableText(selectedIds[index].toString(),fontsize: 17,fontweight: FontWeight.bold,color: colorController.whiteColor),
+                                );
+                              },
+                              ),
+                          )
                     ],
                   ),
                 ),
       reusableloadingrow(context, isLoading)
     );
   }
-}
 
+  
+}
