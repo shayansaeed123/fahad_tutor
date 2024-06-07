@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:fahad_tutor/controller/text_field_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
@@ -329,4 +330,255 @@ class TutorRepository {
       _isLoading = false;
     }
   }
+
+
+
+  // Qualification Apis Functions
+
+  // Institute start
+  List<dynamic> _instituteItems = [];
+  List<dynamic> get instituteItems => _instituteItems; 
+  List<Map<String, String>> _selectedIdsinstitute = [];
+  List<Map<String, String>> get selectedIdsinstitute => _selectedIdsinstitute; 
+  List<String> _selectedNamesinstitute = [];
+  List<String> get selectedNamesinstitute => _selectedNamesinstitute;
+  // Institute end
+
+  // Qualification start
+  List<dynamic> _qualificationItems = [];
+  List<dynamic> get qualificationItems => _qualificationItems; 
+  List<Map<String, String>> _selectedIdsqualification = [];
+  List<Map<String, String>> get selectedIdsqualification => _selectedIdsqualification; 
+  List<String> _selectedNamesqualification = [];
+  List<String> get selectedNamesqualification => _selectedNamesqualification;
+  // Qualification end
+
+
+  Future<void> fetchQualificationData(
+    String urlPoint,String responseData,
+    List<dynamic> items,
+    List<Map<String, String>> itemsIds,
+    List<String> itemsname) async {
+    _isLoading = true;
+    try {
+      String url = '${Utils.baseUrl}mobile_app/all_in.php?${urlPoint}=1';
+      final response = await http.get(Uri.parse(url));
+      print('url $url');
+
+      if (response.statusCode == 200) {
+        // Get the raw bytes of the response
+        Uint8List responseBytes = response.bodyBytes;
+
+        // Decode the response and handle invalid UTF-8 bytes
+        String responseBody = utf8.decode(responseBytes, allowMalformed: true);
+
+        // Remove BOM if present
+        responseBody = removeBom(responseBody);
+
+        // Check if the response contains valid JSON
+        if (isJsonValid(responseBody)) {
+          dynamic jsonResponse = jsonDecode(responseBody);
+          items = jsonResponse['${responseData}'];
+
+          // Initialize selectedNames based on selectedIds
+          updateSelectedNames(items,itemsIds,itemsname);
+
+          print('Updated tuitions list: $_instituteItems');
+          print('Full JSON response: $jsonResponse');
+        } else {
+          print('Error: Invalid JSON format');
+        }
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception(e);
+    } finally {
+      _isLoading = false;
+    }
+  }
+
+  String removeBom(String responseBody) {
+    // Remove BOM if present
+    if (responseBody.startsWith('\uFEFF')) {
+      return responseBody.substring(1);
+    }
+    return responseBody;
+  }
+
+  bool isJsonValid(String jsonString) {
+    try {
+      jsonDecode(jsonString);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<void> saveQualificationData(String saveResponseData) async {
+    _isLoading = true;
+
+    try {
+      final response = await http.get(
+        Uri.parse('${Utils.baseUrl}mobile_app/step_2.php?code=10&tutor_id=31225'),
+      );
+      if (response.statusCode == 200) {
+        if (response.body.isNotEmpty) {
+          final Map<String, dynamic> jsonResponse = json.decode(response.body);
+          _selectedIdsinstitute = (jsonResponse['${saveResponseData}'] as List)
+              .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+              .toList();
+
+          // Initialize selectedNames based on selectedIds
+          // updateSelectedNames();
+
+          print('Selected IDs: $_selectedIdsinstitute');
+        } else {
+          throw Exception('Empty response body');
+        }
+      } else {
+        throw Exception('Failed to load country details');
+      }
+    } catch (e) {
+      print(e);
+    } finally {
+      _isLoading = false;
+    }
+  }
+
+  void updateSelectedNames(List<dynamic> items,List<Map<String, String>> itemsIds,List<String> itemsname) {
+    itemsname = itemsIds.map((selected) {
+      return (items.firstWhere(
+        (item) => item['id'] == selected['id'],
+        orElse: () => {'names': 'Unknown'},
+      )['names'] as String);
+    }).toList();
+  }
+
+
+  // // Institute lists
+  // List<dynamic> _instituteItems = [];
+  // List<dynamic> get instituteItems => _instituteItems;
+  // List<Map<String, String>> _selectedIdsInstitute = [];
+  // List<Map<String, String>> get selectedIdsInstitute => _selectedIdsInstitute;
+  // List<String> _selectedNamesInstitute = [];
+  // List<String> get selectedNamesInstitute => _selectedNamesInstitute;
+
+  // // Qualification lists
+  // List<dynamic> _qualificationItems = [];
+  // List<dynamic> get qualificationItems => _qualificationItems;
+  // List<Map<String, String>> _selectedIdsQualification = [];
+  // List<Map<String, String>> get selectedIdsQualification => _selectedIdsQualification;
+  // List<String> _selectedNamesQualification = [];
+  // List<String> get selectedNamesQualification => _selectedNamesQualification;
+
+
+  // Future<void> fetchQualificationData(String urlPoint, String responseData, String target) async {
+  //   _isLoading = true;
+  //   try {
+  //     String url = '${Utils.baseUrl}mobile_app/all_in.php?${urlPoint}=1';
+  //     final response = await http.get(Uri.parse(url));
+  //     print('url $url');
+
+  //     if (response.statusCode == 200) {
+  //       Uint8List responseBytes = response.bodyBytes;
+  //       String responseBody = utf8.decode(responseBytes, allowMalformed: true);
+  //       responseBody = removeBom(responseBody);
+
+  //       if (isJsonValid(responseBody)) {
+  //         dynamic jsonResponse = jsonDecode(responseBody);
+  //         List<dynamic> items = jsonResponse['${responseData}'];
+
+  //         if (target == 'institute') {
+  //           _instituteItems = items;
+  //           updateSelectedNames(target);
+  //         } else if (target == 'qualification') {
+  //           _qualificationItems = items;
+  //           updateSelectedNames(target);
+  //         }
+
+  //         print('Updated items list: $items');
+  //         print('Full JSON response: $jsonResponse');
+  //       } else {
+  //         print('Error: Invalid JSON format');
+  //       }
+  //     } else {
+  //       print('Error: ${response.statusCode}');
+  //     }
+  //   } catch (e) {
+  //     print('Error: $e');
+  //     throw Exception(e);
+  //   } finally {
+  //     _isLoading = false;
+  //   }
+  // }
+
+  // Future<void> saveQualificationData(String saveResponseData, String target) async {
+  //   _isLoading = true;
+  //   try {
+  //     final response = await http.get(Uri.parse('${Utils.baseUrl}mobile_app/step_2.php?code=10&tutor_id=31225'));
+  //     if (response.statusCode == 200) {
+  //       if (response.body.isNotEmpty) {
+  //         final Map<String, dynamic> jsonResponse = json.decode(response.body);
+  //         List<Map<String, String>> selectedIds = (jsonResponse['${saveResponseData}'] as List)
+  //             .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+  //             .toList();
+
+  //         if (target == 'institute') {
+  //           _selectedIdsInstitute = selectedIds;
+  //           updateSelectedNames(target);
+  //         } else if (target == 'qualification') {
+  //           _selectedIdsQualification = selectedIds;
+  //           updateSelectedNames(target);
+  //         }
+
+  //         print('Selected IDs for $target: $selectedIds');
+  //       } else {
+  //         throw Exception('Empty response body');
+  //       }
+  //     } else {
+  //       throw Exception('Failed to load details');
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   } finally {
+  //     _isLoading = false;
+  //   }
+  // }
+
+  // void updateSelectedNames(String target) {
+  //   if (target == 'institute') {
+  //     _selectedNamesInstitute = _selectedIdsInstitute.map((selected) {
+  //       return (_instituteItems.firstWhere(
+  //         (item) => item['id'] == selected['id'],
+  //         orElse: () => {'names': 'Unknown'},
+  //       )['names'] as String);
+  //     }).toList();
+  //   } else if (target == 'qualification') {
+  //     _selectedNamesQualification = _selectedIdsQualification.map((selected) {
+  //       return (_qualificationItems.firstWhere(
+  //         (item) => item['id'] == selected['id'],
+  //         orElse: () => {'names': 'Unknown'},
+  //       )['names'] as String);
+  //     }).toList();
+  //   }
+  // }
+
+  // String removeBom(String responseBody) {
+  //   if (responseBody.startsWith('\uFEFF')) {
+  //     return responseBody.substring(1);
+  //   }
+  //   return responseBody;
+  // }
+
+  // bool isJsonValid(String jsonString) {
+  //   try {
+  //     jsonDecode(jsonString);
+  //     return true;
+  //   } catch (e) {
+  //     return false;
+  //   }
+  // }
+
 }

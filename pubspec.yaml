@@ -56,7 +56,6 @@ dependencies:
   cached_network:
   dotted_border: 
   image_picker: 
-  dio:
 
 dev_dependencies:
   flutter_test:

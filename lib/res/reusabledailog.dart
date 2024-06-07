@@ -25,7 +25,7 @@ Function emailTap,
             padding: const EdgeInsets.all(5.0),
             child: reusableText('$titletxt',color: colorController.grayTextColor,fontsize: 13.7),
           ),
-          reusableText('If you want to update your basic details, email your details ',color: colorController.homeTxtColor,fontsize: 13.7,fontweight: FontWeight.bold),
+          reusableText('If you want to update your basic details, email your details ',color: colorController.redColor,fontsize: 13.7,fontweight: FontWeight.bold),
            GestureDetector(
             onTap: (){
               emailTap();
