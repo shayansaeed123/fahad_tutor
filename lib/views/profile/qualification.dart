@@ -466,7 +466,7 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
                 },
               ),
               reusablaSizaBox(context, .030),
-              reusa
+              reusableText("Tutor's Preferences",color: colorController.blackColor,fontsize: 25,)
             ],
           ),
         ),
