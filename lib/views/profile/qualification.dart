@@ -255,7 +255,7 @@ Future<void> fetchInstituteData() async {
         // Check if the response contains valid JSON
         if (isJsonValid(responseBody)) {
           dynamic jsonResponse = jsonDecode(responseBody);
-          newItemsBoard = jsonResponse['group_name'];
+          newItemsBoard = jsonResponse['Group_listing'];
 
           // Initialize selectedNames based on selectedIds
           updateSelectedNamesGroup();
@@ -539,6 +539,8 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
 
 @override
   Widget build(BuildContext context) {
+    print(selectedNamesBoard);
+    print(selectedIdsGroup);
     return reusableprofileidget(
       Padding(
         padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .032),
