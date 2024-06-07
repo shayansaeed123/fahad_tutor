@@ -36,6 +36,14 @@ class _QualificationAndPreferencesState extends State<QualificationAndPreference
   List<dynamic> newItemsBoard = [];
   List<Map<String, String>> selectedIdsBoard = [];
   List<String> selectedNamesBoard = [];
+
+  List<dynamic> newItemsPreferred = [];
+  List<Map<String, String>> selectedIdsPreferred = [];
+  List<String> selectedNamesPreferred = [];
+
+  List<dynamic> newItemsGroup = [];
+  List<Map<String, String>> selectedIdsGroup = [];
+  List<String> selectedNamesGroup= [];
   // bool isLoading = false;
 
 @override
@@ -43,8 +51,9 @@ class _QualificationAndPreferencesState extends State<QualificationAndPreference
     super.initState();
     fetchInstituteData();
     fetchQualificationData();
+    fetchBoardData();
     saveQualificationData();
-
+    fetchGroupData()
   }
 
 Future<void> fetchInstituteData() async {
@@ -135,12 +144,12 @@ Future<void> fetchInstituteData() async {
       });
     }
   }
-  // Future<void> fetchBoardData() async {
+  // Future<void> fetchQualificationData() async {
   //   setState(() {
   //     isLoading = true;
   //   });
   //   try {
-  //     String url = '${Utils.baseUrl}mobile_app/all_in.php?Institute=1';
+  //     String url = '${Utils.baseUrl}mobile_app/all_in.php?Qualification=1';
   //     final response = await http.get(Uri.parse(url));
   //     print('url $url');
 
@@ -157,12 +166,12 @@ Future<void> fetchInstituteData() async {
   //       // Check if the response contains valid JSON
   //       if (isJsonValid(responseBody)) {
   //         dynamic jsonResponse = jsonDecode(responseBody);
-  //         newItems = jsonResponse['Institute_listing'];
+  //         newItemsQualification = jsonResponse['Qualification_listing'];
 
   //         // Initialize selectedNames based on selectedIds
-  //         updateSelectedNames();
+  //         updateSelectedNamesQualification();
 
-  //         print('Updated tuitions list: $newItems');
+  //         print('Updated tuitions list: $newItemsQualification');
   //         print('Full JSON response: $jsonResponse');
   //       } else {
   //         print('Error: Invalid JSON format');
@@ -179,6 +188,95 @@ Future<void> fetchInstituteData() async {
   //     });
   //   }
   // }
+  Future<void> fetchBoardData() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      String url = '${Utils.baseUrl}mobile_app/all_in.php?Board=1';
+      final response = await http.get(Uri.parse(url));
+      print('url $url');
+
+      if (response.statusCode == 200) {
+        // Get the raw bytes of the response
+        Uint8List responseBytes = response.bodyBytes;
+
+        // Decode the response and handle invalid UTF-8 bytes
+        String responseBody = utf8.decode(responseBytes, allowMalformed: true);
+
+        // Remove BOM if present
+        responseBody = removeBom(responseBody);
+
+        // Check if the response contains valid JSON
+        if (isJsonValid(responseBody)) {
+          dynamic jsonResponse = jsonDecode(responseBody);
+          newItemsBoard = jsonResponse['Board_listing'];
+
+          // Initialize selectedNames based on selectedIds
+          updateSelectedNamesBoard();
+
+          print('Updated tuitions list: $newItemsBoard');
+          print('Full JSON response: $jsonResponse');
+        } else {
+          print('Error: Invalid JSON format');
+        }
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception(e);
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  Future<void> fetchGroupData() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      String url = '${Utils.baseUrl}mobile_app/all_in.php?Group=1';
+      final response = await http.get(Uri.parse(url));
+      print('url $url');
+
+      if (response.statusCode == 200) {
+        // Get the raw bytes of the response
+        Uint8List responseBytes = response.bodyBytes;
+
+        // Decode the response and handle invalid UTF-8 bytes
+        String responseBody = utf8.decode(responseBytes, allowMalformed: true);
+
+        // Remove BOM if present
+        responseBody = removeBom(responseBody);
+
+        // Check if the response contains valid JSON
+        if (isJsonValid(responseBody)) {
+          dynamic jsonResponse = jsonDecode(responseBody);
+          newItemsBoard = jsonResponse['group_name'];
+
+          // Initialize selectedNames based on selectedIds
+          updateSelectedNamesGroup();
+
+          print('Updated tuitions list: $newItemsGroup');
+          print('Full JSON response: $jsonResponse');
+        } else {
+          print('Error: Invalid JSON format');
+        }
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception(e);
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   String removeBom(String responseBody) {
     // Remove BOM if present
@@ -208,22 +306,35 @@ Future<void> fetchInstituteData() async {
       );
       if (response.statusCode == 200) {
         if (response.body.isNotEmpty) {
-          final Map<String, dynamic> jsonResponse1 = json.decode(response.body);
-          selectedIdsinstitute = (jsonResponse1['Institute_listing'] as List)
+          final Map<String, dynamic> jsonResponse = json.decode(response.body);
+          selectedIdsinstitute = (jsonResponse['Institute_listing'] as List)
               .map<Map<String, String>>((item) => {'id': item['id'].toString()})
               .toList();
 
-              final Map<String, dynamic> jsonResponse2 = json.decode(response.body);
-          selectedIdsQualification = (jsonResponse2['Institute_Qualification'] as List)
+              // final Map<String, dynamic> jsonResponse = json.decode(response.body);
+          selectedIdsQualification = (jsonResponse['Institute_Qualification'] as List)
+              .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+              .toList();
+
+              // final Map<String, dynamic> jsonResponse3 = json.decode(response.body);
+          selectedIdsBoard = (jsonResponse['preferred_board_listing'] as List)
+              .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+              .toList();
+
+              selectedIdsBoard = (jsonResponse['preferred_group_listing'] as List)
               .map<Map<String, String>>((item) => {'id': item['id'].toString()})
               .toList();
 
           // Initialize selectedNames based on selectedIds
            updateSelectedNamesInstitute();
           updateSelectedNamesQualification();
+          updateSelectedNamesBoard();
+          updateSelectedNamesGroup();
 
           print('Selected IDs: $selectedIdsinstitute');
           print('Selected IDs: $selectedIdsQualification');
+          print('Selected IDs: $selectedIdsBoard');
+          print('Selected IDs: $selectedIdsGroup');
         } else {
           throw Exception('Empty response body');
         }
@@ -266,9 +377,27 @@ Future<void> fetchInstituteData() async {
     }).toList();
   }
 
+  void updateSelectedNamesBoard() {
+    selectedNamesBoard = selectedIdsBoard.map((selected) {
+      return (newItemsBoard.firstWhere(
+        (item) => item['id'] == selected['id'],
+        orElse: () => {'board_name': 'Unknown'},
+      )['board_name'] as String);
+    }).toList();
+  }
+
+  void updateSelectedNamesGroup() {
+    selectedNamesGroup = selectedIdsGroup.map((selected) {
+      return (newItemsGroup.firstWhere(
+        (item) => item['id'] == selected['id'],
+        orElse: () => {'group_name': 'Unknown'},
+      )['group_name'] as String);
+    }).toList();
+  }
+
 void toggleSelection(String instituteId, String instituteName,String name) {
   setState(() {
-    if(name == 'institute'){
+    if(name == 'names'){
       if (selectedIdsinstitute.any((element) => element['id'] == instituteId)) {
       selectedIdsinstitute.removeWhere((element) => element['id'] == instituteId);
       selectedNamesinstitute.remove(instituteName);
@@ -281,7 +410,7 @@ void toggleSelection(String instituteId, String instituteName,String name) {
       }
     }
     }
-    else if(name == 'qualification'){
+    else if(name == 'degree_title'){
       if (selectedIdsQualification.any((element) => element['id'] == instituteId)) {
       selectedIdsQualification.removeWhere((element) => element['id'] == instituteId);
       selectedNamesQualification.remove(instituteName);
@@ -293,13 +422,39 @@ void toggleSelection(String instituteId, String instituteName,String name) {
         Utils.snakbar(context, 'Select Last 2 Institute');
       }
     }
+    }else if(name == 'board_name'){
+      if (selectedIdsBoard.any((element) => element['id'] == instituteId)) {
+      selectedIdsBoard.removeWhere((element) => element['id'] == instituteId);
+      selectedNamesBoard.remove(instituteName);
+    } else {
+      if (selectedIdsBoard.length < 2) {
+        selectedIdsBoard.add({'id': instituteId});
+        selectedNamesBoard.add(instituteName);
+      } else {
+        Utils.snakbar(context, 'Select Last 2 Institute');
+      }
+    }
+    }else if(name == 'group_name'){
+      if (selectedIdsGroup.any((element) => element['id'] == instituteId)) {
+      selectedIdsGroup.removeWhere((element) => element['id'] == instituteId);
+      selectedNamesGroup.remove(instituteName);
+    } else {
+      if (selectedIdsGroup.length < 2) {
+        selectedIdsGroup.add({'id': instituteId});
+        selectedNamesGroup.add(instituteName);
+      } else {
+        Utils.snakbar(context, 'Select Last 2 Institute');
+      }
+    }
     }
     
   });
   // updateSelectedNames(); // Update the names after selection/deselection
 
 updateSelectedNamesInstitute();
-          updateSelectedNamesQualification();
+updateSelectedNamesQualification();
+updateSelectedNamesBoard();
+updateSelectedNamesGroup();
 }
 
 
@@ -466,7 +621,83 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
                 },
               ),
               reusablaSizaBox(context, .030),
-              reusableText("Tutor's Preferences",color: colorController.blackColor,fontsize: 25,)
+              reusableText("Tutor's Preferences",color: colorController.blackColor,fontsize: 21,),
+              reusablaSizaBox(context, .020),
+              reusablequlification(context, 'preferred Area', () {
+                search(newItemsQualification, selectedIdsQualification,'');
+              }),
+              reusablaSizaBox(context, .020),
+              reusablequlification(context, 'preferred Board', () {
+                search(newItemsBoard, selectedIdsBoard,'board_name');
+              }),
+              reusablaSizaBox(context, .020),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: selectedNamesBoard.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .012),
+                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: colorController.qualificationItemsColors,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(child: Text(selectedNamesBoard[index],softWrap: true, overflow: TextOverflow.ellipsis,maxLines: 1, style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold, color: colorController.whiteColor),)),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              // Remove the selected item from the list
+                              selectedIdsBoard.removeAt(index);
+                              selectedNamesBoard.removeAt(index);
+                              // updateSelectedNames(); // Update the names here
+                            });
+                          },
+                          child: Icon(Icons.cancel_outlined, color: colorController.whiteColor),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+              reusablaSizaBox(context, .020),
+              reusablequlification(context, 'preferred Group', () {
+                search(newItemsBoard, selectedIdsBoard,'group_name');
+              }),
+              reusablaSizaBox(context, .020),
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: selectedNamesBoard.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .012),
+                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: colorController.qualificationItemsColors,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(child: Text(selectedNamesBoard[index],softWrap: true, overflow: TextOverflow.ellipsis,maxLines: 1, style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold, color: colorController.whiteColor),)),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              // Remove the selected item from the list
+                              selectedIdsBoard.removeAt(index);
+                              selectedNamesBoard.removeAt(index);
+                              // updateSelectedNames(); // Update the names here
+                            });
+                          },
+                          child: Icon(Icons.cancel_outlined, color: colorController.whiteColor),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ),
