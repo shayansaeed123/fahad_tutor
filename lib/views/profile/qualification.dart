@@ -53,7 +53,7 @@ class _QualificationAndPreferencesState extends State<QualificationAndPreference
     fetchQualificationData();
     fetchBoardData();
     saveQualificationData();
-    fetchGroupData()
+    fetchGroupData();
   }
 
 Future<void> fetchInstituteData() async {
@@ -544,161 +544,163 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
         padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .032),
         child: ConstrainedBox(
           constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              reusableText("Qualification and \nPreferences", color: colorController.blackColor, fontsize: 25, fontweight: FontWeight.bold),
-              reusablaSizaBox(context, 0.020),
-              reusablequlification(context, 'Institute', () {
-                search(newItemsinstitute,selectedIdsinstitute,'names');
-              }),
-              reusablaSizaBox(context, .020),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: selectedNamesinstitute.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .012),
-                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: colorController.qualificationItemsColors,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        reusableText(selectedNamesinstitute[index], fontsize: 17, fontweight: FontWeight.bold, color: colorController.whiteColor),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              // Remove the selected item from the list
-                              selectedIdsinstitute.removeAt(index);
-                              selectedNamesinstitute.removeAt(index);
-                              // updateSelectedNames(); // Update the names here
-                            });
-                          },
-                          child: Icon(Icons.cancel_outlined, color: colorController.whiteColor),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-              reusablaSizaBox(context, .020),
-              reusablequlification(context, 'Qualification', () {
-                search(newItemsQualification, selectedIdsQualification,'degree_title');
-              }),
-              reusablaSizaBox(context, .020),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: selectedNamesQualification.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .012),
-                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: colorController.qualificationItemsColors,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(child: Text(selectedNamesQualification[index],softWrap: true, overflow: TextOverflow.ellipsis,maxLines: 1, style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold, color: colorController.whiteColor),)),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              // Remove the selected item from the list
-                              selectedIdsQualification.removeAt(index);
-                              selectedNamesQualification.removeAt(index);
-                              // updateSelectedNames(); // Update the names here
-                            });
-                          },
-                          child: Icon(Icons.cancel_outlined, color: colorController.whiteColor),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-              reusablaSizaBox(context, .030),
-              reusableText("Tutor's Preferences",color: colorController.blackColor,fontsize: 21,),
-              reusablaSizaBox(context, .020),
-              reusablequlification(context, 'preferred Area', () {
-                search(newItemsQualification, selectedIdsQualification,'');
-              }),
-              reusablaSizaBox(context, .020),
-              reusablequlification(context, 'preferred Board', () {
-                search(newItemsBoard, selectedIdsBoard,'board_name');
-              }),
-              reusablaSizaBox(context, .020),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: selectedNamesBoard.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .012),
-                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: colorController.qualificationItemsColors,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(child: Text(selectedNamesBoard[index],softWrap: true, overflow: TextOverflow.ellipsis,maxLines: 1, style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold, color: colorController.whiteColor),)),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              // Remove the selected item from the list
-                              selectedIdsBoard.removeAt(index);
-                              selectedNamesBoard.removeAt(index);
-                              // updateSelectedNames(); // Update the names here
-                            });
-                          },
-                          child: Icon(Icons.cancel_outlined, color: colorController.whiteColor),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-              reusablaSizaBox(context, .020),
-              reusablequlification(context, 'preferred Group', () {
-                search(newItemsBoard, selectedIdsBoard,'group_name');
-              }),
-              reusablaSizaBox(context, .020),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: selectedNamesBoard.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .012),
-                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: colorController.qualificationItemsColors,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(child: Text(selectedNamesBoard[index],softWrap: true, overflow: TextOverflow.ellipsis,maxLines: 1, style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold, color: colorController.whiteColor),)),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              // Remove the selected item from the list
-                              selectedIdsBoard.removeAt(index);
-                              selectedNamesBoard.removeAt(index);
-                              // updateSelectedNames(); // Update the names here
-                            });
-                          },
-                          child: Icon(Icons.cancel_outlined, color: colorController.whiteColor),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                reusableText("Qualification and \nPreferences", color: colorController.blackColor, fontsize: 25, fontweight: FontWeight.bold),
+                reusablaSizaBox(context, 0.020),
+                reusablequlification(context, 'Institute', () {
+                  search(newItemsinstitute,selectedIdsinstitute,'names');
+                }),
+                reusablaSizaBox(context, .020),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: selectedNamesinstitute.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .012),
+                      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: colorController.qualificationItemsColors,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          reusableText(selectedNamesinstitute[index], fontsize: 17, fontweight: FontWeight.bold, color: colorController.whiteColor),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                // Remove the selected item from the list
+                                selectedIdsinstitute.removeAt(index);
+                                selectedNamesinstitute.removeAt(index);
+                                // updateSelectedNames(); // Update the names here
+                              });
+                            },
+                            child: Icon(Icons.cancel_outlined, color: colorController.whiteColor),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+                reusablaSizaBox(context, .020),
+                reusablequlification(context, 'Qualification', () {
+                  search(newItemsQualification, selectedIdsQualification,'degree_title');
+                }),
+                reusablaSizaBox(context, .020),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: selectedNamesQualification.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .012),
+                      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: colorController.qualificationItemsColors,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(child: Text(selectedNamesQualification[index],softWrap: true, overflow: TextOverflow.ellipsis,maxLines: 1, style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold, color: colorController.whiteColor),)),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                // Remove the selected item from the list
+                                selectedIdsQualification.removeAt(index);
+                                selectedNamesQualification.removeAt(index);
+                                // updateSelectedNames(); // Update the names here
+                              });
+                            },
+                            child: Icon(Icons.cancel_outlined, color: colorController.whiteColor),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+                reusablaSizaBox(context, .030),
+                reusableText("Tutor's Preferences",color: colorController.blackColor,fontsize: 21,),
+                reusablaSizaBox(context, .020),
+                reusablequlification(context, 'preferred Area', () {
+                  search(newItemsQualification, selectedIdsQualification,'');
+                }),
+                reusablaSizaBox(context, .020),
+                reusablequlification(context, 'preferred Board', () {
+                  search(newItemsBoard, selectedIdsBoard,'board_name');
+                }),
+                reusablaSizaBox(context, .020),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: selectedNamesBoard.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .012),
+                      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: colorController.qualificationItemsColors,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(child: Text(selectedNamesBoard[index],softWrap: true, overflow: TextOverflow.ellipsis,maxLines: 1, style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold, color: colorController.whiteColor),)),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                // Remove the selected item from the list
+                                selectedIdsBoard.removeAt(index);
+                                selectedNamesBoard.removeAt(index);
+                                // updateSelectedNames(); // Update the names here
+                              });
+                            },
+                            child: Icon(Icons.cancel_outlined, color: colorController.whiteColor),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+                reusablaSizaBox(context, .020),
+                reusablequlification(context, 'preferred Group', () {
+                  search(newItemsGroup, selectedIdsGroup,'group_name');
+                }),
+                reusablaSizaBox(context, .020),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: selectedNamesGroup.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .012),
+                      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: colorController.qualificationItemsColors,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(child: Text(selectedNamesGroup[index],softWrap: true, overflow: TextOverflow.ellipsis,maxLines: 1, style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold, color: colorController.whiteColor),)),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                // Remove the selected item from the list
+                                selectedIdsGroup.removeAt(index);
+                                selectedNamesGroup.removeAt(index);
+                                // updateSelectedNames(); // Update the names here
+                              });
+                            },
+                            child: Icon(Icons.cancel_outlined, color: colorController.whiteColor),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
