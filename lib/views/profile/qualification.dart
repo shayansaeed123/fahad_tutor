@@ -54,20 +54,28 @@ List<dynamic> newItemsClass = [];
 List<Map<String, String>> selectedIdsClass = [];
 List<String> selectedNamesClass = [];
 
+List<dynamic> newItemsSubject = [];
+List<Map<String, String>> selectedIdsSubject = [];
+List<String> selectedNamesSubject = [];
+
+String instituteName = '';
+String instituteId =  '';
+
 
 
 @override
   void initState() {
     super.initState();
-    fetchData('Institute', newItemsinstitute, selectedIdsinstitute, updateSelectedNamesInstitute);
-    fetchData('Qualification', newItemsQualification, selectedIdsQualification, updateSelectedNamesQualification);
-    fetchData('Board', newItemsBoard, selectedIdsBoard, updateSelectedNamesBoard);
-    fetchData('Group', newItemsGroup, selectedIdsGroup, updateSelectedNamesGroup);
+    fetchData('Institute','Institute', newItemsinstitute, selectedIdsinstitute, updateSelectedNamesInstitute);
+    fetchData('Qualification','Qualification', newItemsQualification, selectedIdsQualification, updateSelectedNamesQualification);
+    fetchData('Board', 'Board', newItemsBoard, selectedIdsBoard, updateSelectedNamesBoard);
+    fetchData('Group','Group', newItemsGroup, selectedIdsGroup, updateSelectedNamesGroup);
+    fetchData('Class','Class', newItemsClass, selectedIdsClass, updateSelectedNamesClass);
     saveQualificationData();
     selectArea();
   }
 
-  Future<void> fetchData(String type, List<dynamic> newItems, List<Map<String, String>> selectedIds, Function updateSelectedNames) async {
+  Future<void> fetchData(String type,String responseName, List<dynamic> newItems, List<Map<String, String>> selectedIds, Function updateSelectedNames) async {
     setState(() {
       isLoading = true;
     });
@@ -85,10 +93,10 @@ List<String> selectedNamesClass = [];
           dynamic jsonResponse = jsonDecode(responseBody);
           setState(() {
             newItems.clear();
-            newItems.addAll(jsonResponse['${type}_listing']);
+            newItems.addAll(jsonResponse['${responseName}_listing']);
             updateSelectedNames();
           });
-          print('Updated $type list: $newItems');
+          print('Updated $responseName list: $newItems');
         } else {
           print('Error: Invalid JSON format');
         }
@@ -147,7 +155,9 @@ Future<void> saveQualificationData() async {
         selectedIdsGroup = (jsonResponse['preferred_group_listing'] as List)
             .map<Map<String, String>>((item) => {'id': item['id'].toString()})
             .toList();
-
+        selectedIdsClass = (jsonResponse['class_listing'] as List)
+            .map<Map<String, String>>((item) => {'class_id': item['class_id'].toString()})
+            .toList();
         MySharedPrefrence().set_city_id(jsonResponse['city_id']);
         MySharedPrefrence().set_update_status(jsonResponse['update_status']);
 
@@ -158,12 +168,14 @@ Future<void> saveQualificationData() async {
         updateSelectedNamesBoard();
         updateSelectedNamesGroup();
         updateSelectedNamesArea();
+        updateSelectedNamesClass();
+        updateSelectedNamesSubject();
 
         // print('Selected IDs: $selectedIdsinstitute');
         // print('Selected IDs: $selectedIdsQualification');
         // print('Selected IDs: $selectedIdsBoard');
         // print('Selected IDs: $selectedIdsGroup');
-        print('Selected Area IDs: $selectedIdsArea');
+        print('Selected Class IDs: $selectedIdsClass');
       } else {
         throw Exception('Empty response body');
       }
@@ -195,16 +207,6 @@ Future<void> selectArea() async {
           final Map<String, dynamic> jsonResponse = json.decode(response.body);
           newItemsArea = jsonResponse['area_listing'];
           print('Areassss $newItemsArea');
-          // if (areaList.isNotEmpty) {
-            // setState(() {
-            //   areaName = areaList[0]['area_name'];
-            //   // countryId = countryList[0]['c_id'];
-            //   print(areaName);
-            //   print(areaList);
-            // });
-          // } else {
-          //   throw Exception('Area list is empty');
-          // }
         } else {
           throw Exception('Empty response body');
         }
@@ -334,6 +336,26 @@ void updateSelectedNamesArea() {
   // print('Selected Group Names: $selectedNamesGroup');
 }
 
+void updateSelectedNamesClass() {
+  selectedNamesClass = selectedIdsClass.map((selected) {
+    return (newItemsClass.firstWhere(
+      (item) => item['class_id'] == selected['class_id'],
+      orElse: () => {'class_name': 'Unknown'},
+    )['class_name'] as String);
+  }).toList();
+  print('Selected Class Namesssssssssssssssssssssssssssss: $selectedNamesClass');
+}
+
+void updateSelectedNamesSubject() {
+  selectedNamesSubject = selectedIdsSubject.map((selected) {
+    return (newItemsSubject.firstWhere(
+      (item) => item['id'] == selected['id'],
+      orElse: () => {'subject_name': 'Unknown'},
+    )['subject_name'] as String);
+  }).toList();
+  // print('Selected Group Names: $selectedNamesGroup');
+}
+
 void toggleSelection(String id, String name, String itemType) {
   setState(() {
     List<Map<String, String>> selectedIds;
@@ -372,6 +394,18 @@ void toggleSelection(String id, String name, String itemType) {
         newItems = newItemsArea;
         updateSelectedNames = updateSelectedNamesArea;
         break;
+      case 'class_name':
+        selectedIds = selectedIdsClass;
+        selectedNames = selectedNamesClass;
+        newItems = newItemsClass;
+        updateSelectedNames = updateSelectedNamesClass;
+        break;
+      case 'subject_name':
+        selectedIds = selectedIdsSubject;
+        selectedNames = selectedNamesSubject;
+        newItems = newItemsSubject;
+        updateSelectedNames = updateSelectedNamesSubject;
+        break;
       default:
         return;
     }
@@ -380,13 +414,31 @@ void toggleSelection(String id, String name, String itemType) {
       selectedIds.removeWhere((element) => element['id'] == id);
       selectedNames.remove(name);
     } else {
-      if (selectedIds.length < 2) {
+      // Check length constraint only for 'names' and 'degree_title'
+      if (itemType == 'names' || itemType == 'degree_title') {
+        if (selectedIds.length < 2) {
+          selectedIds.add({'id': id});
+          selectedNames.add(name);
+        } else {
+          Utils.snakbar(context, 'Select only 2 items');
+        }
+      } else {
+        // For other types, just add or remove without length constraint
         selectedIds.add({'id': id});
         selectedNames.add(name);
-      } else {
-        Utils.snakbar(context, 'Select only 2 items');
       }
     }
+    // if (selectedIds.any((element) => element['id'] == id)) {
+    //   selectedIds.removeWhere((element) => element['id'] == id);
+    //   selectedNames.remove(name);
+    // } else {
+    //   if (selectedIds.length < 2) {
+    //     selectedIds.add({'id': id});
+    //     selectedNames.add(name);
+    //   } else {
+    //     Utils.snakbar(context, 'Select only 2 items');
+    //   }
+    // }
 
     updateSelectedNames();
   });
@@ -410,15 +462,19 @@ classSelect(){
                     reusablaSizaBox(context, .030),
                     reusableText('Add new class with Subject'),
                     reusablaSizaBox(context, .010),
-                    reusablequlification(context, 'Select Class', (){
+                    reusablequlification(context, MySharedPrefrence().get_class_name_institute() == ''? 'Select Class' : MySharedPrefrence().get_class_name_institute(), (){
+                      subjectSearch(newItemsClass, selectedIdsClass, 'class_name');
                     }),
                     reusablaSizaBox(context, .020),
-                    reusablequlification(context, 'Select Subject', (){}),
+                    reusablequlification(context, 'Select Subject', (){
+                      search(newItemsSubject, selectedIdsSubject, 'subject_name');
+                    }),
                     reusablaSizaBox(context, .020),
                     Row(
                       children: [
                         reusableBtn(context, 'Add', (){},width: .34),
-                        Expanded(child: reusablewhite(context, 'Cancel', (){}, width: .5))
+                        Expanded(child: reusablewhite(context, 'Cancel', (){
+                        }, width: .5))
                       ],
                     )
                   ],),
@@ -452,6 +508,8 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
                       itemBuilder: (context, index) {
                         String instituteName = newItems[index]['${name}'];
                         String instituteId = newItems[index]['id'];
+                        //  instituteName = newItems[index]['${name}'];
+                        //  instituteId = newItems[index]['id'];
                         bool isSelected = selectedIds.any((element) => element['id'] == instituteId);
                         return Column(
                           children: [
@@ -466,6 +524,92 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
                                   // setState(() {
                                   //   updateSelectedNames();
                                   // });
+
+                                  print('Updated Selected IDs: ${selectedIds}');
+                                },
+                              ),
+                            ),
+                            if (index != newItems.length - 1) // Add Divider for all but the last item
+                              Divider(
+                                color: Colors.grey, // Customize the color if needed
+                                thickness: 1.0, // Customize the thickness if needed
+                              ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      reusableBtn(context, 'Add', () {
+                        setState((){});
+                        Navigator.pop(context);
+                      }, width: .4),
+                      reusablaSizaBox(context, .03),
+                      Expanded(child: reusablewhite(context, 'Cancel', () {
+                        Navigator.pop(context);
+                      }, width: .5)),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }  
+
+  subjectSearch(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name) {
+    return showDialog(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, StateSetter setState) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            backgroundColor: colorController.whiteColor,
+            surfaceTintColor: colorController.whiteColor,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * .9,
+                    child: ListView.builder(
+                      itemCount: newItems.length,
+                      itemBuilder: (context, index) {
+                        String instituteName = newItems[index]['${name}'];
+                        String instituteId = newItems[index]['id'];
+                        //  instituteName = newItems[index]['${name}'];
+                        //  instituteId = newItems[index]['id'];
+                        bool isSelected = selectedIds.any((element) => element['id'] == instituteId);
+                        return Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .01, vertical: MediaQuery.of(context).size.width * .00000001),
+                              child: ListTile(
+                                title: Text(instituteName),
+                                trailing: isSelected ? Icon(Icons.check, color: Colors.black) : null,
+                                onTap: () {
+                                  setState((){});
+                                  toggleSelection(instituteId, instituteName,name); // Toggle selection on tap
+                                  // setState(() {
+                                  //   updateSelectedNames();
+                                  // });
+                                  MySharedPrefrence().set_class_id(instituteId);
+                                  print('Id ${MySharedPrefrence().get_class_id()}');
+                                  MySharedPrefrence().set_class_name_institute(instituteName);
+                                  print('name ${MySharedPrefrence().get_class_name_institute()}');
+
+                                  Navigator.pop(context);
+                                  fetchData('class_id=${MySharedPrefrence().get_class_id()}&Subject','Subject', newItemsSubject, selectedIdsSubject, updateSelectedNamesSubject);
+
                                   print('Updated Selected IDs: ${selectedIds}');
                                 },
                               ),
@@ -790,6 +934,56 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
                       child: InkWell(
                         onTap: (){classSelect();},
                         child: reusableText('Add More Classes',color: colorController.btnColor,fontweight: FontWeight.bold)),
+                  ),
+                  reusablaSizaBox(context, .020),
+                  Container(
+                    constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * selectedNamesGroup.length),
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: selectedNamesClass.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, // Number of columns
+                        crossAxisSpacing: 10.0, // Spacing between columns
+                        mainAxisSpacing: 10.0, // Spacing between rows
+                        childAspectRatio: 4.5, // Aspect ratio of each grid item
+                      ),
+                      itemBuilder: (context, index) {
+                        print('heloooooooooooooooo $selectedNamesClass');
+                        return Container(
+                          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: colorController.qualificationItemsColors,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  selectedNamesClass[index],
+                                  softWrap: true,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: colorController.whiteColor),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    // Remove the selected item from the list
+                                    selectedIdsClass.removeAt(index);
+                                    selectedNamesClass.removeAt(index);
+                                    // updateSelectedNames(); // Update the names here
+                                  });
+                                },
+                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
                   reusablaSizaBox(context, .050),
                   reusableBtn(context, 'Update', (){}),

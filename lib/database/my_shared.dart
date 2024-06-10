@@ -281,6 +281,22 @@ void set_user_ID(String? userID) {
     return ''.val('update_status', getBox: preferences).val;
   }
 
+  void set_class_id(String? class_id) {
+    ''.val('class_id', getBox: preferences).val = class_id ?? '';
+  }
+
+  String get_class_id() {
+    return ''.val('class_id', getBox: preferences).val;
+  }
+
+  void set_class_name_institute(String? class_name_institute) {
+    ''.val('class_name_institute', getBox: preferences).val = class_name_institute ?? '';
+  }
+
+  String get_class_name_institute() {
+    return ''.val('class_name_institute', getBox: preferences).val;
+  }
+
   // Future<void> setVersionName() async {
   //   await PackageInfo.fromPlatform().then((PackageInfo? packageInfo) {
   //     String? version = packageInfo?.version;
