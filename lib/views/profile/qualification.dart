@@ -50,7 +50,11 @@ List<dynamic> newItemsArea = [];
 List<Map<String, String>> selectedIdsArea = [];
 List<String> selectedNamesArea = [];
 
-List<dynamic> AreaList = [];
+List<dynamic> newItemsClass = [];
+List<Map<String, String>> selectedIdsClass = [];
+List<String> selectedNamesClass = [];
+
+
 
 @override
   void initState() {
@@ -482,10 +486,7 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
                   child: Row(
                     children: [
                       reusableBtn(context, 'Add', () {
-                        // selectCountry();
                         setState((){});
-                        // updateSelectedNames();
-                        // setState((){});
                         Navigator.pop(context);
                       }, width: .4),
                       reusablaSizaBox(context, .03),
@@ -778,6 +779,17 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
                         );
                       },
                     ),
+                  ),
+                  reusablaSizaBox(context, .020),
+                  Container(
+                    padding: EdgeInsets.all(MediaQuery.of(context).size.width * .04),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: colorController.yellowColor,
+                      ),
+                      child: InkWell(
+                        onTap: (){classSelect();},
+                        child: reusableText('Add More Classes',color: colorController.btnColor,fontweight: FontWeight.bold)),
                   ),
                   reusablaSizaBox(context, .050),
                   reusableBtn(context, 'Update', (){}),
