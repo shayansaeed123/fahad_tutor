@@ -265,6 +265,22 @@ void set_user_ID(String? userID) {
     return ''.val('term_condition_image', getBox: preferences).val;
   }
 
+  void set_city_id(String? city_id) {
+    ''.val('city_id', getBox: preferences).val = city_id ?? '';
+  }
+
+  String get_city_id() {
+    return ''.val('city_id', getBox: preferences).val;
+  }
+
+  void set_update_status(String? update_status) {
+    ''.val('update_status', getBox: preferences).val = update_status ?? '';
+  }
+
+  String get_update_status() {
+    return ''.val('update_status', getBox: preferences).val;
+  }
+
   // Future<void> setVersionName() async {
   //   await PackageInfo.fromPlatform().then((PackageInfo? packageInfo) {
   //     String? version = packageInfo?.version;

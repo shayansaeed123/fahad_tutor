@@ -45,12 +45,12 @@ Widget reusablewhite(
       width: MediaQuery.of(context).size.width * width,
       height: MediaQuery.of(context).size.height * .055,
       decoration: BoxDecoration(
-          color: colorController.whiteColor,
+          color: colorController.grayTextColor,
           borderRadius: BorderRadius.circular(10)),
       child: Center(
           child: Text(
         btnText,
-        style: TextStyle(color: colorController.btnColor, fontSize: 18),
+        style: TextStyle(color: colorController.whiteColor, fontSize: 18),
       )),
     ),
   );
