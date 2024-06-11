@@ -50,13 +50,19 @@ List<dynamic> newItemsArea = [];
 List<Map<String, String>> selectedIdsArea = [];
 List<String> selectedNamesArea = [];
 
-List<dynamic> newItemsClass = [];
+// List<dynamic> newItemsClass = [];
+// List<Map<String, String>> selectedIdsClass = [];
+// List<String> selectedNamesClass = [];
+List<Map<String, dynamic>> newItemsClass = [];
+List<dynamic> newItemsClass2 = [];
 List<Map<String, String>> selectedIdsClass = [];
 List<String> selectedNamesClass = [];
 
 List<dynamic> newItemsSubject = [];
 List<Map<String, String>> selectedIdsSubject = [];
 List<String> selectedNamesSubject = [];
+
+List<String> selectedSubjectNames  = [];
 
 String instituteName = '';
 String instituteId =  '';
@@ -70,7 +76,7 @@ String instituteId =  '';
     fetchData('Qualification','Qualification', newItemsQualification, selectedIdsQualification, updateSelectedNamesQualification);
     fetchData('Board', 'Board', newItemsBoard, selectedIdsBoard, updateSelectedNamesBoard);
     fetchData('Group','Group', newItemsGroup, selectedIdsGroup, updateSelectedNamesGroup);
-    fetchData('Class','Class', newItemsClass, selectedIdsClass, updateSelectedNamesClass);
+    fetchData('Class','Class', newItemsClass2, selectedIdsClass, updateSelectedNamesClass);
     saveQualificationData();
     selectArea();
   }
@@ -140,6 +146,42 @@ Future<void> saveQualificationData() async {
     if (response.statusCode == 200) {
       if (response.body.isNotEmpty) {
         final Map<String, dynamic> jsonResponse = json.decode(response.body);
+        // selectedIdsinstitute = (jsonResponse['Institute_listing'] as List)
+        //     .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+        //     .toList();
+        // selectedIdsQualification = (jsonResponse['Institute_Qualification'] as List)
+        //     .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+        //     .toList();
+        // selectedIdsArea = (jsonResponse['preferred_area_listing'] as List)
+        //     .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+        //     .toList();
+        // selectedIdsBoard = (jsonResponse['preferred_board_listing'] as List)
+        //     .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+        //     .toList();
+        // selectedIdsGroup = (jsonResponse['preferred_group_listing'] as List)
+        //     .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+        //     .toList();
+        // selectedIdsClass = (jsonResponse['class_listing'] as List)
+        //     .map<Map<String, String>>((item) => {'id': item['class_id'].toString()})
+        //     .toList();
+        // MySharedPrefrence().set_city_id(jsonResponse['city_id']);
+        // MySharedPrefrence().set_update_status(jsonResponse['update_status']);
+
+        // print('Cityyyyyy ${MySharedPrefrence().get_city_id()}');
+
+        //  // Assuming newItemsClass is populated correctly somewhere before this
+        // print('newItemsClass: $newItemsClass');
+
+         // Populate newItemsClass here with the actual data
+        newItemsClass = (jsonResponse['class_listing'] as List)
+            .map<Map<String, dynamic>>((item) => {
+              'class_id': item['class_id'].toString(),
+              'class_name': item['class_name'].toString(),
+              'subject_id': item['subject_id'],
+              'subject_name': item['subject_name'],
+            })
+            .toList();
+
         selectedIdsinstitute = (jsonResponse['Institute_listing'] as List)
             .map<Map<String, String>>((item) => {'id': item['id'].toString()})
             .toList();
@@ -156,13 +198,13 @@ Future<void> saveQualificationData() async {
             .map<Map<String, String>>((item) => {'id': item['id'].toString()})
             .toList();
         selectedIdsClass = (jsonResponse['class_listing'] as List)
-            .map<Map<String, String>>((item) => {'class_id': item['class_id'].toString()})
+            .map<Map<String, String>>((item) => {'id': item['class_id'].toString()})
             .toList();
+
         MySharedPrefrence().set_city_id(jsonResponse['city_id']);
         MySharedPrefrence().set_update_status(jsonResponse['update_status']);
 
         print('Cityyyyyy ${MySharedPrefrence().get_city_id()}');
-
         updateSelectedNamesInstitute();
         updateSelectedNamesQualification();
         updateSelectedNamesBoard();
@@ -336,15 +378,40 @@ void updateSelectedNamesArea() {
   // print('Selected Group Names: $selectedNamesGroup');
 }
 
+// void updateSelectedNamesClass() {
+//   selectedNamesClass = selectedIdsClass.map((selected) {
+//     return (newItemsClass.firstWhere(
+//       (item) => item['class_id'] == selected['id'],
+//       orElse: () => {'class_name': 'Unknown'},
+//     )['class_name'] as String);
+//   }).toList();
+//   print('Selected Class Namesssssssssssssssssssssssssssss: $selectedIdsClass');
+// }
 void updateSelectedNamesClass() {
+  print('newItemsClass: $newItemsClass'); // Debug print to verify newItemsClass content
+  print('selectedIdsClass: $selectedIdsClass'); // Debug print to verify selectedIdsClass content
+
   selectedNamesClass = selectedIdsClass.map((selected) {
-    return (newItemsClass.firstWhere(
-      (item) => item['class_id'] == selected['class_id'],
-      orElse: () => {'class_name': 'Unknown'},
-    )['class_name'] as String);
+    final matchedItem = newItemsClass.firstWhere(
+      (item) => item['class_id'].toString() == selected['id'],
+      orElse: () => {'class_name': 'Unknown', 'subject_name': ['Unknown']},
+    );
+    print('Matched Item: $matchedItem'); // Debug print to verify the matched item
+    return matchedItem['class_name'] as String;
   }).toList();
-  print('Selected Class Namesssssssssssssssssssssssssssss: $selectedNamesClass');
+
+  selectedSubjectNames = selectedIdsClass.map((selected) {
+    final matchedItem = newItemsClass.firstWhere(
+      (item) => item['class_id'].toString() == selected['id'],
+      orElse: () => {'class_name': 'Unknown', 'subject_name': ['Unknown']},
+    );
+    return (matchedItem['subject_name'] as List).join(', '); // Join subject names with a comma
+  }).toList();
+
+  print('Selected Class Names: $selectedNamesClass'); // Debug print to verify the final class names
+  print('Selected Subject Names: $selectedSubjectNames'); // Debug print to verify the final subject names
 }
+
 
 void updateSelectedNamesSubject() {
   selectedNamesSubject = selectedIdsSubject.map((selected) {
@@ -463,7 +530,7 @@ classSelect(){
                     reusableText('Add new class with Subject'),
                     reusablaSizaBox(context, .010),
                     reusablequlification(context, MySharedPrefrence().get_class_name_institute() == ''? 'Select Class' : MySharedPrefrence().get_class_name_institute(), (){
-                      subjectSearch(newItemsClass, selectedIdsClass, 'class_name');
+                      subjectSearch(newItemsClass2, selectedIdsClass, 'class_name');
                     }),
                     reusablaSizaBox(context, .020),
                     reusablequlification(context, 'Select Subject', (){
@@ -937,19 +1004,19 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
                   ),
                   reusablaSizaBox(context, .020),
                   Container(
-                    constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * selectedNamesGroup.length),
+                    constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * selectedNamesClass.length),
                     child: GridView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: selectedNamesClass.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, // Number of columns
+                        crossAxisCount: 1, // Number of columns
                         crossAxisSpacing: 10.0, // Spacing between columns
                         mainAxisSpacing: 10.0, // Spacing between rows
-                        childAspectRatio: 4.5, // Aspect ratio of each grid item
+                        childAspectRatio: 8.2, // Aspect ratio of each grid item
                       ),
                       itemBuilder: (context, index) {
-                        print('heloooooooooooooooo $selectedNamesClass');
+                        print('heloooooooooooooooo $selectedIdsClass');
                         return Container(
                           padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
                           decoration: BoxDecoration(
@@ -961,7 +1028,7 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
                             children: [
                               Expanded(
                                 child: Text(
-                                  selectedNamesClass[index],
+                                  '${selectedNamesClass[index]}: (${selectedSubjectNames[index]})',
                                   softWrap: true,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
