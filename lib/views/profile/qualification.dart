@@ -66,8 +66,6 @@ List<Map<String, dynamic>> tempSelectedIdsSubject = [];
 String instituteName = '';
 String instituteId =  '';
 
-
-
 @override
   void initState() {
     super.initState();
