@@ -204,7 +204,6 @@ Future<void> saveQualificationData() async {
         MySharedPrefrence().set_city_id(jsonResponse['city_id']);
         MySharedPrefrence().set_update_status(jsonResponse['update_status']);
 
-        // print('Cityyyyyy ${MySharedPrefrence().get_city_id()}');
         updateSelectedNamesInstitute();
         updateSelectedNamesQualification();
         updateSelectedNamesBoard();
