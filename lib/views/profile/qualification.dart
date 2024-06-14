@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
+import 'package:fahad_tutor/repo/classmodel.dart';
 import 'package:fahad_tutor/repo/tutor_repo.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
@@ -60,9 +61,17 @@ List<dynamic> newItemsSubject = [];
 List<Map<String, String>> selectedIdsSubject = [];
 List<String> selectedNamesSubject = [];
 
+
+List<MyClass> selectedClasses = [];
+
+  List<String> tempSelectedNamesSubject = [];
+  List<String> tempSelectedIdsSubject = [];
+
 // Temporary lists for storing selected subjects
-List<String> tempSelectedNamesSubject = [];
-List<Map<String, String>> tempSelectedIdsSubject = [];
+
+// List<String> tempSelectedNamesSubject = [];
+// List<Map<String, String>> tempSelectedIdsSubject = [];
+// List<Map<String, String>> tempSelectedIdsClass = [];
 
 
 String instituteName = '';
@@ -198,6 +207,17 @@ Future<void> saveQualificationData() async {
             .map<Map<String, String>>((item) => {'id': item['id'].toString()})
             .toList();
         selectedIdsClass = jsonResponse['class_listing'];
+
+        setState(() {
+            selectedClasses = selectedIdsClass.map((item) {
+              return MyClass(
+                classId: item['class_id'],
+                className: item['class_name'],
+                subjectIds: List<String>.from(item['subject_id']),
+                subjectNames: List<String>.from(item['subject_name']),
+              );
+            }).toList();
+          });
         // (jsonResponse['class_listing'] as List)
         //     .map<Map<String, String>>((item) => {'class_id': item['class_id'].toString()})
         //     .toList();
@@ -406,141 +426,342 @@ void toggleSelection(String id, String name, String itemType) {
   });
 }
 
+// Function to add subjects to tempSelectedIdsClass
+// void addToTempSelectedIdsClass() {
+//   tempSelectedIdsClass.clear();
+//   for (var subject in tempSelectedIdsSubject) {
+//     tempSelectedIdsClass.add({
+//       'id': MySharedPrefrence().get_class_id().toString(),
+//       'subject_id': subject['subject_id'].toString(),
+//     });
+//   }
+//   print(tempSelectedIdsClass);
+// }
+
 
 void classSelect() {
-  showDialog(
-    context: context,
-    builder: (context) {
-      return StatefulBuilder(
-  builder: (context, setState) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      backgroundColor: Colors.white,
-      child: Padding(
-        padding: EdgeInsets.all(MediaQuery.of(context).size.width * .08),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            reusableText('Add New Class',color: colorController.blackColor,fontsize: 22,fontweight: FontWeight.bold),
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              backgroundColor: Colors.white,
+              child: Padding(
+                padding: EdgeInsets.all(MediaQuery.of(context).size.width * .08),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    reusableText(
+                      'Add New Class',
+                      color: colorController.blackColor,
+                      fontsize: 22,
+                      fontweight: FontWeight.bold,
+                    ),
                     reusablaSizaBox(context, .030),
                     reusableText('Add new class with Subject'),
                     reusablaSizaBox(context, .010),
-            reusablequlification(context, MySharedPrefrence().get_class_name_institute() == ''? 'Select Class' : MySharedPrefrence().get_class_name_institute(), (){
-                      // subjectSearch(newItemsClass, selectedIdsClass, 'class_name');
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text('Select Class'),
-                            content: Container(
-                              width: double.minPositive,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: newItemsClass.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return ListTile(
-                                    title: Text(newItemsClass[index]['class_name']),
-                                    onTap: () {
-                                      setState(() {
-              // selectedIdsClass.clear();  // Clear the list
-              // selectedIdsClass.add({'id': newItemsClass[index]['id']});  // Add the selected item
-              MySharedPrefrence().set_class_id(newItemsClass[index]['id']);
-              MySharedPrefrence().set_class_name_institute(newItemsClass[index]['class_name']);
-              print(MySharedPrefrence().get_class_id());
-              Navigator.pop(context);
-              fetchClassDataAndSubjectData('class_id=${MySharedPrefrence().get_class_id()}&Subject', 'Subject', newItemsSubject);
-            });
-                                    },
-                                  );
-                                },
+                    reusablequlification(
+                      context,
+                      MySharedPrefrence().get_class_name_institute() == ''
+                          ? 'Select Class'
+                          : MySharedPrefrence().get_class_name_institute(),
+                      () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text('Select Class'),
+                              content: Container(
+                                width: double.minPositive,
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: newItemsClass.length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return ListTile(
+                                      title: Text(newItemsClass[index]['class_name']),
+                                      onTap: () {
+                                        setState(() {
+                                          tempSelectedIdsSubject.clear(); // Clear the list
+                                          tempSelectedNamesSubject.clear(); // Clear the list
+                                          MySharedPrefrence().set_class_id(newItemsClass[index]['id']);
+                                          MySharedPrefrence().set_class_name_institute(newItemsClass[index]['class_name']);
+                                          print(MySharedPrefrence().get_class_id());
+                                          Navigator.pop(context);
+                                          fetchClassDataAndSubjectData(
+                                            'class_id=${MySharedPrefrence().get_class_id()}&Subject',
+                                            'Subject',
+                                            newItemsSubject,
+                                          );
+                                        });
+                                      },
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
-                          );
-              });
-                    }),
+                            );
+                          },
+                        );
+                      },
+                    ),
                     reusablaSizaBox(context, .030),
-                    reusablequlification(context, 'Select Subject', (){
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text('Select Subject'),
-                            content: Container(
-                              width: double.minPositive,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: newItemsSubject.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return ListTile(
-                                    title: Text(newItemsSubject[index]['subject_name']),
-                                    onTap: () {
-                                       setState(() {
-                                        tempSelectedIdsSubject.add(newItemsSubject[index]['subject_id']);
-                                        tempSelectedNamesSubject.add(newItemsSubject[index]['subject_name']);
-                                      });
-                                      Navigator.pop(context); // Close the dialog
-                                    },
-                                  );
-                                },
+                    reusablequlification(
+                      context,
+                      'Select Subject',
+                      () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text('Select Subject'),
+                              content: Container(
+                                width: double.minPositive,
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: newItemsSubject.length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return ListTile(
+                                      title: Text(newItemsSubject[index]['subject_name']),
+                                      onTap: () {
+                                        setState(() {
+                                          tempSelectedIdsSubject.add(newItemsSubject[index]['id'].toString());
+                                          tempSelectedNamesSubject.add(newItemsSubject[index]['subject_name']);
+                                        });
+                                        Navigator.pop(context); // Close the dialog
+                                        print(tempSelectedNamesSubject);
+                                        print(tempSelectedIdsSubject);
+                                      },
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
-                          );
-                },
-                  );
-                    }),
-            reusablaSizaBox(context, .030),
-            Wrap(
-              spacing: 8.0,
-              runSpacing: 4.0,
-              children: tempSelectedNamesSubject.asMap().entries.map((entry) {
-    final index = entry.key;
-    final name = entry.value;
-                return Row(
-                  children: [
-                    Chip(
-                      backgroundColor: colorController.qualificationItemsColors,
-                  label: Text(name,style: TextStyle(color: colorController.whiteColor),),
-                  avatar: InkWell(
+                            );
+                          },
+                        );
+                      },
+                    ),
+                    reusablaSizaBox(context, .030),
+                    Wrap(
+                      spacing: 8.0,
+                      runSpacing: 4.0,
+                      children: tempSelectedNamesSubject.asMap().entries.map((entry) {
+                        final index = entry.key;
+                        final name = entry.value;
+                        return Row(
+                          children: [
+                            Chip(
+                              backgroundColor: colorController.qualificationItemsColors,
+                              label: Text(
+                                name,
+                                style: TextStyle(color: colorController.whiteColor),
+                              ),
+                              avatar: InkWell(
                                 onTap: () {
                                   setState(() {
-                                  tempSelectedIdsSubject.removeAt(index);
-                                  tempSelectedNamesSubject.removeAt(index);
-                                });
+                                    print('set');
+                                    tempSelectedIdsSubject.removeAt(index);
+                                    tempSelectedNamesSubject.removeAt(index);
+                                  });
                                 },
                                 child: Icon(Icons.cancel_outlined, color: colorController.whiteColor),
                               ),
-                ),
-                  ],
-                );
-              }).toList(),
-            ),
-            reusablaSizaBox(context, .030),
-            Row(
+                            ),
+                          ],
+                        );
+                      }).toList(),
+                    ),
+                    reusablaSizaBox(context, .030),
+                    Row(
                       children: [
-                        reusableBtn(context, 'Add', (){
-                          setState(() {
-                          selectedIdsSubject.addAll(tempSelectedIdsSubject);
-                          selectedNamesSubject.addAll(tempSelectedNamesSubject);
-                          tempSelectedIdsSubject.clear();
-                          tempSelectedNamesSubject.clear();
-                        });
-                        Navigator.pop(context);
-                        },width: .34),
-                        Expanded(child: reusablewhite(context, 'Cancel', (){
-                        }, width: .5))
+                        reusableBtn(
+                          context,
+                          'Add',
+                          () {
+                            setState(() {
+                              selectedClasses.add(
+                                MyClass(
+                                  classId: MySharedPrefrence().get_class_id(),
+                                  className: MySharedPrefrence().get_class_name_institute(),
+                                  subjectIds: List.from(tempSelectedIdsSubject),
+                                  subjectNames: List.from(tempSelectedNamesSubject),
+                                ),
+                              );
+                              print(selectedClasses);
+                              // selectedIdsClass.add(selectedClasses);
+                              tempSelectedIdsSubject.clear();
+                              tempSelectedNamesSubject.clear();
+                              print('hello $selectedIdsClass');
+                            });
+                            Navigator.pop(context);
+                          },
+                          width: .34,
+                        ),
+                        Expanded(
+                          child: reusablewhite(
+                            context,
+                            'Cancel',
+                            () {
+                              Navigator.pop(context);
+                            },
+                            width: .5,
+                          ),
+                        ),
                       ],
-                    )
-          ],
-        ),
-      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
-  },
-);
-    },
-  );
-}
+  }
+
+// void classSelect() {
+//   showDialog(
+//     context: context,
+//     builder: (context) {
+//       return StatefulBuilder(
+//   builder: (context, setState) {
+//     return Dialog(
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(10.0),
+//       ),
+//       backgroundColor: Colors.white,
+//       child: Padding(
+//         padding: EdgeInsets.all(MediaQuery.of(context).size.width * .08),
+//         child: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           children: [
+//             reusableText('Add New Class',color: colorController.blackColor,fontsize: 22,fontweight: FontWeight.bold),
+//                     reusablaSizaBox(context, .030),
+//                     reusableText('Add new class with Subject'),
+//                     reusablaSizaBox(context, .010),
+//             reusablequlification(context, MySharedPrefrence().get_class_name_institute() == ''? 'Select Class' : MySharedPrefrence().get_class_name_institute(), (){
+//                       // subjectSearch(newItemsClass, selectedIdsClass, 'class_name');
+//                       showDialog(
+//                         context: context,
+//                         builder: (context) {
+//                           return AlertDialog(
+//                             title: Text('Select Class'),
+//                             content: Container(
+//                               width: double.minPositive,
+//                               child: ListView.builder(
+//                                 shrinkWrap: true,
+//                                 itemCount: newItemsClass.length,
+//                                 itemBuilder: (BuildContext context, int index) {
+//                                   return ListTile(
+//                                     title: Text(newItemsClass[index]['class_name']),
+//                                     onTap: () {
+//                                       setState(() {
+//               tempSelectedIdsClass.clear();  // Clear the list
+//               tempSelectedIdsClass.add({'id': newItemsClass[index]['id']});  // Add the selected item
+//               MySharedPrefrence().set_class_id(newItemsClass[index]['id']);
+//               MySharedPrefrence().set_class_name_institute(newItemsClass[index]['class_name']);
+//               print(MySharedPrefrence().get_class_id());
+//               print(tempSelectedIdsClass);
+//               Navigator.pop(context);
+//               fetchClassDataAndSubjectData('class_id=${MySharedPrefrence().get_class_id()}&Subject', 'Subject', newItemsSubject);
+//             });
+//                                     },
+//                                   );
+//                                 },
+//                               ),
+//                             ),
+//                           );
+//               });
+//                     }),
+//                     reusablaSizaBox(context, .030),
+//                     reusablequlification(context, 'Select Subject', (){
+//                       showDialog(
+//                         context: context,
+//                         builder: (context) {
+//                           return AlertDialog(
+//                             title: Text('Select Subject'),
+//                             content: Container(
+//                               width: double.minPositive,
+//                               child: ListView.builder(
+//                                 shrinkWrap: true,
+//                                 itemCount: newItemsSubject.length,
+//                                 itemBuilder: (BuildContext context, int index) {
+//                                   return ListTile(
+//                                     title: Text(newItemsSubject[index]['subject_name']),
+//                                     onTap: () {
+//                                        setState(() {
+//                                         tempSelectedIdsSubject.add({
+//                                           'subject_id': newItemsSubject[index]['subject_id'].toString()
+//                                         });
+//                                         tempSelectedNamesSubject.add(newItemsSubject[index]['subject_name']);
+//                                         addToTempSelectedIdsClass(); // Add this function to automatically add subjects to class list
+//                                       });
+//                                       Navigator.pop(context); // Close the dialog
+//                                       print(tempSelectedNamesSubject);
+//                                       print(tempSelectedIdsSubject);
+//                                     },
+//                                   );
+//                                 },
+//                               ),
+//                             ),
+//                           );
+//                 },
+//                   );
+//                     }),
+//             reusablaSizaBox(context, .030),
+//             Wrap(
+//               spacing: 8.0,
+//               runSpacing: 4.0,
+//               children: tempSelectedNamesSubject.asMap().entries.map((entry) {
+//     final index = entry.key;
+//     final name = entry.value;
+//                 return Row(
+//                   children: [
+//                     Chip(
+//                       backgroundColor: colorController.qualificationItemsColors,
+//                   label: Text(name,style: TextStyle(color: colorController.whiteColor),),
+//                   avatar: InkWell(
+//                                 onTap: () {
+//                                 setState(() {
+//                                   tempSelectedIdsSubject.removeAt(index);
+//                                   tempSelectedNamesSubject.removeAt(index);
+//                                   addToTempSelectedIdsClass(); // Update the class list when removing a subject
+//                                 });
+//                                 },
+//                                 child: Icon(Icons.cancel_outlined, color: colorController.whiteColor),
+//                               ),
+//                 ),
+//                   ],
+//                 );
+//               }).toList(),
+//             ),
+//             reusablaSizaBox(context, .030),
+//             Row(
+//                       children: [
+//                         reusableBtn(context, 'Add', (){
+//                         setState(() {
+//                             selectedIdsSubject.addAll(tempSelectedIdsSubject);
+//                             selectedNamesSubject.addAll(tempSelectedNamesSubject);
+//                             tempSelectedIdsSubject.clear();
+//                             tempSelectedNamesSubject.clear();
+//                           });
+//                         Navigator.pop(context);
+//                         },width: .34),
+//                         Expanded(child: reusablewhite(context, 'Cancel', (){
+//                         }, width: .5))
+//                       ],
+//                     )
+//           ],
+//         ),
+//       ),
+//     );
+//   },
+// );
+//     },
+//   );
+// }
 
 
 search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name) {
@@ -1049,11 +1270,11 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
                   // ),
 
                   Container(
-  constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * selectedIdsClass.length),
+  constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * selectedClasses.length),
   child: GridView.builder(
     shrinkWrap: true,
     physics: NeverScrollableScrollPhysics(),
-    itemCount: selectedIdsClass.length,
+    itemCount: selectedClasses.length,
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 1, // Number of columns
       crossAxisSpacing: 10.0, // Spacing between columns
@@ -1061,7 +1282,7 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
       childAspectRatio: 8.2, // Aspect ratio of each grid item
     ),
     itemBuilder: (context, index) {
-      String subjects = (selectedIdsClass[index]['subject_name'] as List<dynamic>).join(', ');
+      String subjects = selectedClasses[index].subjectNames.join(', ');
       return Container(
         padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
         decoration: BoxDecoration(
@@ -1073,7 +1294,7 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
           children: [
             Expanded(
               child: Text(
-                '${selectedIdsClass[index]['class_name']}: (${subjects})',
+                '${selectedClasses[index].className}: ($subjects)',
                 softWrap: true,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
@@ -1082,13 +1303,16 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
             ),
             InkWell(
               onTap: () {
+                // setState(() {
+                //   // Remove the selected item from the list
+                //   selectedIdsClass.removeAt(index);
+                //   selectedNamesClass.removeAt(index);
+                //   selectedNamesSubject.removeAt(index);
+                //   // updateSelectedNames(); // Update the names here
+                // });
                 setState(() {
-                  // Remove the selected item from the list
-                  selectedIdsClass.removeAt(index);
-                  selectedNamesClass.removeAt(index);
-                  selectedNamesSubject.removeAt(index);
-                  // updateSelectedNames(); // Update the names here
-                });
+                                  selectedClasses.removeAt(index);
+                                });
               },
               child: Icon(Icons.cancel_outlined, color: colorController.whiteColor),
             ),
