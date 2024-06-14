@@ -558,16 +558,17 @@ void classSelect() {
                                 name,
                                 style: TextStyle(color: colorController.whiteColor),
                               ),
-                              avatar: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    print('set');
-                                    tempSelectedIdsSubject.removeAt(index);
-                                    tempSelectedNamesSubject.removeAt(index);
-                                  });
-                                },
-                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor),
-                              ),
+                              deleteIcon: Icon(
+                Icons.cancel_outlined,
+                color: Colors.white, // Replace with your color controller
+              ),
+              onDeleted: () {
+                setState(() {
+                  print('Removing item at index $index');
+                  tempSelectedIdsSubject.removeAt(index);
+                  tempSelectedNamesSubject.removeAt(index);
+                });
+              },
                             ),
                           ],
                         );
