@@ -438,143 +438,473 @@ void toggleSelection(String id, String name, String itemType) {
 //   print(tempSelectedIdsClass);
 // }
 
+// void classSelect() {
+//     showDialog(
+//       context: context,
+//       builder: (context) {
+//         return StatefulBuilder(
+//           builder: (context, setState) {
+//             return Dialog(
+//               shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.circular(10.0),
+//               ),
+//               backgroundColor: Colors.white,
+//               child: Padding(
+//                 padding: EdgeInsets.all(MediaQuery.of(context).size.width * .08),
+//                 child: Column(
+//                   mainAxisSize: MainAxisSize.min,
+//                   children: [
+//                     reusableText(
+//                       'Add New Class',
+//                       color: colorController.blackColor,
+//                       fontsize: 22,
+//                       fontweight: FontWeight.bold,
+//                     ),
+//                     reusablaSizaBox(context, .030),
+//                     reusableText('Add new class with Subject'),
+//                     reusablaSizaBox(context, .010),
+//                     reusablequlification(
+//                       context,
+//                       MySharedPrefrence().get_class_name_institute() == ''
+//                           ? 'Select Class'
+//                           : MySharedPrefrence().get_class_name_institute(),
+//                       () {
+//                         showDialog(
+//                           context: context,
+//                           builder: (context) {
+//                             return AlertDialog(
+//                               title: Text('Select Class'),
+//                               content: Container(
+//                                 width: double.minPositive,
+//                                 child: ListView.builder(
+//                                   shrinkWrap: true,
+//                                   itemCount: newItemsClass.length,
+//                                   itemBuilder: (BuildContext context, int index) {
+//                                     return ListTile(
+//                                       title: Text(newItemsClass[index]['class_name']),
+//                                       onTap: () {
+//                                         setState(() {
+//                                           tempSelectedIdsSubject.clear(); // Clear the list
+//                                           tempSelectedNamesSubject.clear(); // Clear the list
+//                                           MySharedPrefrence().set_class_id(newItemsClass[index]['id']);
+//                                           MySharedPrefrence().set_class_name_institute(newItemsClass[index]['class_name']);
+//                                           print(MySharedPrefrence().get_class_id());
+//                                           Navigator.pop(context);
+//                                           fetchClassDataAndSubjectData(
+//                                             'class_id=${MySharedPrefrence().get_class_id()}&Subject',
+//                                             'Subject',
+//                                             newItemsSubject,
+//                                           );
+//                                         });
+//                                       },
+//                                     );
+//                                   },
+//                                 ),
+//                               ),
+//                             );
+//                           },
+//                         );
+//                       },
+//                     ),
+//                     reusablaSizaBox(context, .030),
+//                     reusablequlification(
+//                       context,
+//                       'Select Subject',
+//                       () {
+//                         showDialog(
+//                           context: context,
+//                           builder: (context) {
+//                             return 
+//                             StatefulBuilder(
+//                               builder: (context, setState) {
+//                                 return 
+//                                 AlertDialog(
+//                                   title: Text('Select Subject'),
+//                                   content: Column(
+//                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                                     crossAxisAlignment: CrossAxisAlignment.start,
+//                                     children: [
+//                                       Expanded(
+//                                         child: Container(
+//                                           // width: double.minPositive,
+//                                           width: MediaQuery.of(context).size.width * .9,
+//                                           child: ListView.builder(
+//                                             shrinkWrap: true,
+//                                             itemCount: newItemsSubject.length,
+//                                             itemBuilder: (BuildContext context, int index) {
+//                                               bool isSelected = tempSelectedIdsSubject.contains(newItemsSubject[index]['id'].toString());
+//                                               return ListTile(
+//                                                 title: Text(newItemsSubject[index]['subject_name']),
+//                                                 trailing: isSelected ? Icon(Icons.check, color: Colors.black) : null,
+//                                                 onTap: () {
+//                                                   // setState(() {
+//                                                   //   tempSelectedIdsSubject.add(newItemsSubject[index]['id'].toString());
+//                                                   //   tempSelectedNamesSubject.add(newItemsSubject[index]['subject_name']);
+//                                                   // });
+//                                                   // Navigator.pop(context); // Close the dialog
+//                                                   setState(() {
+//                                                       if (isSelected) {
+//                                                         tempSelectedIdsSubject.remove(newItemsSubject[index]['id']);
+//                                                         tempSelectedNamesSubject.remove(newItemsSubject[index]['subject_name']);
+//                                                       } else {
+//                                                         tempSelectedIdsSubject.add(newItemsSubject[index]['id']);
+//                                                         tempSelectedNamesSubject.add(newItemsSubject[index]['subject_name']);
+//                                                       }
+//                                                     });
+//                                                   print(tempSelectedNamesSubject);
+//                                                   print(tempSelectedIdsSubject);
+//                                                 },
+//                                               );
+//                                             },
+//                                           ),
+//                                         ),
+//                                       ),
+//                                       Padding(
+//                   padding: const EdgeInsets.all(8.0),
+//                   child: Row(
+//                     children: [
+//                       reusableBtn(context, 'Add', () {
+//                         setState((){});
+//                         Navigator.pop(context);
+//                         setState((){});
+//                       }, width: .4),
+//                       reusablaSizaBox(context, .03),
+//                       Expanded(child: reusablewhite(context, 'Cancel', () {
+//                         Navigator.pop(context);
+//                       }, width: .5)),
+//                     ],
+//                   ),
+//                 )
+//                                     ],
+//                                   ),
+//                                 );
+//                               }
+//                             );
+//                           },
+//                         );
 
+//       //                   showDialog(
+//       // context: context,
+//       // builder: (context) => StatefulBuilder(
+//       //   builder: (context, StateSetter setState) {
+//       //     return Dialog(
+//       //       shape: RoundedRectangleBorder(
+//       //         borderRadius: BorderRadius.circular(10.0),
+//       //       ),
+//       //       backgroundColor: colorController.whiteColor,
+//       //       surfaceTintColor: colorController.whiteColor,
+//       //       child: Column(
+//               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//               // crossAxisAlignment: CrossAxisAlignment.start,
+//       //         children: [
+//       //           Expanded(
+//       //             child: Container(
+//       //               width: MediaQuery.of(context).size.width * .9,
+//       //               child: ListView.builder(
+//       //                 itemCount: newItemsSubject.length,
+//       //                 itemBuilder: (context, index) {
+//       //                   // bool isSelected = selectedIds.any((element) => element['id'] == instituteId);
+//       //                   final subject = newItemsSubject[index];
+//       //                   //  bool isSelected = tempSelectedIdsSubject.contains(subject['id'].toString());
+//       //                   return Column(
+//       //                     children: [
+//       //                       Padding(
+//       //                         padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .01, vertical: MediaQuery.of(context).size.width * .00000001),
+//       //                         child: ListTile(
+//       //                           title: Text(newItemsSubject[index]['subject_name']),
+//       //                           // trailing: isSelected ? Icon(Icons.check, color: Colors.black) : null,
+//       //                           onTap: () {
+//                                   // setState(() {
+//                                   //           if (isSelected) {
+//                                   //             tempSelectedIdsSubject.remove(subject['id']);
+//                                   //             tempSelectedNamesSubject.remove(subject['subject_name']);
+//                                   //           } else {
+//                                   //             tempSelectedIdsSubject.add(subject['id']);
+//                                   //             tempSelectedNamesSubject.add(subject['subject_name']);
+//                                   //           }
+//                                   //         });
+//       //                           //           print(tempSelectedNamesSubject);
+//       //                           //           print(tempSelectedIdsSubject);
+//       //                           setState(() {
+//       //                                     tempSelectedIdsSubject.add(newItemsSubject[index]['id'].toString());
+//       //                                     tempSelectedNamesSubject.add(newItemsSubject[index]['subject_name']);
+//       //                                   });
+//       //                                   Navigator.pop(context); // Close the dialog
+//       //                                   print(tempSelectedNamesSubject);
+//       //                                   print(tempSelectedIdsSubject);
+                                     
+
+//       //                           },
+//       //                         ),
+//       //                       ),
+//       //                       if (index != newItemsSubject.length - 1) // Add Divider for all but the last item
+//       //                         Divider(
+//       //                           color: Colors.grey, // Customize the color if needed
+//       //                           thickness: 1.0, // Customize the thickness if needed
+//       //                         ),
+//       //                     ],
+//       //                   );
+//       //                 },
+//       //               ),
+//       //             ),
+//       //           ),
+//                 // Padding(
+//                 //   padding: const EdgeInsets.all(8.0),
+//                 //   child: Row(
+//                 //     children: [
+//                 //       reusableBtn(context, 'Add', () {
+//                 //         setState((){});
+//                 //         Navigator.pop(context);
+//                 //         setState((){});
+//                 //       }, width: .4),
+//                 //       reusablaSizaBox(context, .03),
+//                 //       Expanded(child: reusablewhite(context, 'Cancel', () {
+//                 //         Navigator.pop(context);
+//                 //       }, width: .5)),
+//                 //     ],
+//                 //   ),
+//                 // )
+//       //         ],
+//       //       ),
+//       //     );
+//         },
+//       ),
+
+//                     reusablaSizaBox(context, .030),
+//                      StatefulBuilder(builder: (context, setState) {
+//                        return Wrap(
+//                     spacing: 8.0,
+//                     runSpacing: 4.0,
+//                     children: tempSelectedNamesSubject.asMap().entries.map((entry) {
+//                       final index = entry.key;
+//                       final name = entry.value;
+//                       return Row(
+//                         mainAxisSize: MainAxisSize.min,
+//                         children: [
+//                           Flexible(
+//                             child: Chip(
+//                               backgroundColor: colorController.redColor,
+                                                  
+//                               label: Text(
+//                                             name,
+//                                             style: TextStyle(color: Colors.white),
+//                                             overflow: TextOverflow.ellipsis,
+//                                           ),
+//                               avatar: InkWell(
+//                                 onTap: (){
+//                                 setState(() {
+//                                   print('object');
+//                                   tempSelectedIdsSubject.removeAt(index);
+//                                   tempSelectedNamesSubject.removeAt(index);
+//                                 });
+                                                  
+//                                 },
+//                                 child: Icon(
+//                                   Icons.cancel_outlined,
+//                                   color: Colors.white,
+//                                 ),
+//                               ),
+                              
+//                             ),
+//                           ),
+//                         ],
+//                       );
+//                     }).toList(),
+//                   );
+//                      },),
+//                     reusablaSizaBox(context, .030),
 void classSelect() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return Dialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              backgroundColor: Colors.white,
-              child: Padding(
-                padding: EdgeInsets.all(MediaQuery.of(context).size.width * .08),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    reusableText(
-                      'Add New Class',
-                      color: colorController.blackColor,
-                      fontsize: 22,
-                      fontweight: FontWeight.bold,
-                    ),
-                    reusablaSizaBox(context, .030),
-                    reusableText('Add new class with Subject'),
-                    reusablaSizaBox(context, .010),
-                    reusablequlification(
-                      context,
-                      MySharedPrefrence().get_class_name_institute() == ''
-                          ? 'Select Class'
-                          : MySharedPrefrence().get_class_name_institute(),
-                      () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text('Select Class'),
-                              content: Container(
-                                width: double.minPositive,
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: newItemsClass.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    return ListTile(
-                                      title: Text(newItemsClass[index]['class_name']),
-                                      onTap: () {
-                                        setState(() {
-                                          tempSelectedIdsSubject.clear(); // Clear the list
-                                          tempSelectedNamesSubject.clear(); // Clear the list
-                                          MySharedPrefrence().set_class_id(newItemsClass[index]['id']);
-                                          MySharedPrefrence().set_class_name_institute(newItemsClass[index]['class_name']);
-                                          print(MySharedPrefrence().get_class_id());
-                                          Navigator.pop(context);
-                                          fetchClassDataAndSubjectData(
-                                            'class_id=${MySharedPrefrence().get_class_id()}&Subject',
-                                            'Subject',
-                                            newItemsSubject,
-                                          );
-                                        });
-                                      },
-                                    );
-                                  },
-                                ),
+  showDialog(
+    context: context,
+    builder: (context) {
+      return StatefulBuilder(
+        builder: (context, setState) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            backgroundColor: Colors.white,
+            child: Padding(
+              padding: EdgeInsets.all(MediaQuery.of(context).size.width * .08),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  reusableText(
+                    'Add New Class',
+                    color: colorController.blackColor,
+                    fontsize: 22,
+                    fontweight: FontWeight.bold,
+                  ),
+                  reusablaSizaBox(context, .030),
+                  reusableText('Add new class with Subject'),
+                  reusablaSizaBox(context, .010),
+                  reusablequlification(
+                    context,
+                    MySharedPrefrence().get_class_name_institute() == ''
+                        ? 'Select Class'
+                        : MySharedPrefrence().get_class_name_institute(),
+                    () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text('Select Class'),
+                            content: Container(
+                              width: double.minPositive,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: newItemsClass.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return ListTile(
+                                    title: Text(newItemsClass[index]['class_name']),
+                                    onTap: () {
+                                      setState(() {
+                                        tempSelectedIdsSubject.clear(); // Clear the list
+                                        tempSelectedNamesSubject.clear(); // Clear the list
+                                        MySharedPrefrence().set_class_id(newItemsClass[index]['id']);
+                                        MySharedPrefrence().set_class_name_institute(newItemsClass[index]['class_name']);
+                                        print(MySharedPrefrence().get_class_id());
+                                        Navigator.pop(context);
+                                        fetchClassDataAndSubjectData(
+                                          'class_id=${MySharedPrefrence().get_class_id()}&Subject',
+                                          'Subject',
+                                          newItemsSubject,
+                                        );
+                                      });
+                                    },
+                                  );
+                                },
                               ),
-                            );
-                          },
-                        );
-                      },
-                    ),
-                    reusablaSizaBox(context, .030),
-                    reusablequlification(
-                      context,
-                      'Select Subject',
-                      () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text('Select Subject'),
-                              content: Container(
-                                width: double.minPositive,
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: newItemsSubject.length,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    return ListTile(
-                                      title: Text(newItemsSubject[index]['subject_name']),
-                                      onTap: () {
-                                        setState(() {
-                                          tempSelectedIdsSubject.add(newItemsSubject[index]['id'].toString());
-                                          tempSelectedNamesSubject.add(newItemsSubject[index]['subject_name']);
-                                        });
-                                        Navigator.pop(context); // Close the dialog
-                                        print(tempSelectedNamesSubject);
-                                        print(tempSelectedIdsSubject);
-                                      },
-                                    );
-                                  },
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    ),
-                    reusablaSizaBox(context, .030),
-                    Wrap(
-                      spacing: 8.0,
-                      runSpacing: 4.0,
-                      children: tempSelectedNamesSubject.asMap().entries.map((entry) {
-                        final index = entry.key;
-                        final name = entry.value;
-                        return Row(
-                          children: [
-                            Chip(
-                              backgroundColor: colorController.qualificationItemsColors,
-                              label: Text(
-                                name,
-                                style: TextStyle(color: colorController.whiteColor),
-                              ),
-                              deleteIcon: Icon(
-                Icons.cancel_outlined,
-                color: Colors.white, // Replace with your color controller
-              ),
-              onDeleted: () {
-                setState(() {
-                  print('Removing item at index $index');
-                  tempSelectedIdsSubject.removeAt(index);
-                  tempSelectedNamesSubject.removeAt(index);
-                });
-              },
                             ),
-                          ],
-                        );
-                      }).toList(),
-                    ),
-                    reusablaSizaBox(context, .030),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  reusablaSizaBox(context, .030),
+                  reusablequlification(
+                    context,
+                    'Select Subject',
+                    () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return 
+                          StatefulBuilder(
+                            builder: (context, setState) {
+                              return 
+                              AlertDialog(
+                                title: Text('Select Subject'),
+                                content: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        width: MediaQuery.of(context).size.width * .9,
+                                        child: ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: newItemsSubject.length,
+                                          itemBuilder: (BuildContext context, int index) {
+                                            bool isSelected = tempSelectedIdsSubject.contains(newItemsSubject[index]['id'].toString());
+                                            return ListTile(
+                                              title: Text(newItemsSubject[index]['subject_name']),
+                                              trailing: isSelected ? Icon(Icons.check, color: Colors.black) : null,
+                                              onTap: () {
+                                                setState(() {
+                                                  if (isSelected) {
+                                                    tempSelectedIdsSubject.remove(newItemsSubject[index]['id']);
+                                                    tempSelectedNamesSubject.remove(newItemsSubject[index]['subject_name']);
+                                                  } else {
+                                                    tempSelectedIdsSubject.add(newItemsSubject[index]['id']);
+                                                    tempSelectedNamesSubject.add(newItemsSubject[index]['subject_name']);
+                                                  }
+                                                });
+                                              },
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: [
+                                          reusableBtn(context, 'Add', () {
+                                            setState(() {
+                                              Navigator.pop(context);
+                                            });
+
+                                          }, width: .4),
+                                          reusablaSizaBox(context, .03),
+                                          Expanded(child: reusablewhite(context, 'Cancel', () {
+                                            Navigator.pop(context);
+                                          }, width: .5)),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  reusablaSizaBox(context, .030),
+                  StatefulBuilder(builder: (context, setState) {
+  print('tempSelectedNamesSubject: $tempSelectedNamesSubject');
+  return ListView.builder(
+    shrinkWrap: true,
+    itemCount: tempSelectedNamesSubject.length,
+    itemBuilder: (BuildContext context, int index) {
+      return Dismissible(
+        key: Key(tempSelectedNamesSubject[index]),
+          onDismissed: (direction) {
+            setState(() {
+              print('Removing item at index $index');
+              tempSelectedIdsSubject.removeAt(index);
+              tempSelectedNamesSubject.removeAt(index);
+              print('tempSelectedNamesSubject after removal: $tempSelectedNamesSubject');
+            });
+          },
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              child: Chip(
+                backgroundColor: colorController.redColor,
+                label: Text(
+                  tempSelectedNamesSubject[index],
+                  style: TextStyle(color: Colors.white),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                avatar: InkWell(
+                  onTap: () {
+                    setState(() {
+                      print('Removing item at index $index');
+                      tempSelectedIdsSubject.removeAt(index);
+                      tempSelectedNamesSubject.removeAt(index);
+                      print('tempSelectedNamesSubject after removal: $tempSelectedNamesSubject');
+                    });
+                  },
+                  child: Icon(
+                    Icons.cancel_outlined,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}),
+
+                  reusablaSizaBox(context, .030),
+
                     Row(
                       children: [
                         reusableBtn(
@@ -862,10 +1192,10 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
   //                 child: Container(
   //                   width: MediaQuery.of(context).size.width * .9,
   //                   child: ListView.builder(
-  //                     itemCount: newItems.length,
+  //                     itemCount: newItemsSubject.length,
   //                     itemBuilder: (context, index) {
-  //                       String instituteName = newItems[index]['${name}'];
-  //                       String instituteId = newItems[index]['id'];
+  //                       // String instituteName = newItems[index]['${name}'];
+  //                       // String instituteId = newItems[index]['id'];
   //                       //  instituteName = newItems[index]['${name}'];
   //                       //  instituteId = newItems[index]['id'];
   //                       bool isSelected = selectedIds.any((element) => element['id'] == instituteId);
@@ -874,27 +1204,35 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
   //                           Padding(
   //                             padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .01, vertical: MediaQuery.of(context).size.width * .00000001),
   //                             child: ListTile(
-  //                               title: Text(instituteName),
+  //                               title: Text(newItemsSubject[index]['subject_name']),
   //                               trailing: isSelected ? Icon(Icons.check, color: Colors.black) : null,
   //                               onTap: () {
-  //                                 setState((){});
-  //                                 toggleSelection(instituteId, instituteName,name); // Toggle selection on tap
-  //                                 // setState(() {
-  //                                 //   updateSelectedNames();
-  //                                 // });
-  //                                 MySharedPrefrence().set_class_id(instituteId);
-  //                                 print('Id ${MySharedPrefrence().get_class_id()}');
-  //                                 MySharedPrefrence().set_class_name_institute(instituteName);
-  //                                 print('name ${MySharedPrefrence().get_class_name_institute()}');
+  //                                 setState(() {
+  //                                         tempSelectedIdsSubject.add(newItemsSubject[index]['id'].toString());
+  //                                         tempSelectedNamesSubject.add(newItemsSubject[index]['subject_name']);
+  //                                       });
+  //                                       Navigator.pop(context); // Close the dialog
+  //                                       print(tempSelectedNamesSubject);
+  //                                       print(tempSelectedIdsSubject);
+                                      
+  //                                 // setState((){});
+  //                                 // toggleSelection(instituteId, instituteName,name); // Toggle selection on tap
+  //                                 // // setState(() {
+  //                                 // //   updateSelectedNames();
+  //                                 // // });
+  //                                 // MySharedPrefrence().set_class_id(instituteId);
+  //                                 // print('Id ${MySharedPrefrence().get_class_id()}');
+  //                                 // MySharedPrefrence().set_class_name_institute(instituteName);
+  //                                 // print('name ${MySharedPrefrence().get_class_name_institute()}');
 
-  //                                 Navigator.pop(context);
-  //                                 fetchData('class_id=${MySharedPrefrence().get_class_id()}&Subject','Subject', newItemsSubject, selectedIdsSubject, updateSelectedNamesSubject);
+  //                                 // Navigator.pop(context);
+  //                                 // fetchData('class_id=${MySharedPrefrence().get_class_id()}&Subject','Subject', newItemsSubject, selectedIdsSubject, updateSelectedNamesSubject);
 
-  //                                 print('Updated Selected IDs: ${selectedIds}');
+  //                                 // print('Updated Selected IDs: ${selectedIds}');
   //                               },
   //                             ),
   //                           ),
-  //                           if (index != newItems.length - 1) // Add Divider for all but the last item
+  //                           if (index != newItemsSubject.length - 1) // Add Divider for all but the last item
   //                             Divider(
   //                               color: Colors.grey, // Customize the color if needed
   //                               thickness: 1.0, // Customize the thickness if needed
@@ -1215,7 +1553,10 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
                       ),
                       child: InkWell(
                         onTap: (){
-                          classSelect();
+                          setState(() {
+                             classSelect();
+                          });
+                         
                           },
                         child: reusableText('Add More Classes',color: colorController.btnColor,fontweight: FontWeight.bold)),
                   ),
