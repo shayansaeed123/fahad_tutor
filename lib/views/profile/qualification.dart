@@ -60,7 +60,9 @@ List<dynamic> newItemsSubject = [];
 List<Map<String, String>> selectedIdsSubject = [];
 List<String> selectedNamesSubject = [];
 
-List<Map<String, dynamic>> tempSelectedIdsSubject = [];
+// Temporary lists for storing selected subjects
+List<String> tempSelectedNamesSubject = [];
+List<Map<String, String>> tempSelectedIdsSubject = [];
 
 
 String instituteName = '';
@@ -73,12 +75,12 @@ String instituteId =  '';
     fetchData('Qualification','Qualification', newItemsQualification, selectedIdsQualification, updateSelectedNamesQualification);
     fetchData('Board', 'Board', newItemsBoard, selectedIdsBoard, updateSelectedNamesBoard);
     fetchData('Group','Group', newItemsGroup, selectedIdsGroup, updateSelectedNamesGroup);
-    fetchClassData('Class','Class', newItemsClass, selectedIdsClass, updateSelectedNamesClass);
+    fetchClassDataAndSubjectData('Class','Class', newItemsClass,);
     saveQualificationData();
     selectArea();
   }
 
-  Future<void> fetchClassData(String type,String responseName, List<dynamic> newItems, List<dynamic> selectedIds, Function updateSelectedNames) async {
+  Future<void> fetchClassDataAndSubjectData(String type,String responseName, List<dynamic> newItems) async {
     setState(() {
       isLoading = true;
     });
@@ -97,7 +99,6 @@ String instituteId =  '';
           setState(() {
             newItems.clear();
             newItems.addAll(jsonResponse['${responseName}_listing']);
-            updateSelectedNames();
           });
           // print('Updated $responseName list: $newItems');
         } else {
@@ -443,13 +444,13 @@ void classSelect() {
                                     title: Text(newItemsClass[index]['class_name']),
                                     onTap: () {
                                       setState(() {
-              selectedIdsClass.clear();  // Clear the list
-              selectedIdsClass.add({'id': newItemsClass[index]['id']});  // Add the selected item
+              // selectedIdsClass.clear();  // Clear the list
+              // selectedIdsClass.add({'id': newItemsClass[index]['id']});  // Add the selected item
               MySharedPrefrence().set_class_id(newItemsClass[index]['id']);
               MySharedPrefrence().set_class_name_institute(newItemsClass[index]['class_name']);
               print(MySharedPrefrence().get_class_id());
               Navigator.pop(context);
-              fetchData('class_id=${MySharedPrefrence().get_class_id()}&Subject', 'Subject', newItemsSubject, selectedIdsSubject, updateSelectedNamesSubject);
+              fetchClassDataAndSubjectData('class_id=${MySharedPrefrence().get_class_id()}&Subject', 'Subject', newItemsSubject);
             });
                                     },
                                   );
@@ -475,12 +476,11 @@ void classSelect() {
                                   return ListTile(
                                     title: Text(newItemsSubject[index]['subject_name']),
                                     onTap: () {
-                                      setState(() {
-                                        if (!tempSelectedIdsSubject.any((element) => element['id'] == newItemsSubject[index]['id'])) {
-                                          tempSelectedIdsSubject.add({'id': newItemsSubject[index]['subject_id']});
-                                        }
-                                        Navigator.pop(context); // Close the dialog
+                                       setState(() {
+                                        tempSelectedIdsSubject.add(newItemsSubject[index]['subject_id']);
+                                        tempSelectedNamesSubject.add(newItemsSubject[index]['subject_name']);
                                       });
+                                      Navigator.pop(context); // Close the dialog
                                     },
                                   );
                                 },
@@ -494,7 +494,7 @@ void classSelect() {
             Wrap(
               spacing: 8.0,
               runSpacing: 4.0,
-              children: selectedNamesSubject.asMap().entries.map((entry) {
+              children: tempSelectedNamesSubject.asMap().entries.map((entry) {
     final index = entry.key;
     final name = entry.value;
                 return Row(
@@ -505,9 +505,9 @@ void classSelect() {
                   avatar: InkWell(
                                 onTap: () {
                                   setState(() {
-                                    selectedIdsSubject.removeAt(index);
-                                    selectedNamesSubject.removeAt(index);
-                                  });
+                                  tempSelectedIdsSubject.removeAt(index);
+                                  tempSelectedNamesSubject.removeAt(index);
+                                });
                                 },
                                 child: Icon(Icons.cancel_outlined, color: colorController.whiteColor),
                               ),
@@ -519,7 +519,15 @@ void classSelect() {
             reusablaSizaBox(context, .030),
             Row(
                       children: [
-                        reusableBtn(context, 'Add', (){},width: .34),
+                        reusableBtn(context, 'Add', (){
+                          setState(() {
+                          selectedIdsSubject.addAll(tempSelectedIdsSubject);
+                          selectedNamesSubject.addAll(tempSelectedNamesSubject);
+                          tempSelectedIdsSubject.clear();
+                          tempSelectedNamesSubject.clear();
+                        });
+                        Navigator.pop(context);
+                        },width: .34),
                         Expanded(child: reusablewhite(context, 'Cancel', (){
                         }, width: .5))
                       ],
@@ -1053,6 +1061,7 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
       childAspectRatio: 8.2, // Aspect ratio of each grid item
     ),
     itemBuilder: (context, index) {
+      String subjects = (selectedIdsClass[index]['subject_name'] as List<dynamic>).join(', ');
       return Container(
         padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
         decoration: BoxDecoration(
@@ -1064,7 +1073,7 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
           children: [
             Expanded(
               child: Text(
-                '${selectedIdsClass[index]['class_name']}: (${selectedIdsClass[index]['subject_name']})',
+                '${selectedIdsClass[index]['class_name']}: (${subjects})',
                 softWrap: true,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
