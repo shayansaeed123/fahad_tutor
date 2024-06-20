@@ -1221,16 +1221,11 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
                       child: InkWell(
                         onTap: ()async{
                           await classSelect();
-                          setState(() {
-                             
-                          });
-                         
+                          setState(() {});
                           },
                         child: reusableText('Add More Classes',color: colorController.btnColor,fontweight: FontWeight.bold)),
                   ),
                   reusablaSizaBox(context, .020),
-                 
-
                   Container(
   constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * selectedClasses.length),
   child: GridView.builder(
