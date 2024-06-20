@@ -68,15 +68,6 @@ List<MyClass> selectedClasses = [];
    List<String> tempSelectedNamesSubject = [];
   List<String> tempSelectedIdsSubject = [];
 
- 
-
-// Temporary lists for storing selected subjects
-
-// List<String> tempSelectedNamesSubject = [];
-// List<Map<String, String>> tempSelectedIdsSubject = [];
-// List<Map<String, String>> tempSelectedIdsClass = [];
-
-
 String instituteName = '';
 String instituteId =  '';
 
@@ -126,19 +117,6 @@ String instituteId =  '';
         'Institute': jsonEncode(selectedIdsinstitute),
         'Degree': jsonEncode(selectedIdsQualification),
       },
-        //   body: {
-        //     'update_status':MySharedPrefrence().get_update_status(),
-        //     'tutor_id_edit': MySharedPrefrence().get_user_ID(),
-        //     'preferred_areas': jsonEncode(selectedIdsArea.map((area) => jsonEncode(area)).toList()),
-        //     'preferred_board': jsonEncode(selectedIdsBoard.map((board) => jsonEncode(board)).toList()),
-        //     'preferred_group': jsonEncode(selectedIdsGroup.map((group) => jsonEncode(group)).toList()),
-        //     'class_listing': jsonEncode({
-        //   'class_id': selectedIdsClass.map((classid) => jsonEncode(classid)).toList(),
-        //   'subject_id': selectedIdsSubject.map((subject) => jsonEncode(subject)).toList(),
-        // }),
-        //     'Institute': jsonEncode(selectedIdsinstitute.map((institute) => jsonEncode(institute)).toList()),
-        //     'Degree': jsonEncode(selectedIdsQualification.map((qualification) => jsonEncode(qualification)).toList()),
-        //   }
           );
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
@@ -956,100 +934,6 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
     );
   }  
 
-  // subjectSearch(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name) {
-  //   return showDialog(
-  //     context: context,
-  //     builder: (context) => StatefulBuilder(
-  //       builder: (context, StateSetter setState) {
-  //         return Dialog(
-  //           shape: RoundedRectangleBorder(
-  //             borderRadius: BorderRadius.circular(10.0),
-  //           ),
-  //           backgroundColor: colorController.whiteColor,
-  //           surfaceTintColor: colorController.whiteColor,
-  //           child: Column(
-  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               Expanded(
-  //                 child: Container(
-  //                   width: MediaQuery.of(context).size.width * .9,
-  //                   child: ListView.builder(
-  //                     itemCount: newItemsSubject.length,
-  //                     itemBuilder: (context, index) {
-  //                       // String instituteName = newItems[index]['${name}'];
-  //                       // String instituteId = newItems[index]['id'];
-  //                       //  instituteName = newItems[index]['${name}'];
-  //                       //  instituteId = newItems[index]['id'];
-  //                       bool isSelected = selectedIds.any((element) => element['id'] == instituteId);
-  //                       return Column(
-  //                         children: [
-  //                           Padding(
-  //                             padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .01, vertical: MediaQuery.of(context).size.width * .00000001),
-  //                             child: ListTile(
-  //                               title: Text(newItemsSubject[index]['subject_name']),
-  //                               trailing: isSelected ? Icon(Icons.check, color: Colors.black) : null,
-  //                               onTap: () {
-  //                                 setState(() {
-  //                                         tempSelectedIdsSubject.add(newItemsSubject[index]['id'].toString());
-  //                                         tempSelectedNamesSubject.add(newItemsSubject[index]['subject_name']);
-  //                                       });
-  //                                       Navigator.pop(context); // Close the dialog
-  //                                       print(tempSelectedNamesSubject);
-  //                                       print(tempSelectedIdsSubject);
-                                      
-  //                                 // setState((){});
-  //                                 // toggleSelection(instituteId, instituteName,name); // Toggle selection on tap
-  //                                 // // setState(() {
-  //                                 // //   updateSelectedNames();
-  //                                 // // });
-  //                                 // MySharedPrefrence().set_class_id(instituteId);
-  //                                 // print('Id ${MySharedPrefrence().get_class_id()}');
-  //                                 // MySharedPrefrence().set_class_name_institute(instituteName);
-  //                                 // print('name ${MySharedPrefrence().get_class_name_institute()}');
-
-  //                                 // Navigator.pop(context);
-  //                                 // fetchData('class_id=${MySharedPrefrence().get_class_id()}&Subject','Subject', newItemsSubject, selectedIdsSubject, updateSelectedNamesSubject);
-
-  //                                 // print('Updated Selected IDs: ${selectedIds}');
-  //                               },
-  //                             ),
-  //                           ),
-                            // if (index != newItemsSubject.length - 1) // Add Divider for all but the last item
-                            //   Divider(
-                            //     color: Colors.grey, // Customize the color if needed
-                            //     thickness: 1.0, // Customize the thickness if needed
-                            //   ),
-  //                         ],
-  //                       );
-  //                     },
-  //                   ),
-  //                 ),
-  //               ),
-  //               Padding(
-  //                 padding: const EdgeInsets.all(8.0),
-  //                 child: Row(
-  //                   children: [
-  //                     reusableBtn(context, 'Add', () {
-  //                       setState((){});
-  //                       Navigator.pop(context);
-  //                     }, width: .4),
-  //                     reusablaSizaBox(context, .03),
-  //                     Expanded(child: reusablewhite(context, 'Cancel', () {
-  //                       Navigator.pop(context);
-  //                     }, width: .5)),
-  //                   ],
-  //                 ),
-  //               )
-  //             ],
-  //           ),
-  //         );
-  //       },
-  //     ),
-  //   );
-  // }  
-
-
 @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1345,55 +1229,7 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
                         child: reusableText('Add More Classes',color: colorController.btnColor,fontweight: FontWeight.bold)),
                   ),
                   reusablaSizaBox(context, .020),
-                  // Container(
-                  //   constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * selectedNamesClass.length),
-                  //   child: GridView.builder(
-                  //     shrinkWrap: true,
-                  //     physics: NeverScrollableScrollPhysics(),
-                  //     itemCount: selectedNamesClass.length,
-                  //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  //       crossAxisCount: 1, // Number of columns
-                  //       crossAxisSpacing: 10.0, // Spacing between columns
-                  //       mainAxisSpacing: 10.0, // Spacing between rows
-                  //       childAspectRatio: 8.2, // Aspect ratio of each grid item
-                  //     ),
-                  //     itemBuilder: (context, index) {
-                  //       print('heloooooooooooooooo $selectedClassesAndSubjects');
-                  //       return Container(
-                  //         padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
-                  //         decoration: BoxDecoration(
-                  //           borderRadius: BorderRadius.circular(15),
-                  //           color: colorController.qualificationItemsColors,
-                  //         ),
-                  //         child: Row(
-                  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //           children: [
-                  //             Expanded(
-                  //               child: Text(
-                  //                 '${selectedNamesClass[index]}: (${selectedNamesSubject[index]})',
-                  //                 softWrap: true,
-                  //                 overflow: TextOverflow.ellipsis,
-                  //                 maxLines: 1,
-                  //                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: colorController.whiteColor),
-                  //               ),
-                  //             ),
-                  //             InkWell(
-                  //               onTap: () {
-                  //                 setState(() {
-                  //                   // Remove the selected item from the list
-                  //                   selectedIdsClass.removeAt(index);
-                  //                   selectedNamesClass.removeAt(index);
-                  //                   // updateSelectedNames(); // Update the names here
-                  //                 });
-                  //               },
-                  //               child: Icon(Icons.cancel_outlined, color: colorController.whiteColor),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       );
-                  //     },
-                  //   ),
-                  // ),
+                 
 
                   Container(
   constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * selectedClasses.length),
@@ -1429,13 +1265,6 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
             ),
             InkWell(
               onTap: () {
-                // setState(() {
-                //   // Remove the selected item from the list
-                //   selectedIdsClass.removeAt(index);
-                //   selectedNamesClass.removeAt(index);
-                //   selectedNamesSubject.removeAt(index);
-                //   // updateSelectedNames(); // Update the names here
-                // });
                 setState(() {
                                   selectedClasses.removeAt(index);
                                 });
