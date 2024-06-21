@@ -1,5 +1,3 @@
-
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
@@ -34,6 +32,7 @@ class _FAQState extends State<FAQ> {
     // TODO: implement initState
     super.initState();
     faq();
+    
   }
   @override
   Widget build(BuildContext context) {
@@ -50,7 +49,7 @@ class _FAQState extends State<FAQ> {
                           reusableText("FAQ's",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
                           reusablaSizaBox(context, 0.020),
                           // Image.network(repository.faqs_images,fit: BoxFit.cover,)
-                         CachedNetworkImage(imageUrl: repository.faqs_images,
+                         CachedNetworkImage(imageUrl: MySharedPrefrence().get_faqs(),
                          errorWidget: (context, url, error) => Container(),
                          fit: BoxFit.cover,
                          )

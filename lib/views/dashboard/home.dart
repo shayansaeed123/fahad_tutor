@@ -135,7 +135,7 @@ Widget build(BuildContext context) {
   return Scaffold(
     backgroundColor: colorController.whiteColor,
     appBar: reusableappbar(context, colorController.yellowColor,()async{
-      await repository.Check_popup();
+      // await repository.Check_popup();
       Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(),));}),
     body: 
     // Stack(

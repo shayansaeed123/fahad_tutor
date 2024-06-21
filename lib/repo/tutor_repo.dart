@@ -73,17 +73,40 @@ class TutorRepository {
   String _message = '';
   String get message => _message; 
 
-  String _faqs_images = '';
-  String get faqs_images => _faqs_images;
+  // final ValueNotifier<String> _faqs_images = ValueNotifier<String>('');
+  // ValueNotifier<String> get faqs_images => _faqs_images;
 
-  String _term_condition_image = '';
-  String get term_condition_image => _term_condition_image;
+  // final ValueNotifier<String> _term_condition_image = ValueNotifier<String>('');
+  // ValueNotifier<String> get term_condition_image => _term_condition_image;
 
   String _Registration_text = '';
   String get Registration_text => _Registration_text;
 
   int _success = 0;
   int get success => _success;
+
+  // int _basic_info = 0;
+  // int get basic_info => _basic_info;
+  final ValueNotifier<int> _basicInfo = ValueNotifier<int>(0);
+  ValueNotifier<int> get basicInfo => _basicInfo;
+
+  final ValueNotifier<String> _qualification_pref = ValueNotifier<String>('');
+  ValueNotifier<String> get qualification_pref => _qualification_pref;
+
+  final ValueNotifier<String> _additional_info = ValueNotifier<String>('');
+  ValueNotifier<String> get additional_info => _additional_info;
+
+  final ValueNotifier<String> _docs_att = ValueNotifier<String>('');
+  ValueNotifier<String> get docs_att => _docs_att;
+
+  final ValueNotifier<String> _payment_recipt = ValueNotifier<String>('');
+  ValueNotifier<String> get payment_recipt => _payment_recipt;
+
+  final ValueNotifier<String> _bank_details = ValueNotifier<String>('');
+  ValueNotifier<String> get bank_details => _bank_details;
+
+  final ValueNotifier<String> _is_term_accepted = ValueNotifier<String>('');
+  ValueNotifier<String> get is_term_accepted => _is_term_accepted;
 
   Future<void> fetchTuitions(int start, int limit) async {
     _isLoading = true;
@@ -250,14 +273,21 @@ class TutorRepository {
 
       if (response.statusCode == 200) {
         dynamic jsonResponse = jsonDecode(response.body);
-        _faqs_images = jsonResponse['faqs_images'];
-        _term_condition_image = jsonResponse['term_condition_image'];
+      MySharedPrefrence().set_faqs(jsonResponse['faqs_images']);
+       MySharedPrefrence().set_term_condition(jsonResponse['term_condition_image']);
         _Registration_text = jsonResponse['Registration_text'];
+        _basicInfo.value = jsonResponse['basic_info'];
+        _qualification_pref.value = jsonResponse['qualification_pref'];
+        _docs_att.value = jsonResponse['docs_att'];
+        _additional_info.value = jsonResponse['additional_info'];
+        _bank_details.value = jsonResponse['bank_details'];
+        _is_term_accepted.value = jsonResponse['is_term_accepted'];
+        _payment_recipt.value = jsonResponse['payment_recipt'];
          MySharedPrefrence().set_term_condition_image(jsonResponse['term_condition_image']);
          MySharedPrefrence().set_faqs_images(jsonResponse['faqs_images']);
         
-        print('FAQ Image ${_faqs_images}');
-        print('terms & conditions Image ${_term_condition_image}');
+        print('FAQ Image ${MySharedPrefrence().get_faqs()}');
+        print('terms & conditions Image ${MySharedPrefrence().get_term_condition()}');
         print('registration $_Registration_text');
       } else {
         print('Error: ${response.statusCode}');

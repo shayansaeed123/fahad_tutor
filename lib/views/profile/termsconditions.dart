@@ -3,6 +3,7 @@ import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/repo/tutor_repo.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
+import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
@@ -20,11 +21,9 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
   TutorRepository repository = TutorRepository();
   bool isLoading = false;
   void faq()async{
-    setState(() {
       isLoading = true;
-    });
     await repository.Check_popup();
-    setState(() {isLoading= false;});
+    isLoading = false;
   }
   @override
   void initState() {
@@ -36,42 +35,32 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
   Widget build(BuildContext context) {
     return 
     reusableprofileidget(
-    //   Scaffold(
-    //     backgroundColor: colorController.whiteColor,
-    // appBar: AppBar(elevation: 0,backgroundColor: Colors.transparent,),
-    //     body: Stack(
-    //       children: [
-    //         SafeArea(
-    //           child: SingleChildScrollView(
-    //             child: 
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * .032),
-                  child: Stack(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          reusableText("Terms & Conditions",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
+                      reusableText("Terms & Conditions",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
                           reusablaSizaBox(context, 0.020),
-                          // Image.network(repository.faqs_images,fit: BoxFit.cover,)
-                         CachedNetworkImage(imageUrl: repository.term_condition_image,
-                         errorWidget: (context, url, error) => Container(),
-                         fit: BoxFit.cover,
-                         )
-                          // if (isLoading)
-                          //   Center(child: reusableloadingrow(context, isLoading))
-                          // else if (repository.faqs_images.isNotEmpty)
-                          //   Image.network(repository.faqs_images, fit: BoxFit.cover)
-                          // else
-                          //   Center(child: reusableText('Please Check Your Internet Connection',color: colorController.blackColor,fontsize: 16)),
-                        ],
-                      ),
-                      
+                           CachedNetworkImage(
+                            imageUrl: MySharedPrefrence().get_term_condition(),
+                            placeholder: (context, url) => Center(child: reusableloadingrow(context, isLoading==true)),
+                            errorWidget: (context, url, error) => Container(),
+                            fit: BoxFit.cover,
+                            filterQuality: FilterQuality.low,
+                          ),
+                          reusablaSizaBox(context, 0.030),
+                          if(repository.is_term_accepted.value == '0')
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .069),
+                            child: reusableBtn(context, 'Ok', (){}),
+                          )
                     ],
-                  ),
+                  )
+                 
                 ),
-                Center(child: reusableloadingrow(context, isLoading))
+                Center(child: Container())
       //         ),
       //       ),
       //       Center(child: reusableloadingrow(context, isLoading))

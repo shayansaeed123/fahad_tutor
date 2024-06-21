@@ -297,6 +297,22 @@ void set_user_ID(String? userID) {
     return ''.val('class_name_institute', getBox: preferences).val;
   }
 
+  void set_faqs(String? faqs) {
+    ''.val('faqs', getBox: preferences).val = faqs ?? '';
+  }
+
+  String get_faqs() {
+    return ''.val('faqs', getBox: preferences).val;
+  }
+
+  void set_term_condition(String? term_condition) {
+    ''.val('term_condition', getBox: preferences).val = term_condition ?? '';
+  }
+
+  String get_term_condition() {
+    return ''.val('term_condition', getBox: preferences).val;
+  }
+
   // Future<void> setVersionName() async {
   //   await PackageInfo.fromPlatform().then((PackageInfo? packageInfo) {
   //     String? version = packageInfo?.version;

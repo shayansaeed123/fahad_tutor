@@ -29,6 +29,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:fahad_tutor/repo/tutor_repo.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -38,6 +39,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final TutorRepository repository = TutorRepository();
   bool isLoading = false;
   bool isToggled = false;
   int values =0;
@@ -78,6 +80,13 @@ class _ProfileState extends State<Profile> {
 void loginClear(){
       reusabletextfieldcontroller.emailCon.clear();
     reusabletextfieldcontroller.loginPassCon.clear();
+  }
+
+  @override
+  void initState(){
+    // TODO: implement initState
+    super.initState();
+    repository.Check_popup();
   }
        
   @override
@@ -128,27 +137,152 @@ void loginClear(){
             ),
             reusableText('User Details',color: colorController.blackColor,fontsize: 21,),
             reusablaSizaBox(context, .01),
-            reusablelisttile(context,(){
+            ValueListenableBuilder<int>(valueListenable: repository.basicInfo, builder: (context, basicInfo, child) {
+              return reusablelisttile(context,(){
+              print(repository.basicInfo);
               reusableprofileInfoDialog(context,'${formatInfo(MySharedPrefrence().get_info())}',() => _launchEmail("info@fahadtutors.com"),);
-            },'assets/images/basic_info_icon.png','Basic Info',),
-            reusablelisttile(context,(){
+            },'assets/images/basic_info_icon.png','Basic Info',widget: Container(
+              width: MediaQuery.of(context).size.width * .14,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  if(basicInfo == 20)
+                  Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                    // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+                  Icon(CupertinoIcons.arrow_right)
+                ],
+              ),
+            ));
+            },),
+            ValueListenableBuilder(valueListenable: repository.qualification_pref, builder: (context, value, child) {
+              return reusablelisttile(context,(){
+                print(repository.qualification_pref);
               Navigator.push(context, MaterialPageRoute(builder: (context) => QualificationAndPreferences(),));
-            },'assets/images/qual_pref_icon.png','Qulification and Preferences',),
-            reusablelisttile(context,(){
+            },'assets/images/qual_pref_icon.png','Qulification and Preferences',widget: Container(
+              width: MediaQuery.of(context).size.width * .14,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  if(value == '20')
+                  Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                  if(value == '21')
+                  reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
+                  if(value == '8')
+                  Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                  if(value == '19')
+                  Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                    // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+                  Icon(CupertinoIcons.arrow_right)
+                ],
+              ),
+            ));
+            },),
+            ValueListenableBuilder(valueListenable: repository.docs_att, builder: (context, value, child) {
+              return reusablelisttile(context,(){
               Navigator.push(context, MaterialPageRoute(builder: (context) => DocumentsAttach(),));
-            },'assets/images/doc_attach_icon.png','Document Attachment',),
-            reusablelisttile(context,(){
+            },'assets/images/doc_attach_icon.png','Document Attachment',widget: Container(
+              width: MediaQuery.of(context).size.width * .14,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  if(value == '20')
+                  Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                  if(value == '21')
+                  reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
+                  if(value == '8')
+                  Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                  if(value == '19')
+                  Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                    // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+                  Icon(CupertinoIcons.arrow_right)
+                ],
+              ),
+            ));
+            },),
+            ValueListenableBuilder(valueListenable: repository.is_term_accepted, builder: (context, value, child) {
+              return reusablelisttile(context,(){
               Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditions(),));
-            },'assets/images/terms_and_conditions.png','Terms & Conditions',),
-            reusablelisttile(context,(){
+            },'assets/images/terms_and_conditions.png','Terms & Conditions',widget: Container(
+              width: MediaQuery.of(context).size.width * .14,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  if(value == '1')
+                  Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                  if(value == '0')
+                  Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                    // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+                  Icon(CupertinoIcons.arrow_right)
+                ],
+              ),
+            ));
+            },),
+            ValueListenableBuilder(valueListenable: repository.payment_recipt, builder: (context, value, child) {
+              return reusablelisttile(context,(){
               Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationCharges(),));
-            },'assets/images/reg_charges_slip_icon.png','Registration Charges Slip',),
-            reusablelisttile(context,(){
+            },'assets/images/reg_charges_slip_icon.png','Registration Charges Slip',widget: Container(
+              width: MediaQuery.of(context).size.width * .14,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  if(value == '20')
+                  Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                  if(value == '21')
+                  reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
+                  if(value == '8')
+                  Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                  if(value == '19')
+                  Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                    // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+                  Icon(CupertinoIcons.arrow_right)
+                ],
+              ),
+            ));
+            },),
+            ValueListenableBuilder(valueListenable: repository.bank_details, builder: (context, value, child) {
+              return reusablelisttile(context,(){
                Navigator.push(context, MaterialPageRoute(builder: (context)=>AccountDetails()));
-            },'assets/images/bank_details_icon.png','Bank Details',),
-            reusablelisttile(context,(){
+            },'assets/images/bank_details_icon.png','Bank Details',widget: Container(
+              width: MediaQuery.of(context).size.width * .14,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  if(value == '20')
+                  Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                  if(value == '21')
+                  reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
+                  if(value == '8')
+                  Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                  if(value == '19')
+                  Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                    // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+                  Icon(CupertinoIcons.arrow_right)
+                ],
+              ),
+            ));
+            },),
+            ValueListenableBuilder(valueListenable: repository.additional_info, builder: (context, value, child) {
+              return reusablelisttile(context,(){
               Navigator.push(context, MaterialPageRoute(builder: (context)=>AdditionalInfo()));
-            },'assets/images/add_info_icon.png','Additional Information',),
+            },'assets/images/add_info_icon.png','Additional Information',widget: Container(
+              width: MediaQuery.of(context).size.width * .14,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  if(value == '20')
+                  Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                  if(value == '21')
+                  reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
+                  if(value == '8')
+                  Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                  if(value == '19')
+                  Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                    // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+                  Icon(CupertinoIcons.arrow_right)
+                ],
+              ),
+            ));
+            },),
             reusablelisttile(context,(){
               Navigator.push(context, MaterialPageRoute(builder: (context)=>ResetPassword()));
             },'assets/images/reset_password.png','Change Password',borderWidth: 0.000001),
