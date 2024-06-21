@@ -61,12 +61,6 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
                  
                 ),
                 Center(child: Container())
-      //         ),
-      //       ),
-      //       Center(child: reusableloadingrow(context, isLoading))
-      //     ],
-      //   ),
-      // // )
     );
   }
 }
