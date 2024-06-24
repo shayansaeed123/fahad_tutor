@@ -179,11 +179,11 @@ void loginClear(){
             },),
             ValueListenableBuilder(valueListenable: repository.docs_att, builder: (context, value, child) {
               return reusablelisttile(context,(){
-              // if(value == '8' || value == '19'){
-              //   reusableAnimationdialog(context, 'Restrict', 'Before accepting documents attachment, Fill all the steps requentially');
-              // }else{
+              if(repository.qualification_pref.value == '8' || repository.qualification_pref.value == '19'){
+                reusableAnimationdialog(context, 'Restrict', 'Before accepting documents attachment, Fill all the steps requentially');
+              }else{
                 Navigator.push(context, MaterialPageRoute(builder: (context) => DocumentsAttach(),));
-              // }
+              }
             },'assets/images/doc_attach_icon.png','Document Attachment',widget: Container(
               width: MediaQuery.of(context).size.width * .24,
               child: Row(
@@ -206,7 +206,7 @@ void loginClear(){
             },),
             ValueListenableBuilder(valueListenable: repository.is_term_accepted, builder: (context, value, child) {
               return reusablelisttile(context,(){
-              if(value == '0'){
+              if(repository.docs_att.value == '8' || repository.docs_att.value == '19'){
                 reusableAnimationdialog(context, 'Restrict', 'Before accepting terms and conditions, Fill all the steps requentially');
               }else{
                 Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditions(),));
@@ -230,7 +230,8 @@ void loginClear(){
             ValueListenableBuilder(valueListenable: repository.payment_recipt, builder: (context, value, child) {
               return reusablelisttile(context,(){
                 print(value);
-              if(value == '8' || value == '19'){
+              // if(value == '8' || value == '19'){
+              if(repository.is_term_accepted.value == '0'){
                 reusableAnimationdialog(context, 'Restrict', 'Before accepting registration slip, Fill all the steps requentially');
               }else{
                 Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationCharges(),));

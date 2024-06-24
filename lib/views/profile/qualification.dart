@@ -91,9 +91,11 @@ String instituteId =  '';
     try {
       print('check tutor Id ${MySharedPrefrence().get_user_ID()}');
       print('check update Status ${MySharedPrefrence().get_update_status()}');
+      print(jsonEncode(selectedIdsArea));
       final response = await http.post(
           Uri.parse('${Utils.baseUrl}mobile_app/step_2_update.php'),
           body: {
+            'code' : '10'.toString(),
         'update_status': MySharedPrefrence().get_update_status(),
         'tutor_id_edit': MySharedPrefrence().get_user_ID(),
         'preferred_areas': jsonEncode(selectedIdsArea),
