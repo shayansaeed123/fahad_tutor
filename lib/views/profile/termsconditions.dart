@@ -55,7 +55,8 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .069),
                             child: reusableBtn(context, 'Ok', (){}),
-                          )
+                          ),
+                          
                     ],
                   )
                  

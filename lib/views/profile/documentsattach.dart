@@ -158,29 +158,29 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
     });
 
     final apiUrl =
-        "https://digitance.turk.pk/super_api/update_profile_picture.php";
+        "https://fahadtutors.com/mobile_app/upload_doc_4.php";
     try {
       final response = await http.post(Uri.parse(apiUrl), body: {
-        'user_id': MySharedPrefrence().get_user_id(),
-        'image': base64updateprofileimage,
+        'profile_pic': base64updateprofileimage,
       });
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);
+        print('profile $data');
 
-        if (data['success'] == 1) {
-          print(data['image']);
-          MySharedPrefrence().set_user_image(data['image']);
-          print("object");
+        // if (data['success'] == 1) {
+        //   print(data['image']);
+        //   MySharedPrefrence().set_profile_img(data['image']);
+        //   print("object");
 
-          print("Image Updated Sucessfully");
-          setState(() {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => Profile()));
-          });
-        } else {
-          print("Image not Updated Sucessfully");
-        }
+        //   print("Image Updated Sucessfully");
+        //   setState(() {
+        //     Navigator.pushReplacement(
+        //         context, MaterialPageRoute(builder: (context) => Profile()));
+        //   });
+        // } else {
+        //   print("Image not Updated Sucessfully");
+        // }
       } else {
         print("Image not Updated Sucessfully");
 
@@ -226,17 +226,41 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
                               doc_error == 1 ? reusableVisiblityWarning(context, '${docs_msg}', (){setState(() {visible=false;});}, visible) : Container(),
                               reusablaSizaBox(context, 0.020),
                               reusableDocuments(context,'','Add Image (Front)','Add Image (Back)' ,'Profile', 'CNIC Image', personal_image, cnic_front,cnic_back, (){
-                                reuablebottomsheet(context, "Choose Profile Image",(){},(){});
-                              },(){reuablebottomsheet(context, "Choose CNIC Front Image",(){},(){});},
-                              (){reuablebottomsheet(context, "Choose CNIC Back Image",(){},(){});}
+                                reuablebottomsheet(context, "Choose Profile Image",(){
+                                  selectupdateprofileimage(ImageSource.gallery);
+                                },(){
+                                  selectupdateprofileimage(ImageSource.camera);
+                                });
+                              },(){reuablebottomsheet(context, "Choose CNIC Front Image",(){
+                                selectupdateprofileimage(ImageSource.gallery);
+                              },(){
+                                selectupdateprofileimage(ImageSource.camera);
+                              });},
+                              (){reuablebottomsheet(context, "Choose CNIC Back Image",(){
+                                selectupdateprofileimage(ImageSource.gallery);
+                              },(){
+                                selectupdateprofileimage(ImageSource.camera);
+                              });}
                               ),
                                reusablaSizaBox(context, 0.020),
                               reusableDocuments(context, 'Add Image', '', '', 'Last Qualification Proof', 'Attach other Documents(Optional)', last_document, other_1, other_2, (){
-                                reuablebottomsheet(context, "Choose Qualification Image",(){},(){});
-                              },(){reuablebottomsheet(context, "Choose Other Image",(){},(){});},
-                              (){reuablebottomsheet(context, "Choose Other Image",(){},(){});}),
+                                reuablebottomsheet(context, "Choose Qualification Image",(){
+                                  selectupdateprofileimage(ImageSource.gallery);
+                                },(){
+                                  selectupdateprofileimage(ImageSource.camera);
+                                });
+                              },(){reuablebottomsheet(context, "Choose Other Image 1",(){
+                                selectupdateprofileimage(ImageSource.gallery);
+                              },(){
+                                selectupdateprofileimage(ImageSource.camera);
+                              });},
+                              (){reuablebottomsheet(context, "Choose Other Image 2",(){
+                                selectupdateprofileimage(ImageSource.gallery);
+                              },(){
+                                selectupdateprofileimage(ImageSource.camera);
+                              });}),
                               reusablaSizaBox(context, 0.010),
-                              // reusableBtn(context, 'Submit',(){})
+                              reusableBtn(context, 'Submit',(){})
                             ],
                           ),
                          

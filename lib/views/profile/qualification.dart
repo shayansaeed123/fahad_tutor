@@ -229,8 +229,9 @@ Future<void> saveQualificationData() async {
 
   try {
     final response = await http.get(
-      Uri.parse('${Utils.baseUrl}mobile_app/step_2.php?code=10&tutor_id=31225'),
+      Uri.parse('${Utils.baseUrl}mobile_app/step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
     );
+    print(MySharedPrefrence().get_user_ID());
     if (response.statusCode == 200) {
       if (response.body.isNotEmpty) {
         final Map<String, dynamic> jsonResponse = json.decode(response.body);

@@ -6,6 +6,7 @@ import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/controller/text_field_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
+import 'package:fahad_tutor/res/reusableappimage.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusabledailog.dart';
 import 'package:fahad_tutor/res/reusablelisttile.dart';
@@ -115,8 +116,7 @@ void loginClear(){
                             },
                             child: SizedBox(
                               width: MediaQuery.of(context).size.width * 0.28,
-                              
-                              child: CircleAvatar(
+                              child: MySharedPrefrence().get_profile_img() != '' ? CircleAvatar(
                                 radius:
                                     MediaQuery.of(context).size.width * 0.15,
                                     backgroundColor: colorController.blackColor,
@@ -125,7 +125,7 @@ void loginClear(){
                                       .get_profile_img()
                                       .toString(),
                                 ),
-                              ),
+                              ) : reusableappimage(context, .1, .1, 'assets/images/profile.png')
                             ),
                           // ),
                         ),
@@ -142,13 +142,13 @@ void loginClear(){
               print(repository.basicInfo);
               reusableprofileInfoDialog(context,'${formatInfo(MySharedPrefrence().get_info())}',() => _launchEmail("info@fahadtutors.com"),);
             },'assets/images/basic_info_icon.png','Basic Info',widget: Container(
-              width: MediaQuery.of(context).size.width * .14,
+              width: MediaQuery.of(context).size.width * .24,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   if(basicInfo == 20)
-                  Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
-                    // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+                  // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                  CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
                   Icon(CupertinoIcons.arrow_right)
                 ],
               ),
@@ -156,22 +156,22 @@ void loginClear(){
             },),
             ValueListenableBuilder(valueListenable: repository.qualification_pref, builder: (context, value, child) {
               return reusablelisttile(context,(){
-                print(repository.qualification_pref);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => QualificationAndPreferences(),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => QualificationAndPreferences(),));
             },'assets/images/qual_pref_icon.png','Qulification and Preferences',widget: Container(
-              width: MediaQuery.of(context).size.width * .14,
+              width: MediaQuery.of(context).size.width * .24,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   if(value == '20')
-                  Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                  // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                  CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
                   if(value == '21')
                   reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
                   if(value == '8')
                   Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
                   if(value == '19')
                   Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
-                    // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+                  
                   Icon(CupertinoIcons.arrow_right)
                 ],
               ),
@@ -179,14 +179,19 @@ void loginClear(){
             },),
             ValueListenableBuilder(valueListenable: repository.docs_att, builder: (context, value, child) {
               return reusablelisttile(context,(){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => DocumentsAttach(),));
+              // if(value == '8' || value == '19'){
+              //   reusableAnimationdialog(context, 'Restrict', 'Before accepting documents attachment, Fill all the steps requentially');
+              // }else{
+                Navigator.push(context, MaterialPageRoute(builder: (context) => DocumentsAttach(),));
+              // }
             },'assets/images/doc_attach_icon.png','Document Attachment',widget: Container(
-              width: MediaQuery.of(context).size.width * .14,
+              width: MediaQuery.of(context).size.width * .24,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   if(value == '20')
-                  Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                  // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                  CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
                   if(value == '21')
                   reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
                   if(value == '8')
@@ -201,14 +206,19 @@ void loginClear(){
             },),
             ValueListenableBuilder(valueListenable: repository.is_term_accepted, builder: (context, value, child) {
               return reusablelisttile(context,(){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditions(),));
+              if(value == '0'){
+                reusableAnimationdialog(context, 'Restrict', 'Before accepting terms and conditions, Fill all the steps requentially');
+              }else{
+                Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditions(),));
+              }
             },'assets/images/terms_and_conditions.png','Terms & Conditions',widget: Container(
-              width: MediaQuery.of(context).size.width * .14,
+              width: MediaQuery.of(context).size.width * .24,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   if(value == '1')
-                  Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                  // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                  CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
                   if(value == '0')
                   Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
                     // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
@@ -219,14 +229,20 @@ void loginClear(){
             },),
             ValueListenableBuilder(valueListenable: repository.payment_recipt, builder: (context, value, child) {
               return reusablelisttile(context,(){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationCharges(),));
+                print(value);
+              if(value == '8' || value == '19'){
+                reusableAnimationdialog(context, 'Restrict', 'Before accepting registration slip, Fill all the steps requentially');
+              }else{
+                Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationCharges(),));
+              }
             },'assets/images/reg_charges_slip_icon.png','Registration Charges Slip',widget: Container(
-              width: MediaQuery.of(context).size.width * .14,
+              width: MediaQuery.of(context).size.width * .24,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   if(value == '20')
-                  Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                  // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                  CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
                   if(value == '21')
                   reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
                   if(value == '8')
@@ -243,19 +259,20 @@ void loginClear(){
               return reusablelisttile(context,(){
                Navigator.push(context, MaterialPageRoute(builder: (context)=>AccountDetails()));
             },'assets/images/bank_details_icon.png','Bank Details',widget: Container(
-              width: MediaQuery.of(context).size.width * .14,
+              width: MediaQuery.of(context).size.width * .24,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   if(value == '20')
-                  Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                  // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                  CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
                   if(value == '21')
                   reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
                   if(value == '8')
                   Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
                   if(value == '19')
                   Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
-                    // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+                    // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,),
                   Icon(CupertinoIcons.arrow_right)
                 ],
               ),
@@ -265,12 +282,13 @@ void loginClear(){
               return reusablelisttile(context,(){
               Navigator.push(context, MaterialPageRoute(builder: (context)=>AdditionalInfo()));
             },'assets/images/add_info_icon.png','Additional Information',widget: Container(
-              width: MediaQuery.of(context).size.width * .14,
+              width: MediaQuery.of(context).size.width * .24,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   if(value == '20')
-                  Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                  // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                  CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
                   if(value == '21')
                   reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
                   if(value == '8')

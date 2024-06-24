@@ -117,3 +117,51 @@ reusableMessagedialog(
   );
 }
 
+reusableAnimationdialog(
+    BuildContext context, String titletxt,String contenttxt){
+  return showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (context) { 
+      return AlertDialog(
+      title: Center(child: reusableText(titletxt,color: colorController.btnColor,fontsize: 26,)),
+      contentPadding: EdgeInsets.zero,
+      content: Container(
+        padding: const EdgeInsets.all(16.0),
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * .3,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Center(
+                child: 
+                Lottie.asset('assets/images/error_lottie.json',
+                alignment: Alignment.center,
+                animate: true,
+                filterQuality: FilterQuality.high,
+                fit: BoxFit.contain,height: MediaQuery.of(context).size.height *0.15,
+                repeat: true,),
+              ),
+            reusablaSizaBox(context, .020),
+            reusableText(contenttxt,color: colorController.grayTextColor,fontsize: 14,),
+          ],
+        ),
+      ),
+      actions: [
+        ElevatedButton(
+          style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(colorController.grayTextColor)),
+          onPressed: () {
+              Navigator.pop(context);
+            // Navigator.push(context, MaterialPageRoute(builder: ((context) => attendance())));
+          },
+          child: reusableText(
+            'Cancel',
+            color: colorController.whiteColor,
+          ),
+        ),
+      ],
+      );
+    }
+  );
+}
+
