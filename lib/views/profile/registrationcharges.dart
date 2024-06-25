@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
+import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/repo/tutor_repo.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
@@ -65,7 +66,24 @@ class _RegistrationChargesState extends State<RegistrationCharges> {
                     strokeWidth: 2,
                     dashPattern: [6, 3],
                     radius: Radius.circular(15),
-                    child:  reusableSelectImage2(context, (){}, '')
+                    child:  InkWell(
+            onTap: (){},
+            child: Container(
+              width: MediaQuery.of(context).size.width * .43,
+              height: MediaQuery.of(context).size.height * .18,
+              decoration: BoxDecoration(
+                color: colorController.whiteColor,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(MediaQuery.of(context).size.width * .013,),
+                child: Center(child: Image.asset('assets/images/add_img_placeholder.png',fit: BoxFit.contain,)
+                // : Image.network(image,fit: BoxFit.contain,)
+                  ),
+              ),
+            ),
+          ),
+                    // reusableSelectImage2(context, (){}, '')
                 ),
                 reusablaSizaBox(context, .010),
               ],

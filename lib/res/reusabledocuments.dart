@@ -18,7 +18,7 @@ reusableDocuments(BuildContext context,String add1,String add2,String add3, Stri
           color: colorController.blackColor,
             strokeWidth: 2,
             dashPattern: [6, 3],
-            radius: Radius.circular(15),
+            // radius: Radius.circular(15),
             child:  reusableSelectImage1(context, (){ontap1();}, image1)
         ),
         reusablaSizaBox(context, .010),
@@ -74,7 +74,7 @@ reusableSelectImage1(BuildContext context,Function ontap,String image){
               ),
               child: Padding(
                 padding: EdgeInsets.all(MediaQuery.of(context).size.width * .013,),
-                child: Center(child: image == '' ? Image.asset('assets/images/add_img_placeholder.png',fit: BoxFit.contain,)
+                child: Center(child: image == 'https://www.fahadtutors.com/fta_admin/' ? Image.asset('assets/images/add_img_placeholder.png',fit: BoxFit.contain,)
                 : CircleAvatar(
                   radius: MediaQuery.of(context).size.width * 0.4,
                   backgroundImage: NetworkImage(image),
@@ -98,7 +98,7 @@ reusableSelectImage2(BuildContext context,Function ontap,String image){
               ),
               child: Padding(
                 padding: EdgeInsets.all(MediaQuery.of(context).size.width * .013,),
-                child: Center(child: image == '' ? Image.asset('assets/images/add_img_placeholder.png',fit: BoxFit.contain,)
+                child: Center(child: image == 'https://www.fahadtutors.com/fta_admin/' ? Image.asset('assets/images/add_img_placeholder.png',fit: BoxFit.contain,)
                 : Image.network(image,fit: BoxFit.contain,)
                   ),
               ),

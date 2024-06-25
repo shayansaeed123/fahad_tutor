@@ -180,7 +180,7 @@ void loginClear(){
             ValueListenableBuilder(valueListenable: repository.docs_att, builder: (context, value, child) {
               return reusablelisttile(context,(){
               if(repository.qualification_pref.value == '8' || repository.qualification_pref.value == '19'){
-                reusableAnimationdialog(context, 'Restrict', 'Before accepting documents attachment, Fill all the steps requentially');
+                reusableAnimationdialog(context, 'Restrict', 'Before accepting documents attachment, Fill all the steps sequentially');
               }else{
                 Navigator.push(context, MaterialPageRoute(builder: (context) => DocumentsAttach(),));
               }
@@ -207,7 +207,7 @@ void loginClear(){
             ValueListenableBuilder(valueListenable: repository.is_term_accepted, builder: (context, value, child) {
               return reusablelisttile(context,(){
               if(repository.docs_att.value == '8' || repository.docs_att.value == '19'){
-                reusableAnimationdialog(context, 'Restrict', 'Before accepting terms and conditions, Fill all the steps requentially');
+                reusableAnimationdialog(context, 'Restrict', 'Before accepting terms and conditions, Fill all the steps sequentially');
               }else{
                 Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditions(),));
               }
@@ -232,7 +232,7 @@ void loginClear(){
                 print(value);
               // if(value == '8' || value == '19'){
               if(repository.is_term_accepted.value == '0'){
-                reusableAnimationdialog(context, 'Restrict', 'Before accepting registration slip, Fill all the steps requentially');
+                reusableAnimationdialog(context, 'Restrict', 'Before accepting registration slip, Fill all the steps sequentially');
               }else{
                 Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationCharges(),));
               }

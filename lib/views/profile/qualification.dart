@@ -84,106 +84,37 @@ String instituteId =  '';
     // updateStatus();
   }
 
-// Future<void> updateStatus() async {
-//   setState(() {
-//     isLoading = true;
-//   });
-
-//   try {
-//     String userId = await MySharedPrefrence().get_user_ID();
-//     String updateStatus = await MySharedPrefrence().get_update_status();
-//     String preferredAreas = jsonEncode(selectedIdsArea);
-//     String preferredBoard = jsonEncode(selectedIdsBoard);
-//     String preferredGroup = jsonEncode(selectedIdsGroup);
-//     String classListing = jsonEncode(selectedIdsClass.asMap().entries.map((entry) {
-//       int index = entry.key;
-//       String classId = entry.value.toString(); // Ensure classId is a String
-//       String subjectId = '';
-//       if (selectedIdsSubject.length > index) {
-//         Map<String, dynamic> subjectMap = selectedIdsSubject[index];
-//         if (subjectMap.containsKey('subject_id')) {
-//           subjectId = subjectMap['subject_id'].toString();
-//         }
-//       }
-//       return {
-//         'class_id': classId,
-//         'subject_id': subjectId,
-//       };
-//     }).toList());
-//     String institute = jsonEncode(selectedIdsinstitute);
-//     String degree = jsonEncode(selectedIdsQualification);
-
-//     // Debug prints to check data before sending
-//     print('Tutor ID: $userId');
-//     print('Update Status: $updateStatus');
-//     print('Preferred Areas: $preferredAreas');
-//     print('Preferred Board: $preferredBoard');
-//     print('Preferred Group: $preferredGroup');
-//     print('Class Listing: $classListing');
-//     print('Institute: $institute');
-//     print('Degree: $degree');
-
-//     final response = await http.post(
-//       Uri.parse('${Utils.baseUrl}mobile_app/step_2_update.php'),
-//       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-//       body: {
-//         'code': '10',
-//         'update_status': updateStatus,
-//         'tutor_id_edit': userId,
-//         'preferred_areas': preferredAreas,
-//         'preferred_board': preferredBoard,
-//         'preferred_group': preferredGroup,
-//         'class_listing': classListing,
-//         'Institute': institute,
-//         'Degree': degree,
-//       },
-//     );
-
-//     if (response.statusCode == 200) {
-//       final Map<String, dynamic> responseData = json.decode(response.body);
-//       print('Update Response: $responseData');
-
-//       // Check if the server returned the updated data correctly
-//       if (responseData['success'] == 1) {
-//         // Parse the updated data and update the UI accordingly
-//         // For example, you can update the state with the new data
-//       } else {
-//         print('Error in server response: ${responseData['message']}');
-//       }
-//     } else {
-//       print('Error: ' + response.statusCode.toString());
-//     }
-//   } catch (e) {
-//     print('Error: $e');
-//   } finally {
-//     setState(() {
-//       isLoading = false;
-//     });
-//   }
-// }
-
-
-
   Future<void> updateStatus() async {
     setState(() {
       isLoading = true;
     });
     try {
-      String classList = jsonEncode(selectedIdsClass.asMap().entries.map((entry) {
-  int index = entry.key;
-  String classId = entry.value.toString(); // Ensure classId is a String
-  String subjectId = '';
-  if (selectedIdsSubject.length > index) {
-    Map<String, dynamic> subjectMap = selectedIdsSubject[index];
-    if (subjectMap.containsKey('subject_id')) {
-      subjectId = subjectMap['subject_id'].toString();
-    }
-  }
-  return {
-    'class_id': classId,
-    'subject_id': subjectId,
-  };
-}).toList());
+//       String classList = jsonEncode(selectedIdsClass.asMap().entries.map((entry) {
+//   int index = entry.key;
+//   String classId = entry.value.toString(); // Ensure classId is a String
+//   String subjectId = '';
+//   if (selectedIdsSubject.length > index) {
+//     Map<String, dynamic> subjectMap = selectedIdsSubject[index];
+//     if (subjectMap.containsKey('subject_id')) {
+//       subjectId = subjectMap['subject_id'].toString();
+//     }
+//   }
+//   return {
+//     'class_id': classId,
+//     'subject_id': subjectId,
+//   };
+// }).toList());
+
+
+List<Map<String, dynamic>> classList = selectedClasses.map((classItem) {
+        return classItem.toJson();
+      }).toList();
+
+      String classListJson = jsonEncode(classList);
+
+      // Debug prints to check the data
+      print('Class List: $classList');
+      print('Class List JSON: $classListJson');
       print('check tutor Id ${MySharedPrefrence().get_user_ID()}');
       print('check update Status ${MySharedPrefrence().get_update_status()}');
       print(jsonEncode(selectedIdsArea));
@@ -196,7 +127,7 @@ String instituteId =  '';
         'preferred_areas': jsonEncode(selectedIdsArea),
         'preferred_board': jsonEncode(selectedIdsBoard),
         'preferred_group': jsonEncode(selectedIdsGroup),
-        'class_listing': classList,
+        'class_listing': classListJson,
         'Institute': jsonEncode(selectedIdsinstitute),
         'Degree': jsonEncode(selectedIdsQualification),
       },
@@ -204,7 +135,7 @@ String instituteId =  '';
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
         print('updateeeeeeeeeeeeeeeeeeeeeeeee $responseData');
-        print(classList);
+        print(classListJson);
       } else {
         print('Error2: ' + response.statusCode.toString());
       }

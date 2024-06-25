@@ -29,18 +29,12 @@ class DocumentsAttach extends StatefulWidget {
 class _DocumentsAttachState extends State<DocumentsAttach> {
 
   bool isLoading = false;
-  String personal_image = '';
-  String cnic_front = '';
-  String cnic_back = '';
-  String last_document = '';
-  String other_1 = '';
-  String other_2 = '';
   int doc_error = 0;
   String docs_msg = '';
   bool visible = true;
   File? _imageupdateprofileimage;
   bool updateprofileimage = false;
-  String base64updateprofileimage = 'noimage';
+  String base64updateprofileimage = '';
 
   Future<void> documentsAttach() async {
 
@@ -55,12 +49,12 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
       if (response.statusCode == 200) {
         dynamic jsonResponse = jsonDecode(response.body);
         setState(() {});
-        personal_image = jsonResponse['personal_image'];
-        cnic_front = jsonResponse['cnic_front'];
-        cnic_back = jsonResponse['cnic_back'];
-        last_document = jsonResponse['last_document'];
-        other_1 = jsonResponse['other_1'];
-        other_2 = jsonResponse['other_2'];
+        MySharedPrefrence().set_profile_img(jsonResponse['personal_image']);
+        MySharedPrefrence().set_cnic_front(jsonResponse['cnic_front']);
+        MySharedPrefrence().set_cnic_back(jsonResponse['cnic_back']);
+        MySharedPrefrence().set_last_document(jsonResponse['last_document']);
+        MySharedPrefrence().set_other_1(jsonResponse['other_1']);
+        MySharedPrefrence().set_other_2(jsonResponse['other_2']);
         doc_error = jsonResponse['docs_error'];
         docs_msg = jsonResponse['docs_msg'];
       } else {
@@ -80,7 +74,7 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
     await documentsAttach();
   }
 
-  Future<void> selectupdateprofileimage(ImageSource source,String image) async {
+  Future<void> selectupdateprofileimage(ImageSource source,) async {
     setState(() {
       isLoading = true;
     });
@@ -99,7 +93,7 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
           updateprofileimage = true;
 
           if (updateprofileimage) {
-            showUpdateProfileImageDialog(image);
+            showUpdateProfileImageDialog();
           }
         } else {
           print('No image selected.');
@@ -115,7 +109,7 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
     }
   }
 
-  void showUpdateProfileImageDialog(String image) {
+  void showUpdateProfileImageDialog() {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -141,7 +135,7 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
             padding: EdgeInsets.all(5),
             child: reusableBtn(context, 'Submit', () {
               setState(() {
-                updateProfileImage(image);
+                updateProfileImage();
               });
               // Navigator.pop(context);
               Navigator.pop(context);
@@ -152,7 +146,7 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
     );
   }
 
-  Future<void> updateProfileImage(String image) async {
+  Future<void> updateProfileImage() async {
     setState(() {
       isLoading = true;
     });
@@ -161,7 +155,12 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
         "https://fahadtutors.com/mobile_app/upload_doc_4.php";
     try {
       final response = await http.post(Uri.parse(apiUrl), body: {
-        image : base64updateprofileimage,
+        'profile_pic' : base64updateprofileimage,
+        'CNIC_B' : base64updateprofileimage,
+        'CNIC_F' : base64updateprofileimage,
+        'Qualification' : base64updateprofileimage,
+        'other_1' : base64updateprofileimage,
+        'other_2' : base64updateprofileimage,
       });
 
       if (response.statusCode == 200) {
@@ -225,42 +224,43 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
                               reusablaSizaBox(context, 0.020),
                               doc_error == 1 ? reusableVisiblityWarning(context, '${docs_msg}', (){setState(() {visible=false;});}, visible) : Container(),
                               reusablaSizaBox(context, 0.020),
-                              reusableDocuments(context,'','Add Image (Front)','Add Image (Back)' ,'Profile', 'CNIC Image', personal_image, cnic_front,cnic_back, (){
+                              reusableDocuments(context,'','Add Image (Front)','Add Image (Back)' ,'Profile', 'CNIC Image', MySharedPrefrence().get_profile_img(), MySharedPrefrence().get_cnic_front(),MySharedPrefrence().get_cnic_back(), (){
                                 reuablebottomsheet(context, "Choose Profile Image",(){
-                                  // selectupdateprofileimage(ImageSource.gallery);
+                                  selectupdateprofileimage(ImageSource.gallery,);
                                 },(){
-                                  // selectupdateprofileimage(ImageSource.camera);
+                                  selectupdateprofileimage(ImageSource.camera,);
                                 });
                               },(){reuablebottomsheet(context, "Choose CNIC Front Image",(){
-                                // selectupdateprofileimage(ImageSource.gallery);
+                                selectupdateprofileimage(ImageSource.gallery);
                               },(){
-                                // selectupdateprofileimage(ImageSource.camera);
+                                selectupdateprofileimage(ImageSource.camera);
                               });},
                               (){reuablebottomsheet(context, "Choose CNIC Back Image",(){
-                                // selectupdateprofileimage(ImageSource.gallery);
+                                selectupdateprofileimage(ImageSource.gallery);
                               },(){
-                                // selectupdateprofileimage(ImageSource.camera);
+                                selectupdateprofileimage(ImageSource.camera);
                               });}
                               ),
                                reusablaSizaBox(context, 0.020),
-                              reusableDocuments(context, 'Add Image', '', '', 'Last Qualification Proof', 'Attach other Documents(Optional)', last_document, other_1, other_2, (){
+                              reusableDocuments(context, 'Add Image', '', '', 'Last Qualification Proof', 'Attach other Documents(Optional)', MySharedPrefrence().get_last_document(), MySharedPrefrence().get_other_1(), MySharedPrefrence().get_other_2(), (){
                                 reuablebottomsheet(context, "Choose Qualification Image",(){
-                                  // selectupdateprofileimage(ImageSource.gallery);
+                                  selectupdateprofileimage(ImageSource.gallery);
                                 },(){
-                                  // selectupdateprofileimage(ImageSource.camera);
+                                  selectupdateprofileimage(ImageSource.camera);
                                 });
                               },(){reuablebottomsheet(context, "Choose Other Image 1",(){
-                                // selectupdateprofileimage(ImageSource.gallery);
+                                selectupdateprofileimage(ImageSource.gallery);
                               },(){
-                                // selectupdateprofileimage(ImageSource.camera);
+                                selectupdateprofileimage(ImageSource.camera);
                               });},
                               (){reuablebottomsheet(context, "Choose Other Image 2",(){
-                                // selectupdateprofileimage(ImageSource.gallery);
+                                selectupdateprofileimage(ImageSource.gallery);
                               },(){
-                                // selectupdateprofileimage(ImageSource.camera);
+                                selectupdateprofileimage(ImageSource.camera);
                               });}),
                               reusablaSizaBox(context, 0.010),
-                              reusableBtn(context, 'Submit',(){})
+                              reusableBtn(context, 'Submit',(){}),
+                              reusablaSizaBox(context, 0.010),
                             ],
                           ),
                          

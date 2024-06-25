@@ -313,6 +313,55 @@ void set_user_ID(String? userID) {
     return ''.val('term_condition', getBox: preferences).val;
   }
 
+
+  void set_cnic_front(String? cnic_front) {
+    ''.val('cnic_front', getBox: preferences).val = cnic_front ?? '';
+  }
+
+  String get_cnic_front() {
+    return ''.val('cnic_front', getBox: preferences).val;
+  }
+
+  void set_cnic_back(String? cnic_back) {
+    ''.val('cnic_back', getBox: preferences).val = cnic_back ?? '';
+  }
+
+  String get_cnic_back() {
+    return ''.val('cnic_back', getBox: preferences).val;
+  }
+
+  void set_last_document(String? last_document) {
+    ''.val('last_document', getBox: preferences).val = last_document ?? '';
+  }
+
+  String get_last_document() {
+    return ''.val('last_document', getBox: preferences).val;
+  }
+
+  void set_other_1(String? other_1) {
+    ''.val('other_1', getBox: preferences).val = other_1 ?? '';
+  }
+
+  String get_other_1() {
+    return ''.val('other_1', getBox: preferences).val;
+  }
+
+  void set_other_2(String? other_2) {
+    ''.val('other_2', getBox: preferences).val = other_2 ?? '';
+  }
+
+  String get_other_2() {
+    return ''.val('other_2', getBox: preferences).val;
+  }
+
+  void set_registration_charges(String? registration_charges) {
+    ''.val('registration_charges', getBox: preferences).val = registration_charges ?? '';
+  }
+
+  String get_registration_charges() {
+    return ''.val('registration_charges', getBox: preferences).val;
+  }
+
   // Future<void> setVersionName() async {
   //   await PackageInfo.fromPlatform().then((PackageInfo? packageInfo) {
   //     String? version = packageInfo?.version;
