@@ -36,6 +36,13 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
   bool updateprofileimage = false;
   String base64updateprofileimage = '';
 
+  File? _cnicFront;
+  File? _cnicBack;
+  File? _profile;
+  File? _last_document;
+  File? _other1;
+  File? _other2;
+
   Future<void> documentsAttach() async {
 
     isLoading = true;
