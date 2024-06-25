@@ -32,7 +32,6 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
   int doc_error = 0;
   String docs_msg = '';
   bool visible = true;
-  File? _imageupdateprofileimage;
   bool updateprofileimage = false;
   String base64updateprofileimage = '';
 
@@ -42,7 +41,13 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
   File? _last_document;
   File? _other1;
   File? _other2;
-
+  final picker = ImagePicker();
+  String profile = '';
+  String cnic_f = '';
+  String cnic_b = '';
+  String last_document = '';
+  String other1 = '';
+  String other2 = '';
   Future<void> documentsAttach() async {
 
     isLoading = true;
@@ -56,14 +61,14 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
       if (response.statusCode == 200) {
         dynamic jsonResponse = jsonDecode(response.body);
         setState(() {});
-        MySharedPrefrence().set_profile_img(jsonResponse['personal_image']);
-        MySharedPrefrence().set_cnic_front(jsonResponse['cnic_front']);
-        MySharedPrefrence().set_cnic_back(jsonResponse['cnic_back']);
-        MySharedPrefrence().set_last_document(jsonResponse['last_document']);
-        MySharedPrefrence().set_other_1(jsonResponse['other_1']);
-        MySharedPrefrence().set_other_2(jsonResponse['other_2']);
-        doc_error = jsonResponse['docs_error'];
-        docs_msg = jsonResponse['docs_msg'];
+      MySharedPrefrence().set_profile_img(jsonResponse['personal_image']);
+      MySharedPrefrence().set_cnic_front(jsonResponse['cnic_front']);
+      MySharedPrefrence().set_cnic_back(jsonResponse['cnic_back']);
+      MySharedPrefrence().set_last_document(jsonResponse['last_document']);
+      MySharedPrefrence().set_other_1(jsonResponse['other_1']);
+      MySharedPrefrence().set_other_2(jsonResponse['other_2']);
+      doc_error = jsonResponse['docs_error'];
+      docs_msg = jsonResponse['docs_msg'];
       } else {
         print('Error: ${response.statusCode}');
       }
@@ -81,34 +86,117 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
     await documentsAttach();
   }
 
-  Future<void> selectupdateprofileimage(ImageSource source,) async {
+  Future<void> _pickImage(ImageSource source, String imageType) async {
+    final pickedFile = await picker.pickImage(source: source);
+
+    if (pickedFile != null) {
+      setState(() {
+        switch (imageType) {
+          case 'front':
+            _cnicFront = File(pickedFile.path);
+            break;
+          case 'back':
+            _cnicBack = File(pickedFile.path);
+            break;
+          case 'profile':
+            _profile = File(pickedFile.path);
+            break;
+          case 'qualification':
+            _last_document = File(pickedFile.path);
+            break;
+          case 'other1':
+            _other1 = File(pickedFile.path);
+            break;
+          case 'other2':
+            _other2 = File(pickedFile.path);
+            break;
+        }
+      });
+      showUpdateProfileImageDialog(imageType);
+    } else {
+      print('No image selected');
+    }
+  }
+
+  Future<void> _uploadImages() async {
+
+    String uploadUrl = 'https://fahadtutors.com/mobile_app/upload_doc_4.php';
+    var request = http.MultipartRequest('POST', Uri.parse(uploadUrl));
+
+    if (_cnicFront != null)
+      request.files.add(await http.MultipartFile.fromPath('CNIC_F', _cnicFront!.path));
+    if (_cnicBack != null)
+      request.files.add(await http.MultipartFile.fromPath('CNIC_B', _cnicBack!.path));
+    if (_profile != null)
+      request.files.add(await http.MultipartFile.fromPath('profile_pic', _profile!.path));
+    if (_last_document != null)
+      request.files.add(await http.MultipartFile.fromPath('Qualification', _last_document!.path));
+    if (_other1 != null)
+      request.files.add(await http.MultipartFile.fromPath('other_1', _other1!.path));
+    if (_other2 != null)
+      request.files.add(await http.MultipartFile.fromPath('other_2', _other2!.path));
+
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+       final responseString = await response.stream.bytesToString();
+      final responseData = json.decode(responseString);
+      setState(() {
+      if (responseData.containsKey('profile_pic')) {
+        profile = responseData['profile_pic'];
+      }
+      if (responseData.containsKey('Qualification')) {
+        last_document = responseData['Qualification'];
+      }
+      if (responseData.containsKey('CNIC_F')) {
+        cnic_f = responseData['CNIC_F'];
+      }
+      if (responseData.containsKey('CNIC_B')) {
+        cnic_b = responseData['CNIC_B'];
+      }
+    });
+      print(responseData);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Upload failed')),
+      );
+    }
+  }
+
+  Future<void> _uploadData() async {
     setState(() {
       isLoading = true;
     });
     try {
-      final picker = ImagePicker();
-      final pickedFile = await picker.pickImage(source: source);
-
-      setState(() {
-        if (pickedFile != null) {
-          _imageupdateprofileimage = File(pickedFile.path);
-
-          List<int> imageBytes = _imageupdateprofileimage!.readAsBytesSync();
-          base64updateprofileimage = base64Encode(imageBytes);
-
-          print('Base64 Image: $base64updateprofileimage');
-          updateprofileimage = true;
-
-          if (updateprofileimage) {
-            showUpdateProfileImageDialog();
-          }
+      final response = await http.post(
+          Uri.parse('${Utils.baseUrl}mobile_app/step_4_update.php'),
+          body: {
+        'code': '10',
+        'update_status': '4',
+        'tutor_id': MySharedPrefrence().get_user_ID().toString(),
+        'is_term_accepted': '1',
+        'profile_img': profile.toString(),
+        'cnic_f': cnic_f.toString(),
+        'cnic_b': cnic_b.toString(),
+        'last_document': last_document.toString(),
+        'other_1': other1.toString(),
+        'other_2': other2.toString(),
+      },);
+      if (response.statusCode == 200) {
+        if (response.body.isNotEmpty) {
+          final Map<String, dynamic> jsonResponse = json.decode(response.body);
+          print('helloooo $jsonResponse');
         } else {
-          print('No image selected.');
+          throw Exception('Empty response body');
         }
-      });
+        setState(() {
+          isLoading = false;
+        });
+      } else {
+        throw Exception('Failed to load country details');
+      }
     } catch (e) {
-      print('Error in selectupdateprofileimage: $e');
-      // Handle error here
+      print(e);
     } finally {
       setState(() {
         isLoading = false;
@@ -116,88 +204,128 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
     }
   }
 
-  void showUpdateProfileImageDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Profile Image Updated'),
-        content: Container(
-          width: MediaQuery.of(context).size.width * 0.3,
-          height: MediaQuery.of(context).size.height * 0.3,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: FileImage(_imageupdateprofileimage!),
-              fit: BoxFit.contain,
+  //  Future<void> _uploadData() async {
+  //   String uploadUrl = 'https://fahadtutors.com/mobile_app/step_4_update.php';
+  //   var request = http.MultipartRequest('POST', Uri.parse(uploadUrl));
+  //   request.fields['code'] = '10';
+  //   request.fields['update_status'] = '4';
+  //   request.fields['tutor_id'] = MySharedPrefrence().get_user_ID().toString();
+  //   request.fields['is_term_accepted'] = "1";
+
+  //   if (_profile != null) {
+  //     request.files.add(await http.MultipartFile.fromPath(
+  //       'profile_img',
+  //       _profile!.path,
+  //     ));
+  //   }
+  //   if (_cnicFront != null) {
+  //     request.files.add(await http.MultipartFile.fromPath(
+  //       'cnic_f',
+  //       _cnicFront!.path,
+  //     ));
+  //   }
+  //   if (_cnicBack != null) {
+  //     request.files.add(await http.MultipartFile.fromPath(
+  //       'cnic_b',
+  //       _cnicBack!.path,
+  //     ));
+  //   }
+  //   if (_last_document != null) {
+  //     request.files.add(await http.MultipartFile.fromPath(
+  //       'last_document',
+  //       _last_document!.path,
+  //     ));
+  //   }
+  //   if (_other1 != null) {
+  //     request.files.add(await http.MultipartFile.fromPath(
+  //       'other_1',
+  //       _other1!.path,
+  //     ));
+  //   }
+  //   if (_other2 != null) {
+  //     request.files.add(await http.MultipartFile.fromPath(
+  //       'other_2',
+  //       _other2!.path,
+  //     ));
+  //   }
+
+  //   var response = await request.send();
+
+  //   if (response.statusCode == 200) {
+  //     final responseString = await response.stream.bytesToString();
+  //     final responseData = json.decode(responseString);
+  //     print(responseData);
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text('Upload successful')),
+  //     );
+  //   } else {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text('Upload failed')),
+  //     );
+  //   }
+  // }
+
+   void showUpdateProfileImageDialog(String imageType) {
+    File? selectedImage;
+
+    switch (imageType) {
+      case 'front':
+        selectedImage = _cnicFront;
+        break;
+      case 'back':
+        selectedImage = _cnicBack;
+        break;
+      case 'profile':
+        selectedImage = _profile;
+        break;
+      case 'qualification':
+        selectedImage = _last_document;
+        break;
+      case 'other1':
+        selectedImage = _other1;
+        break;
+      case 'other2':
+        selectedImage = _other2;
+        break;
+    }
+
+    if (selectedImage != null) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Image Updated'),
+          content: Container(
+            width: MediaQuery.of(context).size.width * 0.3,
+            height: MediaQuery.of(context).size.height * 0.3,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: FileImage(selectedImage!),
+                fit: BoxFit.contain,
+              ),
             ),
           ),
+          actions: [
+            Padding(
+              padding: EdgeInsets.all(5),
+              child: reusableBtn(context, 'Cancel', () {
+                Navigator.pop(context);
+              }),
+            ),
+            Padding(
+              padding: EdgeInsets.all(5),
+              child: reusableBtn(context, 'Submit', () {
+                setState(() {
+                  _uploadImages();
+                });
+                Navigator.pop(context);
+                Navigator.pop(context);
+              }),
+            ),
+          ],
         ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.all(5),
-            child: reusableBtn(context, 'Cancel', () {
-              Navigator.pop(context);
-            },),
-          ),
-          Padding(
-            padding: EdgeInsets.all(5),
-            child: reusableBtn(context, 'Submit', () {
-              setState(() {
-                updateProfileImage();
-              });
-              // Navigator.pop(context);
-              Navigator.pop(context);
-            },),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Future<void> updateProfileImage() async {
-    setState(() {
-      isLoading = true;
-    });
-
-    final apiUrl =
-        "https://fahadtutors.com/mobile_app/upload_doc_4.php";
-    try {
-      final response = await http.post(Uri.parse(apiUrl), body: {
-        'profile_pic' : base64updateprofileimage,
-        'CNIC_B' : base64updateprofileimage,
-        'CNIC_F' : base64updateprofileimage,
-        'Qualification' : base64updateprofileimage,
-        'other_1' : base64updateprofileimage,
-        'other_2' : base64updateprofileimage,
-      });
-
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> data = json.decode(response.body);
-        print('profile $data');
-
-        // if (data['success'] == 1) {
-        //   print(data['image']);
-        //   MySharedPrefrence().set_profile_img(data['image']);
-        //   print("object");
-
-        //   print("Image Updated Sucessfully");
-        //   setState(() {
-        //     Navigator.pushReplacement(
-        //         context, MaterialPageRoute(builder: (context) => Profile()));
-        //   });
-        // } else {
-        //   print("Image not Updated Sucessfully");
-        // }
-      } else {
-        print("Image not Updated Sucessfully");
-
-        print('Error: ${response.body}');
-      }
-    } catch (e) {
-      print('Error: $e');
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
+      );
+    } else {
+      print('No image selected');
     }
   }
 
@@ -233,40 +361,49 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
                               reusablaSizaBox(context, 0.020),
                               reusableDocuments(context,'','Add Image (Front)','Add Image (Back)' ,'Profile', 'CNIC Image', MySharedPrefrence().get_profile_img(), MySharedPrefrence().get_cnic_front(),MySharedPrefrence().get_cnic_back(), (){
                                 reuablebottomsheet(context, "Choose Profile Image",(){
-                                  selectupdateprofileimage(ImageSource.gallery,);
+                                  // selectupdateprofileimage(ImageSource.gallery,);
+                                  _pickImage(ImageSource.gallery, 'profile');
                                 },(){
-                                  selectupdateprofileimage(ImageSource.camera,);
+                                  _pickImage(ImageSource.camera,'profile');
                                 });
                               },(){reuablebottomsheet(context, "Choose CNIC Front Image",(){
-                                selectupdateprofileimage(ImageSource.gallery);
+                                _pickImage(ImageSource.gallery,'front');
                               },(){
-                                selectupdateprofileimage(ImageSource.camera);
+                                _pickImage(ImageSource.camera,'front');
                               });},
                               (){reuablebottomsheet(context, "Choose CNIC Back Image",(){
-                                selectupdateprofileimage(ImageSource.gallery);
+                                _pickImage(ImageSource.gallery,'back');
                               },(){
-                                selectupdateprofileimage(ImageSource.camera);
+                                _pickImage(ImageSource.camera,'back');
                               });}
                               ),
                                reusablaSizaBox(context, 0.020),
                               reusableDocuments(context, 'Add Image', '', '', 'Last Qualification Proof', 'Attach other Documents(Optional)', MySharedPrefrence().get_last_document(), MySharedPrefrence().get_other_1(), MySharedPrefrence().get_other_2(), (){
                                 reuablebottomsheet(context, "Choose Qualification Image",(){
-                                  selectupdateprofileimage(ImageSource.gallery);
+                                  _pickImage(ImageSource.gallery,'qualification');
                                 },(){
-                                  selectupdateprofileimage(ImageSource.camera);
+                                  _pickImage(ImageSource.camera,'qualification');
                                 });
                               },(){reuablebottomsheet(context, "Choose Other Image 1",(){
-                                selectupdateprofileimage(ImageSource.gallery);
+                                _pickImage(ImageSource.gallery,'other1');
                               },(){
-                                selectupdateprofileimage(ImageSource.camera);
+                                _pickImage(ImageSource.camera,'other1');
                               });},
                               (){reuablebottomsheet(context, "Choose Other Image 2",(){
-                                selectupdateprofileimage(ImageSource.gallery);
+                                _pickImage(ImageSource.gallery,'other2');
                               },(){
-                                selectupdateprofileimage(ImageSource.camera);
+                                _pickImage(ImageSource.camera,'other2');
                               });}),
                               reusablaSizaBox(context, 0.010),
-                              reusableBtn(context, 'Submit',(){}),
+                              reusableBtn(context, 'Submit',(){
+                                setState(() {
+                                  
+                                });
+                                _uploadData();
+                                setState(() {
+                                  
+                                });
+                                }),
                               reusablaSizaBox(context, 0.010),
                             ],
                           ),
