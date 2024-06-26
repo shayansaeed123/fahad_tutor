@@ -63,15 +63,6 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
 
       if (response.statusCode == 200) {
         dynamic jsonResponse = jsonDecode(response.body);
-      //   setState(() {});
-      // MySharedPrefrence().set_profile_img(jsonResponse['personal_image']);
-      // MySharedPrefrence().set_cnic_front(jsonResponse['cnic_front']);
-      // MySharedPrefrence().set_cnic_back(jsonResponse['cnic_back']);
-      // MySharedPrefrence().set_last_document(jsonResponse['last_document']);
-      // MySharedPrefrence().set_other_1(jsonResponse['other_1']);
-      // MySharedPrefrence().set_other_2(jsonResponse['other_2']);
-      // doc_error = jsonResponse['docs_error'];
-      // docs_msg = jsonResponse['docs_msg'];
       setState(() {
           profile = jsonResponse['personal_image'];
           cnic_f = jsonResponse['cnic_front'];
