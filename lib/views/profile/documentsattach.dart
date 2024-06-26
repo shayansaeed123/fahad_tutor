@@ -170,39 +170,6 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
   }
 }
 
-  // Future<void> _pickImage(ImageSource source, String imageType) async {
-  //   final pickedFile = await picker.pickImage(source: source);
-
-  //   if (pickedFile != null) {
-  //     setState(() {
-  //       switch (imageType) {
-  //         case 'front':
-  //           _cnicFront = File(pickedFile.path);
-  //           break;
-  //         case 'back':
-  //           _cnicBack = File(pickedFile.path);
-  //           break;
-  //         case 'profile':
-  //           _profile = File(pickedFile.path);
-  //           break;
-  //         case 'qualification':
-  //           _last_document = File(pickedFile.path);
-  //           break;
-  //         case 'other1':
-  //           _other1 = File(pickedFile.path);
-  //           break;
-  //         case 'other2':
-  //           _other2 = File(pickedFile.path);
-  //           break;
-  //       }
-  //       print(imageType);
-  //     });
-  //     showUpdateProfileImageDialog(imageType);
-  //   } else {
-  //     print('No image selected');
-  //   }
-  // }
-
   Future<void> _uploadImages(String imageType) async {
     setState(() {
       isLoading = true;
@@ -250,27 +217,6 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
     if (response.statusCode == 200) {
        final responseString = await response.stream.bytesToString();
       final responseData = json.decode(responseString);
-    //   setState(() {
-    //   if (responseData.containsKey('profile_pic')) {
-    //     profile = responseData['profile_pic'];
-    //   }
-    //   if (responseData.containsKey('Qualification')) {
-    //     last_document = responseData['Qualification'];
-    //   }
-    //   if (responseData.containsKey('CNIC_F')) {
-    //     cnic_f = responseData['CNIC_F'];
-    //   }
-    //   if (responseData.containsKey('CNIC_B')) {
-    //     cnic_b = responseData['CNIC_B'];
-    //   }
-    //   if (responseData.containsKey('other_1')) {
-    //     other1 = responseData['other_1'];
-    //   }
-    //   if (responseData.containsKey('other_2')) {
-    //     other2 = responseData['other_2'];
-    //   }
-    // });
-     // Debug print to verify the response data
       print('Response Data: $responseData');
 
       // Update state variables based on response
@@ -296,7 +242,6 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
             break;
         }
       });
-
       print('State Updated: profile=$profile, cnic_f=$cnic_f, cnic_b=$cnic_b, last_document=$last_document, other1=$other1, other2=$other2');
       print(responseData);
     } else {
