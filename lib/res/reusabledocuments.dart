@@ -1,5 +1,7 @@
 
 
+import 'dart:io';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
@@ -7,7 +9,7 @@ import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-reusableDocuments(BuildContext context,String add1,String add2,String add3, String title1,String title2,String image1, String image2, String image3, Function ontap1,Function ontap2,Function ontap3){
+reusableDocuments(BuildContext context,String add1,String add2,String add3, String title1,String title2,String image1, String image2, String image3, Function ontap1,Function ontap2,Function ontap3, String imgCondition){
   return  
     Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -19,7 +21,7 @@ reusableDocuments(BuildContext context,String add1,String add2,String add3, Stri
             strokeWidth: 2,
             dashPattern: [6, 3],
             // radius: Radius.circular(15),
-            child:  reusableSelectImage1(context, (){ontap1();}, image1)
+            child:  reusableSelectImage1(context, (){ontap1();}, image1, imgCondition)
         ),
         reusablaSizaBox(context, .010),
         reusableText(add1, color: colorController.btnColor,fontsize: 15),
@@ -62,7 +64,7 @@ reusableDocuments(BuildContext context,String add1,String add2,String add3, Stri
   // );
 }
 
-reusableSelectImage1(BuildContext context,Function ontap,String image){
+reusableSelectImage1(BuildContext context,Function ontap,String image,String imgCondition){
   return InkWell(
             onTap: (){ontap();},
             child: Container(
@@ -74,13 +76,14 @@ reusableSelectImage1(BuildContext context,Function ontap,String image){
               ),
               child: Padding(
                 padding: EdgeInsets.all(MediaQuery.of(context).size.width * .013,),
-                child: Center(child: image == 'https://www.fahadtutors.com/fta_admin/' ? Image.asset('assets/images/add_img_placeholder.png',fit: BoxFit.contain,)
-                : CircleAvatar(
-                  radius: MediaQuery.of(context).size.width * 0.4,
-                  backgroundImage: NetworkImage(image),
-                  backgroundColor: colorController.blackColor,
-                  // child: Image.network(image,fit: BoxFit.contain,)
-                  )),
+                child: _displayImage(image, imgCondition),
+                // Center(child: image == 'https://www.fahadtutors.com/fta_admin/' ? Image.asset(imgCondition,fit: BoxFit.contain,width: double.infinity,)
+                // : CircleAvatar(
+                //   radius: MediaQuery.of(context).size.width * 0.4,
+                //   backgroundImage: NetworkImage(image),
+                //   backgroundColor: colorController.blackColor,
+                //   // child: Image.network(image,fit: BoxFit.contain,)
+                //   )),
               ),
             ),
           );
@@ -98,10 +101,35 @@ reusableSelectImage2(BuildContext context,Function ontap,String image){
               ),
               child: Padding(
                 padding: EdgeInsets.all(MediaQuery.of(context).size.width * .013,),
-                child: Center(child: image == 'https://www.fahadtutors.com/fta_admin/' ? Image.asset('assets/images/add_img_placeholder.png',fit: BoxFit.contain,)
-                : Image.network(image,fit: BoxFit.contain,)
-                  ),
+                child: _displayImage(image, 'assets/images/add_img_placeholder.png'),
+                // Center(child: image == 'https://www.fahadtutors.com/fta_admin/' ? Image.asset('assets/images/add_img_placeholder.png',fit: BoxFit.contain,)
+                // : Image.network(image,fit: BoxFit.contain,)
+                //   ),
               ),
             ),
           );
 }
+
+  Widget _displayImage(String imagePath, String imgCondition) {
+    bool isNetwork = imagePath.startsWith('http');
+    return isNetwork
+        ? Center(child: imagePath == 'https://www.fahadtutors.com/fta_admin/' || imagePath == '' ? Image.asset(imgCondition,fit: BoxFit.contain,)
+                : Image.network(imagePath,fit: BoxFit.contain,)
+                  )
+        // Image.network(
+        //     imagePath,
+        //     fit: BoxFit.cover,
+        //     errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+        //       return Image.asset(imgCondition, fit: BoxFit.cover);
+        //     },
+        //   )
+        : imagePath == 'https://www.fahadtutors.com/fta_admin/' || imagePath == '' ?  Image.asset(imgCondition,fit: BoxFit.contain,)
+        :
+         Image.file(
+            File(imagePath),
+            fit: BoxFit.cover,
+            // errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+            //   return Image.asset(imgCondition, fit: BoxFit.cover);
+            // },
+          );
+  }
