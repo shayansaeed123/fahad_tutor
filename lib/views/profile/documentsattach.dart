@@ -298,71 +298,6 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
       });
     }
   }
-
-  //  void showUpdateProfileImageDialog(String imageType) {
-  //   File? selectedImage;
-
-  //   switch (imageType) {
-  //     case 'front':
-  //       selectedImage = _cnicFront;
-  //       break;
-  //     case 'back':
-  //       selectedImage = _cnicBack;
-  //       break;
-  //     case 'profile':
-  //       selectedImage = _profile;
-  //       break;
-  //     case 'qualification':
-  //       selectedImage = _last_document;
-  //       break;
-  //     case 'other1':
-  //       selectedImage = _other1;
-  //       break;
-  //     case 'other2':
-  //       selectedImage = _other2;
-  //       break;
-  //   }
-
-  //   if (selectedImage != null) {
-  //     showDialog(
-  //       context: context,
-  //       builder: (context) => AlertDialog(
-  //         title: Text('Image Updated'),
-  //         content: Container(
-  //           width: MediaQuery.of(context).size.width * 0.3,
-  //           height: MediaQuery.of(context).size.height * 0.3,
-  //           decoration: BoxDecoration(
-  //             image: DecorationImage(
-  //               image: FileImage(selectedImage!),
-  //               fit: BoxFit.contain,
-  //             ),
-  //           ),
-  //         ),
-  //         actions: [
-  //           Padding(
-  //             padding: EdgeInsets.all(5),
-  //             child: reusableBtn(context, 'Cancel', () {
-  //               Navigator.pop(context);
-  //             }),
-  //           ),
-  //           Padding(
-  //             padding: EdgeInsets.all(5),
-  //             child: reusableBtn(context, 'Submit', () {
-  //               setState(() {
-  //                 _uploadImages();
-  //               });
-  //               Navigator.pop(context);
-  //               Navigator.pop(context);
-  //             }),
-  //           ),
-  //         ],
-  //       ),
-  //     );
-  //   } else {
-  //     print('No image selected');
-  //   }
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -373,14 +308,6 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
   Widget build(BuildContext context) {
     return 
     reusableprofileidget(
-    //   Scaffold(
-    //     backgroundColor: colorController.whiteColor,
-    // appBar: AppBar(elevation: 0,backgroundColor: Colors.transparent,),
-    //     body: Stack(
-    //       children: [
-    //         SafeArea(
-    //           child: SingleChildScrollView(
-    //             child: 
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * .032),
@@ -449,13 +376,6 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
                          
                 ),
                 reusableloadingrow(context, isLoading),
-      //         ),
-      //       ),
-            // if(isLoading == true)
-            // reusableloadingrow(context, isLoading),
-      //     ],
-      //   ),
-      // // )
     );
   }
 }
