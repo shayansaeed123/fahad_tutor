@@ -51,13 +51,7 @@ class _RegistrationChargesState extends State<RegistrationCharges> {
   final pickedFile = await picker.pickImage(source: source);
 
   if (pickedFile != null) {
-    // File? selectedImage;
-
-    setState(() {
-          _chargesSlip = File(pickedFile.path);
-    });
-
-
+    setState(() {_chargesSlip = File(pickedFile.path);});
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -100,23 +94,17 @@ Future<void> _uploadImages() async {
     setState(() {
       isLoading = true;
     });
-
     try{
       String uploadUrl = 'https://fahadtutors.com/mobile_app/upload_doc_5.php';
     var request = http.MultipartRequest('POST', Uri.parse(uploadUrl));
-    
         if (_chargesSlip != null) {
           request.files.add(await http.MultipartFile.fromPath('Registration', _chargesSlip!.path));
         }
-
     var response = await request.send();
-
     if (response.statusCode == 200) {
        final responseString = await response.stream.bytesToString();
       final responseData = json.decode(responseString);
       print('Response Data: $responseData');
-
-      // Update state variables based on response
       setState(() {
         chargesSlip = responseData['CNIC_F'] ?? chargesSlip;
       });
