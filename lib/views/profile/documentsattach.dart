@@ -281,6 +281,7 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
         if (response.body.isNotEmpty) {
           final Map<String, dynamic> jsonResponse = json.decode(response.body);
           print('helloooo $jsonResponse');
+          Navigator.pop(context);
         } else {
           throw Exception('Empty response body');
         }
@@ -361,6 +362,7 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
                               'assets/images/add_img_placeholder.png'
                               ),
                               reusablaSizaBox(context, 0.010),
+                              doc_error == 1 ? Container() :
                               reusableBtn(context, 'Submit',(){
                                 setState(() {
                                   
