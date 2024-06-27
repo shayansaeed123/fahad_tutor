@@ -55,10 +55,9 @@ class _RegistrationChargesState extends State<RegistrationCharges> {
 
     setState(() {
           _chargesSlip = File(pickedFile.path);
-          // selectedImage = _chargesSlip;
     });
 
-    // if (selectedImage != null) {
+
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -96,9 +95,6 @@ class _RegistrationChargesState extends State<RegistrationCharges> {
     } else {
       print('No image selected');
     }
-  // } else {
-  //   print('No image selected');
-  // }
 }
 Future<void> _uploadImages() async {
     setState(() {
