@@ -33,8 +33,6 @@ class _AccountDetailsState extends State<AccountDetails> {
   late FocusNode _mobilenumber;
   String methodValue = '';
 
-  // String? value;
-
   @override
   void initState() {
     super.initState();
