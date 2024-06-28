@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/controller/text_field_controller.dart';
+import 'package:fahad_tutor/database/my_shared.dart';
+import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableTextField.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
@@ -9,6 +13,7 @@ import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class AccountDetails extends StatefulWidget {
   const AccountDetails({super.key});
@@ -67,12 +72,55 @@ class _AccountDetailsState extends State<AccountDetails> {
     _mobilenumber.dispose();
     super.dispose();
   }
+  void _onFocusChange() {setState(() {});}
 
-
-  void _onFocusChange() {
+  Future<void> updateAccountDetails()async{
     setState(() {
-      // Redraw the UI when the focus changes
+      isLoading = true;
     });
+    try{
+      
+      final response = await http.post(
+      Uri.parse('${Utils.baseUrl}mobile_app/step_6_update.php'),
+      body: {
+        'code' : '10'.toString(),
+        'tutor_id' : MySharedPrefrence().get_user_ID().toString(),
+        'Title' : reusabletextfieldcontroller.title.text.toString(),
+        'bank_n': reusabletextfieldcontroller.bankname.text.toString(),
+        'Branch_Code': reusabletextfieldcontroller.branchcode.text.toString(),
+        'Account_Number': reusabletextfieldcontroller.accountnumber.text.toString(),
+        'IBAN': reusabletextfieldcontroller.ibannumber.text.toString(),
+        'Easy_p': reusabletextfieldcontroller.mobilenumber.text.toString(),
+        'Titlee': methodValue.toString(),
+        'easypesa_bank': reusabletextfieldcontroller.accounttitle.text.toString(),
+      }
+    );
+    if (response.statusCode == 200) {
+      print('object');
+              final Map<String, dynamic> responseData =
+                  json.decode(response.body);
+                  print('response $responseData');
+              String apiMessage = responseData['message'];
+              print('message $apiMessage');
+              if (responseData['success'] == 1) {
+                setState(() {});
+              print('message $apiMessage');
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: ((context) => AccountDetails())));
+                        Utils.snakbarSuccess(context, apiMessage);
+              } else {
+                Utils.snakbarFailed(context, apiMessage);
+              }
+            } else {
+              print('Error2: ' + response.statusCode.toString());
+            }
+    
+    }catch(e){
+      Utils.snakbar(context, 'Check your Internet Connection');
+      print('login Api Error $e');
+    }finally{
+      setState(() {isLoading = false;});
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -198,7 +246,7 @@ class _AccountDetailsState extends State<AccountDetails> {
                     reusablaSizaBox(context, 0.020),
                            Padding(
                              padding: EdgeInsets.all(MediaQuery.of(context).size.width * .10),
-                             child: reusableBtn(context, 'Update', (){}),
+                             child: reusableBtn(context, 'Update', (){updateAccountDetails();}),
                            ),
                             
                     ],
