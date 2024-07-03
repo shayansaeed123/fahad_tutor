@@ -33,7 +33,6 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
   String? selectedTeachingExp;
   String? oLevel;
   String? aLevel;
-
   @override
   void initState() {
     // TODO: implement initState
