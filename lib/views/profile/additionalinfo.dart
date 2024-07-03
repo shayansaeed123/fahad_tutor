@@ -52,7 +52,6 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
   }
   void _onFocusChange() {
     setState(() {
-      // Redraw the UI when the focus changes
     });
   }
   String _selectedValue = 'Tutor';
