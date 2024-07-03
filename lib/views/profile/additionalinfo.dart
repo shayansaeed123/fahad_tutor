@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/controller/text_field_controller.dart';
+import 'package:fahad_tutor/database/my_shared.dart';
+import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableTextField.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
@@ -11,6 +15,7 @@ import 'package:fahad_tutor/res/reusablevisibility.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 class AdditionalInfo extends StatefulWidget {
   const AdditionalInfo({super.key});
@@ -33,6 +38,7 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getAddtionalInfo();
     _furtherInfofocusNode = FocusNode();
     _furtherInfofocusNode.addListener(_onFocusChange);
   }
@@ -53,6 +59,8 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
   String _selectedValue1 = 'Yes';
   String _selectedValue2 = 'none';
   bool isHomeWidgetVisible = false;
+  String update_status = '';
+  String source = '';
   final TextEditingController _biography = TextEditingController();
   int _charCount = 0;
 
@@ -73,6 +81,93 @@ void updateTutorPlacement() {
   bool checkbox1 = false;
   bool checkbox2 = false;
   bool checkbox3 = false;
+
+  Future<void> updateAdditionalInfo()async{
+    setState(() {
+      isLoading = true;
+    });
+    try{
+      
+      final response = await http.post(
+      Uri.parse('${Utils.baseUrl}mobile_app/step_3_update.php'),
+      body: {
+        // 'code' : '10'.toString(),
+        'tutor_id' : MySharedPrefrence().get_user_ID().toString(),
+        'update_status' : update_status.toString(),
+        'home_address': reusabletextfieldcontroller.addressCon.text.toString(),
+        'further_info': reusabletextfieldcontroller.furtherInfo.text.toString(),
+        'date_of_birth': selectedTime.toString(),
+        'father_profession': ''.toString(),
+        'olevel': oLevel.toString(),
+        'alevel': aLevel.toString(),
+        'currently_teaching': reusabletextfieldcontroller.accountnumber.text.toString(),
+        'Teaching_ex': selectedCurrentTeaching.toString(),
+        'DigitalPad': _selectedValue1.toString(),
+        'onlineTeaching_experience': _selectedValue2.toString(),
+        'online_Skill': ''.toString(),
+        'Biography': _biography.toString(),
+        'tutor_placement': jsonEncode(selectedPlacements),
+        'source': ''.toString(),
+      }
+    );
+    if (response.statusCode == 200) {
+      print('object');
+              final Map<String, dynamic> responseData =
+                  json.decode(response.body);
+                  print('response $responseData');
+              String apiMessage = responseData['message'];
+              print('message $apiMessage');
+              if (responseData['success'] == 1) {
+                setState(() {});
+              print('message $apiMessage');
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: ((context) => AdditionalInfo())));
+                        Utils.snakbarSuccess(context, apiMessage);
+              } else {
+                Utils.snakbarFailed(context, apiMessage);
+              }
+            } else {
+              print('Error2: ' + response.statusCode.toString());
+            }
+    
+    }catch(e){
+      Utils.snakbar(context, 'Check your Internet Connection');
+      print('login Api Error $e');
+    }finally{
+      setState(() {isLoading = false;});
+    }
+  }
+
+  Future<void> getAddtionalInfo()async{
+    setState(() {
+      isLoading = true;
+    });
+    try{
+      print(MySharedPrefrence().get_user_ID());
+      final response = await http.get(
+      Uri.parse('${Utils.baseUrl}mobile_app/step_3.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID().toString()}'));
+
+      if (response.statusCode == 200) {
+      print('object');
+              final Map<String, dynamic> responseData =
+                  json.decode(response.body);
+                  print('response $responseData');
+                  update_status = responseData['update_status'];
+                  print(update_status);
+                  source = responseData['source'];
+                  print(source);
+            } else {
+              print('Error2: ' + response.statusCode.toString());
+            }
+    }
+    catch(e){
+      // Utils.snakbar(context, 'Check your Internet Connection');
+      print('Api Error $e');
+    }finally{
+      setState(() {isLoading = false;});
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -208,7 +303,7 @@ void updateTutorPlacement() {
                                 Padding(
                                   padding: EdgeInsets.all(MediaQuery.of(context).size.width * .10),
                                   child: reusableBtn(context, 'Update', () {
-                                  
+                                  updateAdditionalInfo();
                                   }),
                                 ),
                     ],
