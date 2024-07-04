@@ -158,11 +158,8 @@ Future<void> getAddtionalInfo() async {
       Uri.parse('${Utils.baseUrl}mobile_app/step_3.php?code=10&tutor_id=$userId')
     );
     if (response.statusCode == 200) {
-      print('Response status: ${response.statusCode}');
       final Map<String, dynamic> responseData = json.decode(response.body);
-      print('Response body: $responseData');
       update_status = responseData['update_status'];
-      print('Update status: $update_status');
       Placements = responseData['placement_listing'];
       PlacementName1 = Placements[0]['placement_name'];
       PlacementName2 = Placements[1]['placement_name'];
