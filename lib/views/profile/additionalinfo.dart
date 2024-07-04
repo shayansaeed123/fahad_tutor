@@ -12,6 +12,7 @@ import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusableradiobtn.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/res/reusablevisibility.dart';
+import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -69,102 +70,122 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
   }
 
   List<String> selectedPlacements = [];
+  List<dynamic> Placements = [];
+  String PlacementName1 = '';
+  String PlacementName2 = '';
+  String PlacementName3 = '';
+  String PlacementId1 = '';
+  String PlacementId2 = '';
+  String PlacementId3 = '';
 
 void updateTutorPlacement() {
   selectedPlacements.clear();
-  if (checkbox1) selectedPlacements.add('Home');
-  if (checkbox2) selectedPlacements.add('Online');
-  if (checkbox3) selectedPlacements.add("At Tutor's Place");
+  if (checkbox1) selectedPlacements.add(PlacementId1);
+  if (checkbox2) selectedPlacements.add(PlacementId2);
+  if (checkbox3) selectedPlacements.add(PlacementId3);
 }
   bool checkbox1 = false;
   bool checkbox2 = false;
   bool checkbox3 = false;
 
-  Future<void> updateAdditionalInfo()async{
-    setState(() {
-      isLoading = true;
-    });
-    try{
-      
-      final response = await http.post(
+  Future<void> updateAdditionalInfo() async {
+  setState(() {
+    isLoading = true;
+  });
+  try {
+    final bio = _biography.text.toString();
+    final response = await http.post(
       Uri.parse('${Utils.baseUrl}mobile_app/step_3_update.php'),
       body: {
-        // 'code' : '10'.toString(),
-        'tutor_id' : MySharedPrefrence().get_user_ID().toString(),
-        'update_status' : update_status.toString(),
+        'code': '10',
+        'success' : 1.toString(),
+        'tutor_id': MySharedPrefrence().get_user_ID().toString(),
+        'update_status': update_status.toString(),
         'home_address': reusabletextfieldcontroller.addressCon.text.toString(),
         'further_info': reusabletextfieldcontroller.furtherInfo.text.toString(),
         'date_of_birth': selectedTime.toString(),
-        'father_profession': ''.toString(),
+        'father_profession': '',
         'olevel': oLevel.toString(),
         'alevel': aLevel.toString(),
         'currently_teaching': reusabletextfieldcontroller.accountnumber.text.toString(),
         'Teaching_ex': selectedCurrentTeaching.toString(),
         'DigitalPad': _selectedValue1.toString(),
         'onlineTeaching_experience': _selectedValue2.toString(),
-        'online_Skill': ''.toString(),
-        'Biography': _biography.toString(),
+        'online_Skill': '',
+        'Biography': bio.toString(),
         'tutor_placement': jsonEncode(selectedPlacements),
-        'source': ''.toString(),
+        'source': '',
       }
     );
+    print(bio);
+    print('Request body: ${response.request}');
+    print('$_selectedValue1+ $aLevel + $selectedTime + $selectedPlacements');
     if (response.statusCode == 200) {
-      print('object');
-              final Map<String, dynamic> responseData =
-                  json.decode(response.body);
-                  print('response $responseData');
-              String apiMessage = responseData['message'];
-              print('message $apiMessage');
-              if (responseData['success'] == 1) {
-                setState(() {});
-              print('message $apiMessage');
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: ((context) => AdditionalInfo())));
-                        Utils.snakbarSuccess(context, apiMessage);
-              } else {
-                Utils.snakbarFailed(context, apiMessage);
-              }
-            } else {
-              print('Error2: ' + response.statusCode.toString());
-            }
-    
-    }catch(e){
-      Utils.snakbar(context, 'Check your Internet Connection');
-      print('login Api Error $e');
-    }finally{
-      setState(() {isLoading = false;});
+      print('Response status: ${response.statusCode}');
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      print('Response body: $responseData');
+      String apiMessage = responseData['message'];
+      print('Message: $apiMessage');
+      if (responseData['success'] == 1) {
+        setState(() {});
+        print('Success message: $apiMessage');
+        Navigator.push(context, MaterialPageRoute(builder: ((context) => Profile())));
+        Utils.snakbarSuccess(context, apiMessage);
+      } else {
+        Utils.snakbarFailed(context, apiMessage);
+      }
+    } else {
+      print('Error: ${response.statusCode}');
     }
-  }
-
-  Future<void> getAddtionalInfo()async{
+  } catch (e) {
+    Utils.snakbar(context, 'Check your Internet Connection');
+    print('Update API Error: $e');
+  } finally {
     setState(() {
-      isLoading = true;
+      isLoading = false;
     });
-    try{
-      print(MySharedPrefrence().get_user_ID());
-      final response = await http.get(
-      Uri.parse('${Utils.baseUrl}mobile_app/step_3.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID().toString()}'));
-
-      if (response.statusCode == 200) {
-      print('object');
-              final Map<String, dynamic> responseData =
-                  json.decode(response.body);
-                  print('response $responseData');
-                  update_status = responseData['update_status'];
-                  print(update_status);
-                  source = responseData['source'];
-                  print(source);
-            } else {
-              print('Error2: ' + response.statusCode.toString());
-            }
-    }
-    catch(e){
-      // Utils.snakbar(context, 'Check your Internet Connection');
-      print('Api Error $e');
-    }finally{
-      setState(() {isLoading = false;});
-    }
   }
+}
+
+Future<void> getAddtionalInfo() async {
+  setState(() {
+    isLoading = true;
+  });
+  try {
+    final userId = MySharedPrefrence().get_user_ID().toString();
+    print('Fetching data for user ID: $userId');
+    final response = await http.get(
+      Uri.parse('${Utils.baseUrl}mobile_app/step_3.php?code=10&tutor_id=$userId')
+    );
+    if (response.statusCode == 200) {
+      print('Response status: ${response.statusCode}');
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      print('Response body: $responseData');
+      update_status = responseData['update_status'];
+      print('Update status: $update_status');
+      Placements = responseData['placement_listing'];
+      PlacementName1 = Placements[0]['placement_name'];
+      PlacementName2 = Placements[1]['placement_name'];
+      PlacementName3 = Placements[2]['placement_name'];
+      PlacementId1 = Placements[0]['id'];
+      PlacementId2 = Placements[1]['id'];
+      PlacementId3 = Placements[2]['id'];
+      print(PlacementName3);
+      print(PlacementId2);
+      print(Placements);
+      
+    } else {
+      print('Error: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Get API Error: $e');
+  } finally {
+    setState(() {
+      isLoading = false;
+    });
+  }
+}
+
 
 
   @override
@@ -279,6 +300,11 @@ void updateTutorPlacement() {
                                     setState(() {
                                       _selectedValue1 = value!;
                                       print('digitalPad $_selectedValue1');
+                                      if(_selectedValue1 == 'yes'){
+                                        _selectedValue1 = '1';
+                                      }else{
+                                        _selectedValue1 = '0';
+                                      }
                                     });
                                   },
                                     'Yes',
