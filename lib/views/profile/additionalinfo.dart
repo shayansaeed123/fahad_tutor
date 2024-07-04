@@ -170,10 +170,6 @@ Future<void> getAddtionalInfo() async {
       PlacementId1 = Placements[0]['id'];
       PlacementId2 = Placements[1]['id'];
       PlacementId3 = Placements[2]['id'];
-      print(PlacementName3);
-      print(PlacementId2);
-      print(Placements);
-      
     } else {
       print('Error: ${response.statusCode}');
     }
