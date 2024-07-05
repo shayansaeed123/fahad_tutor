@@ -84,74 +84,48 @@ String instituteId =  '';
     // updateStatus();
   }
 
-  Future<void> updateStatus() async {
+Future<void> updateStatus() async {
     setState(() {
       isLoading = true;
     });
     try {
-//       String classList = jsonEncode(selectedIdsClass.asMap().entries.map((entry) {
-//   int index = entry.key;
-//   String classId = entry.value.toString(); // Ensure classId is a String
-//   String subjectId = '';
-//   if (selectedIdsSubject.length > index) {
-//     Map<String, dynamic> subjectMap = selectedIdsSubject[index];
-//     if (subjectMap.containsKey('subject_id')) {
-//       subjectId = subjectMap['subject_id'].toString();
-//     }
-//   }
-//   return {
-//     'class_id': classId,
-//     'subject_id': subjectId,
-//   };
-// }).toList());
-
-
-List<Map<String, dynamic>> classList = selectedClasses.map((classItem) {
+      List<Map<String, dynamic>> classList = selectedClasses.map((classItem) {
         return classItem.toJson();
       }).toList();
 
       String classListJson = jsonEncode(classList);
 
-      // Debug prints to check the data
-      print('Class List: $classList');
-      print('Class List JSON: $classListJson');
-      print('check tutor Id ${MySharedPrefrence().get_user_ID()}');
-      print('check update Status ${MySharedPrefrence().get_update_status()}');
       final response = await http.post(
-          Uri.parse('${Utils.baseUrl}mobile_app/step_2_update.php'),
-          headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-          body: {
-            'code' : '10'.toString(),
-        'update_status': MySharedPrefrence().get_update_status(),
-        'tutor_id_edit': MySharedPrefrence().get_user_ID(),
-        'preferred_areas': jsonEncode(selectedIdsArea),
-        'preferred_board': jsonEncode(selectedIdsBoard),
-        'preferred_group': jsonEncode(selectedIdsGroup),
-        'class_listing': classListJson,
-        'Institute': jsonEncode(selectedIdsinstitute),
-        'Degree': jsonEncode(selectedIdsQualification),
-      },
-          );
-          print(response.body.toString());
-      // if (response.statusCode == 200) {
-      //   final Map<String, dynamic> responseData = json.decode(response.body);
-      //   print('updateeeeeeeeeeeeeeeeeeeeeeeee $responseData');
-      // } else {
-      //   print('Error2: ' + response.statusCode.toString());
-      // }
+        Uri.parse('${Utils.baseUrl}mobile_app/step_2_update.php'),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: {
+          'code': '10',
+          'update_status': MySharedPrefrence().get_update_status(),
+          'tutor_id_edit': MySharedPrefrence().get_user_ID(),
+          'preferred_areas': jsonEncode(selectedIdsArea),
+          'preferred_board': jsonEncode(selectedIdsBoard),
+          'preferred_group': jsonEncode(selectedIdsGroup),
+          'class_listing': classListJson,
+          'Institute': jsonEncode(selectedIdsinstitute),
+          'Degree': jsonEncode(selectedIdsQualification),
+        },
+      );
+
       if (response.statusCode == 200) {
-      final Map<String, dynamic> responseData = json.decode(response.body);
-      print('updateeeeeeeeeeeeeeeeeeeeeeeee $responseData');
-      if (responseData['success'] != true) {
-        print('Error in response data: ${responseData['message']}');
+        final Map<String, dynamic> responseData = json.decode(response.body);
+        if (responseData['success'] != 1) {
+          print('Error in response data: ${responseData['message']}');
+        } else {
+          // Refetch data to update UI with latest data
+          await saveQualificationData();
+        }
+      } else {
+        print('Error: ${response.statusCode}');
       }
-    } else {
-      print('Error2: ' + response.statusCode.toString());
-    }
     } catch (e) {
-      print('error $e');
+      print('Error: $e');
     } finally {
       setState(() {
         isLoading = false;

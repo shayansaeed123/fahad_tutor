@@ -129,7 +129,7 @@ void updateTutorPlacement() {
       if (responseData['success'] == 1) {
         setState(() {});
         print('Success message: $apiMessage');
-        Navigator.push(context, MaterialPageRoute(builder: ((context) => Profile())));
+        Navigator.pop(context);
         Utils.snakbarSuccess(context, apiMessage);
       } else {
         Utils.snakbarFailed(context, apiMessage);
@@ -285,19 +285,14 @@ Future<void> getAddtionalInfo() async {
                                   isHomeWidgetVisible,
                                   reusableRadioBtn(
                                     context,
-                                    'Yes',
-                                    'No',
+                                    '1',
+                                    '0',
                                     _selectedValue1,
                                     (String? value) {
                                     // onChanged function
                                     setState(() {
                                       _selectedValue1 = value!;
                                       print('digitalPad $_selectedValue1');
-                                      if(_selectedValue1 == 'yes'){
-                                        _selectedValue1 = '1';
-                                      }else{
-                                        _selectedValue1 = '0';
-                                      }
                                     });
                                   },
                                     'Yes',

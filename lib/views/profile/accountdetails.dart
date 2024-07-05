@@ -103,8 +103,7 @@ class _AccountDetailsState extends State<AccountDetails> {
               if (responseData['success'] == 1) {
                 setState(() {});
               print('message $apiMessage');
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: ((context) => AccountDetails())));
+              Navigator.pop(context);
                         Utils.snakbarSuccess(context, apiMessage);
               } else {
                 Utils.snakbarFailed(context, apiMessage);

@@ -20,6 +20,7 @@ import 'package:fahad_tutor/views/profile/accountdetails.dart';
 import 'package:fahad_tutor/views/profile/additionalinfo.dart';
 import 'package:fahad_tutor/views/profile/contactus.dart';
 import 'package:fahad_tutor/views/profile/documentsattach.dart';
+import 'package:fahad_tutor/views/profile/example.dart';
 import 'package:fahad_tutor/views/profile/faq.dart';
 import 'package:fahad_tutor/views/profile/feedback.dart';
 import 'package:fahad_tutor/views/profile/qualification.dart';
