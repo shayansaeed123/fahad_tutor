@@ -84,54 +84,137 @@ String instituteId =  '';
     // updateStatus();
   }
 
-Future<void> updateStatus() async {
-    setState(() {
-      isLoading = true;
-    });
-    try {
-      List<Map<String, dynamic>> classList = selectedClasses.map((classItem) {
-        return classItem.toJson();
-      }).toList();
+  Future<void> updateStatus() async {
+  setState(() {
+    isLoading = true;
+  });
+  try {
+    List<Map<String, dynamic>> classList = selectedClasses.map((classItem) {
+      return classItem.toJson();
+    }).toList();
 
-      String classListJson = jsonEncode(classList);
+    String classListJson = jsonEncode(classList);
 
-      final response = await http.post(
-        Uri.parse('${Utils.baseUrl}mobile_app/step_2_update.php'),
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: {
-          'code': '10',
-          'update_status': MySharedPrefrence().get_update_status(),
-          'tutor_id_edit': MySharedPrefrence().get_user_ID(),
-          'preferred_areas': jsonEncode(selectedIdsArea),
-          'preferred_board': jsonEncode(selectedIdsBoard),
-          'preferred_group': jsonEncode(selectedIdsGroup),
-          'class_listing': classListJson,
-          'Institute': jsonEncode(selectedIdsinstitute),
-          'Degree': jsonEncode(selectedIdsQualification),
-        },
-      );
+    // Debug prints to check the data
+    print('Class List: $classList');
+    print('Class List JSON: $classListJson');
+    print('check tutor Id ${MySharedPrefrence().get_user_ID()}');
+    print('check update Status ${MySharedPrefrence().get_update_status()}');
 
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> responseData = json.decode(response.body);
-        if (responseData['success'] != 1) {
-          print('Error in response data: ${responseData['message']}');
-        } else {
-          // Refetch data to update UI with latest data
-          await saveQualificationData();
-        }
+    final response = await http.post(
+      Uri.parse('${Utils.baseUrl}mobile_app/step_2_update.php'),
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: {
+        'code': '10',
+        'update_status': MySharedPrefrence().get_update_status(),
+        'tutor_id_edit': MySharedPrefrence().get_user_ID(),
+        'preferred_areas': jsonEncode(selectedIdsArea),
+        'preferred_board': jsonEncode(selectedIdsBoard),
+        'preferred_group': jsonEncode(selectedIdsGroup),
+        'class_listing': classListJson,
+        'Institute': jsonEncode(selectedIdsinstitute),
+        'Degree': jsonEncode(selectedIdsQualification),
+      },
+    );
+
+    print(response.body.toString());
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      print('updateeeeeeeeeeeeeeeeeeeeeeeee $responseData');
+
+      if (responseData['success'] == 1) {
+        // Refetch data to update UI with the latest data
+        // await saveQualificationData();
       } else {
-        print('Error: ${response.statusCode}');
+        print('Error in response data: ${responseData['message']}');
       }
-    } catch (e) {
-      print('Error: $e');
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
+    } else {
+      print('Error2: ' + response.statusCode.toString());
     }
+  } catch (e) {
+    print('error $e');
+  } finally {
+    setState(() {
+      isLoading = false;
+    });
   }
+}
+
+Future<void> saveQualificationData() async {
+  try {
+    final response = await http.get(
+      Uri.parse('${Utils.baseUrl}mobile_app/step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
+    );
+
+    if (response.statusCode == 200) {
+      if (response.body.isNotEmpty) {
+        final Map<String, dynamic> jsonResponse = json.decode(response.body);
+
+          selectedIdsinstitute = (jsonResponse['Institute_listing'] as List)
+              .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+              .toList();
+          selectedIdsQualification = (jsonResponse['Institute_Qualification'] as List)
+              .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+              .toList();
+          selectedIdsArea = (jsonResponse['preferred_area_listing'] as List)
+              .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+              .toList();
+          selectedIdsBoard = (jsonResponse['preferred_board_listing'] as List)
+              .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+              .toList();
+          selectedIdsGroup = (jsonResponse['preferred_group_listing'] as List)
+              .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+              .toList();
+
+              selectedIdsSubject = (jsonResponse['class_listing'] as List)
+              .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+              .toList();
+          // selectedIdsSubject = jsonResponse['class_listing'];
+
+        //   setState(() {
+        //   selectedClasses = selectedIdsClass.map((item) {
+        //     return MyClass(
+        //       classId: item['class_id'],
+        //       className: item['class_name'],
+        //       subjectIds: List<String>.from(item['subject_id']),
+        //       subjectNames: List<String>.from(item['subject_name']),
+        //     );
+        //   }).toList();
+        // });
+        selectedClasses = (jsonResponse['class_listing'] as List).map((item) {
+            return MyClass(
+              classId: item['class_id'].toString(),
+              className: item['class_name'].toString(),
+              subjectIds: List<String>.from(item['subject_id'].map((sid) => sid.toString())),
+              subjectNames: List<String>.from(item['subject_name'].map((sname) => sname.toString())),
+            );
+          }).toList();
+
+          MySharedPrefrence().set_city_id(jsonResponse['city_id']);
+          MySharedPrefrence().set_update_status(jsonResponse['update_status']);
+
+          // Update the selected names
+          updateSelectedNamesInstitute();
+          updateSelectedNamesQualification();
+          updateSelectedNamesBoard();
+          updateSelectedNamesGroup();
+          updateSelectedNamesArea();
+          updateSelectedNamesSubject();
+        // });
+      } else {
+        throw Exception('Empty response body');
+      }
+    } else {
+      throw Exception('Failed to load country details');
+    }
+  } catch (e) {
+    print('gfksgdf$e');
+  }
+}
+
 
   Future<void> fetchClassDataAndSubjectData(String type,String responseName, List<dynamic> newItems) async {
     setState(() {
@@ -223,73 +306,73 @@ Future<void> updateStatus() async {
   }
 
 
-Future<void> saveQualificationData() async {
-  setState(() {
-    isLoading = true;
-  });
+// Future<void> saveQualificationData() async {
+//   setState(() {
+//     isLoading = true;
+//   });
 
-  try {
-    final response = await http.get(
-      Uri.parse('${Utils.baseUrl}mobile_app/step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
-    );
-    print(MySharedPrefrence().get_user_ID());
-    if (response.statusCode == 200) {
-      if (response.body.isNotEmpty) {
-        final Map<String, dynamic> jsonResponse = json.decode(response.body);
+//   try {
+//     final response = await http.get(
+//       Uri.parse('${Utils.baseUrl}mobile_app/step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
+//     );
+//     print(MySharedPrefrence().get_user_ID());
+//     if (response.statusCode == 200) {
+//       if (response.body.isNotEmpty) {
+//         final Map<String, dynamic> jsonResponse = json.decode(response.body);
 
-        selectedIdsinstitute = (jsonResponse['Institute_listing'] as List)
-            .map<Map<String, String>>((item) => {'id': item['id'].toString()})
-            .toList();
-        selectedIdsQualification = (jsonResponse['Institute_Qualification'] as List)
-            .map<Map<String, String>>((item) => {'id': item['id'].toString()})
-            .toList();
-        selectedIdsArea = (jsonResponse['preferred_area_listing'] as List)
-            .map<Map<String, String>>((item) => {'id': item['id'].toString()})
-            .toList();
-        selectedIdsBoard = (jsonResponse['preferred_board_listing'] as List)
-            .map<Map<String, String>>((item) => {'id': item['id'].toString()})
-            .toList();
-        selectedIdsGroup = (jsonResponse['preferred_group_listing'] as List)
-            .map<Map<String, String>>((item) => {'id': item['id'].toString()})
-            .toList();
-        selectedIdsClass = jsonResponse['class_listing'];
+//         selectedIdsinstitute = (jsonResponse['Institute_listing'] as List)
+//             .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+//             .toList();
+//         selectedIdsQualification = (jsonResponse['Institute_Qualification'] as List)
+//             .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+//             .toList();
+//         selectedIdsArea = (jsonResponse['preferred_area_listing'] as List)
+//             .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+//             .toList();
+//         selectedIdsBoard = (jsonResponse['preferred_board_listing'] as List)
+//             .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+//             .toList();
+//         selectedIdsGroup = (jsonResponse['preferred_group_listing'] as List)
+//             .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+//             .toList();
+//         selectedIdsClass = jsonResponse['class_listing'];
 
-        setState(() {
-          selectedClasses = selectedIdsClass.map((item) {
-            return MyClass(
-              classId: item['class_id'],
-              className: item['class_name'],
-              subjectIds: List<String>.from(item['subject_id']),
-              subjectNames: List<String>.from(item['subject_name']),
-            );
-          }).toList();
-        });
+//         setState(() {
+//           selectedClasses = selectedIdsClass.map((item) {
+//             return MyClass(
+//               classId: item['class_id'],
+//               className: item['class_name'],
+//               subjectIds: List<String>.from(item['subject_id']),
+//               subjectNames: List<String>.from(item['subject_name']),
+//             );
+//           }).toList();
+//         });
 
-        MySharedPrefrence().set_city_id(jsonResponse['city_id']);
-        MySharedPrefrence().set_update_status(jsonResponse['update_status']);
-        print(MySharedPrefrence().get_update_status());
+//         MySharedPrefrence().set_city_id(jsonResponse['city_id']);
+//         MySharedPrefrence().set_update_status(jsonResponse['update_status']);
+//         print(MySharedPrefrence().get_update_status());
 
 
-        updateSelectedNamesInstitute();
-        updateSelectedNamesQualification();
-        updateSelectedNamesBoard();
-        updateSelectedNamesGroup();
-        updateSelectedNamesArea();
-        updateSelectedNamesSubject();
-      } else {
-        throw Exception('Empty response body');
-      }
-    } else {
-      throw Exception('Failed to load country details');
-    }
-  } catch (e) {
-    print(e);
-  } finally {
-    setState(() {
-      isLoading = false;
-    });
-  }
-}
+//         updateSelectedNamesInstitute();
+//         updateSelectedNamesQualification();
+//         updateSelectedNamesBoard();
+//         updateSelectedNamesGroup();
+//         updateSelectedNamesArea();
+//         updateSelectedNamesSubject();
+//       } else {
+//         throw Exception('Empty response body');
+//       }
+//     } else {
+//       throw Exception('Failed to load country details');
+//     }
+//   } catch (e) {
+//     print(e);
+//   } finally {
+//     setState(() {
+//       isLoading = false;
+//     });
+//   }
+// }
 
 Future<void> selectArea() async {
     setState(() {
