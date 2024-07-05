@@ -108,6 +108,12 @@ class TutorRepository {
   final ValueNotifier<String> _is_term_accepted = ValueNotifier<String>('');
   ValueNotifier<String> get is_term_accepted => _is_term_accepted;
 
+  final ValueNotifier<String> _is_term_accepted_online = ValueNotifier<String>('');
+  ValueNotifier<String> get is_term_accepted_online => _is_term_accepted_online;
+
+  final ValueNotifier<int> _is_term_accepted_online_option = ValueNotifier<int>(0);
+  ValueNotifier<int> get is_term_accepted_online_option => _is_term_accepted_online_option;
+
   Future<void> fetchTuitions(int start, int limit) async {
     _isLoading = true;
     _showLoadMoreButton = false;
@@ -283,12 +289,15 @@ class TutorRepository {
         _bank_details.value = jsonResponse['bank_details'];
         _is_term_accepted.value = jsonResponse['is_term_accepted'];
         _payment_recipt.value = jsonResponse['payment_recipt'];
+        _is_term_accepted_online_option.value = jsonResponse['term_condition_online_option'];
+        _is_term_accepted_online.value = jsonResponse['term_condition_online'];
          MySharedPrefrence().set_term_condition_image(jsonResponse['term_condition_image']);
          MySharedPrefrence().set_faqs_images(jsonResponse['faqs_images']);
-        
+        MySharedPrefrence().set_term_condition_image_online(jsonResponse['term_condition_image_ftalive']);
         print('FAQ Image ${MySharedPrefrence().get_faqs()}');
         print('terms & conditions Image ${MySharedPrefrence().get_term_condition()}');
         print('registration $_Registration_text');
+        print('online term $_is_term_accepted_online');
       } else {
         print('Error: ${response.statusCode}');
       }

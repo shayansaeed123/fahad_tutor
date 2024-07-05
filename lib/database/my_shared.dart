@@ -265,6 +265,14 @@ void set_user_ID(String? userID) {
     return ''.val('term_condition_image', getBox: preferences).val;
   }
 
+  void set_term_condition_image_online(String? term_condition_image_online) {
+    ''.val('term_condition_image_online', getBox: preferences).val = term_condition_image_online ?? '';
+  }
+
+  String get_term_condition_image_online() {
+    return ''.val('term_condition_image_online', getBox: preferences).val;
+  }
+
   void set_city_id(String? city_id) {
     ''.val('city_id', getBox: preferences).val = city_id ?? '';
   }

@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/repo/tutor_repo.dart';
+import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
@@ -9,9 +12,13 @@ import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class TermsAndConditions extends StatefulWidget {
-  const TermsAndConditions({super.key});
+  final String imageUrl;
+  final String btn;
+  final String title;
+  const TermsAndConditions({super.key, required this.imageUrl, required this.btn,required this.title});
 
   @override
   State<TermsAndConditions> createState() => _TermsAndConditionsState();
@@ -20,6 +27,10 @@ class TermsAndConditions extends StatefulWidget {
 class _TermsAndConditionsState extends State<TermsAndConditions> {
   TutorRepository repository = TutorRepository();
   bool isLoading = false;
+  bool _isLoading = false;
+  late String _imageUrl;
+  late String _btn; 
+  late String _title;
   void faq()async{
       isLoading = true;
     await repository.Check_popup();
@@ -29,7 +40,36 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _imageUrl = widget.imageUrl;
+    _btn = widget.btn;
+    _title = widget.title;
     faq();
+    isAccepted();
+  }
+
+  Future<void> isAccepted()async{
+     _isLoading = true;
+
+    try {
+      String url =
+          '${Utils.baseUrl}mobile_app/check_popup.php?term_condition_online=1&tutor_id=${MySharedPrefrence().get_user_ID()}';
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        dynamic jsonResponse = jsonDecode(response.body);
+      String apiMessage = jsonResponse['msg'];
+              print('message $apiMessage');
+              Navigator.pop(context);
+                        Utils.snakbarSuccess(context, apiMessage);
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception(e);
+    } finally {
+      _isLoading = false;
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -41,27 +81,28 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      reusableText("Terms & Conditions",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
+                      reusableText("$_title",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
                           reusablaSizaBox(context, 0.020),
                            CachedNetworkImage(
-                            imageUrl: MySharedPrefrence().get_term_condition(),
+                            imageUrl: _imageUrl,
                             placeholder: (context, url) => Center(child: reusableloadingrow(context, isLoading==true)),
                             errorWidget: (context, url, error) => Container(),
                             fit: BoxFit.cover,
                             filterQuality: FilterQuality.low,
                           ),
                           reusablaSizaBox(context, 0.030),
-                          if(repository.is_term_accepted.value == '0')
+                          if(_btn == '0')
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .069),
-                            child: reusableBtn(context, 'Ok', (){}),
-                          ),
-                          
+                            child: reusableBtn(context, 'Accept', (){
+                              isAccepted();
+                            }),
+                          ),  
                     ],
                   )
                  
                 ),
-                Center(child: Container())
+            reusableloadingrow(context, _isLoading),
     );
   }
 }
