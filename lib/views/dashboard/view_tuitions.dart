@@ -2,6 +2,7 @@
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
+import 'package:fahad_tutor/controller/text_field_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/repo/check_connectivity.dart';
 import 'package:fahad_tutor/repo/tutor_repo.dart';
@@ -276,7 +277,7 @@ class ViewTuitions extends StatefulWidget {
 
 class _ViewTuitionsState extends State<ViewTuitions> {
   TutorRepository repository = TutorRepository();
-  TextEditingController _searchCon = TextEditingController();
+  // TextEditingController _searchCon = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   Connectivity connectivity = Connectivity();
 
@@ -375,7 +376,7 @@ class _ViewTuitionsState extends State<ViewTuitions> {
                 width: MediaQuery.of(context).size.width * 1,
                 height: MediaQuery.of(context).size.height * .065,
                 child: TextField(
-                  controller: _searchCon,
+                  controller: reusabletextfieldcontroller.searchConAll,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                     filled: true,

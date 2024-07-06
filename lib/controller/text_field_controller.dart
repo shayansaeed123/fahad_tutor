@@ -89,6 +89,12 @@ final TextEditingController _registerPassCon = TextEditingController();
   final TextEditingController _conPass = TextEditingController();
   TextEditingController get conPass => _conPass;
 
+  final TextEditingController _searchConAll = TextEditingController();
+  TextEditingController get searchConAll => _searchConAll;
+
+  final TextEditingController _searchConPre = TextEditingController();
+  TextEditingController get searchConPre => _searchConPre;
+
 
   ///Account Details 
 
