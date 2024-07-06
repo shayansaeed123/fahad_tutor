@@ -390,8 +390,6 @@ class _AllTuitionsState extends State<AllTuitions> {
   //   }
   // }
 
-  
-
   Future<void> loadMoreTuitions() async {
     setState(() {
       isLoading = true;
