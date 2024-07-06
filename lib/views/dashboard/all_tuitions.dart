@@ -309,7 +309,6 @@ class AllTuitions extends StatefulWidget {
   final bool isLoading2;
   // final List<dynamic> fetchTuitions;
 
-
   @override
   State<AllTuitions> createState() => _AllTuitionsState();
 }
