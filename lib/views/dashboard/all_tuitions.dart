@@ -316,7 +316,7 @@ class AllTuitions extends StatefulWidget {
 class _AllTuitionsState extends State<AllTuitions> {
   final TextEditingController _searchCon = TextEditingController();
   List<dynamic> tuitions = [];
-  // List<dynamic> filteredTuitions = [];
+  List<dynamic> filteredTuitions = [];
   bool isLoading = false;
   bool isLoading2 = false;
   bool visible = true;
@@ -351,43 +351,44 @@ class _AllTuitionsState extends State<AllTuitions> {
     await repository.allTuitions(start, limit);
     setState(() {
       tuitions = repository.allTuitionsList;
+      filteredTuitions = tuitions;
     });
     setState(() {
       isLoading2 = false;
     });
   }
 
-  // Future<void> searchTuitions(String searchText) async {
-  //   String url =
-  //         '${Utils.baseUrl}mobile_app/search_all_tuitions.php?searchtext=$searchText&code=10&tutor_id=${MySharedPrefrence().get_user_ID()}';
-  //     final response = await http.get(Uri.parse(url));
+  Future<void> searchTuitions(String searchText) async {
+    String url =
+          '${Utils.baseUrl}mobile_app/search_all_tuitions.php?searchtext=$searchText&code=10&tutor_id=${MySharedPrefrence().get_user_ID()}';
+      final response = await http.get(Uri.parse(url));
 
-  //   if (response.statusCode == 200) {
-  //     final jsonResponse = jsonDecode(response.body);
-  //     setState(() {
-  //       tuitions = jsonResponse['tuition_listing'];
-  //       filteredTuitions = tuitions;
-  //     }); // Assuming the JSON contains a key 'tuition_listing'
-  //   } else {
-  //     throw Exception('Failed to load tuitions');
-  //   }
-  // }
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      setState(() {
+        tuitions = jsonResponse['tuition_listing'];
+        filteredTuitions = tuitions;
+      }); // Assuming the JSON contains a key 'tuition_listing'
+    } else {
+      throw Exception('Failed to load tuitions');
+    }
+  }
 
-  // void filterTuitions(String query) {
-  //   if (query.isEmpty) {
-  //     setState(() {
-  //       filteredTuitions = tuitions;
-  //     });
-  //   } else {
-  //     setState(() {
-  //       filteredTuitions = tuitions.where((item) {
-  //         return item['class_name'].toLowerCase().contains(query.toLowerCase()) ||
-  //                item['subject'].toLowerCase().contains(query.toLowerCase()) ||
-  //                item['location'].toLowerCase().contains(query.toLowerCase());
-  //       }).toList();
-  //     });
-  //   }
-  // }
+  void filterTuitions(String query) {
+    if (query.isEmpty) {
+      setState(() {
+        filteredTuitions = tuitions;
+      });
+    } else {
+      setState(() {
+        filteredTuitions = tuitions.where((item) {
+          return item['class_name'].toLowerCase().contains(query.toLowerCase()) ||
+                 item['subject'].toLowerCase().contains(query.toLowerCase()) ||
+                 item['location'].toLowerCase().contains(query.toLowerCase());
+        }).toList();
+      });
+    }
+  }
 
   Future<void> loadMoreTuitions() async {
     setState(() {
@@ -397,6 +398,7 @@ class _AllTuitionsState extends State<AllTuitions> {
     await repository.allTuitions(start, limit);
     setState(() {
       tuitions = repository.allTuitionsList;
+      filteredTuitions = tuitions;
       isLoading = false;
     });
   }
@@ -481,7 +483,7 @@ class _AllTuitionsState extends State<AllTuitions> {
                 child: TextField(
                   controller: _searchCon,
                   onChanged: (value) {
-                  //  filterTuitions(value);
+                   filterTuitions(value);
                   },
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
@@ -494,7 +496,7 @@ class _AllTuitionsState extends State<AllTuitions> {
                     ),
                     suffixIcon: InkWell(
                       onTap: (){
-                        // filterTuitions(_searchCon.text);
+                        filterTuitions(_searchCon.text);
                       },
                       child: Icon(Icons.cancel,color: Colors.grey[270],)),
                     hintStyle: TextStyle(color: Colors.grey[250]),
@@ -543,11 +545,11 @@ class _AllTuitionsState extends State<AllTuitions> {
                     Expanded(
                       child: ListView.builder(
                         controller: _scrollController,
-                        itemCount: tuitions.length + 1,
+                        itemCount: filteredTuitions.length + 1,
                         itemBuilder: (context, index) {
                           // MySharedPrefrence().setTuitions(tuitions);
-                          if (index < tuitions.length) {
-                            var data = tuitions[index];
+                          if (index < filteredTuitions.length) {
+                            var data = filteredTuitions[index];
                             MySharedPrefrence().setAllTuitions(data);
                             
                             return Container(
