@@ -49,6 +49,9 @@ class _ProfileState extends State<Profile> {
   String formatInfo(String info) {
     return info.replaceAll(',', '\n');
   }
+  String formatAttention(String info) {
+    return info.replaceAll('<><>', '\n');
+  }
   void _launchEmail(String email) async {
     final Uri emailUri = Uri(
       scheme: 'mailto',
@@ -350,6 +353,15 @@ void loginClear(){
             reusablelisttile(context,(){
               Navigator.push(context, MaterialPageRoute(builder: (context) => FAQ(),));
             },'assets/images/faqs_icon.png',"FAQ's",),
+            ValueListenableBuilder(valueListenable: repository.attention_option, builder: (context, value, child) {
+              if(value == 1){
+                return reusablelisttile(context,(){
+              reusableAttention(context, MySharedPrefrence().get_attention_title(), formatAttention(MySharedPrefrence().get_attention_text()));
+            },'assets/images/attention.png','Attention',);
+              }else{
+                return Container();
+              }
+            },),
             reusablelisttile(context,(){
               Navigator.push(context, MaterialPageRoute(builder: (context) => AppFeedback(),));
             },'assets/images/feedback.png','Feedback For App',),

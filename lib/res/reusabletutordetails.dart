@@ -428,3 +428,74 @@ reusableAutoUpdate(BuildContext context, Function ontap) {
     ),
   );
 }
+
+reusableAttention(BuildContext context,String title, String text) {
+  return showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      backgroundColor: colorController.whiteColor,
+      title: Center(
+          child: reusableText(
+        title,
+        color: colorController.blackColor,
+        fontsize: 18,
+        fontweight: FontWeight.bold,
+      )),
+      content: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * .5,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(0.8),
+                child: reusableText(
+                  text,
+                  color: colorController.grayTextColor,
+                  fontsize: 12,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Image.asset(
+                'assets/images/remove.png',
+                height: MediaQuery.of(context).size.height * .05,
+                width: MediaQuery.of(context).size.width * .1,
+              ),
+            ),
+            // Container(
+            //   height: MediaQuery.of(context).size.height * .05,
+            //   width: MediaQuery.of(context).size.width * .1,
+            //   child: CircleAvatar(
+            //     backgroundColor: colorController.btnColor,
+            //     child: InkWell(
+            //       onTap: () {
+            //         ontap();
+            //       },
+            //       child: Center(
+            //           child: Icon(
+            //         CupertinoIcons.arrow_right,
+            //         color: colorController.whiteColor,
+            //       )),
+            //     ),
+            //   ),
+            // ),
+          ],
+        ),
+        reusablaSizaBox(context, .01)
+      ],
+    ),
+  );
+}

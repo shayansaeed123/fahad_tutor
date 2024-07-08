@@ -370,6 +370,22 @@ void set_user_ID(String? userID) {
     return ''.val('registration_charges', getBox: preferences).val;
   }
 
+   void set_attention_title(String? attention_title) {
+    ''.val('attention_title', getBox: preferences).val = attention_title ?? '';
+  }
+
+  String get_attention_title() {
+    return ''.val('attention_title', getBox: preferences).val;
+  }
+
+  void set_attention_text(String? attention_text) {
+    ''.val('attention_text', getBox: preferences).val = attention_text ?? '';
+  }
+
+  String get_attention_text() {
+    return ''.val('attention_text', getBox: preferences).val;
+  }
+
   // Future<void> setVersionName() async {
   //   await PackageInfo.fromPlatform().then((PackageInfo? packageInfo) {
   //     String? version = packageInfo?.version;

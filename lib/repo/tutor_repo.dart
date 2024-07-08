@@ -114,6 +114,9 @@ class TutorRepository {
   final ValueNotifier<int> _is_term_accepted_online_option = ValueNotifier<int>(0);
   ValueNotifier<int> get is_term_accepted_online_option => _is_term_accepted_online_option;
 
+  final ValueNotifier<int> _attention_option = ValueNotifier<int>(0);
+  ValueNotifier<int> get attention_option => _attention_option;
+
   Future<void> fetchTuitions(int start, int limit) async {
     _isLoading = true;
     _showLoadMoreButton = false;
@@ -291,9 +294,12 @@ class TutorRepository {
         _payment_recipt.value = jsonResponse['payment_recipt'];
         _is_term_accepted_online_option.value = jsonResponse['term_condition_online_option'];
         _is_term_accepted_online.value = jsonResponse['term_condition_online'];
+        _attention_option.value = jsonResponse['attention_popup'];
          MySharedPrefrence().set_term_condition_image(jsonResponse['term_condition_image']);
          MySharedPrefrence().set_faqs_images(jsonResponse['faqs_images']);
         MySharedPrefrence().set_term_condition_image_online(jsonResponse['term_condition_image_ftalive']);
+        MySharedPrefrence().set_attention_title(jsonResponse['attention_popup_title']);
+        MySharedPrefrence().set_attention_text(jsonResponse['attention_popup_text']);
         print('FAQ Image ${MySharedPrefrence().get_faqs()}');
         print('terms & conditions Image ${MySharedPrefrence().get_term_condition()}');
         print('registration $_Registration_text');
