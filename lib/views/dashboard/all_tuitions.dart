@@ -325,8 +325,6 @@ class _AllTuitionsState extends State<AllTuitions> {
   int success = 0;
   int is_apply = 0;
   String msg = '';
-  // bool showLoadMoreButton = false;
-  // bool hasMoreData = true;
   int start = 0;
   final int limit = 10;
   final ScrollController _scrollController = ScrollController();
