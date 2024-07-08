@@ -44,7 +44,6 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
     _btn = widget.btn;
     _title = widget.title;
     faq();
-    isAccepted();
   }
 
   Future<void> isAccepted()async{

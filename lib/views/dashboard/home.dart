@@ -46,6 +46,7 @@ class _HomeState extends State<Home> {
   final ScrollController _scrollController = ScrollController();
   TutorRepository repository = TutorRepository();
   List<dynamic> tuitions = [];
+  List<dynamic> filteredTuitions = [];
 
   String formatInfo(String info) {
     return info.replaceAll(';', '\n');
@@ -64,10 +65,42 @@ class _HomeState extends State<Home> {
     await repository.prefferedTuitions(start, limit);
     setState(() {
       tuitions = repository.prefferedTuitionsList;
+      filteredTuitions = tuitions;
     });
     setState(() {
       isLoading2 = false;
     });
+  }
+  Future<void> searchTuitions(String searchText) async {
+    String url =
+          '${Utils.baseUrl}mobile_app/search_pereferred.php?searchtext=$searchText&code=10&tutor_id=${MySharedPrefrence().get_user_ID()}';
+      final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      setState(() {
+        tuitions = jsonResponse['tuition_listing'];
+        filteredTuitions = tuitions;
+      }); // Assuming the JSON contains a key 'tuition_listing'
+    } else {
+      throw Exception('Failed to load tuitions');
+    }
+  }
+
+  void filterTuitions(String query) {
+    if (query.isEmpty) {
+      setState(() {
+        filteredTuitions = tuitions;
+      });
+    } else {
+      setState(() {
+        filteredTuitions = tuitions.where((item) {
+          return item['class_name'].toLowerCase().contains(query.toLowerCase()) ||
+                 item['subject'].toLowerCase().contains(query.toLowerCase()) ||
+                 item['location'].toLowerCase().contains(query.toLowerCase());
+        }).toList();
+      });
+    }
   }
 
   Future<void> loadMoreTuitions() async {
@@ -78,6 +111,7 @@ class _HomeState extends State<Home> {
     await repository.prefferedTuitions(start, limit);
     setState(() {
       tuitions = repository.prefferedTuitionsList;
+      filteredTuitions = tuitions;
       isLoading = false;
     });
   }
@@ -215,10 +249,10 @@ Widget build(BuildContext context) {
                     Expanded(
                       child: ListView.builder(
                         controller: _scrollController,
-                        itemCount: tuitions.length + 1,
+                        itemCount: filteredTuitions.length + 1,
                         itemBuilder: (context, index) {
-                          if (index < tuitions.length) {
-                            var data = tuitions[index];
+                          if (index < filteredTuitions.length) {
+                            var data = filteredTuitions[index];
                             MySharedPrefrence().setAllTuitions(data);
                             return Container(
                               height: MediaQuery.of(context).size.height * 0.19,
