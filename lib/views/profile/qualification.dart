@@ -12,6 +12,7 @@ import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
+import 'package:fahad_tutor/res/reusablevisibility.dart';
 import 'package:fahad_tutor/views/profile/example.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,8 @@ class QualificationAndPreferences extends StatefulWidget {
 
 class _QualificationAndPreferencesState extends State<QualificationAndPreferences> {
   bool isLoading = false;
+  bool visible = true;
+  TutorRepository repository = TutorRepository();
 
 List<dynamic> newItemsinstitute = [];
 List<Map<String, String>> selectedIdsinstitute = [];
@@ -81,6 +84,7 @@ String instituteId =  '';
     fetchClassDataAndSubjectData('Class','Class', newItemsClass,);
     saveQualificationData();
     selectArea();
+    repository.check_msg();
     // updateStatus();
   }
 
@@ -1040,6 +1044,12 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
                     onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(),));},
                     child: reusableText("Qualification and \nPreferences", color: colorController.blackColor, fontsize: 25, fontweight: FontWeight.bold)),
                   reusablaSizaBox(context, 0.020),
+                  ValueListenableBuilder(valueListenable: repository.popup, builder: (context, value, child) {
+              if(value == 1){
+                return reusableVisiblityMesage(context, MySharedPrefrence().get_popup_text(), (){setState(() {visible=false;});}, visible);
+                }else{return Container();}
+            },),
+            reusablaSizaBox(context, 0.020),
                   reusablequlification(context, 'Institute', () {
                     search(newItemsinstitute, selectedIdsinstitute, 'names');
                   }),

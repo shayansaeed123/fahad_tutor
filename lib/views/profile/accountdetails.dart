@@ -4,6 +4,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/controller/text_field_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
+import 'package:fahad_tutor/repo/tutor_repo.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableTextField.dart';
@@ -11,6 +12,7 @@ import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
+import 'package:fahad_tutor/res/reusablevisibility.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -32,6 +34,8 @@ class _AccountDetailsState extends State<AccountDetails> {
   late FocusNode _accounttitle;
   late FocusNode _mobilenumber;
   String methodValue = '';
+  bool visible = true;
+  TutorRepository repository = TutorRepository();
 
   @override
   void initState() {
@@ -50,6 +54,7 @@ class _AccountDetailsState extends State<AccountDetails> {
     _accounttitle.addListener(_onFocusChange);
     _mobilenumber = FocusNode();
     _mobilenumber.addListener(_onFocusChange);
+    repository.check_msg();
   }
 
   @override
@@ -130,6 +135,11 @@ class _AccountDetailsState extends State<AccountDetails> {
                         children: [
                           reusableText("Account Details",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
                           reusablaSizaBox(context, 0.020),
+                          ValueListenableBuilder(valueListenable: repository.popup, builder: (context, value, child) {
+              if(value == 1){
+                return reusableVisiblityMesage(context, MySharedPrefrence().get_popup_text(), (){setState(() {visible=false;});}, visible);
+                }else{return Container();}},),
+                reusablaSizaBox(context, 0.020),
                           reusableTextField(context, 
                           reusabletextfieldcontroller.title, 'Title', _title.hasFocus
                         ? colorController.blueColor

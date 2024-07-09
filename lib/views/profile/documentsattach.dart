@@ -49,6 +49,7 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
   String last_document = '';
   String other1 = '';
   String other2 = '';
+  TutorRepository repository = TutorRepository();
   Future<void> documentsAttach() async {
 
     setState(() {
@@ -303,6 +304,7 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
   void initState() {
     super.initState();
     doc();
+    repository.check_msg();
   }
 
   @override
@@ -318,6 +320,12 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
                             children: [
                               reusableText('Documents \nAttachment',color: colorController.blackColor,fontsize: 25,fontweight: FontWeight.bold),
                               reusablaSizaBox(context, 0.020),
+                              ValueListenableBuilder(valueListenable: repository.popup, builder: (context, value, child) {
+              if(value == 1){
+                return reusableVisiblityMesage(context, MySharedPrefrence().get_popup_text(), (){setState(() {visible=false;});}, visible);
+                }else{return Container();}
+            },),
+            reusablaSizaBox(context, 0.020),
                               doc_error == 1 ? reusableVisiblityWarning(context, '${docs_msg}', (){setState(() {visible=false;});}, visible) : Container(),
                               reusablaSizaBox(context, 0.020),
                               reusableDocuments(context,'','Add Image (Front)','Add Image (Back)' ,'Profile', 'CNIC Image', 

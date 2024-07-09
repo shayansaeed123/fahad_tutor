@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/controller/text_field_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
+import 'package:fahad_tutor/repo/tutor_repo.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableTextField.dart';
@@ -41,6 +42,7 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
     getAddtionalInfo();
     _furtherInfofocusNode = FocusNode();
     _furtherInfofocusNode.addListener(_onFocusChange);
+    repository.check_msg();
   }
 
   @override
@@ -60,8 +62,10 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
   bool isHomeWidgetVisible = false;
   String update_status = '';
   String source = '';
+  bool visible = true;
   final TextEditingController _biography = TextEditingController();
   int _charCount = 0;
+  TutorRepository repository = TutorRepository();
 
   void _updateCharCount() {
     setState(() {
@@ -180,7 +184,6 @@ Future<void> getAddtionalInfo() async {
 }
 
 
-
   @override
   Widget build(BuildContext context) {
     return reusableprofileidget(
@@ -192,6 +195,11 @@ Future<void> getAddtionalInfo() async {
                         children: [
                           reusableText("Additional\nInformation",color: colorController.blackColor,fontsize: 25,fontweight: FontWeight.bold),
                           reusablaSizaBox(context, 0.020),
+                          ValueListenableBuilder(valueListenable: repository.popup, builder: (context, value, child) {
+              if(value == 1){
+                return reusableVisiblityMesage(context, MySharedPrefrence().get_popup_text(), (){setState(() {visible=false;});}, visible);
+                }else{return Container();}},),
+                reusablaSizaBox(context, 0.020),
                           reusablemultilineTextField(reusabletextfieldcontroller.addressCon, 3, 'Home Address'),
                           reusablaSizaBox(context, 0.020),
                           reusableDateofBirthField(context, lastDate, selectedTime, (DateTime timeofday){

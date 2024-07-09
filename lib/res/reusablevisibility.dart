@@ -24,7 +24,7 @@ Widget reusableVisiblityMesage(BuildContext context,String text,Function ontap,b
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            reusableText(text,color: colorController.whiteColor,fontsize: 14),
+            Expanded(child: reusableText(text,color: colorController.whiteColor,fontsize: 14)),
             InkWell(
               onTap: (){
                 ontap();
