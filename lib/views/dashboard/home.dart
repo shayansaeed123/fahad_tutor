@@ -196,12 +196,17 @@ Widget build(BuildContext context) {
                   height: MediaQuery.of(context).size.height * .065,
                   child: TextField(
                     controller: _searchCon,
+                    onChanged: (value) {
+                   filterTuitions(value);
+                  },
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.grey[350],
                       hintText: 'Search Tuitions',
-                      prefixIcon: Icon(Icons.search, color: Colors.grey[270],),
+                      prefixIcon: InkWell(
+                        onTap: (){filterTuitions(_searchCon.text);},
+                        child: Icon(Icons.search, color: Colors.grey[270],)),
                       hintStyle: TextStyle(color: Colors.grey[250]),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),

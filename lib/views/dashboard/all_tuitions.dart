@@ -488,15 +488,15 @@ class _AllTuitionsState extends State<AllTuitions> {
                     filled: true,
                     fillColor: Colors.grey[350],
                     hintText: 'Search Tuitions',
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: Colors.grey[270],
-                    ),
-                    suffixIcon: InkWell(
+                    prefixIcon: InkWell(
                       onTap: (){
                         filterTuitions(_searchCon.text);
                       },
-                      child: Icon(Icons.cancel,color: Colors.grey[270],)),
+                      child: Icon(
+                        Icons.search,
+                        color: Colors.grey[270],
+                      ),
+                    ),
                     hintStyle: TextStyle(color: Colors.grey[250]),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15),
