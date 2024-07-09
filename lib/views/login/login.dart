@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
@@ -33,6 +34,7 @@ class _LoginState extends State<Login> {
   // TextEditingController _passCon = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _selectedValue = 'Tutor';
+  TutorRepository repository = TutorRepository();
 
   late FocusNode _emailfocusNode;
   late FocusNode _passfocusNode;
@@ -48,6 +50,7 @@ class _LoginState extends State<Login> {
     _emailfocusNode.addListener(_onFocusChange);
     _passfocusNode = FocusNode();
     _passfocusNode.addListener(_onFocusChange);
+    repository.get_Token();
   }
 
   @override
@@ -91,14 +94,13 @@ class _LoginState extends State<Login> {
       final response = await http.post(
       Uri.parse('${Utils.baseUrl}mobile_app/login.php'),
       body: {
-        'cell_access_token': '1'.toString(),
+        'cell_access_token': MySharedPrefrence().get_cell_token().toString(),
         'deviceid': '1'.toString(),
         'tu_email': reusabletextfieldcontroller.emailCon.text.toString(),
         'password': reusabletextfieldcontroller.loginPassCon.text.toString(),
       }
     );
     if (response.statusCode == 200) {
-      print('object');
               final Map<String, dynamic> responseData =
                   json.decode(response.body);
                   print('response $responseData');

@@ -56,6 +56,8 @@ dependencies:
   cached_network:
   dotted_border: 
   image_picker: 
+  firebase_messaging: 
+  firebase_core: 
 
 dev_dependencies:
   flutter_test:

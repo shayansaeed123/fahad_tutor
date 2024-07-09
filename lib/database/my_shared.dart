@@ -394,6 +394,14 @@ void set_user_ID(String? userID) {
     return ''.val('popup_text', getBox: preferences).val;
   }
 
+  void set_cell_token(String? cell_token) {
+    ''.val('cell_token', getBox: preferences).val = cell_token ?? '';
+  }
+
+  String get_cell_token() {
+    return ''.val('cell_token', getBox: preferences).val;
+  }
+
   // Future<void> setVersionName() async {
   //   await PackageInfo.fromPlatform().then((PackageInfo? packageInfo) {
   //     String? version = packageInfo?.version;

@@ -8,6 +8,8 @@ import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 
 
@@ -72,6 +74,9 @@ class TutorRepository {
 
   String _message = '';
   String get message => _message; 
+
+  String? _cell_token = '';
+  String? get cell_token => _cell_token; 
 
   // final ValueNotifier<String> _faqs_images = ValueNotifier<String>('');
   // ValueNotifier<String> get faqs_images => _faqs_images;
@@ -341,6 +346,13 @@ class TutorRepository {
     } finally {
       _isLoading = false;
     }
+  }
+
+  Future<void> get_Token() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    _cell_token = await messaging.getToken();
+    print('token $_cell_token');
+    MySharedPrefrence().set_cell_token(_cell_token);
   }
 
   Future<void> deleteAccount()async{

@@ -56,6 +56,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     fetchInitialTuitions();
+    repository.get_Token();
   }
 
   Future<void> fetchInitialTuitions() async {
