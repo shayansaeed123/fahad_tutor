@@ -111,6 +111,9 @@ class TutorRepository {
   final ValueNotifier<String> _is_term_accepted_online = ValueNotifier<String>('');
   ValueNotifier<String> get is_term_accepted_online => _is_term_accepted_online;
 
+  final ValueNotifier<int> _popup = ValueNotifier<int>(0);
+  ValueNotifier<int> get popup => _popup;
+
   final ValueNotifier<int> _is_term_accepted_online_option = ValueNotifier<int>(0);
   ValueNotifier<int> get is_term_accepted_online_option => _is_term_accepted_online_option;
 
@@ -325,8 +328,10 @@ class TutorRepository {
 
       if (response.statusCode == 200) {
         dynamic jsonResponse = jsonDecode(response.body);
-        MySharedPrefrence().set_attention_text(jsonResponse['pop']);
-        print('popup msg $_popup');
+        _popup.value = (jsonResponse['popup']);
+        MySharedPrefrence().set_popup_text(jsonResponse['message']);
+        print('popup condition $_popup');
+        print('popup msg ${MySharedPrefrence().get_popup_text()}');
       } else {
         print('Error: ${response.statusCode}');
       }

@@ -92,6 +92,7 @@ void loginClear(){
     // TODO: implement initState
     super.initState();
     repository.Check_popup();
+    repository.check_msg();
   }
        
   @override
@@ -379,6 +380,9 @@ void loginClear(){
             reusablelisttile(context,(){
               launch('https://fahadtutors.com/aboutus.php?gad_source=1&gclid=EAIaIQobChMIv_SZ6YSNhgMVMQsGAB1ymwKqEAAYASAFEgLvSPD_BwE');
             },'assets/images/about_us_icon.png','About Us',),
+            ValueListenableBuilder(valueListenable: repository.popup, builder: (context, value, child) {
+              if(value == 1){return Container();}else{return Container();}
+            },),
             reusablelisttile(context,(){},'assets/images/remove.png','Delete My Account',borderWidth: 0.000001),
             reusablaSizaBox(context, .05),
             Row(

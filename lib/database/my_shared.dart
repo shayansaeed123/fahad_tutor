@@ -386,6 +386,14 @@ void set_user_ID(String? userID) {
     return ''.val('attention_text', getBox: preferences).val;
   }
 
+  void set_popup_text(String? popup_text) {
+    ''.val('popup_text', getBox: preferences).val = popup_text ?? '';
+  }
+
+  String get_popup_text() {
+    return ''.val('popup_text', getBox: preferences).val;
+  }
+
   // Future<void> setVersionName() async {
   //   await PackageInfo.fromPlatform().then((PackageInfo? packageInfo) {
   //     String? version = packageInfo?.version;
