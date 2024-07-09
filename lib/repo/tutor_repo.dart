@@ -315,6 +315,29 @@ class TutorRepository {
     }
   }
 
+  Future<void> check_msg()async{
+     _isLoading = true;
+
+    try {
+      String url =
+          '${Utils.baseUrl}mobile_app/check_popup.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}';
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        dynamic jsonResponse = jsonDecode(response.body);
+        MySharedPrefrence().set_attention_text(jsonResponse['pop']);
+        print('popup msg $_popup');
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception(e);
+    } finally {
+      _isLoading = false;
+    }
+  }
+
   Future<void> deleteAccount()async{
      _isLoading = true;
 
