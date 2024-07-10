@@ -1,8 +1,5 @@
 
 
-
-import 'dart:html';
-
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/res/reusableText.dart';

@@ -23,7 +23,7 @@ class _ContactUsState extends State<ContactUs> {
   late WebViewController _controller;
   @override
   Widget build(BuildContext context) {
-    return reusableprofileidget(
+    return reusableprofileidget(context,
       Padding(
         padding: EdgeInsets.symmetric(
           horizontal: MediaQuery.of(context).size.width * .032),

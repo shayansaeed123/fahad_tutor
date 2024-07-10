@@ -44,7 +44,7 @@ class _AppFeedbackState extends State<AppFeedback> {
   }
   @override
   Widget build(BuildContext context) {
-    return reusableprofileidget(
+    return reusableprofileidget(context,
       Padding(
         padding: EdgeInsets.symmetric(
           horizontal: MediaQuery.of(context).size.width * .032),

@@ -310,7 +310,7 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
   @override
   Widget build(BuildContext context) {
     return 
-    reusableprofileidget(
+    reusableprofileidget(context,
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * .032),

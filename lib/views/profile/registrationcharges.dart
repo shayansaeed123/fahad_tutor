@@ -158,7 +158,7 @@ Future<void> _uploadImages() async {
   }
   @override
   Widget build(BuildContext context) {
-    return reusableprofileidget( 
+    return reusableprofileidget( context,
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * .032),
