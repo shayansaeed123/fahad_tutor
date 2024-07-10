@@ -5,6 +5,7 @@ import 'package:fahad_tutor/controller/text_field_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
+import 'package:fahad_tutor/views/login/login.dart';
 import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -124,6 +125,9 @@ class TutorRepository {
 
   final ValueNotifier<int> _attention_option = ValueNotifier<int>(0);
   ValueNotifier<int> get attention_option => _attention_option;
+
+  final ValueNotifier<int> _delete_account = ValueNotifier<int>(0);
+  ValueNotifier<int> get delete_account => _delete_account;
 
   Future<void> fetchTuitions(int start, int limit) async {
     _isLoading = true;
@@ -348,6 +352,29 @@ class TutorRepository {
     }
   }
 
+  Future<void> check_delete_account()async{
+     _isLoading = true;
+
+    try {
+      String url =
+          '${Utils.baseUrl}mobile_app/check_popup.php?delete_check=1';
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        dynamic jsonResponse = jsonDecode(response.body);
+        _delete_account.value = (jsonResponse['show']);
+        print('delete account condition $_delete_account');
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception(e);
+    } finally {
+      _isLoading = false;
+    }
+  }
+
   Future<void> get_Token() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
     _cell_token = await messaging.getToken();
@@ -355,19 +382,34 @@ class TutorRepository {
     MySharedPrefrence().set_cell_token(_cell_token);
   }
 
-  Future<void> deleteAccount()async{
+  Future<void> deleteAccount(BuildContext context)async{
      _isLoading = true;
 
     try {
       String url =
           '${Utils.baseUrl}mobile_app/deletemyaccount.php';
       final response = await http.post(Uri.parse(url),body: {
-        'celltoken' : '1',
+        'celltoken' : MySharedPrefrence().get_cell_token().toString(),
         'tutor_id' : MySharedPrefrence().get_user_ID().toString(),
       });
 
       if (response.statusCode == 200) {
         dynamic jsonResponse = jsonDecode(response.body);
+        String msg = jsonResponse['message'];
+        if(jsonResponse['success'] == 1){
+          Utils.snakbarSuccess(context, msg);
+          Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => WillPopScope(
+            onWillPop: () async => false,
+            child: Login(),
+          ),
+        ),
+      );
+        }else{
+          Utils.snakbarFailed(context, msg);
+        }
       } else {
         print('Error: ${response.statusCode}');
       }

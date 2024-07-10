@@ -121,8 +121,13 @@ class _LoginState extends State<Login> {
                 setState(() {
                   
                 });
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: ((context) => NavBar())));
+                    Navigator.pushReplacement(context,MaterialPageRoute(
+          builder: (context) => WillPopScope(
+            onWillPop: () async => false,
+            child: NavBar(),
+          ),
+        ),
+      );
                         Utils.snakbarSuccess(context, apiMessage);
               } else {
                 Utils.snakbarFailed(context, apiMessage);

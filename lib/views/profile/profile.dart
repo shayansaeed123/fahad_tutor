@@ -87,12 +87,21 @@ void loginClear(){
     reusabletextfieldcontroller.loginPassCon.clear();
   }
 
+  void deleteAccount()async{
+    setState(() {
+      isLoading = true;
+    });
+    await repository.deleteAccount(context);
+    setState(() {isLoading= false;});
+  }
+
   @override
   void initState(){
     // TODO: implement initState
     super.initState();
     repository.Check_popup();
     repository.check_msg();
+    repository.check_delete_account();
   }
        
   @override
@@ -380,7 +389,15 @@ void loginClear(){
             reusablelisttile(context,(){
               launch('https://fahadtutors.com/aboutus.php?gad_source=1&gclid=EAIaIQobChMIv_SZ6YSNhgMVMQsGAB1ymwKqEAAYASAFEgLvSPD_BwE');
             },'assets/images/about_us_icon.png','About Us',),
-            reusablelisttile(context,(){},'assets/images/remove.png','Delete My Account',borderWidth: 0.000001),
+            ValueListenableBuilder(valueListenable: repository.delete_account, builder: (context, value, child) {
+              if(value == 1){
+                return reusablelisttile(context,(){
+                  reusableDeleteAccountDialog(context, (){deleteAccount();});
+                },'assets/images/remove.png','Delete My Account',borderWidth: 0.000001);
+              }else{
+                return Container();
+              }
+            },),
             reusablaSizaBox(context, .05),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

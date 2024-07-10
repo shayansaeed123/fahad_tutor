@@ -165,3 +165,38 @@ reusableAnimationdialog(
   );
 }
 
+reusableDeleteAccountDialog(
+    BuildContext context, Function delete){
+  return showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (context) { 
+      return AlertDialog(
+      title: Center(child: reusableText('Deleting the app?',color: colorController.blackColor,fontsize: 26,)),
+      contentPadding: EdgeInsets.zero,
+      content: Container(
+        padding: const EdgeInsets.all(16.0),
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * .2,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            reusablaSizaBox(context, .020),
+            reusableText("Keep in mind that your account won't be recoverable, so make sure to complete all step and requriments if you decide to register again in the future.",color: colorController.grayTextColor,fontsize: 14,),
+            reusablaSizaBox(context, .020),
+            reusableText('Thanks for using our app!',color: colorController.blackColor,fontsize: 16,),
+          ],
+        ),
+      ),
+      actions: [
+        Center(
+          child: reusableBtn(context, 'Delete', (){delete();})
+        ),
+      ],
+      );
+    }
+  );
+}
+
+
+
