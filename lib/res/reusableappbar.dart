@@ -1,10 +1,13 @@
 
 
 
+import 'dart:html';
+
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableappimage.dart';
+import 'package:fahad_tutor/views/dashboard/notification.dart';
 import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +71,11 @@ reusableappbar(BuildContext context,Color color,Function ontap){
         ),
         // Icon(CupertinoIcons.circle_filled,color: colorController.blackColor,size: 40,),
         actions: [
-          reusableappimage(context, .115, .075, 'assets/images/not_icon.png'),
+          InkWell(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>Notifications())); 
+            },
+            child: reusableappimage(context, .115, .075, 'assets/images/not_icon.png')),
 
           // Icon(CupertinoIcons.bell_circle_fill,color: colorController.yellowColor,size: 40,),
           // Image.asset(
