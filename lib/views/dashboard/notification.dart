@@ -1,4 +1,6 @@
 import 'package:fahad_tutor/controller/color_controller.dart';
+import 'package:fahad_tutor/res/reusableText.dart';
+import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +19,8 @@ class _NotificationState extends State<Notification> {
     appBar: AppBar(elevation: 0,backgroundColor: Colors.transparent,),
     body: Column(
       children: [
+        reusableText('Notifications'),
+        reusablaSizaBox(context, 0.030),
         
       ],
     )
