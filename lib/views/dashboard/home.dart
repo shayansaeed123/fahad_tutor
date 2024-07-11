@@ -12,6 +12,7 @@ import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusablecard.dart';
 import 'package:fahad_tutor/res/reusablecardbtn.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
+import 'package:fahad_tutor/res/reusablepopup.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/res/reusabletutordetails.dart';
 import 'package:fahad_tutor/res/reusablevisibility.dart';
@@ -55,8 +56,23 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    fetchInitialTuitions();
+    // fetchInitialTuitions();
     repository.get_Token();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _fetchAndCheckPopup();
+    });
+  }
+  Future<void> _fetchAndCheckPopup() async {
+    await fetchInitialTuitions();
+    if (mounted) {
+      _checkPreferredPopup();
+    }
+  }
+
+  void _checkPreferredPopup() {
+    if (repository.preferred_popup.value == 1) {
+      reusablepopup(context,'${repository.preferred_popup_image.value}');
+    }
   }
 
   Future<void> fetchInitialTuitions() async {

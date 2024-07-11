@@ -67,6 +67,9 @@ class TutorRepository {
   List<dynamic> _allTuitionsList = [];
   List<dynamic> get allTuitionsList => _allTuitionsList;
 
+  List<dynamic> _allNotificationList = [];
+  List<dynamic> get allNotificationList => _allNotificationList;
+
   List<dynamic> _prefferedTuitionsList = [];
   List<dynamic> get prefferedTuitionsList => _prefferedTuitionsList;
 
@@ -128,6 +131,15 @@ class TutorRepository {
 
   final ValueNotifier<int> _delete_account = ValueNotifier<int>(0);
   ValueNotifier<int> get delete_account => _delete_account;
+
+  final ValueNotifier<int> _preferred_popup = ValueNotifier<int>(0);
+  ValueNotifier<int> get preferred_popup => _preferred_popup;
+
+  final ValueNotifier<String> _preferred_popup_image = ValueNotifier<String>('');
+  ValueNotifier<String> get preferred_popup_image => _preferred_popup_image;
+
+  // String _preferred_popup_image = '';
+  // String get preferred_popup_image => _preferred_popup_image;
 
   Future<void> fetchTuitions(int start, int limit) async {
     _isLoading = true;
@@ -205,6 +217,9 @@ class TutorRepository {
       if (response.statusCode == 200) {
         dynamic jsonResponse = jsonDecode(response.body);
         List<dynamic> newItems = jsonResponse['tuition_listing'];
+        _preferred_popup.value = jsonResponse['enable_popup_status'][0]; 
+        _preferred_popup_image.value = jsonResponse['popup_img'][0];
+        print('img $_preferred_popup_image');
         if (start == 0) {
           _prefferedTuitionsList = newItems;
         } else {
@@ -455,6 +470,38 @@ class TutorRepository {
       throw Exception(e);
     } finally {
       _isLoading = false;
+    }
+  }
+
+  Future<void> getNotification(int start) async {
+    _isLoading = true;
+    _showLoadMoreButton = false;
+
+    try {
+      String url =
+          '${Utils.baseUrl}mobile_app/get_notification.php?tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start';
+      final response = await http.get(Uri.parse(url));
+      print('url $url');
+
+      if (response.statusCode == 200) {
+        dynamic jsonResponse = jsonDecode(response.body);
+        List<dynamic> newItems = jsonResponse['notification'];
+        print('notification $newItems');
+        if (start == 0) {
+          _allNotificationList = newItems;
+        } else {
+          _allNotificationList.addAll(newItems);
+        }
+        print('Updated Notification list: $_allTuitionsList');
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception(e);
+    } finally {
+      _isLoading = false;
+      _showLoadMoreButton = true;
     }
   }
 
