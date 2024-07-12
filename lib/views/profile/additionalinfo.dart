@@ -13,10 +13,8 @@ import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusableradiobtn.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/res/reusablevisibility.dart';
-import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
 class AdditionalInfo extends StatefulWidget {

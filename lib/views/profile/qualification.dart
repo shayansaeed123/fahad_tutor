@@ -985,7 +985,6 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
                                   // setState(() {
                                   //   updateSelectedNames();
                                   // });
-
                                   print('Updated Selected IDs: ${selectedIds}');
                                 },
                               ),
@@ -1028,7 +1027,13 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorController.whiteColor,
-    appBar: AppBar(elevation: 0,backgroundColor: Colors.transparent,),
+    appBar: AppBar(elevation: 0,backgroundColor: Colors.transparent,
+    leading: Padding(
+      padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
+      child: InkWell(
+        onTap: (){Navigator.pop(context);},
+        child: Image.asset('assets/images/gradient_back.png',fit: BoxFit.contain,height: MediaQuery.of(context).size.height * 0.02,)),
+    ),),
   body: SafeArea(
     child: Stack(
       children: [
@@ -1041,7 +1046,7 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   InkWell(
-                    onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(),));},
+                    onTap: (){},
                     child: reusableText("Qualification and \nPreferences", color: colorController.blackColor, fontsize: 25, fontweight: FontWeight.bold)),
                   reusablaSizaBox(context, 0.020),
                   ValueListenableBuilder(valueListenable: repository.popup, builder: (context, value, child) {
@@ -1049,7 +1054,7 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
                 return reusableVisiblityMesage(context, MySharedPrefrence().get_popup_text(), (){setState(() {visible=false;});}, visible);
                 }else{return Container();}
             },),
-            reusablaSizaBox(context, 0.020),
+                  reusablaSizaBox(context, 0.020),
                   reusablequlification(context, 'Institute', () {
                     search(newItemsinstitute, selectedIdsinstitute, 'names');
                   }),
@@ -1368,7 +1373,6 @@ search(List<dynamic> newItems,List<Map<String, dynamic>> selectedIds,String name
     },
   ),
 ),
-
                   reusablaSizaBox(context, .050),
                   reusableBtn(context, 'Update', (){
                     setState(() {

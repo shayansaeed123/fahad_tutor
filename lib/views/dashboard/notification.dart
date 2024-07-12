@@ -1,5 +1,4 @@
 
-
 import 'dart:convert';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
@@ -12,6 +11,7 @@ import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/res/reusabletutordetails.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class Notifications extends StatefulWidget {
   const Notifications({super.key});
@@ -127,6 +127,74 @@ class _NotificationsState extends State<Notifications> {
     }
   }
 
+  String convertToRelativeTime(String inputDate) {
+  DateTime date = DateFormat('yyyy-MM-dd HH:mm:ss').parse(inputDate);
+  DateTime now = DateTime.now();
+
+  Duration difference = now.difference(date);
+
+  if (difference.inDays >= 14) {
+    return '${(difference.inDays / 7).floor()}w';
+  } else if (difference.inDays >= 7) {
+    return '1w';
+  } else if (difference.inDays >= 2) {
+    return '${difference.inDays}d';
+  } else if (difference.inDays >= 1) {
+    return '1d';
+  } else {
+    return 'Today';
+  }
+}
+
+  Future<void> applyTuitions() async {
+    setState(() {
+      isLoading2 = true;
+    });
+
+    try {
+      String url =
+          '${Utils.baseUrl}mobile_app/apply_tuition.php?code=10&group_id=$g_id&tuition_id=$tuition_id';
+      final response = await http.get(Uri.parse(url));
+      print('url $url');
+      print('group id $g_id');
+      print('tuition id $tuition_id');
+
+      if (response.statusCode == 200) {
+        setState(() {isLoading2= false;});
+        dynamic jsonResponse = jsonDecode(response.body);
+        msg = jsonResponse['message'];
+        success = jsonResponse['success'];
+        is_apply = jsonResponse['is_applied '];
+        print('apply message $msg');
+        print('success $success');
+        print('apply $is_apply');
+        if(success == 0){
+          Navigator.pop(context);
+          reusableloadingApply(context, 'assets/images/error_lottie.json', msg, refreshPage);
+          
+        }else{
+          Navigator.pop(context);
+          reusableloadingApply(context, 'assets/images/success_lottie.json', msg,refreshPage);
+          Utils.snakbarSuccess(context, msg);
+        }
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception(e);
+    } finally {
+      setState(() {
+        isLoading2 = false;
+      });
+    }
+  }
+  void refreshPage() {
+  setState(() {
+    fetchNotification();
+  });
+}
+
   String formatInfo(String info) {
     return info.replaceAll(';', '\n');
   }
@@ -202,7 +270,7 @@ class _NotificationsState extends State<Notifications> {
                             reusablaSizaBox(context, 0.007),
                           ],
                         ),
-                        subtitle: reusableText('$datetime',
+                        subtitle: reusableText(convertToRelativeTime(datetime),
                             color: colorController.blackColor, fontsize: 11),
                         trailing: type == '0'
                             ? InkWell(
@@ -223,14 +291,14 @@ class _NotificationsState extends State<Notifications> {
                                         location,
                                         limit_statement, () {
                                       if (g_id == '0') {
-                                        // applyTuitions();
+                                        applyTuitions();
                                       } else {
                                         reusableMessagedialog(
                                             context,
                                             'Classes',
                                             'Are you sure${repository.class_name}',
                                             'Confirm', () {
-                                          // applyTuitions();
+                                          applyTuitions();
                                         }, () {
                                           Navigator.pop(context);
                                         });

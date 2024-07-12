@@ -13,7 +13,6 @@ import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/res/reusablevisibility.dart';
-import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

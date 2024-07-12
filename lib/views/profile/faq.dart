@@ -8,7 +8,6 @@ import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cached_network/cached_network.dart';
 
 class FAQ extends StatefulWidget {
   const FAQ({super.key});
