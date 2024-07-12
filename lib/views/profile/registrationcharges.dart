@@ -104,9 +104,9 @@ Future<void> _uploadImages() async {
       final responseData = json.decode(responseString);
       print('Response Data: $responseData');
       setState(() {
-        chargesSlip = responseData['CNIC_F'] ?? chargesSlip;
+        chargesSlip = responseData['Registration'] ?? chargesSlip;
       });
-      print(responseData);
+      print('fdgkdfg $chargesSlip');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Upload failed')),

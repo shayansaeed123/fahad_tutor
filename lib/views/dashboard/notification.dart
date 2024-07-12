@@ -153,7 +153,7 @@ class _NotificationsState extends State<Notifications> {
 
     try {
       String url =
-          '${Utils.baseUrl}mobile_app/apply_tuition.php?code=10&group_id=$g_id&tuition_id=$tuition_id';
+          '${Utils.baseUrl}mobile_app/apply_tuition.php?code=10&group_id=$g_id&tuition_id=$tuition_id&tutor_id=${MySharedPrefrence().get_user_ID()}';
       final response = await http.get(Uri.parse(url));
       print('url $url');
       print('group id $g_id');
@@ -236,7 +236,7 @@ class _NotificationsState extends State<Notifications> {
                   if (index < tuitions.length) {
                     var data = tuitions[index];
                     var remarks = data['remarks'];
-                    var type = data['type'];
+                    var typee = data['type'];
                     var title = data['title'];
                     var datetime = data['datetime'];
                     var reference = data['reference'];
@@ -272,7 +272,8 @@ class _NotificationsState extends State<Notifications> {
                         ),
                         subtitle: reusableText(convertToRelativeTime(datetime),
                             color: colorController.blackColor, fontsize: 11),
-                        trailing: type == '0'
+                        trailing: SizedBox(width: MediaQuery.of(context).size.width * 0.1,
+                        child: typee == '0'
                             ? InkWell(
                                 onTap: () {
                                   setState(() {
@@ -313,6 +314,7 @@ class _NotificationsState extends State<Notifications> {
                                   height: MediaQuery.of(context).size.height * 0.04,
                                 ))
                             : Container(),
+                        )
                       ),
                     );
                   } else {
