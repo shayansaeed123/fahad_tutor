@@ -13,6 +13,7 @@ import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/res/reusablevisibility.dart';
+import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -73,6 +74,7 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
           doc_error = jsonResponse['docs_error'];
           docs_msg = jsonResponse['docs_msg'];
           is_term_accepted = jsonResponse['is_term_accepted'];
+          // MySharedPrefrence().set_profile_img(profile);
         });
       } else {
         print('Error: ${response.statusCode}');
@@ -281,7 +283,8 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
         if (response.body.isNotEmpty) {
           final Map<String, dynamic> jsonResponse = json.decode(response.body);
           print('helloooo $jsonResponse');
-          Navigator.pop(context);
+          // Navigator.pop(context);
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Profile(),));
         } else {
           throw Exception('Empty response body');
         }

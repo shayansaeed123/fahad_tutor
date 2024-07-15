@@ -11,6 +11,7 @@ import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
+import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -138,7 +139,8 @@ Future<void> _uploadImages() async {
         if (response.body.isNotEmpty) {
           final Map<String, dynamic> jsonResponse = json.decode(response.body);
           print('helloooo $jsonResponse');
-          Navigator.pop(context);
+          // Navigator.pop(context);
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Profile(),));
         } else {
           throw Exception('Empty response body');
         }

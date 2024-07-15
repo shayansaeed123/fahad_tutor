@@ -10,6 +10,7 @@ import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
+import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -18,7 +19,8 @@ class TermsAndConditions extends StatefulWidget {
   final String imageUrl;
   final String btn;
   final String title;
-  const TermsAndConditions({super.key, required this.imageUrl, required this.btn,required this.title});
+  final String term;
+  const TermsAndConditions({super.key, required this.imageUrl, required this.btn,required this.title,required this.term});
 
   @override
   State<TermsAndConditions> createState() => _TermsAndConditionsState();
@@ -31,6 +33,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
   late String _imageUrl;
   late String _btn; 
   late String _title;
+  late String _term;
   void faq()async{
       isLoading = true;
     await repository.Check_popup();
@@ -43,22 +46,23 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
     _imageUrl = widget.imageUrl;
     _btn = widget.btn;
     _title = widget.title;
+    _term = widget.term;
     faq();
   }
 
   Future<void> isAccepted()async{
      _isLoading = true;
-
     try {
       String url =
-          '${Utils.baseUrl}mobile_app/check_popup.php?term_condition_online=1&tutor_id=${MySharedPrefrence().get_user_ID()}';
+          '${Utils.baseUrl}mobile_app/check_popup.php?$_term=1&tutor_id=${MySharedPrefrence().get_user_ID()}';
       final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
         dynamic jsonResponse = jsonDecode(response.body);
       String apiMessage = jsonResponse['msg'];
               print('message $apiMessage');
-              Navigator.pop(context);
+              // Navigator.pop(context);
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Profile(),));
                         Utils.snakbarSuccess(context, apiMessage);
       } else {
         print('Error: ${response.statusCode}');
@@ -94,7 +98,6 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .069),
                             child: reusableBtn(context, 'Accept', (){
-                              isAccepted();
                             }),
                           ),  
                     ],

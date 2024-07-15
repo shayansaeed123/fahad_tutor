@@ -680,7 +680,7 @@ Future<void> classSelect() {
                                             tempSelectedNamesSubject.clear(); // Clear the list
                                             MySharedPrefrence().set_class_id(newItemsClass[index]['id']);
                                             MySharedPrefrence().set_class_name_institute(newItemsClass[index]['class_name']);
-                                            print(MySharedPrefrence().get_class_id());
+                                            print('class id ${MySharedPrefrence().get_class_id()}');
                                             Navigator.pop(context);
                                             fetchClassDataAndSubjectData(
                                               'class_id=${MySharedPrefrence().get_class_id()}&Subject',

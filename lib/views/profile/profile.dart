@@ -95,13 +95,20 @@ void loginClear(){
     setState(() {isLoading= false;});
   }
 
+  
+
   @override
   void initState(){
     // TODO: implement initState
     super.initState();
     repository.Check_popup();
+    print('setstate');
     repository.check_msg();
     repository.check_delete_account();
+  }
+  void refresh(){
+    setState(() {});
+    repository.Check_popup();
   }
        
   @override
@@ -170,7 +177,7 @@ void loginClear(){
             },),
             ValueListenableBuilder(valueListenable: repository.qualification_pref, builder: (context, value, child) {
               return reusablelisttile(context,(){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => QualificationAndPreferences(),));
+             Navigator.push(context, MaterialPageRoute(builder: (context) => QualificationAndPreferences(),));
             },'assets/images/qual_pref_icon.png','Qulification and Preferences',widget: Container(
               width: MediaQuery.of(context).size.width * .24,
               child: Row(
@@ -196,7 +203,7 @@ void loginClear(){
               if(repository.qualification_pref.value == '8' || repository.qualification_pref.value == '19'){
                 reusableAnimationdialog(context, 'Restrict', 'Before accepting documents attachment, Fill all the steps sequentially');
               }else{
-                Navigator.push(context, MaterialPageRoute(builder: (context) => DocumentsAttach(),));
+               Navigator.push(context, MaterialPageRoute(builder: (context) => DocumentsAttach(),));
               }
             },'assets/images/doc_attach_icon.png','Document Attachment',widget: Container(
               width: MediaQuery.of(context).size.width * .24,
@@ -223,7 +230,7 @@ void loginClear(){
               if(repository.docs_att.value == '8' || repository.docs_att.value == '19'){
                 reusableAnimationdialog(context, 'Restrict', 'Before accepting terms and conditions, Fill all the steps sequentially');
               }else{
-                Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditions(imageUrl: MySharedPrefrence().get_term_condition_image(), btn: repository.is_term_accepted.value,title: 'Terms & Conditions',),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditions(imageUrl: MySharedPrefrence().get_term_condition_image(), btn: repository.is_term_accepted.value,title: 'Terms & Conditions',term: 'term_condition',),));
               }
             },'assets/images/terms_and_conditions.png','Terms & Conditions',widget: Container(
               width: MediaQuery.of(context).size.width * .24,
@@ -247,7 +254,7 @@ void loginClear(){
               if(repository.is_term_accepted.value == '8' || repository.is_term_accepted.value == '19'){
                 reusableAnimationdialog(context, 'Restrict', 'Before accepting terms and conditions, Fill all the steps sequentially');
               }else{
-                Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditions(imageUrl: MySharedPrefrence().get_term_condition_image_online(),btn: repository.is_term_accepted_online.value,title: 'Terms & Conditions (Online)',),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditions(imageUrl: MySharedPrefrence().get_term_condition_image_online(),btn: repository.is_term_accepted_online.value,title: 'Terms & Conditions (Online)',term: 'term_condition_online',),));
               }
             },'assets/images/terms_and_conditions.png','Terms & Conditions (Online)',widget: Container(
               width: MediaQuery.of(context).size.width * .24,
@@ -273,7 +280,7 @@ void loginClear(){
               if(repository.is_term_accepted.value == '0'){
                 reusableAnimationdialog(context, 'Restrict', 'Before accepting registration slip, Fill all the steps sequentially');
               }else{
-                Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationCharges(),));
+                 Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationCharges(),));
               }
             },'assets/images/reg_charges_slip_icon.png','Registration Charges Slip',widget: Container(
               width: MediaQuery.of(context).size.width * .24,
@@ -345,7 +352,6 @@ void loginClear(){
               Navigator.push(context, MaterialPageRoute(builder: (context)=>ResetPassword()));
             },'assets/images/reset_password.png','Change Password',borderWidth: 0.000001),
              reusablaSizaBox(context, .05),
-
             reusableText('App Settings',color: colorController.blackColor,fontsize: 21,),
             reusablaSizaBox(context, .01),
   reusablelisttile(context, (){}, 'assets/images/notification_icon.png', 'Notification',widget: Switch(

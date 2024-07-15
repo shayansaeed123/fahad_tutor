@@ -13,6 +13,7 @@ import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusableradiobtn.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/res/reusablevisibility.dart';
+import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -131,7 +132,8 @@ void updateTutorPlacement() {
       if (responseData['success'] == 1) {
         setState(() {});
         print('Success message: $apiMessage');
-        Navigator.pop(context);
+        // Navigator.pop(context);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Profile(),));
         Utils.snakbarSuccess(context, apiMessage);
       } else {
         Utils.snakbarFailed(context, apiMessage);
