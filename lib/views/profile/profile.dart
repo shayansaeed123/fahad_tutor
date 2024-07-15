@@ -106,10 +106,6 @@ void loginClear(){
     repository.check_msg();
     repository.check_delete_account();
   }
-  void refresh(){
-    setState(() {});
-    repository.Check_popup();
-  }
        
   @override
   Widget build(BuildContext context) {
