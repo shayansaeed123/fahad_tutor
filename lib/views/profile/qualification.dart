@@ -102,31 +102,28 @@ String instituteId =  '';
       List<Map<String, dynamic>> preferredAreasList = selectedIdsArea.map((area) {
         return {'preferred_areas_id': area['id']};
       }).toList();
-   String preferredAreasJson = jsonEncode(preferredAreasList);
+      String preferredAreasJson = jsonEncode(preferredAreasList);
 
 
- List<Map<String, dynamic>> qualificationId = selectedIdsQualification.map((qualif) {
+      List<Map<String, dynamic>> qualificationId = selectedIdsQualification.map((qualif) {
         return {'Qualification_id': qualif['id']};
       }).toList();
-      
       String qualificationjson = jsonEncode(qualificationId);
 
 
- List<Map<String, dynamic>> institude_id = selectedIdsinstitute.map((institute) {
+      List<Map<String, dynamic>> institude_id = selectedIdsinstitute.map((institute) {
         return {'Institute_id': institute['id']};
       }).toList();
-      
       String institudejson = jsonEncode(institude_id);
 
 
-       List<Map<String, dynamic>> preferred_borad = selectedIdsBoard.map((board) {
+      List<Map<String, dynamic>> preferred_borad = selectedIdsBoard.map((board) {
         return {'preferred_board_id': board['id']};
       }).toList();
-      
       String preferredboardjson = jsonEncode(preferred_borad);
 
 
-             List<Map<String, dynamic>> preferred_group = selectedIdsGroup.map((group) {
+        List<Map<String, dynamic>> preferred_group = selectedIdsGroup.map((group) {
         return {'preferred_group_id': group['id']};
       }).toList();
       
