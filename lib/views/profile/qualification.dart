@@ -13,6 +13,7 @@ import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/res/reusablevisibility.dart';
 import 'package:fahad_tutor/views/profile/example.dart';
+import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -123,10 +124,9 @@ String instituteId =  '';
       String preferredboardjson = jsonEncode(preferred_borad);
 
 
-        List<Map<String, dynamic>> preferred_group = selectedIdsGroup.map((group) {
+      List<Map<String, dynamic>> preferred_group = selectedIdsGroup.map((group) {
         return {'preferred_group_id': group['id']};
       }).toList();
-      
       String preferredgroupjson = jsonEncode(preferred_group);
 
       Map<String, String> body = {
@@ -139,7 +139,6 @@ String instituteId =  '';
         'Degree': qualificationjson,
         'preferred_board': preferredboardjson,
         'preferred_group': preferredgroupjson,
-
       };
 
       final response = await http.post(
@@ -157,7 +156,8 @@ String instituteId =  '';
       print('updateeeeeeeeeeeeeeeeeeeeeeeee $responseData');
       if (responseData['success'] == 1) {
         // Refetch data to update UI with the latest data
-        // await saveQualificationData();
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Profile(),));
+        // Utils.snakbarSuccess(context, apiMessage);
       } else {
         print('Error in response data: ${responseData['message']}');
       }
