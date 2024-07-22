@@ -84,50 +84,80 @@ String instituteId =  '';
     saveQualificationData();
     selectArea();
     repository.check_msg();
-    // updateStatus();
   }
-
+  
   Future<void> updateStatus() async {
-  setState(() {
-    isLoading = true;
-  });
-  try {
-    List<Map<String, dynamic>> classList = selectedClasses.map((classItem) {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+   List<Map<String, dynamic>> classList = selectedClasses.map((classItem) {
       return classItem.toJson();
     }).toList();
 
-    String classListJson = jsonEncode(classList);
+      String classListJson = jsonEncode(classList);
 
-    // Debug prints to check the data
-    print('Class List: $classList');
-    print('Class List JSON: $classListJson');
-    print('check tutor Id ${MySharedPrefrence().get_user_ID()}');
-    print('check update Status ${MySharedPrefrence().get_update_status()}');
+      // Create a new list with the key 'preferred_areas_id' instead of 'id'
+      List<Map<String, dynamic>> preferredAreasList = selectedIdsArea.map((area) {
+        return {'preferred_areas_id': area['id']};
+      }).toList();
+   String preferredAreasJson = jsonEncode(preferredAreasList);
 
-    final response = await http.post(
-      Uri.parse('${Utils.baseUrl}mobile_app/step_2_update.php'),
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: {
+
+ List<Map<String, dynamic>> qualificationId = selectedIdsQualification.map((qualif) {
+        return {'Qualification_id': qualif['id']};
+      }).toList();
+      
+      String qualificationjson = jsonEncode(qualificationId);
+
+
+ List<Map<String, dynamic>> institude_id = selectedIdsinstitute.map((institute) {
+        return {'Institute_id': institute['id']};
+      }).toList();
+      
+      String institudejson = jsonEncode(institude_id);
+
+
+       List<Map<String, dynamic>> preferred_borad = selectedIdsBoard.map((board) {
+        return {'preferred_board_id': board['id']};
+      }).toList();
+      
+      String preferredboardjson = jsonEncode(preferred_borad);
+
+
+             List<Map<String, dynamic>> preferred_group = selectedIdsGroup.map((group) {
+        return {'preferred_group_id': group['id']};
+      }).toList();
+      
+      String preferredgroupjson = jsonEncode(preferred_group);
+
+      Map<String, String> body = {
         'code': '10',
         'update_status': MySharedPrefrence().get_update_status(),
         'tutor_id_edit': MySharedPrefrence().get_user_ID(),
-        'preferred_areas': jsonEncode(selectedIdsArea),
-        'preferred_board': jsonEncode(selectedIdsBoard),
-        'preferred_group': jsonEncode(selectedIdsGroup),
+        'preferred_areas': preferredAreasJson,
         'class_listing': classListJson,
-        'Institute': jsonEncode(selectedIdsinstitute),
-        'Degree': jsonEncode(selectedIdsQualification),
-      },
-    );
+        'Institute': institudejson,
+        'Degree': qualificationjson,
+        'preferred_board': preferredboardjson,
+        'preferred_group': preferredgroupjson,
 
-    print(response.body.toString());
+      };
 
-    if (response.statusCode == 200) {
+      final response = await http.post(
+        Uri.parse('${Utils.baseUrl}mobile_app/step_2_update.php'),
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: body,
+      );
+
+      print(response.body.toString());
+
+      if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
       print('updateeeeeeeeeeeeeeeeeeeeeeeee $responseData');
-
       if (responseData['success'] == 1) {
         // Refetch data to update UI with the latest data
         // await saveQualificationData();
@@ -144,7 +174,65 @@ String instituteId =  '';
       isLoading = false;
     });
   }
-}
+  }
+
+//   Future<void> updateStatus() async {
+//   setState(() {
+//     isLoading = true;
+//   });
+//   try {
+//     List<Map<String, dynamic>> classList = selectedClasses.map((classItem) {
+//       return classItem.toJson();
+//     }).toList();
+
+//     String classListJson = jsonEncode(classList);
+
+//     // Debug prints to check the data
+//     print('Class List: $classList');
+//     print('Class List JSON: $classListJson');
+//     print('check tutor Id ${MySharedPrefrence().get_user_ID()}');
+//     print('check update Status ${MySharedPrefrence().get_update_status()}');
+
+//     final response = await http.post(
+//       Uri.parse('${Utils.baseUrl}mobile_app/step_2_update.php'),
+//       headers: {
+//         'Content-Type': 'application/x-www-form-urlencoded',
+//       },
+//       body: {
+//         'code': '10',
+//         'update_status': MySharedPrefrence().get_update_status(),
+//         'tutor_id_edit': MySharedPrefrence().get_user_ID(),
+//         'preferred_areas': jsonEncode(selectedIdsArea),
+//         'preferred_board': jsonEncode(selectedIdsBoard),
+//         'preferred_group': jsonEncode(selectedIdsGroup),
+//         'class_listing': classListJson,
+//         'Institute': jsonEncode(selectedIdsinstitute),
+//         'Degree': jsonEncode(selectedIdsQualification),
+//       },
+//     );
+
+//     print(response.body.toString());
+
+//     if (response.statusCode == 200) {
+//       final Map<String, dynamic> responseData = json.decode(response.body);
+//       print('updateeeeeeeeeeeeeeeeeeeeeeeee $responseData');
+//       if (responseData['success'] == 1) {
+//         // Refetch data to update UI with the latest data
+//         // await saveQualificationData();
+//       } else {
+//         print('Error in response data: ${responseData['message']}');
+//       }
+//     } else {
+//       print('Error2: ' + response.statusCode.toString());
+//     }
+//   } catch (e) {
+//     print('error $e');
+//   } finally {
+//     setState(() {
+//       isLoading = false;
+//     });
+//   }
+// }
 
 Future<void> saveQualificationData() async {
   try {
