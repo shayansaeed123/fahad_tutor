@@ -111,6 +111,9 @@ class TutorRepository {
   final ValueNotifier<String> _payment_recipt = ValueNotifier<String>('');
   ValueNotifier<String> get payment_recipt => _payment_recipt;
 
+  final ValueNotifier<int> _payment_recipt_option = ValueNotifier<int>(0);
+  ValueNotifier<int> get payment_recipt_option => _payment_recipt_option;
+
   final ValueNotifier<String> _bank_details = ValueNotifier<String>('');
   ValueNotifier<String> get bank_details => _bank_details;
 
@@ -322,6 +325,7 @@ class TutorRepository {
         _is_term_accepted_online_option.value = jsonResponse['term_condition_online_option'];
         _is_term_accepted_online.value = jsonResponse['term_condition_online'];
         _attention_option.value = jsonResponse['attention_popup'];
+        _payment_recipt_option.value = jsonResponse['payment_recipt_option'];
          MySharedPrefrence().set_term_condition_image(jsonResponse['term_condition_image']);
          MySharedPrefrence().set_faqs_images(jsonResponse['faqs_images']);
         MySharedPrefrence().set_term_condition_image_online(jsonResponse['term_condition_image_ftalive']);

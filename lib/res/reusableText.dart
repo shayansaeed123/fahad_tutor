@@ -33,7 +33,7 @@ reusablequlification(BuildContext context,String name,Function ontap){
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            reusableText(name, fontsize: 15,color: colorController.grayTextColor,),
+            Expanded(child: reusableText(name, fontsize: 15,color: colorController.grayTextColor,)),
             Icon(Icons.arrow_drop_down,color: colorController.grayTextColor,)
           ],
         ),

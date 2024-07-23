@@ -265,7 +265,8 @@ void loginClear(){
             ));
             },) : Container();
             },),
-            ValueListenableBuilder(valueListenable: repository.payment_recipt, builder: (context, value, child) {
+            ValueListenableBuilder(valueListenable: repository.payment_recipt_option, builder: (context, value, child) {
+              return value == 1 ? ValueListenableBuilder(valueListenable: repository.payment_recipt, builder: (context, value, child) {
               return reusablelisttile(context,(){
                 print(value);
               // if(value == '8' || value == '19'){
@@ -293,6 +294,7 @@ void loginClear(){
                 ],
               ),
             ));
+            },) : Container();
             },),
             ValueListenableBuilder(valueListenable: repository.bank_details, builder: (context, value, child) {
               return reusablelisttile(context,(){
