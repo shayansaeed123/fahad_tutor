@@ -68,8 +68,8 @@ List<String> selectedNamesSubject = [];
 List<MyClass> selectedClasses = [];
 
 
-   List<String> tempSelectedNamesSubject = [];
-  List<String> tempSelectedIdsSubject = [];
+List<String> tempSelectedNamesSubject = [];
+List<String> tempSelectedIdsSubject = [];
 
 String instituteName = '';
 String instituteId =  '';
@@ -94,9 +94,14 @@ String instituteId =  '';
 
     try {
    List<Map<String, dynamic>> classList = selectedClasses.map((classItem) {
-      return classItem.toJson();
+      // return classItem.toJson();
+      return {
+      'class_id': classItem.classId,
+      // 'class_name': classItem.className,
+      'subject_id': classItem.subjectIds.toString(),
+      // 'subject_name': classItem.subjectNames,
+    };
     }).toList();
-
       String classListJson = jsonEncode(classList);
 
       // Create a new list with the key 'preferred_areas_id' instead of 'id'
@@ -140,7 +145,7 @@ String instituteId =  '';
         'preferred_board': preferredboardjson,
         'preferred_group': preferredgroupjson,
       };
-
+      print('list class $classListJson');
       final response = await http.post(
         Uri.parse('${Utils.baseUrl}mobile_app/step_2_update.php'),
         headers: {
@@ -257,10 +262,10 @@ Future<void> saveQualificationData() async {
               .map<Map<String, String>>((item) => {'id': item['id'].toString()})
               .toList();
 
-              selectedIdsSubject = (jsonResponse['class_listing'] as List)
-              .map<Map<String, String>>((item) => {'id': item['id'].toString()})
-              .toList();
-          // selectedIdsSubject = jsonResponse['class_listing'];
+              // selectedIdsSubject = (jsonResponse['class_listing'] as List)
+              // .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+              // .toList();
+        //   selectedIdsClass = jsonResponse['class_listing'];
 
         //   setState(() {
         //   selectedClasses = selectedIdsClass.map((item) {
@@ -281,8 +286,11 @@ Future<void> saveQualificationData() async {
             );
           }).toList();
 
-          MySharedPrefrence().set_city_id(jsonResponse['city_id']);
-          MySharedPrefrence().set_update_status(jsonResponse['update_status']);
+       
+
+
+          // MySharedPrefrence().set_city_id(jsonResponse['city_id']);
+          // MySharedPrefrence().set_update_status(jsonResponse['update_status']);
 
           // Update the selected names
           updateSelectedNamesInstitute();
@@ -454,7 +462,7 @@ Future<void> saveQualificationData() async {
 //       throw Exception('Failed to load country details');
 //     }
 //   } catch (e) {
-//     print(e);
+//     print('dsfdsf $e');
 //   } finally {
 //     setState(() {
 //       isLoading = false;
