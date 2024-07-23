@@ -729,9 +729,11 @@ Future<void> selectSubject(Function parentSetState) {
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
-                      reusableBtn(context, 'Add', () {
-                        Navigator.pop(context);
-                      }, width: .4),
+                      Expanded(
+                        child: reusableBtn(context, 'Add', () {
+                          Navigator.pop(context);
+                        }, width: .4),
+                      ),
                       reusablaSizaBox(context, .03),
                       Expanded(child: reusablewhite(context, 'Cancel', () {
                         tempSelectedIdsSubject.clear();
@@ -952,25 +954,27 @@ Future<void> classSelect() {
                   reusablaSizaBox(context, .030),
                   Row(
                     children: [
-                      reusableBtn(
-                        context,
-                        'Add',
-                        () {
-                          setState(() {
-                            selectedClasses.add(
-                              MyClass(
-                                classId: MySharedPrefrence().get_class_id(),
-                                className: MySharedPrefrence().get_class_name_institute(),
-                                subjectIds: List.from(tempSelectedIdsSubject),
-                                subjectNames: List.from(tempSelectedNamesSubject),
-                              ),
-                            );
-                            tempSelectedIdsSubject.clear();
-                            tempSelectedNamesSubject.clear();
-                          });
-                          Navigator.pop(context);
-                        },
-                        width: .34,
+                      Expanded(
+                        child: reusableBtn(
+                          context,
+                          'Add',
+                          () {
+                            setState(() {
+                              selectedClasses.add(
+                                MyClass(
+                                  classId: MySharedPrefrence().get_class_id(),
+                                  className: MySharedPrefrence().get_class_name_institute(),
+                                  subjectIds: List.from(tempSelectedIdsSubject),
+                                  subjectNames: List.from(tempSelectedNamesSubject),
+                                ),
+                              );
+                              tempSelectedIdsSubject.clear();
+                              tempSelectedNamesSubject.clear();
+                            });
+                            Navigator.pop(context);
+                          },
+                          width: .34,
+                        ),
                       ),
                       Expanded(
                         child: reusablewhite(
@@ -1272,6 +1276,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
             });
           }
         }
+
         return Dialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
@@ -1315,7 +1320,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                               title: Text(instituteName),
                               trailing: isSelected ? Icon(Icons.check, color: Colors.black) : null,
                               onTap: () {
-                                setState((){});
+                                setState(() {});
                                 toggleSelection(instituteId, instituteName, name);
                                 print('Updated Selected IDs: ${selectedIds}');
                               },
@@ -1336,15 +1341,18 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
-                    reusableBtn(context, 'Add', () {
-                      setState(() {
-                      });
-                      Navigator.pop(context);
-                    }, width: .4),
+                    Expanded(
+                      child: reusableBtn(context, 'Add', () {
+                        setState(() {});
+                        Navigator.pop(context);
+                      }),
+                    ),
                     reusablaSizaBox(context, .03),
-                    Expanded(child: reusablewhite(context, 'Cancel', () {
-                      Navigator.pop(context);
-                    }, width: .5)),
+                    Expanded(
+                      child: reusablewhite(context, 'Cancel', () {
+                        Navigator.pop(context);
+                      }),
+                    ),
                   ],
                 ),
               ),
@@ -1355,6 +1363,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
     ),
   );
 }
+
 
 
 @override
@@ -1461,7 +1470,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                                   softWrap: true,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
-                                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: colorController.whiteColor),
+                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colorController.whiteColor),
                                 ),
                               ),
                               InkWell(
@@ -1474,7 +1483,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                                     print('idddddddddddddd $selectedIdsinstitute');
                                   });
                                 },
-                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor),
+                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.056,),
                               ),
                             ],
                           ),
@@ -1510,7 +1519,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                                   softWrap: true,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
-                                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: colorController.whiteColor),
+                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colorController.whiteColor),
                                 ),
                               ),
                               InkWell(
@@ -1522,7 +1531,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                                     // updateSelectedNames(); // Update the names here
                                   });
                                 },
-                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor),
+                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.056,),
                               ),
                             ],
                           ),
@@ -1547,7 +1556,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                         crossAxisCount: 2, // Number of columns
                         crossAxisSpacing: 10.0, // Spacing between columns
                         mainAxisSpacing: 10.0, // Spacing between rows
-                        childAspectRatio: 4.5, // Aspect ratio of each grid item
+                        childAspectRatio: 5.0, // Aspect ratio of each grid item
                       ),
                       itemBuilder: (context, index) {
                         return Container(
@@ -1565,7 +1574,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                                   softWrap: true,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
-                                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: colorController.whiteColor),
+                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colorController.whiteColor),
                                 ),
                               ),
                               InkWell(
@@ -1577,7 +1586,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                                     // updateSelectedNames(); // Update the names here
                                   });
                                 },
-                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor),
+                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.056,),
                               ),
                             ],
                           ),
@@ -1600,7 +1609,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                         crossAxisCount: 2, // Number of columns
                         crossAxisSpacing: 10.0, // Spacing between columns
                         mainAxisSpacing: 10.0, // Spacing between rows
-                        childAspectRatio: 4.5, // Aspect ratio of each grid item
+                        childAspectRatio: 5.0, // Aspect ratio of each grid item
                       ),
                       itemBuilder: (context, index) {
                         return Container(
@@ -1618,7 +1627,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                                   softWrap: true,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
-                                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: colorController.whiteColor),
+                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colorController.whiteColor),
                                 ),
                               ),
                               InkWell(
@@ -1630,7 +1639,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                                     // updateSelectedNames(); // Update the names here
                                   });
                                 },
-                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor),
+                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.056,),
                               ),
                             ],
                           ),
@@ -1653,7 +1662,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                         crossAxisCount: 2, // Number of columns
                         crossAxisSpacing: 10.0, // Spacing between columns
                         mainAxisSpacing: 10.0, // Spacing between rows
-                        childAspectRatio: 4.5, // Aspect ratio of each grid item
+                        childAspectRatio: 5.0, // Aspect ratio of each grid item
                       ),
                       itemBuilder: (context, index) {
                         return Container(
@@ -1671,7 +1680,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                                   softWrap: true,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
-                                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: colorController.whiteColor),
+                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colorController.whiteColor),
                                 ),
                               ),
                               InkWell(
@@ -1683,7 +1692,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                                     // updateSelectedNames(); // Update the names here
                                   });
                                 },
-                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor),
+                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.056,),
                               ),
                             ],
                           ),
@@ -1716,7 +1725,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
       crossAxisCount: 1, // Number of columns
       crossAxisSpacing: 10.0, // Spacing between columns
       mainAxisSpacing: 10.0, // Spacing between rows
-      childAspectRatio: 8.2, // Aspect ratio of each grid item
+      childAspectRatio: 9.5, // Aspect ratio of each grid item
     ),
     itemBuilder: (context, index) {
       String subjects = selectedClasses[index].subjectNames.join(', ');
@@ -1735,7 +1744,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                 softWrap: true,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: colorController.whiteColor),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colorController.whiteColor),
               ),
             ),
             InkWell(
@@ -1744,7 +1753,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                                   selectedClasses.removeAt(index);
                                 });
               },
-              child: Icon(Icons.cancel_outlined, color: colorController.whiteColor),
+              child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.056,),
             ),
           ],
         ),
