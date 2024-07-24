@@ -80,7 +80,7 @@ String instituteName = '';
 String instituteId =  '';
 String? quranOnlineTeaching = 'none';
 String? client = 'no';
-String? maslak = 'Ahle-sunnat';
+String? maslak = 'Ahle-Sunnat';
 String? Zoom = 'Beginner';
 String? laptop = 'no';
 
@@ -93,8 +93,8 @@ String? laptop = 'no';
     fetchData('Group','Group', newItemsGroup, selectedIdsGroup, updateSelectedNamesGroup);
     fetchData('Preferred_Time','Preferred_Time', newItemsTime, selectedIdsTime, updateSelectedNamesTime);
     fetchClassDataAndSubjectData('Class','Class', newItemsClass,);
-    saveQualificationData();
     selectArea();
+    saveQualificationData();
     repository.check_msg();
   }
   
@@ -146,8 +146,8 @@ String? laptop = 'no';
       }).toList();
       String preferredgroupjson = jsonEncode(preferred_group);
 
-      List<Map<String, dynamic>> preferred_time_query = selectedIdsTime.map((group) {
-        return {'preferred_time_id': group['id']};
+      List<Map<String, dynamic>> preferred_time_query = selectedIdsTime.map((time) {
+        return {'Preferred_Time_id': time['id']};
       }).toList();
       String preferredTimejson = jsonEncode(preferred_time_query);
 
@@ -162,6 +162,11 @@ String? laptop = 'no';
         'preferred_board': preferredboardjson,
         'preferred_group': preferredgroupjson,
         'preferred_time_query': preferredTimejson,
+        'Quran_Experience': quranOnlineTeaching.toString(),
+        'International_client': client.toString(),
+        'Zoom_Proficiency': Zoom.toString(),
+        'have_a_laptop': laptop.toString(),
+        'Add_Maslak':maslak.toString(),
       };
       print('list class $classListJson');
       final response = await http.post(
@@ -307,7 +312,7 @@ Future<void> saveQualificationData() async {
               subjectNames: List<String>.from(item['subject_name'].map((sname) => sname.toString())),
             );
           }).toList();
-          MySharedPrefrence().set_city_id(jsonResponse['city_id']);
+          // MySharedPrefrence().set_city_id(jsonResponse['city_id']);
           MySharedPrefrence().set_update_status(jsonResponse['update_status']);
 
           // Update the selected names

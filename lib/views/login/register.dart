@@ -376,7 +376,8 @@ void updateTutorPlacement() {
           Uri.parse('${Utils.baseUrl}mobile_app/area.php'),
           body: {
             'code': '10',
-            'city_id': cityId.toString(),
+            'city_id': MySharedPrefrence().get_city_id().toString(),
+            // cityId.toString(),
           });
       if (response.statusCode == 200) {
         if (response.body.isNotEmpty) {
@@ -491,7 +492,8 @@ void updateTutorPlacement() {
             'email': MySharedPrefrence().get_user_email().toString(),
             'gender': _selectedGender.toString(),
             'password': reusabletextfieldcontroller.registerPassCon.text.toString(),
-            'city_id': cityId.toString(),
+            'city_id': MySharedPrefrence().get_city_id().toString(),
+            // cityId.toString(),
             'area_id': areaId.toString(),
             'home_address':reusabletextfieldcontroller.addressCon.text.toString(),
             'date_of_birth': selectedTime.toString(),
@@ -718,8 +720,8 @@ void updateTutorPlacement() {
                                             ? (dynamic newValue) {
                                                 setState(() {
                                                   cityLists = newValue;
-                                                  cityId =
-                                                      newValue['c_id'].toString();
+                                                  // cityId = newValue['c_id'].toString();
+                                                  MySharedPrefrence().set_city_id(newValue['c_id'].toString());
                                                   isAreaDropdownEnabled = true;
                                                 });
                                                 print(
