@@ -84,8 +84,8 @@ int count,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width * .2,
+                      Expanded(
+                        // width: MediaQuery.of(context).size.width * .2,
                         // height: MediaQuery.of(context).size.height * 0.08,
                         child: 
                         RadioListTile(
@@ -96,8 +96,8 @@ int count,
                               (states) => colorController.blueColor),
                         ),
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * .2,
+                      Expanded(
+                        // width: MediaQuery.of(context).size.width * .2,
                         // height: MediaQuery.of(context).size.height * 0.08,
                       child: 
                       RadioListTile(
@@ -109,8 +109,8 @@ int count,
                         
                       ),
                                     ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * .2,
+                      Expanded(
+                        // width: MediaQuery.of(context).size.width * .2,
                         // height: MediaQuery.of(context).size.height * 0.08,
                       child: 
                       RadioListTile(
@@ -121,8 +121,8 @@ int count,
                             (states) => colorController.blueColor),
                       ),
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * .2,
+                      Expanded(
+                        // width: MediaQuery.of(context).size.width * .2,
                         // height: MediaQuery.of(context).size.height * 0.08,
                       child: 
                       RadioListTile(
@@ -174,3 +174,27 @@ int count,
             ),
           );
 }
+
+Widget buildRadioButton(String title, String value,String? groupValue,Function(String?) onChanged) {
+    return 
+    // Flexible(
+    //   child: 
+      Row(
+        children: [
+          Radio<String>(
+            value: value,
+            groupValue: groupValue,
+            fillColor: MaterialStateColor.resolveWith(
+                            (states) => colorController.blueColor),
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          visualDensity: VisualDensity.compact,
+          activeColor: MaterialStateColor.resolveWith(
+                            (states) => colorController.blueColor),
+            onChanged: onChanged,
+          ),
+          Text(title, overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 12),),
+        ],
+      // ),
+    );
+  }
+

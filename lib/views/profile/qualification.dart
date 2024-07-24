@@ -32,6 +32,10 @@ class _QualificationAndPreferencesState extends State<QualificationAndPreference
   bool visible = true;
   TutorRepository repository = TutorRepository();
 
+  List<dynamic> newItemsTime = [];
+List<Map<String, String>> selectedIdsTime = [];
+List<String> selectedNamesTime = [];
+
 List<dynamic> newItemsinstitute = [];
 List<Map<String, String>> selectedIdsinstitute = [];
 List<String> selectedNamesinstitute = [];
@@ -74,6 +78,11 @@ List<String> tempSelectedIdsSubject = [];
 
 String instituteName = '';
 String instituteId =  '';
+String? quranOnlineTeaching = 'none';
+String? client = 'no';
+String? maslak = 'Ahle-sunnat';
+String? Zoom = 'Beginner';
+String? laptop = 'no';
 
 @override
   void initState() {
@@ -82,11 +91,13 @@ String instituteId =  '';
     fetchData('Qualification','Qualification', newItemsQualification, selectedIdsQualification, updateSelectedNamesQualification);
     fetchData('Board', 'Board', newItemsBoard, selectedIdsBoard, updateSelectedNamesBoard);
     fetchData('Group','Group', newItemsGroup, selectedIdsGroup, updateSelectedNamesGroup);
+    fetchData('Preferred_Time','Preferred_Time', newItemsTime, selectedIdsTime, updateSelectedNamesTime);
     fetchClassDataAndSubjectData('Class','Class', newItemsClass,);
     saveQualificationData();
     selectArea();
     repository.check_msg();
   }
+  
   
   Future<void> updateStatus() async {
     setState(() {
@@ -135,6 +146,11 @@ String instituteId =  '';
       }).toList();
       String preferredgroupjson = jsonEncode(preferred_group);
 
+      List<Map<String, dynamic>> preferred_time_query = selectedIdsTime.map((group) {
+        return {'preferred_time_id': group['id']};
+      }).toList();
+      String preferredTimejson = jsonEncode(preferred_time_query);
+
       Map<String, String> body = {
         'code': '10',
         'update_status': MySharedPrefrence().get_update_status(),
@@ -145,6 +161,7 @@ String instituteId =  '';
         'Degree': qualificationjson,
         'preferred_board': preferredboardjson,
         'preferred_group': preferredgroupjson,
+        'preferred_time_query': preferredTimejson,
       };
       print('list class $classListJson');
       final response = await http.post(
@@ -263,6 +280,10 @@ Future<void> saveQualificationData() async {
               .map<Map<String, String>>((item) => {'id': item['id'].toString()})
               .toList();
 
+          selectedIdsTime = (jsonResponse['preferred_time_query'] as List)
+              .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+              .toList();
+
               // selectedIdsSubject = (jsonResponse['class_listing'] as List)
               // .map<Map<String, String>>((item) => {'id': item['id'].toString()})
               // .toList();
@@ -296,6 +317,7 @@ Future<void> saveQualificationData() async {
           updateSelectedNamesGroup();
           updateSelectedNamesArea();
           updateSelectedNamesSubject();
+          updateSelectedNamesTime();
         // });
       } else {
         throw Exception('Empty response body');
@@ -549,6 +571,16 @@ void updateSelectedNamesArea() {
   // print('Selected Group Names: $selectedNamesGroup');
 }
 
+void updateSelectedNamesTime() {
+  selectedNamesTime = selectedIdsTime.map((selected) {
+    return (newItemsTime.firstWhere(
+      (item) => item['id'] == selected['id'],
+      orElse: () => {'name': 'Unknown'},
+    )['name'] as String);
+  }).toList();
+  // print('Selected Group Names: $selectedNamesGroup');
+}
+
 void updateSelectedNamesClass() {
   selectedNamesArea = selectedIdsArea.map((selected) {
     return (newItemsArea.firstWhere(
@@ -606,6 +638,12 @@ void toggleSelection(String id, String name, String itemType) {
         selectedNames = selectedNamesArea;
         newItems = newItemsArea;
         updateSelectedNames = updateSelectedNamesArea;
+        break;
+      case 'name':
+        selectedIds = selectedIdsTime;
+        selectedNames = selectedNamesTime;
+        newItems = newItemsTime;
+        updateSelectedNames = updateSelectedNamesTime;
         break;
       // case 'class_name':
       //   selectedIds = selectedIdsClass;
@@ -1364,7 +1402,11 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
   );
 }
 
+  bool isQuranClassSelected() {
+    return selectedClasses.any((myClass) => myClass.className == 'Quran Subjects');
+  }
 
+  
 
 @override
   Widget build(BuildContext context) {
@@ -1470,7 +1512,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                                   softWrap: true,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
-                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colorController.whiteColor),
+                                  style: TextStyle(fontSize: 13, color: colorController.whiteColor),
                                 ),
                               ),
                               InkWell(
@@ -1483,7 +1525,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                                     print('idddddddddddddd $selectedIdsinstitute');
                                   });
                                 },
-                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.056,),
+                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.050,),
                               ),
                             ],
                           ),
@@ -1519,7 +1561,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                                   softWrap: true,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
-                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colorController.whiteColor),
+                                  style: TextStyle(fontSize: 13, color: colorController.whiteColor),
                                 ),
                               ),
                               InkWell(
@@ -1531,7 +1573,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                                     // updateSelectedNames(); // Update the names here
                                   });
                                 },
-                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.056,),
+                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.050,),
                               ),
                             ],
                           ),
@@ -1556,7 +1598,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                         crossAxisCount: 2, // Number of columns
                         crossAxisSpacing: 10.0, // Spacing between columns
                         mainAxisSpacing: 10.0, // Spacing between rows
-                        childAspectRatio: 5.0, // Aspect ratio of each grid item
+                        childAspectRatio: 5.3, // Aspect ratio of each grid item
                       ),
                       itemBuilder: (context, index) {
                         return Container(
@@ -1574,7 +1616,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                                   softWrap: true,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
-                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colorController.whiteColor),
+                                  style: TextStyle(fontSize: 13, color: colorController.whiteColor),
                                 ),
                               ),
                               InkWell(
@@ -1586,7 +1628,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                                     // updateSelectedNames(); // Update the names here
                                   });
                                 },
-                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.056,),
+                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.050,),
                               ),
                             ],
                           ),
@@ -1609,7 +1651,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                         crossAxisCount: 2, // Number of columns
                         crossAxisSpacing: 10.0, // Spacing between columns
                         mainAxisSpacing: 10.0, // Spacing between rows
-                        childAspectRatio: 5.0, // Aspect ratio of each grid item
+                        childAspectRatio: 5.3, // Aspect ratio of each grid item
                       ),
                       itemBuilder: (context, index) {
                         return Container(
@@ -1627,7 +1669,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                                   softWrap: true,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
-                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colorController.whiteColor),
+                                  style: TextStyle(fontSize: 13, color: colorController.whiteColor),
                                 ),
                               ),
                               InkWell(
@@ -1639,7 +1681,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                                     // updateSelectedNames(); // Update the names here
                                   });
                                 },
-                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.056,),
+                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.050,),
                               ),
                             ],
                           ),
@@ -1662,7 +1704,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                         crossAxisCount: 2, // Number of columns
                         crossAxisSpacing: 10.0, // Spacing between columns
                         mainAxisSpacing: 10.0, // Spacing between rows
-                        childAspectRatio: 5.0, // Aspect ratio of each grid item
+                        childAspectRatio: 5.3, // Aspect ratio of each grid item
                       ),
                       itemBuilder: (context, index) {
                         return Container(
@@ -1680,7 +1722,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                                   softWrap: true,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
-                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colorController.whiteColor),
+                                  style: TextStyle(fontSize: 13, color: colorController.whiteColor),
                                 ),
                               ),
                               InkWell(
@@ -1692,7 +1734,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                                     // updateSelectedNames(); // Update the names here
                                   });
                                 },
-                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.056,),
+                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.050,),
                               ),
                             ],
                           ),
@@ -1725,7 +1767,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
       crossAxisCount: 1, // Number of columns
       crossAxisSpacing: 10.0, // Spacing between columns
       mainAxisSpacing: 10.0, // Spacing between rows
-      childAspectRatio: 9.5, // Aspect ratio of each grid item
+      childAspectRatio: 10.4, // Aspect ratio of each grid item
     ),
     itemBuilder: (context, index) {
       String subjects = selectedClasses[index].subjectNames.join(', ');
@@ -1744,7 +1786,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                 softWrap: true,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: colorController.whiteColor),
+                style: TextStyle(fontSize: 13, color: colorController.whiteColor),
               ),
             ),
             InkWell(
@@ -1753,7 +1795,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                                   selectedClasses.removeAt(index);
                                 });
               },
-              child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.056,),
+              child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.050,),
             ),
           ],
         ),
@@ -1761,6 +1803,118 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
     },
   ),
 ),
+if (isQuranClassSelected())
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  reusablaSizaBox(context, .020),
+                  reusablequlification(context, 'Preferred Time', () {
+                    search(newItemsTime, selectedIdsTime, 'name');
+                  }),
+                  reusablaSizaBox(context, .020),
+                  Container(
+                    constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.3),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: selectedNamesTime.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .012),
+                          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: colorController.qualificationItemsColors,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  selectedNamesTime[index],
+                                  softWrap: true,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyle(fontSize: 13, color: colorController.whiteColor),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    // Remove the selected item from the list
+                                    selectedNamesTime.removeAt(index);
+                                    selectedNamesTime.removeAt(index);
+                                    // updateSelectedNames(); // Update the names here
+                                    print('idddddddddddddd $selectedNamesTime');
+                                  });
+                                },
+                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.050,),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  reusablaSizaBox(context, .02),
+                  reusableText('Quran Online Teaching Experience',color: colorController.blackColor,fontsize: 17.0),
+                  reusablaSizaBox(context, .01),
+                  Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(child: buildRadioButton('None', 'none',quranOnlineTeaching,(String? newValue) {setState(() {quranOnlineTeaching = newValue;});},)),
+                Expanded(child: buildRadioButton('1-2 years', '1-2',quranOnlineTeaching,(String? newValue) {setState(() {quranOnlineTeaching = newValue;});},)),
+                Expanded(child: buildRadioButton('3-4 years', '3-4',quranOnlineTeaching,(String? newValue) {setState(() {quranOnlineTeaching = newValue;});},)),
+                Expanded(child: buildRadioButton('5+ years', '5+',quranOnlineTeaching,(String? newValue) {setState(() {quranOnlineTeaching = newValue;});},)),
+              ],
+            ),
+                  reusablaSizaBox(context, .02),
+                  reusableText('Have you ever taught international client?',color: colorController.blackColor,fontsize: 17.0),
+                  reusablaSizaBox(context, .01),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(child: buildRadioButton('Yes', 'yes',client,(String? newValue){setState(() {client = newValue;});},)),
+                      Expanded(child: buildRadioButton('No','no',client,(String? newValue){setState((){client = newValue;});})),
+                    ],
+                  ),
+                  reusablaSizaBox(context, .02),
+                  reusableText('Add Maslak',color: colorController.blackColor,fontsize: 17.0),
+                  reusablaSizaBox(context, .01),
+                  Wrap(
+                    spacing: 8.0, // Space between radio buttons
+                    runSpacing: 4.0, // Space between lines
+                    children: [
+                    buildRadioButton('Ahle-Sunnat','Ahle-Sunnat',maslak,(String? newValue){setState((){maslak = newValue;});}),
+                    buildRadioButton('Diobandi','Diobandi',maslak,(String? newValue){setState((){maslak = newValue;});}),
+                    buildRadioButton('Bharelvi','Bharelvi',maslak,(String? newValue){setState((){maslak = newValue;});}),
+                    buildRadioButton('Ahle-Hadees','Ahle-Hadees',maslak,(String? newValue){setState((){maslak = newValue;});}),
+                    buildRadioButton('Shia','Shia',maslak,(String? newValue){setState((){maslak = newValue;});}),
+                    ],
+                  ),
+                  reusablaSizaBox(context, .02),
+                  reusableText('Zoom Proficiency',color: colorController.blackColor,fontsize: 17.0),
+                  reusablaSizaBox(context, .01),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(child: buildRadioButton('Beginner', 'Beginner',Zoom,(String? newValue){setState(() {Zoom = newValue;});},)),
+                      Expanded(child: buildRadioButton('Intermediate','Intermediate',Zoom,(String? newValue){setState((){Zoom = newValue;});})),
+                      Expanded(child: buildRadioButton('Advance','Advance',Zoom,(String? newValue){setState((){Zoom = newValue;});})),
+                    ],
+                  ),
+                  reusablaSizaBox(context, .02),
+                  reusableText('Do you have a laptop',color: colorController.blackColor,fontsize: 17.0),
+                  reusablaSizaBox(context, .01),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(child: buildRadioButton('Yes', 'yes',laptop,(String? newValue){setState(() {laptop = newValue;});},)),
+                      Expanded(child: buildRadioButton('No','no',laptop,(String? newValue){setState((){laptop = newValue;});})),
+                    ],
+                  ),
+                ],
+              ),
                   reusablaSizaBox(context, .050),
                   reusableBtn(context, 'Update', (){
                     setState(() {
@@ -1780,6 +1934,9 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
 );
 }
 }
+
+
+
 
 
 

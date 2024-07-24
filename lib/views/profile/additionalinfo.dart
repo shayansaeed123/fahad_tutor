@@ -225,36 +225,38 @@ Future<void> getAddtionalInfo() async {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      reusableDropdownfeild(context, selectedCurrentTeaching, (String? newValue){
+                                      Expanded(child: reusableDropdownfeild(context, selectedCurrentTeaching, (String? newValue){
                                     setState(() {
                                             selectedCurrentTeaching = newValue;
                                             print('Current teaching $selectedCurrentTeaching');
                                           });
-                                  }, 'Currently Teaching', ['Yes','No']),
-                                  reusableDropdownfeild(context, selectedTeachingExp, (String? newValue){
+                                  }, 'Currently Teaching', ['Yes','No']),),
+                                  reusablaSizaBox(context, .03),
+                                  Expanded(child: reusableDropdownfeild(context, selectedTeachingExp, (String? newValue){
                                     setState(() {
                                             selectedTeachingExp = newValue;
                                             print('teaching experience $selectedTeachingExp');
                                           });
-                                  }, 'Teaching Experience', ['1-2 years','2-3 years','5+ years'])
+                                  }, 'Teaching Experience', ['1-2 years','2-3 years','5+ years']),)
                                     ],
                                   ),
                                   reusablaSizaBox(context, 0.020),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      reusableDropdownfeild(context, oLevel, (String? newValue){
+                                      Expanded(child: reusableDropdownfeild(context, oLevel, (String? newValue){
                                     setState(() {
                                             oLevel = newValue;
                                             print('O-Level Qualified  $oLevel');
                                           });
-                                  }, 'O-Level Qualified', ['Yes','No']),
-                                  reusableDropdownfeild(context, aLevel, (String? newValue){
+                                  }, 'O-Level Qualified', ['Yes','No']),),
+                                  reusablaSizaBox(context, 0.03),
+                                  Expanded(child: reusableDropdownfeild(context, aLevel, (String? newValue){
                                     setState(() {
                                             aLevel = newValue;
                                             print('A-Level Qualified $aLevel');
                                           });
-                                  }, 'A-Level Qualified', ['Yes','No'])
+                                  }, 'A-Level Qualified', ['Yes','No']))
                                     ],
                                   ),
                                   reusablaSizaBox(context, .020),

@@ -23,14 +23,16 @@ reusablequlification(BuildContext context,String name,Function ontap){
     },
     child: Container(
       width: MediaQuery.of(context).size.width * 1,
-      height: MediaQuery.of(context).size.height * .07,
+      height: MediaQuery.of(context).size.height * .058,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(11),
         border: Border.all(color: colorController.grayTextColor,width: 1)
       ),
-      child: Padding(
-        padding:  EdgeInsets.all(MediaQuery.of(context).size.width  * .035),
-        child: Row(
+      child: 
+      Padding(
+        padding:  EdgeInsets.symmetric(horizontal:  MediaQuery.of(context).size.width  * .035),
+        child: 
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(child: reusableText(name, fontsize: 15,color: colorController.grayTextColor,)),
