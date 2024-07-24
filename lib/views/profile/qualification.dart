@@ -873,7 +873,9 @@ Future<void> classSelect() {
     builder: (context) {
       return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
-          return Dialog(
+          return Stack(
+            children: [
+              Dialog(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
             ),
@@ -921,7 +923,9 @@ Future<void> classSelect() {
                                           'class_id=${MySharedPrefrence().get_class_id()}&Subject',
                                           'Subject',
                                           newItemsSubject,
-                                        );
+                                        ).then((_) {
+                                            setState(() {}); // Update the state after fetching data
+                                          });
                                       });
                                       Navigator.pop(context);
                                     },
@@ -1034,6 +1038,10 @@ Future<void> classSelect() {
                 ],
               ),
             ),
+          ),
+          if(isLoading == true)
+            reusableloadingrow(context, isLoading),
+            ],
           );
         },
       );
