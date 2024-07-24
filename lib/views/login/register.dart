@@ -39,7 +39,7 @@ class _RigisterState extends State<Rigister> {
   // TextEditingController _selectDateCon = TextEditingController();
   String _selectedValue = 'Tutor';
   String _selectedValue1 = 'Yes';
-  String _selectedValue2 = 'none';
+  String? _selectedValue2 = 'none';
   bool isHomeWidgetVisible = false;
   final TextEditingController _biography = TextEditingController();
   int _charCount = 0;
@@ -1070,13 +1070,14 @@ void updateTutorPlacement() {
                                   ),
                                   _selectedValue1,
                                   _selectedValue2,
-                                  (String? value) {
-                                    // onChanged function
-                                    setState(() {
-                                      _selectedValue2 = value!;
-                                      print('Experience $_selectedValue2');
-                                    });
-                                  },
+                                  (String? newValue) {setState(() {_selectedValue2 = newValue;});},
+                                  // (String? value) {
+                                  //   // onChanged function
+                                  //   setState(() {
+                                  //     _selectedValue2 = value!;
+                                  //     print('Experience $_selectedValue2');
+                                  //   });
+                                  // },
                                   _biography,
                                   _charCount,
                                 ),

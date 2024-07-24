@@ -65,7 +65,7 @@ Widget reusableVisiblityWarning(BuildContext context,String text,Function ontap,
   );
 }
 
-onlineVisibility(BuildContext context,bool isHomeWidgetVisible,Widget widget, String? _selectedValue1,String _selectedValue2,void Function(String?)? onChanged,TextEditingController controller,
+onlineVisibility(BuildContext context,bool isHomeWidgetVisible,Widget widget, String? _selectedValue1,String? _selectedValue2,Function(String?) onChanged,TextEditingController controller,
 int count,
 //  Widget widget2
  ){
@@ -77,73 +77,77 @@ int count,
                 reusableText('Do you have Digital Pad?',color: colorController.grayTextColor,fontsize: 20,),
                 widget,
                 reusableText('Teaching Experience',color: colorController.grayTextColor,fontsize: 18.5),
-                Container(
-                  padding: EdgeInsets.all(0),
-                  width: MediaQuery.of(context).size.width,
-                  child: 
+                // Container(
+                //   padding: EdgeInsets.all(0),
+                //   width: MediaQuery.of(context).size.width,
+                //   child: 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                        // width: MediaQuery.of(context).size.width * .2,
-                        // height: MediaQuery.of(context).size.height * 0.08,
-                        child: 
-                        RadioListTile(
-                          value: 'none',
-                          groupValue: _selectedValue2,
-                          onChanged: onChanged,
-                          activeColor: MaterialStateColor.resolveWith(
-                              (states) => colorController.blueColor),
-                        ),
-                      ),
-                      Expanded(
-                        // width: MediaQuery.of(context).size.width * .2,
-                        // height: MediaQuery.of(context).size.height * 0.08,
-                      child: 
-                      RadioListTile(
-                        value: '1-2',
-                        groupValue: _selectedValue2,
-                        onChanged: onChanged,
-                        activeColor: MaterialStateColor.resolveWith(
-                            (states) => colorController.blueColor),
+                      Expanded(child: buildRadioButton('None', 'none',_selectedValue2,onChanged)),
+                Expanded(child: buildRadioButton('1-2 years', '1-2',_selectedValue2,onChanged)),
+                Expanded(child: buildRadioButton('3-4 years', '3-4',_selectedValue2,onChanged)),
+                Expanded(child: buildRadioButton('5+ years', '5+',_selectedValue2,onChanged)),
+                      // Expanded(
+                      //   // width: MediaQuery.of(context).size.width * .2,
+                      //   // height: MediaQuery.of(context).size.height * 0.08,
+                      //   child: 
+                      //   RadioListTile(
+                      //     value: 'none',
+                      //     groupValue: _selectedValue2,
+                      //     onChanged: onChanged,
+                      //     activeColor: MaterialStateColor.resolveWith(
+                      //         (states) => colorController.blueColor),
+                      //   ),
+                      // ),
+                      // Expanded(
+                      //   // width: MediaQuery.of(context).size.width * .2,
+                      //   // height: MediaQuery.of(context).size.height * 0.08,
+                      // child: 
+                      // RadioListTile(
+                      //   value: '1-2',
+                      //   groupValue: _selectedValue2,
+                      //   onChanged: onChanged,
+                      //   activeColor: MaterialStateColor.resolveWith(
+                      //       (states) => colorController.blueColor),
                         
-                      ),
-                                    ),
-                      Expanded(
-                        // width: MediaQuery.of(context).size.width * .2,
-                        // height: MediaQuery.of(context).size.height * 0.08,
-                      child: 
-                      RadioListTile(
-                        value: '3-4',
-                        groupValue: _selectedValue2,
-                        onChanged: onChanged,
-                        activeColor: MaterialStateColor.resolveWith(
-                            (states) => colorController.blueColor),
-                      ),
-                      ),
-                      Expanded(
-                        // width: MediaQuery.of(context).size.width * .2,
-                        // height: MediaQuery.of(context).size.height * 0.08,
-                      child: 
-                      RadioListTile(
-                        value: '5+',
-                        groupValue: _selectedValue2,
-                        onChanged: onChanged,
-                        activeColor: MaterialStateColor.resolveWith(
-                            (states) => colorController.blueColor),
-                      ),
-                      ),
+                      // ),
+                      //               ),
+                      // Expanded(
+                      //   // width: MediaQuery.of(context).size.width * .2,
+                      //   // height: MediaQuery.of(context).size.height * 0.08,
+                      // child: 
+                      // RadioListTile(
+                      //   value: '3-4',
+                      //   groupValue: _selectedValue2,
+                      //   onChanged: onChanged,
+                      //   activeColor: MaterialStateColor.resolveWith(
+                      //       (states) => colorController.blueColor),
+                      // ),
+                      // ),
+                      // Expanded(
+                      //   // width: MediaQuery.of(context).size.width * .2,
+                      //   // height: MediaQuery.of(context).size.height * 0.08,
+                      // child: 
+                      // RadioListTile(
+                      //   value: '5+',
+                      //   groupValue: _selectedValue2,
+                      //   onChanged: onChanged,
+                      //   activeColor: MaterialStateColor.resolveWith(
+                      //       (states) => colorController.blueColor),
+                      // ),
+                      // ),
                     ],
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                  reusableText('None',fontsize: 14,),
-                  reusableText('1-2 years', fontsize: 14),
-                  reusableText('3-4 Years', fontsize: 14),
-                  reusableText('5+ Years', fontsize: 14,),
-                ],),
+                // ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //   reusableText('None',fontsize: 14,),
+                //   reusableText('1-2 years', fontsize: 14),
+                //   reusableText('3-4 Years', fontsize: 14),
+                //   reusableText('5+ Years', fontsize: 14,),
+                // ],),
                 reusablaSizaBox(context, .01),
                 TextField(
                   controller: controller,
@@ -192,7 +196,7 @@ Widget buildRadioButton(String title, String value,String? groupValue,Function(S
                             (states) => colorController.blueColor),
             onChanged: onChanged,
           ),
-          Text(title, overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 12),),
+          Flexible(child: Text(title, overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 12),)),
         ],
       // ),
     );
