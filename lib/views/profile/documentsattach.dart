@@ -51,7 +51,6 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
   // String other2 = '';
   TutorRepository repository = TutorRepository();
   // Future<void> documentsAttach() async {
-
   //   setState(() {
   //     isLoading = true;
   //   });
@@ -87,10 +86,6 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
   //       isLoading = false;
   //     });
   //   }
-  // }
-
-  // void doc()async{
-  //   await documentsAttach();
   // }
 
   Future<void> _pickImage(ImageSource source, String imageType) async {
