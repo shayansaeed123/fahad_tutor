@@ -13,7 +13,7 @@ import 'package:flutter/widgets.dart';
 Widget reusablecard(BuildContext context, String tuition_name, String class_name, String share_date, String location, String subject , int already){
   return Container(
     width: MediaQuery.of(context).size.width,
-    height: MediaQuery.of(context).size.height * .16,
+    height: MediaQuery.of(context).size.height * .20, //16 to 20
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(16),
       color: colorController.whiteColor,
@@ -26,13 +26,14 @@ Widget reusablecard(BuildContext context, String tuition_name, String class_name
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-          reusableText('${tuition_name}',color: colorController.grayTextColor,fontsize: 15,fontweight: FontWeight.bold),
+          reusableText('${tuition_name}',color: colorController.grayTextColor,fontsize: 13,fontweight: FontWeight.bold),
           reusablaSizaBox(context, .005),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(child: Text(class_name,style: TextStyle(color: colorController.blackColor,fontSize: 16,fontWeight: FontWeight.bold,overflow: TextOverflow.ellipsis,),softWrap: true,maxLines: 2,)),
+              Expanded(child: Text(class_name,style: TextStyle(color: colorController.blackColor,fontSize: 14,fontWeight: FontWeight.bold,overflow: TextOverflow.ellipsis,),softWrap: true,maxLines: 2,)),
               // reusableText('${class_name}',color: colorController.blackColor,fontsize: 16,fontweight: FontWeight.bold),
               already == 1? Row(
                 children: [
@@ -49,13 +50,13 @@ Widget reusablecard(BuildContext context, String tuition_name, String class_name
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               reusableappimage(context, .039, .05, 'assets/images/calendar_date.png'),
-              reusableText(' ${share_date}',color: colorController.blackColor,fontweight: FontWeight.bold,fontsize: 12),
+              reusableText(' ${share_date}',color: colorController.blackColor,fontweight: FontWeight.bold,fontsize: 10.7),
               SizedBox(width: MediaQuery.of(context).size.width * .09,),
               reusableappimage(context, .039, .05, 'assets/images/pin_point.png'),
               Expanded(
                 child: Container(
                   height: MediaQuery.of(context).size.height * .025,
-                  child: Text(' ${location}',softWrap: true,overflow: TextOverflow.ellipsis, style: TextStyle(color: colorController.blackColor,fontSize: 12,fontWeight: FontWeight.bold),)),
+                  child: Text(' ${location}',softWrap: true,overflow: TextOverflow.ellipsis, style: TextStyle(color: colorController.blackColor,fontSize: 10.7,fontWeight: FontWeight.bold),)),
               ),
               // reusableText('  Lorem Lipsam IdeazShuttle Lorem',color: colorController.blackColor,fontweight: FontWeight.bold,fontsize: 12),
             ],
@@ -67,7 +68,7 @@ Widget reusablecard(BuildContext context, String tuition_name, String class_name
               color: colorController.btnColor,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: reusableText('${subject}',color: colorController.whiteColor,fontsize: 12,),
+            child: reusableText('${subject}',color: colorController.whiteColor,fontsize: 11,),
           ),
         ],),
       ),

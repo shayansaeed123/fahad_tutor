@@ -136,6 +136,7 @@ reusabletutorDetails(
   String group_id,
   String tuition_id,
   int already,
+  Function updateCardState,
 ) {
   return showDialog(
     context: context,

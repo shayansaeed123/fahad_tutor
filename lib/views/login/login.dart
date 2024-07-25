@@ -38,6 +38,7 @@ class _LoginState extends State<Login> {
 
   late FocusNode _emailfocusNode;
   late FocusNode _passfocusNode;
+  late FocusNode _buttonFocusNode;
   bool pass = true;
   bool isLoading = false;
 
@@ -50,6 +51,7 @@ class _LoginState extends State<Login> {
     _emailfocusNode.addListener(_onFocusChange);
     _passfocusNode = FocusNode();
     _passfocusNode.addListener(_onFocusChange);
+    _buttonFocusNode = FocusNode();
     repository.get_Token();
   }
 
@@ -59,6 +61,7 @@ class _LoginState extends State<Login> {
     _emailfocusNode.dispose();
     _passfocusNode.removeListener(_onFocusChange);
     _passfocusNode.dispose();
+    _buttonFocusNode.dispose();
     super.dispose();
   }
 
@@ -110,7 +113,7 @@ class _LoginState extends State<Login> {
               print('message $apiMessage');
               MySharedPrefrence().setUserLoginStatus(true);
               MySharedPrefrence().set_user_ID(responseData['ID']);
-              MySharedPrefrence().set_profile_img(responseData['profile_img']);
+              // MySharedPrefrence().set_profile_img(responseData['profile_img']);
               setState(() {});
               MySharedPrefrence().set_tutor_name(responseData['teacher_name']);
               setState(() {});
@@ -266,7 +269,7 @@ TutorRepository _repository = TutorRepository();
                           : colorController.textfieldBorderColorBefore,
                       _passfocusNode, () {
                     _passfocusNode.unfocus();
-                    FocusScope.of(context).requestFocus(_passfocusNode);
+                    FocusScope.of(context).requestFocus(_buttonFocusNode);
                                 },
                                 // true,
                                 pass,(){
@@ -296,6 +299,7 @@ TutorRepository _repository = TutorRepository();
                                 reusablaSizaBox(context, .02),
                                 reusableBtn(context, 'Login',
                                 (){
+                                  _buttonFocusNode.unfocus();
                                   _validateForm();
                                 }
                                 ),

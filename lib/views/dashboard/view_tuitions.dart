@@ -354,7 +354,7 @@ class _ViewTuitionsState extends State<ViewTuitions> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorController.whiteColor,
-      appBar: reusableappbar(context, colorController.yellowColor,(){}),
+      appBar: reusableappbar(context, colorController.yellowColor,(){},repository.profile_image),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -454,7 +454,11 @@ class _ViewTuitionsState extends State<ViewTuitions> {
                                             }, (){Navigator.pop(context);});},
                                             data['group_id'],
                                             data['tuition_id'],
-                                            data['already']
+                                            data['already'],() {
+                                                setState(() {
+                                                  data['already'] = 1;
+                                                });
+                                              }
                                           );
                                         },
                                         child: reusablecard(
@@ -494,7 +498,11 @@ class _ViewTuitionsState extends State<ViewTuitions> {
                                             }, (){Navigator.pop(context);});},
                                               data['group_id'],
                                               data['tuition_id'],
-                                              data['already']
+                                              data['already'],() {
+                                                setState(() {
+                                                  data['already'] = 1;
+                                                });
+                                              }
                                             );
                                           },
                                           child: reusablecardbtn(
@@ -529,7 +537,11 @@ class _ViewTuitionsState extends State<ViewTuitions> {
                                             }, (){Navigator.pop(context);});},
                                               data['group_id'],
                                               data['tuition_id'],
-                                              data['already']
+                                              data['already'],() {
+                                                setState(() {
+                                                  data['already'] = 1;
+                                                });
+                                              }
                                             );
                                           },
                                           child: reusablecardbtn(

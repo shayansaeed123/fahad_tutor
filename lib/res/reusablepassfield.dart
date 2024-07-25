@@ -15,7 +15,7 @@ Widget reusablePassField(
   return Container(
     // margin: EdgeInsets.only(bottom: 10),
     width: MediaQuery.of(context).size.width * 1,
-    height: MediaQuery.of(context).size.height * .060,
+    // height: MediaQuery.of(context).size.height * .060,
     child: TextFormField(
       controller: controller,
       keyboardType: TextInputType.text,
@@ -62,7 +62,7 @@ Widget reusablePassField(
                 color: colorController.textfieldBorderColorAfter, width: 1.5)),
         errorBorder: InputBorder.none,
         disabledBorder: InputBorder.none,
-        // contentPadding: EdgeInsets.symmetric(vertical: 25, horizontal: 30),
+        contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10),
       ),
     ),
   );

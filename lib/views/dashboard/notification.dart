@@ -146,7 +146,7 @@ class _NotificationsState extends State<Notifications> {
   }
 }
 
-  Future<void> applyTuitions() async {
+  Future<void> applyTuitions(Function updateCardState) async {
     setState(() {
       isLoading2 = true;
     });
@@ -176,6 +176,7 @@ class _NotificationsState extends State<Notifications> {
           Navigator.pop(context);
           reusableloadingApply(context, 'assets/images/success_lottie.json', msg,refreshPage);
           Utils.snakbarSuccess(context, msg);
+          updateCardState();
         }
       } else {
         print('Error: ${response.statusCode}');
@@ -292,19 +293,31 @@ class _NotificationsState extends State<Notifications> {
                                         location,
                                         limit_statement, () {
                                       if (g_id == '0') {
-                                        applyTuitions();
+                                        applyTuitions(() {
+                                                setState(() {
+                                                  data['already'] = 1;
+                                                });
+                                              });
                                       } else {
                                         reusableMessagedialog(
                                             context,
                                             'Classes',
                                             'Are you sure${repository.class_name}',
                                             'Confirm', () {
-                                          applyTuitions();
+                                          applyTuitions(() {
+                                                setState(() {
+                                                  data['already'] = 1;
+                                                });
+                                              });
                                         }, () {
                                           Navigator.pop(context);
                                         });
                                       }
-                                    }, g_id, tuition_id, already);
+                                    }, g_id, tuition_id, already,() {
+                                                setState(() {
+                                                  data['already'] = 1;
+                                                });
+                                              });
                                     setState(() {});
                                   });
                                 },

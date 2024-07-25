@@ -221,8 +221,9 @@ class _AccountDetailsState extends State<AccountDetails> {
   dropdownDecoratorProps: DropDownDecoratorProps(
     dropdownSearchDecoration: InputDecoration(
       hintText: methodValue.isEmpty ? 'Select Method' : methodValue,
+      hintStyle: TextStyle(color: colorController.grayTextColor,),
       border: InputBorder.none,
-      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      contentPadding: EdgeInsets.symmetric(horizontal: 16),
     ),
   ),
   items: <String>['Jazz Cash', 'Easypaisa'],

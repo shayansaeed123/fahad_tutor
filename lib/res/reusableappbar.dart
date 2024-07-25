@@ -7,10 +7,12 @@ import 'package:fahad_tutor/res/reusableappimage.dart';
 import 'package:fahad_tutor/views/dashboard/notification.dart';
 import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 
-reusableappbar(BuildContext context,Color color,Function ontap){
+reusableappbar(BuildContext context,Color color,Function ontap,ValueListenable<Object?> profileimg){
   return AppBar(
         elevation: 0.0,
         foregroundColor: colorController.whiteColor,
@@ -39,40 +41,51 @@ reusableappbar(BuildContext context,Color color,Function ontap){
           ],
         ),
         centerTitle: true,
-        leading: InkWell(
-          onTap: (){
-            ontap();
-          },
-          child: Container(
-            // margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * .03),
-            padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * .03,),
-                              child: MySharedPrefrence().get_profile_img() != '' ? CircleAvatar(
-                                radius: MediaQuery.of(context).size.width * 0.07,
-                                backgroundColor: colorController.blackColor,
-                                backgroundImage: NetworkImage(
-                                  MySharedPrefrence()
-                                      .get_profile_img()
-                                      .toString(),
-                                ),
-                              ) : reusableappimage(context, .0, .0, 'assets/images/profile.png'),
-                            ),
-          // Container(
-          //   padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * .03,),
-          //   child: reusableappimage(context, .0, .0, 'assets/images/profile.png'),
-            
-          //   Image.asset(
-          //       filterQuality: FilterQuality.high,
-          //       fit: BoxFit.contain,
-          //       'assets/images/profile.png',),
-          // ),
+        leading: Padding(
+          padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.0153),
+          child: InkWell(
+            onTap: (){
+              ontap();
+            },
+            child: Container(
+              // margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * .03),
+              // padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * .03,),
+                                child: 
+                                // MySharedPrefrence().get_profile_img() 
+                                ValueListenableBuilder(valueListenable: profileimg, builder: (context, value, child) {
+                                  return value != 'https://www.fahadtutors.com/fta_admin/' ? CircleAvatar(
+                                  radius: MediaQuery.of(context).size.width * 0.07,
+                                  backgroundColor: colorController.blackColor,
+                                  backgroundImage: NetworkImage(
+                                    // MySharedPrefrence()
+                                    //     .get_profile_img()
+                                    //     .toString(),
+                                    value.toString(),
+                                  ),
+                                ) : reusableappimage(context, .0, .0, 'assets/images/profile.png');
+                                },)
+                              ),
+            // Container(
+            //   padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * .03,),
+            //   child: reusableappimage(context, .0, .0, 'assets/images/profile.png'),
+              
+            //   Image.asset(
+            //       filterQuality: FilterQuality.high,
+            //       fit: BoxFit.contain,
+            //       'assets/images/profile.png',),
+            // ),
+          ),
         ),
         // Icon(CupertinoIcons.circle_filled,color: colorController.blackColor,size: 40,),
         actions: [
-          InkWell(
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>Notifications())); 
-            },
-            child: reusableappimage(context, .115, .075, 'assets/images/not_icon.png')),
+          Padding(
+            padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.0153),
+            child: InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>Notifications())); 
+              },
+              child: reusableappimage(context, .115, .075, 'assets/images/not_icon.png')),
+          ),
 
           // Icon(CupertinoIcons.bell_circle_fill,color: colorController.yellowColor,size: 40,),
           // Image.asset(
@@ -81,7 +94,7 @@ reusableappbar(BuildContext context,Color color,Function ontap){
           //   filterQuality: FilterQuality.high,
           //   fit: BoxFit.contain,
           //   'assets/images/not_icon.png',),
-          SizedBox(width: MediaQuery.of(context).size.width * 0.02,)
+          SizedBox(width: MediaQuery.of(context).size.width * 0.015,)
         ],
       );
 }

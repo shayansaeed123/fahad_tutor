@@ -611,8 +611,8 @@ void updateTutorPlacement() {
                                       left: MediaQuery.of(context).size.width *
                                           .01),
                                   width: MediaQuery.of(context).size.width,
-                                  height:
-                                      MediaQuery.of(context).size.height * .055,
+                                  // height:
+                                  //     MediaQuery.of(context).size.height * .055,
                                   decoration: BoxDecoration(
                                     border: Border.all(
                                         color: Colors.grey,
@@ -634,6 +634,8 @@ void updateTutorPlacement() {
                                         decoration: InputDecoration(
                                           hintText: 'Search Country',
                                           fillColor: colorController.whiteColor,
+                                          contentPadding: EdgeInsets.symmetric(
+                                            horizontal: 16, vertical: 0.0),
                                           border: OutlineInputBorder(
                                             borderRadius:
                                                 BorderRadius.circular(11),
@@ -646,8 +648,8 @@ void updateTutorPlacement() {
                                       dropdownSearchDecoration: InputDecoration(
                                         hintText: 'Select Country',
                                         border: InputBorder.none,
-                                        contentPadding: EdgeInsets.symmetric(
-                                            horizontal: 16, vertical: 8),
+                                        // contentPadding: EdgeInsets.symmetric(
+                                        //     horizontal: 16, vertical: 8),
                                       ),
                                     ),
                                     items: countryList,
@@ -675,8 +677,8 @@ void updateTutorPlacement() {
                                           left: MediaQuery.of(context).size.width *
                                               .01),
                                       width: MediaQuery.of(context).size.width,
-                                      height:
-                                          MediaQuery.of(context).size.height * .055,
+                                      // height:
+                                      //     MediaQuery.of(context).size.height * .055,
                                       decoration: BoxDecoration(
                                         border: Border.all(
                                             color: Colors.grey,
@@ -697,6 +699,8 @@ void updateTutorPlacement() {
                                             decoration: InputDecoration(
                                               hintText: 'Search City',
                                               fillColor: colorController.whiteColor,
+                                              contentPadding: EdgeInsets.symmetric(
+                                                horizontal: 16, vertical: 0.0),
                                               border: OutlineInputBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(11),
@@ -709,8 +713,8 @@ void updateTutorPlacement() {
                                           dropdownSearchDecoration: InputDecoration(
                                             hintText: 'Select City',
                                             border: InputBorder.none,
-                                            contentPadding: EdgeInsets.symmetric(
-                                                horizontal: 16, vertical: 8),
+                                            // contentPadding: EdgeInsets.symmetric(
+                                            //     horizontal: 16, vertical: 8),
                                           ),
                                         ),
                                         items: cityList,
@@ -918,8 +922,8 @@ void updateTutorPlacement() {
                                           left: MediaQuery.of(context).size.width *
                                               .01),
                                       width: MediaQuery.of(context).size.width,
-                                      height:
-                                          MediaQuery.of(context).size.height * .055,
+                                      // height:
+                                      //     MediaQuery.of(context).size.height * .055,
                                       decoration: BoxDecoration(
                                         border: Border.all(
                                             color: Colors.grey,
@@ -941,6 +945,8 @@ void updateTutorPlacement() {
                                             decoration: InputDecoration(
                                               hintText: 'Search Area',
                                               fillColor: colorController.whiteColor,
+                                              contentPadding: EdgeInsets.symmetric(
+                                            horizontal: 16, vertical: 0.0),
                                               border: OutlineInputBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(11),
@@ -953,8 +959,8 @@ void updateTutorPlacement() {
                                           dropdownSearchDecoration: InputDecoration(
                                             hintText: 'Select Area',
                                             border: InputBorder.none,
-                                            contentPadding: EdgeInsets.symmetric(
-                                                horizontal: 16, vertical: 8),
+                                            // contentPadding: EdgeInsets.symmetric(
+                                            //     horizontal: 16, vertical: 8),
                                           ),
                                         ),
                                         items: areaList,

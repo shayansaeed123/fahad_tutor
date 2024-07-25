@@ -143,7 +143,7 @@ reusableAnimationdialog(
                 repeat: true,),
               ),
             reusablaSizaBox(context, .020),
-            reusableText(contenttxt,color: colorController.grayTextColor,fontsize: 14,),
+            Expanded(child: reusableText(contenttxt,color: colorController.grayTextColor,fontsize: 14,)),
           ],
         ),
       ),

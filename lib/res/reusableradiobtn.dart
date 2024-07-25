@@ -18,32 +18,70 @@ Widget reusableRadioBtn(
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Container(
-          width: MediaQuery.of(context).size.width * width,
-          height: MediaQuery.of(context).size.height * .08,
-          child: RadioListTile(
-            value: value1,
-            groupValue: _groupValue,
-            onChanged: onChanged,
+        Expanded(
+          child: Row(
+          children: [
+            Radio<String>(
+              value: value1,
+              groupValue: _groupValue,
+              fillColor: MaterialStateColor.resolveWith(
+                              (states) => colorController.blueColor),
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            visualDensity: VisualDensity.compact,
             activeColor: MaterialStateColor.resolveWith(
-                (states) => colorController.blueColor),
-            title: reusableText(name1, fontsize: 14),
-          ),
+                              (states) => colorController.blueColor),
+              onChanged: onChanged,
+            ),
+            Flexible(child: Text(name1, overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 13),)),
+          ],
+                // ),
+              ),
         ),
-        Container(
-          width: MediaQuery.of(context).size.width * width,
-          height: MediaQuery.of(context).size.height * .08,
-          child: RadioListTile(
-            value: value2,
-            groupValue: _groupValue,
-            onChanged: onChanged,
+    Expanded(
+      child: Row(
+          children: [
+            Radio<String>(
+              value: value2,
+              groupValue: _groupValue,
+              fillColor: MaterialStateColor.resolveWith(
+                              (states) => colorController.blueColor),
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            visualDensity: VisualDensity.compact,
             activeColor: MaterialStateColor.resolveWith(
-                (states) => colorController.blueColor),
-            overlayColor: MaterialStateColor.resolveWith(
-                (states) => colorController.blueColor),
-            title: reusableText(name2, fontsize: 14),
-          ),
-        ),
+                              (states) => colorController.blueColor),
+              onChanged: onChanged,
+            ),
+            Flexible(child: Text(name2, overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 13),)),
+          ],
+        // ),
+      ),
+    )
+        // Container(
+        //   width: MediaQuery.of(context).size.width * width,
+        //   height: MediaQuery.of(context).size.height * .08,
+        //   child: RadioListTile(
+        //     value: value1,
+        //     groupValue: _groupValue,
+        //     onChanged: onChanged,
+        //     activeColor: MaterialStateColor.resolveWith(
+        //         (states) => colorController.blueColor),
+        //     title: reusableText(name1, fontsize: 12),
+        //   ),
+        // ),
+        // Container(
+        //   width: MediaQuery.of(context).size.width * width,
+        //   height: MediaQuery.of(context).size.height * .08,
+        //   child: RadioListTile(
+        //     value: value2,
+        //     groupValue: _groupValue,
+        //     onChanged: onChanged,
+        //     activeColor: MaterialStateColor.resolveWith(
+        //         (states) => colorController.blueColor),
+        //     overlayColor: MaterialStateColor.resolveWith(
+        //         (states) => colorController.blueColor),
+        //     title: reusableText(name2, fontsize: 14),
+        //   ),
+        // ),
       ],
     ),
   );

@@ -141,6 +141,33 @@ class TutorRepository {
   final ValueNotifier<String> _preferred_popup_image = ValueNotifier<String>('');
   ValueNotifier<String> get preferred_popup_image => _preferred_popup_image;
 
+  final ValueNotifier<String> _profile_image = ValueNotifier<String>('');
+  ValueNotifier<String> get profile_image => _profile_image;
+
+  final ValueNotifier<String> _cnic_b= ValueNotifier<String>('');
+  ValueNotifier<String> get cnic_b => _cnic_b;
+
+  final ValueNotifier<String> _cnic_f = ValueNotifier<String>('');
+  ValueNotifier<String> get cnic_f => _cnic_f;
+
+  final ValueNotifier<String> _last_document = ValueNotifier<String>('');
+  ValueNotifier<String> get last_document => _last_document;
+
+  final ValueNotifier<String> _other_1 = ValueNotifier<String>('');
+  ValueNotifier<String> get other_1 => _other_1;
+
+  final ValueNotifier<String> _other_2 = ValueNotifier<String>('');
+  ValueNotifier<String> get other_2 => _other_2;
+
+  final ValueNotifier<String> _doc_msg = ValueNotifier<String>('');
+  ValueNotifier<String> get doc_msg => _doc_msg;
+
+  final ValueNotifier<String> _is_term_accept = ValueNotifier<String>('');
+  ValueNotifier<String> get is_term_accept => _is_term_accept;
+
+  final ValueNotifier<int> _doc_error = ValueNotifier<int>(0);
+  ValueNotifier<int> get doc_error => _doc_error;
+
   // String _preferred_popup_image = '';
   // String get preferred_popup_image => _preferred_popup_image;
 
@@ -325,7 +352,7 @@ class TutorRepository {
         _is_term_accepted_online_option.value = jsonResponse['term_condition_online_option'];
         _is_term_accepted_online.value = jsonResponse['term_condition_online'];
         _attention_option.value = jsonResponse['attention_popup'];
-        _payment_recipt_option.value = jsonResponse['payment_recipt_option'];
+        _payment_recipt_option.value = jsonResponse['option'];
          MySharedPrefrence().set_term_condition_image(jsonResponse['term_condition_image']);
          MySharedPrefrence().set_faqs_images(jsonResponse['faqs_images']);
         MySharedPrefrence().set_term_condition_image_online(jsonResponse['term_condition_image_ftalive']);
@@ -348,7 +375,6 @@ class TutorRepository {
 
   Future<void> check_msg()async{
      _isLoading = true;
-
     try {
       String url =
           '${Utils.baseUrl}mobile_app/check_popup.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}';
@@ -508,6 +534,49 @@ class TutorRepository {
       _showLoadMoreButton = true;
     }
   }
+
+  Future<void> documentsAttach() async {
+
+    // setState(() {
+      _isLoading = true;
+    // });
+
+    try {
+      String url =
+          '${Utils.baseUrl}mobile_app/get_ducoments.php?code=10&tutors_ids=${MySharedPrefrence().get_user_ID()}';
+      final response = await http.get(Uri.parse(url));
+      print('url $url');
+
+      if (response.statusCode == 200) {
+        dynamic jsonResponse = jsonDecode(response.body);
+      // setState(() {
+          _profile_image.value = jsonResponse['personal_image'];
+          _cnic_f.value = jsonResponse['cnic_front'];
+          _cnic_b.value = jsonResponse['cnic_back'];
+          _last_document.value = jsonResponse['last_document'];
+          _other_1.value = jsonResponse['other_1'];
+          _other_2.value = jsonResponse['other_2'];
+          _doc_error.value = jsonResponse['docs_error'];
+          _doc_msg.value = jsonResponse['docs_msg'];
+          _is_term_accept.value = jsonResponse['is_term_accepted'];
+          // MySharedPrefrence().set_profile_img(profile);
+        // });
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception(e);
+    } finally {
+      // setState(() {
+        _isLoading = false;
+      // });
+    }
+  }
+
+  // void doc()async{
+  //   await documentsAttach();
+  // }
 
 
 

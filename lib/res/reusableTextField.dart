@@ -21,7 +21,7 @@ Widget reusableTextField(
   return Container(
     // margin: EdgeInsets.only(bottom: 10),
     width: MediaQuery.of(context).size.width * 1,
-    height: MediaQuery.of(context).size.height * .060,
+    // height: MediaQuery.of(context).size.height * .060,
     child: TextFormField(
       controller: controller,
       keyboardType: keyboardType,
@@ -47,7 +47,7 @@ Widget reusableTextField(
         filled: true,
         fillColor: colorController.whiteColor,
         labelText: labelText,
-        labelStyle: TextStyle(color: color),
+        labelStyle: TextStyle(color: color,fontSize: 13.5),
         // prefixIcon: const Icon(Icons.password_outlined, color: Colors.white),
         hintStyle: TextStyle(color: colorController.textfieldBorderColorBefore),
         border: OutlineInputBorder(
@@ -64,7 +64,7 @@ Widget reusableTextField(
                 color: colorController.textfieldBorderColorAfter, width: 1.5)),
         errorBorder: InputBorder.none,
         disabledBorder: InputBorder.none,
-        // contentPadding: EdgeInsets.symmetric(vertical: 25, horizontal: 30),
+        contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10),
       ),
     ),
   );
@@ -81,7 +81,7 @@ reusableContactUs(BuildContext context,String text, IconData icons, TextEditingC
       Container(
         // margin: EdgeInsets.only(bottom: 10),
         width: MediaQuery.of(context).size.width * 1,
-        height: MediaQuery.of(context).size.height * .060,
+        // height: MediaQuery.of(context).size.height * .060,
         child: TextFormField(
           controller: controller,
           focusNode: focusnode,
@@ -109,7 +109,7 @@ reusableContactUs(BuildContext context,String text, IconData icons, TextEditingC
                     color: colorController.appliedTextColor, width: 0.75)),
             errorBorder: InputBorder.none,
             disabledBorder: InputBorder.none,
-            // contentPadding: EdgeInsets.symmetric(vertical: 25, horizontal: 30),
+            contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10),
           ),
         ),
       ),
@@ -188,25 +188,37 @@ Widget icon){
                                           selectdateontap(timeofday);
                                         }
                             },
-                            child: Container(
-                              height: MediaQuery.of(context).size.height * .052,
-                              width: MediaQuery.of(context).size.width,
-                              decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: colorController.grayTextColor,
-                                            width: 1.5),
-                                        borderRadius: BorderRadius.circular(10)),
-                                        child: ListTile(
+                            child: 
+                            // Container(
+                            //   height: MediaQuery.of(context).size.height * .052,
+                            //   width: MediaQuery.of(context).size.width,
+                            //   decoration: BoxDecoration(
+                            //             border: Border.all(
+                            //                 color: colorController.grayTextColor,
+                            //                 width: 1.5),
+                            //             borderRadius: BorderRadius.circular(10)),
+                            //             child: 
+                                        ListTile(
                                         enabled: false,
+                                        dense: true,
+                                        shape: RoundedRectangleBorder(
+              side: BorderSide(
+                color: Colors.grey, // Border color
+                width: 1.5, // Border width
+              ),
+              borderRadius: BorderRadius.circular(10), // Border radius
+            ),
                                         trailing: icon,
+                                        contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
                                         title: Align(
-                                          alignment: Alignment.centerLeft,
+                                          alignment: Alignment.topLeft,
                                           child: reusableText(
                                             selectedTime == null
                                                 ? ' Date of Birth'
                                                 : '${DateFormat(' yyyy-MM-dd').format(selectedTime)}',
+                                                fontsize: 13.5, // Adjust the font size
                                           ),
-                                        ),
+                                        // ),
                                             )
                             ),
                           );

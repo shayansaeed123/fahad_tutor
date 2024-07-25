@@ -79,7 +79,7 @@ class _ProfileState extends State<Profile> {
   }
 }
 void loginClear(){
-      reusabletextfieldcontroller.emailCon.clear();
+    reusabletextfieldcontroller.emailCon.clear();
     reusabletextfieldcontroller.loginPassCon.clear();
   }
 
@@ -101,6 +101,7 @@ void loginClear(){
     print('setstate');
     repository.check_msg();
     repository.check_delete_account();
+    repository.documentsAttach();
   }
        
   @override
@@ -129,16 +130,21 @@ void loginClear(){
                             },
                             child: SizedBox(
                               width: MediaQuery.of(context).size.width * 0.28,
-                              child: MySharedPrefrence().get_profile_img() != '' ? CircleAvatar(
+                              child: 
+                              // MySharedPrefrence().get_profile_img() 
+                              ValueListenableBuilder(valueListenable: repository.profile_image, builder: (context, value, child) {
+                                return value != 'https://www.fahadtutors.com/fta_admin/' ? CircleAvatar(
                                 radius:
                                     MediaQuery.of(context).size.width * 0.15,
                                     backgroundColor: colorController.blackColor,
                                 backgroundImage: NetworkImage(
-                                  MySharedPrefrence()
-                                      .get_profile_img()
-                                      .toString(),
+                                  // MySharedPrefrence()
+                                  //     .get_profile_img()
+                                  //     .toString(),
+                                  value.toString(),
                                 ),
-                              ) : reusableappimage(context, .1, .1, 'assets/images/profile.png')
+                              ) : reusableappimage(context, .1, .1, 'assets/images/profile.png');
+                              },)
                             ),
                           // ),
                         ),

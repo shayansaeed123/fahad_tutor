@@ -29,12 +29,12 @@ class DocumentsAttach extends StatefulWidget {
 class _DocumentsAttachState extends State<DocumentsAttach> {
 
   bool isLoading = false;
-  int doc_error = 0;
-  String docs_msg = '';
+  // int doc_error = 0;
+  // String docs_msg = '';
   bool visible = true;
   bool updateprofileimage = false;
   String base64updateprofileimage = '';
-  String is_term_accepted = '';
+  // String is_term_accepted = '';
 
   File? _cnicFront;
   File? _cnicBack;
@@ -43,55 +43,55 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
   File? _other1;
   File? _other2;
   final picker = ImagePicker();
-  String profile = '';
-  String cnic_f = '';
-  String cnic_b = '';
-  String last_document = '';
-  String other1 = '';
-  String other2 = '';
+  // String profile = '';
+  // String cnic_f = '';
+  // String cnic_b = '';
+  // String last_document = '';
+  // String other1 = '';
+  // String other2 = '';
   TutorRepository repository = TutorRepository();
-  Future<void> documentsAttach() async {
+  // Future<void> documentsAttach() async {
 
-    setState(() {
-      isLoading = true;
-    });
+  //   setState(() {
+  //     isLoading = true;
+  //   });
 
-    try {
-      String url =
-          '${Utils.baseUrl}mobile_app/get_ducoments.php?code=10&tutors_ids=${MySharedPrefrence().get_user_ID()}';
-      final response = await http.get(Uri.parse(url));
-      print('url $url');
+  //   try {
+  //     String url =
+  //         '${Utils.baseUrl}mobile_app/get_ducoments.php?code=10&tutors_ids=${MySharedPrefrence().get_user_ID()}';
+  //     final response = await http.get(Uri.parse(url));
+  //     print('url $url');
 
-      if (response.statusCode == 200) {
-        dynamic jsonResponse = jsonDecode(response.body);
-      setState(() {
-          profile = jsonResponse['personal_image'];
-          cnic_f = jsonResponse['cnic_front'];
-          cnic_b = jsonResponse['cnic_back'];
-          last_document = jsonResponse['last_document'];
-          other1 = jsonResponse['other_1'];
-          other2 = jsonResponse['other_2'];
-          doc_error = jsonResponse['docs_error'];
-          docs_msg = jsonResponse['docs_msg'];
-          is_term_accepted = jsonResponse['is_term_accepted'];
-          // MySharedPrefrence().set_profile_img(profile);
-        });
-      } else {
-        print('Error: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Error: $e');
-      throw Exception(e);
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
+  //     if (response.statusCode == 200) {
+  //       dynamic jsonResponse = jsonDecode(response.body);
+  //     setState(() {
+  //         profile = jsonResponse['personal_image'];
+  //         cnic_f = jsonResponse['cnic_front'];
+  //         cnic_b = jsonResponse['cnic_back'];
+  //         last_document = jsonResponse['last_document'];
+  //         other1 = jsonResponse['other_1'];
+  //         other2 = jsonResponse['other_2'];
+  //         doc_error = jsonResponse['docs_error'];
+  //         docs_msg = jsonResponse['docs_msg'];
+  //         is_term_accepted = jsonResponse['is_term_accepted'];
+  //         // MySharedPrefrence().set_profile_img(profile);
+  //       });
+  //     } else {
+  //       print('Error: ${response.statusCode}');
+  //     }
+  //   } catch (e) {
+  //     print('Error: $e');
+  //     throw Exception(e);
+  //   } finally {
+  //     setState(() {
+  //       isLoading = false;
+  //     });
+  //   }
+  // }
 
-  void doc()async{
-    await documentsAttach();
-  }
+  // void doc()async{
+  //   await documentsAttach();
+  // }
 
   Future<void> _pickImage(ImageSource source, String imageType) async {
   final pickedFile = await picker.pickImage(source: source);
@@ -225,26 +225,32 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
       setState(() {
         switch (imageType) {
           case 'front':
-            cnic_f = responseData['CNIC_F'] ?? cnic_f;
+            // cnic_f = responseData['CNIC_F'] ?? cnic_f;
+            repository.cnic_f.value = responseData['CNIC_F'] ?? repository.cnic_f.value;
             break;
           case 'back':
-            cnic_b = responseData['CNIC_B'] ?? cnic_b;
+            // cnic_b = responseData['CNIC_B'] ?? cnic_b;
+            repository.cnic_b.value = responseData['CNIC_B'] ?? repository.cnic_b.value;
             break;
           case 'profile':
-            profile = responseData['profile_pic'] ?? profile;
+            // profile = responseData['profile_pic'] ?? profile;
+            repository.profile_image.value = responseData['profile_pic'] ?? repository.profile_image.value;
             break;
           case 'qualification':
-            last_document = responseData['Qualification'] ?? last_document;
+            // last_document = responseData['Qualification'] ?? last_document;
+            repository.last_document.value = responseData['Qualification'] ?? repository.last_document.value;
             break;
           case 'other1':
-            other1 = responseData['other_1'] ?? other1;
+            // other1 = responseData['other_1'] ?? other1;
+            repository.other_1.value = responseData['other_1'] ?? repository.other_1.value;
             break;
           case 'other2':
-            other2 = responseData['other_2'] ?? other2;
+            // other2 = responseData['other_2'] ?? other2;
+            repository.other_2.value = responseData['other_2'] ?? repository.other_2.value;
             break;
         }
       });
-      print('State Updated: profile=$profile, cnic_f=$cnic_f, cnic_b=$cnic_b, last_document=$last_document, other1=$other1, other2=$other2');
+      // print('State Updated: profile=$profile, cnic_f=$cnic_f, cnic_b=$cnic_b, last_document=$last_document, other1=$other1, other2=$other2');
       print(responseData);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -271,13 +277,13 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
         'code': '10',
         'update_status': '4',
         'tutor_id': MySharedPrefrence().get_user_ID().toString(),
-        'is_term_accepted': is_term_accepted.toString(),
-        'profile_img': profile.toString(),
-        'cnic_f': cnic_f.toString(),
-        'cnic_b': cnic_b.toString(),
-        'last_document': last_document.toString(),
-        'other_1': other1.toString(),
-        'other_2': other2.toString(),
+        'is_term_accepted': repository.is_term_accept.value.toString(),
+        'profile_img': repository.profile_image.value.toString(),
+        'cnic_f': repository.cnic_f.value.toString(),
+        'cnic_b': repository.cnic_b.value.toString(),
+        'last_document': repository.last_document.value.toString(),
+        'other_1': repository.other_1.value.toString(),
+        'other_2': repository.other_2.value.toString(),
       },);
       if (response.statusCode == 200) {
         if (response.body.isNotEmpty) {
@@ -307,6 +313,16 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
     super.initState();
     doc();
     repository.check_msg();
+    
+  }
+  void doc()async{
+    setState(() {
+      isLoading = true;
+    });
+    await repository.documentsAttach();
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -328,10 +344,11 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
                 }else{return Container();}
             },),
             reusablaSizaBox(context, 0.020),
-                              doc_error == 1 ? reusableVisiblityWarning(context, '${docs_msg}', (){setState(() {visible=false;});}, visible) : Container(),
+                              repository.doc_error.value == 1 ? reusableVisiblityWarning(context, '${repository.doc_msg.value.toString()}', (){setState(() {visible=false;});}, visible) : Container(),
                               reusablaSizaBox(context, 0.020),
                               reusableDocuments(context,'','Add Image (Front)','Add Image (Back)' ,'Profile', 'CNIC Image', 
-                              profile,cnic_f,cnic_b,
+                              // profile,cnic_f,cnic_b,
+                              repository.profile_image.value.toString(),repository.cnic_f.value.toString(),repository.cnic_b.value.toString(),
                                (){
                                 reuablebottomsheet(context, "Choose Profile Image",(){
                                   _pickImage(ImageSource.gallery, 'profile');
@@ -352,7 +369,8 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
                               ),
                                reusablaSizaBox(context, 0.020),
                               reusableDocuments(context, 'Add Image', '', '', 'Last Qualification Proof', 'Attach other Documents(Optional)', 
-                              last_document ,other1,other2,
+                              // last_document ,other1,other2,
+                              repository.last_document.value.toString(),repository.other_1.value.toString(),repository.other_2.value.toString(),
                               (){
                                 reuablebottomsheet(context, "Choose Qualification Image",(){
                                   _pickImage(ImageSource.gallery,'qualification');
@@ -372,7 +390,7 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
                               'assets/images/add_img_placeholder.png'
                               ),
                               reusablaSizaBox(context, 0.010),
-                              doc_error == 1 ? Container() :
+                              repository.doc_error.value == 1 ? Container() :
                               reusableBtn(context, 'Submit',(){
                                 setState(() {
                                   

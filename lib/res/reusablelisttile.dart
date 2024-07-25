@@ -22,14 +22,13 @@ Widget reusablelisttile(BuildContext context,Function ontap,String image,title,{
     horizontalTitleGap: 8.0, // Increase the gap between the leading and title
     // verticalTitleGap: 0, // Reduce the gap between the title and subtitle/trailing
     leading: Image.asset(image,fit: BoxFit.contain,height: MediaQuery.of(context).size.height * .025,),
-    title: reusableText(title,fontsize: 14.5),
+    title: reusableText(title,fontsize: 13),
     // subtitle: Text('Subtitle'),
     trailing: widget,
     // ),
   );
 
   // ListTile(
-  
   //   // contentPadding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * .01),
   //   tileColor: colorController.grayTextColor,
   //   leading: Image.asset('assets/images/basic_info_icon.png',fit: BoxFit.contain,height: MediaQuery.of(context).size.height * .035,),

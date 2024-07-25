@@ -339,6 +339,7 @@ class _AllTuitionsState extends State<AllTuitions> {
   void initState() {
     super.initState();
     fetchInitialTuitions();
+    repository.documentsAttach();
     // searchTuitions(_searchCon.text.toString());
   }
 
@@ -401,7 +402,7 @@ class _AllTuitionsState extends State<AllTuitions> {
     });
   }
 
-  Future<void> applyTuitions() async {
+  Future<void> applyTuitions(Function updateCardState) async {
     setState(() {
       isLoading2 = true;
     });
@@ -426,11 +427,11 @@ class _AllTuitionsState extends State<AllTuitions> {
         if(success == 0){
           Navigator.pop(context);
           reusableloadingApply(context, 'assets/images/error_lottie.json', msg, refreshPage);
-          
         }else{
           Navigator.pop(context);
           reusableloadingApply(context, 'assets/images/success_lottie.json', msg,refreshPage);
           Utils.snakbarSuccess(context, msg);
+          updateCardState();
         }
       } else {
         print('Error: ${response.statusCode}');
@@ -445,9 +446,9 @@ class _AllTuitionsState extends State<AllTuitions> {
     }
   }
   void refreshPage() {
-  setState(() {
-    fetchInitialTuitions();
-  });
+  // setState(() {
+  //   fetchInitialTuitions();
+  // });
 }
 
 
@@ -457,7 +458,7 @@ class _AllTuitionsState extends State<AllTuitions> {
       backgroundColor: colorController.whiteColor,
       appBar: reusableappbar(context, colorController.yellowColor,()async{
         // await repository.Check_popup();
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(),));}),
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(),));},repository.profile_image),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -468,7 +469,7 @@ class _AllTuitionsState extends State<AllTuitions> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   reusableText('All Tuitions',
-                      fontsize: 25,
+                      fontsize: 22.5,
                       color: colorController.blackColor,
                       fontweight: FontWeight.bold),
                   reusableyoutubeIcon(context),
@@ -551,7 +552,7 @@ class _AllTuitionsState extends State<AllTuitions> {
                             MySharedPrefrence().setAllTuitions(data);
                             
                             return Container(
-                              height: MediaQuery.of(context).size.height * 0.19,
+                              height: MediaQuery.of(context).size.height * 0.23, //19 to 21
                               child: Stack(
                                 children: [
                                   Positioned(
@@ -575,16 +576,28 @@ class _AllTuitionsState extends State<AllTuitions> {
                                               data['location'],
                                               data['limit_statement'],(){
                                                 if(data['group_id'] == '0'){
-                                                  applyTuitions();
+                                                  applyTuitions(() {
+                                                setState(() {
+                                                  data['already'] = 1;
+                                                });
+                                              });
                                                 }else{
                                                   reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm', (){
-                                                    applyTuitions();
+                                                    applyTuitions(() {
+                                                setState(() {
+                                                  data['already'] = 1;
+                                                });
+                                              });
                                                   }, (){Navigator.pop(context);});
                                                 }
                                               },
                                               data['group_id'],
                                               data['tuition_id'],
-                                              data['already']
+                                              data['already'],() {
+                                                setState(() {
+                                                  data['already'] = 1;
+                                                });
+                                              }
                                                   );
                                                   setState(() {});
                                                 print('groupppppppppppppppppppppppppp ${data['group_id']}');
@@ -617,16 +630,28 @@ class _AllTuitionsState extends State<AllTuitions> {
                                               data['location'],
                                               data['limit_statement'],(){
                                                 if(data['group_id'] == '0'){
-                                                  applyTuitions();
+                                                  applyTuitions(() {
+                                                setState(() {
+                                                  data['already'] = 1;
+                                                });
+                                              });
                                                 }else{
                                                   reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm', (){
-                                                    applyTuitions();
+                                                    applyTuitions(() {
+                                                setState(() {
+                                                  data['already'] = 1;
+                                                });
+                                              });
                                                   }, (){Navigator.pop(context);});
                                                 }
                                               },
                                               data['group_id'],
                                               data['tuition_id'],
-                                              data['already']
+                                              data['already'],() {
+                                                setState(() {
+                                                  data['already'] = 1;
+                                                });
+                                              }
                                                 );
                                                 setState(() {});
                                                 print('groupppppppppppppppppppppppppp ${data['group_id']}');
@@ -655,16 +680,28 @@ class _AllTuitionsState extends State<AllTuitions> {
                                               data['location'],
                                               data['limit_statement'],(){
                                                 if(data['group_id'] == '0'){
-                                                  applyTuitions();
+                                                  applyTuitions(() {
+                                                setState(() {
+                                                  data['already'] = 1;
+                                                });
+                                              });
                                                 }else{
                                                   reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm', (){
-                                                    applyTuitions();
+                                                    applyTuitions(() {
+                                                setState(() {
+                                                  data['already'] = 1;
+                                                });
+                                              });
                                                   }, (){Navigator.pop(context);});
                                                 }
                                               },
                                               data['group_id'],
                                               data['tuition_id'],
-                                              data['already']
+                                              data['already'],() {
+                                                setState(() {
+                                                  data['already'] = 1;
+                                                });
+                                              }
                                                 );
                                                 setState(() {});
                                                 print('groupppppppppppppppppppppppppp ${data['group_id']}');
