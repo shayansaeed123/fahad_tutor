@@ -30,8 +30,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  // TextEditingController _emailCon = TextEditingController();
-  // TextEditingController _passCon = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _selectedValue = 'Tutor';
   TutorRepository repository = TutorRepository();

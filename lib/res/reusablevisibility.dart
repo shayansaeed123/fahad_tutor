@@ -88,55 +88,6 @@ int count,
                 Expanded(child: buildRadioButton('1-2 years', '1-2',_selectedValue2,onChanged)),
                 Expanded(child: buildRadioButton('3-4 years', '3-4',_selectedValue2,onChanged)),
                 Expanded(child: buildRadioButton('5+ years', '5+',_selectedValue2,onChanged)),
-                      // Expanded(
-                      //   // width: MediaQuery.of(context).size.width * .2,
-                      //   // height: MediaQuery.of(context).size.height * 0.08,
-                      //   child: 
-                      //   RadioListTile(
-                      //     value: 'none',
-                      //     groupValue: _selectedValue2,
-                      //     onChanged: onChanged,
-                      //     activeColor: MaterialStateColor.resolveWith(
-                      //         (states) => colorController.blueColor),
-                      //   ),
-                      // ),
-                      // Expanded(
-                      //   // width: MediaQuery.of(context).size.width * .2,
-                      //   // height: MediaQuery.of(context).size.height * 0.08,
-                      // child: 
-                      // RadioListTile(
-                      //   value: '1-2',
-                      //   groupValue: _selectedValue2,
-                      //   onChanged: onChanged,
-                      //   activeColor: MaterialStateColor.resolveWith(
-                      //       (states) => colorController.blueColor),
-                        
-                      // ),
-                      //               ),
-                      // Expanded(
-                      //   // width: MediaQuery.of(context).size.width * .2,
-                      //   // height: MediaQuery.of(context).size.height * 0.08,
-                      // child: 
-                      // RadioListTile(
-                      //   value: '3-4',
-                      //   groupValue: _selectedValue2,
-                      //   onChanged: onChanged,
-                      //   activeColor: MaterialStateColor.resolveWith(
-                      //       (states) => colorController.blueColor),
-                      // ),
-                      // ),
-                      // Expanded(
-                      //   // width: MediaQuery.of(context).size.width * .2,
-                      //   // height: MediaQuery.of(context).size.height * 0.08,
-                      // child: 
-                      // RadioListTile(
-                      //   value: '5+',
-                      //   groupValue: _selectedValue2,
-                      //   onChanged: onChanged,
-                      //   activeColor: MaterialStateColor.resolveWith(
-                      //       (states) => colorController.blueColor),
-                      // ),
-                      // ),
                     ],
                   ),
                 // ),
