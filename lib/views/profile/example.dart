@@ -22,43 +22,6 @@
 //   List<dynamic> newItemsClass = [];
 // List<dynamic> selectedIdsClass = [];
 // List<String> selectedNamesClass = [];
-
-//   Future<void> saveQualificationData() async {
-//   setState(() {
-//     isLoading = true;
-//   });
-
-//   try {
-//     final response = await http.get(
-//       Uri.parse('${Utils.baseUrl}mobile_app/step_2.php?code=10&tutor_id=31225'),
-//     );
-//     if (response.statusCode == 200) {
-//       if (response.body.isNotEmpty) {
-//         final Map<String, dynamic> jsonResponse = json.decode(response.body);
-
-//         selectedIdsClass = jsonResponse['class_listing'];
-//         //  as List)
-//         //     .map<Map<String, String>>((item) => {'class_id': item['class_id'].toString()})
-//         //     .toList();
-//         print('hellooo $selectedIdsClass');
-
-
-//         MySharedPrefrence().set_update_status(jsonResponse['update_status']);
-//       } else {
-//         throw Exception('Empty response body');
-//       }
-//     } else {
-//       throw Exception('Failed to load country details');
-//     }
-//   } catch (e) {
-//     print(e);
-//   } finally {
-//     setState(() {
-//       isLoading = false;
-//     });
-//   }
-// }
-
 // @override
 //   void initState() {
 //     // TODO: implement initState

@@ -109,9 +109,7 @@ String? laptop = 'no';
       // return classItem.toJson();
       return {
       'class_id': classItem.classId,
-      // 'class_name': classItem.className,
       'subject_id': classItem.subjectIds.join(','),
-      // 'subject_name': classItem.subjectNames,
     };
     }).toList();
       String classListJson = jsonEncode(classList);
