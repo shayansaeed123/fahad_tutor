@@ -716,9 +716,14 @@ Future<void> selectSubject(Function parentSetState) {
     builder: (context) {
       return StatefulBuilder(
         builder: (context, setState) {
-          return AlertDialog(
-            title: Text('Select Subject'),
-            content: Column(
+          return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          backgroundColor: colorController.whiteColor,
+          surfaceTintColor: colorController.whiteColor,
+            // title: Text('Select Subject'),
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -727,7 +732,9 @@ Future<void> selectSubject(Function parentSetState) {
                   child: TextField(
                     controller: searchController,
                     decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 0.0),
                       hintText: 'Search',
+                      hintStyle: TextStyle(fontSize: 11.5),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
@@ -745,9 +752,16 @@ Future<void> selectSubject(Function parentSetState) {
                       shrinkWrap: true,
                       itemCount: filteredItemsSubject.length,
                       itemBuilder: (BuildContext context, int index) {
+                        List<dynamic> filteredItems = List.from(filteredItemsSubject);
                         bool isSelected = tempSelectedIdsSubject.contains(filteredItemsSubject[index]['id'].toString());
-                        return ListTile(
-                          title: Text(filteredItemsSubject[index]['subject_name']),
+                        return Column(
+                          children: [
+                            ListTile(
+                          // title: Text(filteredItemsSubject[index]['subject_name']),
+                          dense: true,
+                              contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
+                              visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                              title: reusableText(filteredItemsSubject[index]['subject_name'],fontsize: 12,color: colorController.lightblackColor),
                           trailing: isSelected ? Icon(Icons.check, color: Colors.black) : null,
                           onTap: () {
                             setState(() {
@@ -761,6 +775,13 @@ Future<void> selectSubject(Function parentSetState) {
                             });
                             parentSetState(() {});
                           },
+                        ),
+                      if (index != filteredItems.length - 1)
+                            Divider(
+                              color: Colors.grey,
+                              thickness: 1.0,
+                            ),
+                          ]
                         );
                       },
                     ),
@@ -865,7 +886,8 @@ Future<void> selectSubject(Function parentSetState) {
 //                       );
 // }
 
-Future<void> classSelect() {
+Future<void> classSelect(Function parentSetState) {
+  TextEditingController _searchController = TextEditingController();
   return showDialog(
     context: context,
     builder: (context) {
@@ -886,11 +908,11 @@ Future<void> classSelect() {
                   reusableText(
                     'Add New Class',
                     color: colorController.blackColor,
-                    fontsize: 22,
+                    fontsize: 20,
                     fontweight: FontWeight.bold,
                   ),
                   reusablaSizaBox(context, .030),
-                  reusableText('Add new class with Subject'),
+                  reusableText('Add new class with Subject',color: colorController.lightblackColor),
                   reusablaSizaBox(context, .010),
                   reusablequlification(
                     context,
@@ -898,40 +920,103 @@ Future<void> classSelect() {
                         ? 'Select Class'
                         : MySharedPrefrence().get_class_name_institute(),
                     () {
+                      List<dynamic> filteredItemsClass = List.from(newItemsClass);
+                      void filterSearchResults(String query) {
+    if (query.isNotEmpty) {
+      List<dynamic> tempList = [];
+      newItemsClass.forEach((item) {
+        if (item['class_name'].toString().toLowerCase().contains(query.toLowerCase())) {
+          tempList.add(item);
+        }
+      });
+      parentSetState(() {
+        filteredItemsClass.clear();
+        filteredItemsClass.addAll(tempList);
+      });
+    } else {
+      parentSetState(() {
+        filteredItemsClass.clear();
+        filteredItemsClass.addAll(newItemsClass);
+      });
+    }
+  }
                       showDialog(
                         context: context,
                         builder: (context) {
-                          return AlertDialog(
-                            title: Text('Select Class'),
-                            content: Container(
-                              width: double.minPositive,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: newItemsClass.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return ListTile(
-                                    title: Text(newItemsClass[index]['class_name']),
-                                    onTap: () {
-                                      setState(() {
-                                        tempSelectedIdsSubject.clear(); // Clear the list
-                                        tempSelectedNamesSubject.clear(); // Clear the list
-                                        MySharedPrefrence().set_class_id(newItemsClass[index]['id']);
-                                        MySharedPrefrence().set_class_name_institute(newItemsClass[index]['class_name']);
-                                        fetchClassDataAndSubjectData(
-                                          'class_id=${MySharedPrefrence().get_class_id()}&Subject',
-                                          'Subject',
-                                          newItemsSubject,
-                                        ).then((_) {
-                                            setState(() {}); // Update the state after fetching data
-                                          });
-                                      });
-                                      Navigator.pop(context);
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
-                          );
+                          return Dialog(
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(10.0),
+  ),
+  backgroundColor: colorController.whiteColor,
+  surfaceTintColor: colorController.whiteColor,
+  child: Column(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextField(
+          controller: _searchController,
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.all(0),
+            hintText: 'Search',
+            hintStyle: TextStyle(fontSize: 11.5),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            prefixIcon: Icon(Icons.search),
+          ),
+          onChanged: (value) {
+            filterSearchResults(value);
+          },
+        ),
+      ),
+      Expanded(
+        child: Container(
+          width: MediaQuery.of(context).size.width * .9,
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: filteredItemsClass.length,
+            itemBuilder: (BuildContext context, int index) {
+              List<dynamic> filteredItems = List.from(filteredItemsClass);
+              return Column(
+                children: [
+                  ListTile(
+                    dense: true,
+                    contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
+                    visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                    title: reusableText(filteredItemsClass[index]['class_name'], fontsize: 12, color: colorController.lightblackColor),
+                    onTap: () {
+                      setState(() {
+                        tempSelectedIdsSubject.clear(); // Clear the list
+                        tempSelectedNamesSubject.clear(); // Clear the list
+                        MySharedPrefrence().set_class_id(filteredItemsClass[index]['id']);
+                        MySharedPrefrence().set_class_name_institute(filteredItemsClass[index]['class_name']);
+                        fetchClassDataAndSubjectData(
+                          'class_id=${MySharedPrefrence().get_class_id()}&Subject',
+                          'Subject',
+                          newItemsSubject,
+                        ).then((_) {
+                          setState(() {}); // Update the state after fetching data
+                        });
+                      });
+                      Navigator.pop(context);
+                    },
+                  ),
+                  if (index != filteredItems.length - 1)
+                    Divider(
+                      color: Colors.grey,
+                      thickness: 1.0,
+                    ),
+                ],
+              );
+            },
+          ),
+        ),
+      ),
+    ],
+  ),
+);
                         },
                       );
                     },
@@ -1343,6 +1428,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.all(0),
                     hintText: 'Search',
+                    hintStyle: TextStyle(fontSize: 11.5),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
@@ -1369,7 +1455,9 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                           //   child: 
                             ListTile(
                               dense: true,
-                              title: Text(instituteName),
+                              contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
+                              visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                              title: reusableText(instituteName,fontsize: 12,color: colorController.lightblackColor),
                               trailing: isSelected ? Icon(Icons.check, color: Colors.black) : null,
                               onTap: () {
                                 setState(() {});
@@ -1765,7 +1853,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                       ),
                       child: InkWell(
                         onTap: ()async{
-                          await classSelect();
+                          await classSelect(setState);
                           setState(() {});
                           },
                         child: reusableText('Add More Classes',color: colorController.btnColor,fontweight: FontWeight.bold)),

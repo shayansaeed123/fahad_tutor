@@ -17,6 +17,7 @@ import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/res/reusabletutordetails.dart';
 import 'package:fahad_tutor/res/reusablevisibility.dart';
 import 'package:fahad_tutor/res/reusableyoutubeIcon.dart';
+import 'package:fahad_tutor/views/dashboard/notification.dart';
 import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -458,7 +459,9 @@ class _AllTuitionsState extends State<AllTuitions> {
       backgroundColor: colorController.whiteColor,
       appBar: reusableappbar(context, colorController.yellowColor,()async{
         // await repository.Check_popup();
-        Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(),));},repository.profile_image),
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(),));},repository.profile_image,(){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>Notifications()));
+        }),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(

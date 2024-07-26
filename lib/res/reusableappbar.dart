@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-reusableappbar(BuildContext context,Color color,Function ontap,ValueListenable<Object?> profileimg){
+reusableappbar(BuildContext context,Color color,Function ontap,ValueListenable<Object?> profileimg,Function notificationtap){
   return AppBar(
         elevation: 0.0,
         foregroundColor: colorController.whiteColor,
@@ -82,7 +82,7 @@ reusableappbar(BuildContext context,Color color,Function ontap,ValueListenable<O
             padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.0153),
             child: InkWell(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>Notifications())); 
+                notificationtap();
               },
               child: reusableappimage(context, .115, .075, 'assets/images/not_icon.png')),
           ),

@@ -26,7 +26,7 @@ reusablequlification(BuildContext context,String name,Function ontap){
       height: MediaQuery.of(context).size.height * .058,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(11),
-        border: Border.all(color: colorController.grayTextColor,width: 1)
+        border: Border.all(color: colorController.lightblackColor,width: 1)
       ),
       child: 
       Padding(
@@ -35,8 +35,8 @@ reusablequlification(BuildContext context,String name,Function ontap){
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(child: reusableText(name, fontsize: 15,color: colorController.grayTextColor,)),
-            Icon(Icons.arrow_drop_down,color: colorController.grayTextColor,)
+            Expanded(child: reusableText(name, fontsize: 12,color: colorController.lightblackColor,)),
+            Icon(Icons.arrow_drop_down,color: colorController.lightblackColor,)
           ],
         ),
       ),

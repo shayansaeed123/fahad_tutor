@@ -295,6 +295,7 @@ class _ViewTuitionsState extends State<ViewTuitions> {
   void initState() {
     super.initState();
     fetchInitialTuitions();
+    repository.documentsAttach();
   }
 
   Future<void> fetchInitialTuitions() async {
@@ -354,7 +355,7 @@ class _ViewTuitionsState extends State<ViewTuitions> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorController.whiteColor,
-      appBar: reusableappbar(context, colorController.yellowColor,(){},repository.profile_image),
+      appBar: reusableappbar(context, colorController.yellowColor,(){},repository.profile_image,(){}),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(

@@ -45,7 +45,7 @@ Widget reusableVisiblityWarning(BuildContext context,String text,Function ontap,
       // height: MediaQuery.of(context).size.height * .057,
       padding: EdgeInsets.symmetric(vertical:  MediaQuery.of(context).size.height * .007),
       decoration: BoxDecoration(
-          color: colorController.redColor,
+          color: colorController.qualificationItemsColors,
           borderRadius: BorderRadius.circular(8)),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal:  MediaQuery.of(context).size.width * .036),

@@ -23,7 +23,7 @@ Widget reusableBtn(
       child: Center(
           child: Text(
         btnText,
-        style: TextStyle(color: colorController.whiteColor, fontSize: 18),
+        style: TextStyle(color: colorController.whiteColor, fontSize: 14),
       )),
     ),
   );
@@ -50,7 +50,7 @@ Widget reusablewhite(
       child: Center(
           child: Text(
         btnText,
-        style: TextStyle(color: colorController.whiteColor, fontSize: 18),
+        style: TextStyle(color: colorController.whiteColor, fontSize: 14),
       )),
     ),
   );

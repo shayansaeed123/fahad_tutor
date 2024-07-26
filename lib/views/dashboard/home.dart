@@ -17,6 +17,7 @@ import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/res/reusabletutordetails.dart';
 import 'package:fahad_tutor/res/reusablevisibility.dart';
 import 'package:fahad_tutor/res/reusableyoutubeIcon.dart';
+import 'package:fahad_tutor/views/dashboard/notification.dart';
 import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -189,7 +190,9 @@ Widget build(BuildContext context) {
     backgroundColor: colorController.whiteColor,
     appBar: reusableappbar(context, colorController.yellowColor,()async{
       // await repository.Check_popup();
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(),));},repository.profile_image),
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(),));},repository.profile_image,(){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>Notifications()));
+      }),
     body: 
     // Stack(
     //   children: [
