@@ -75,6 +75,15 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
 
   List<String> selectedPlacements = [];
   List<dynamic> Placements = [];
+  String home_address = '';
+  String date_of_birth = '';
+  String further_information = '';
+  String currently_teaching = '';
+  String Teaching_experience = '';
+  String _oLevel = '';
+  String _alevel = '';
+  String onlineTeaching_experience = '';
+  String Biography = '';
   String PlacementName1 = '';
   String PlacementName2 = '';
   String PlacementName3 = '';
@@ -172,6 +181,17 @@ Future<void> getAddtionalInfo() async {
       PlacementId1 = Placements[0]['id'];
       PlacementId2 = Placements[1]['id'];
       PlacementId3 = Placements[2]['id'];
+      // print(responseData);
+      home_address = responseData['home_address'];
+      further_information = responseData['further_information'];
+      onlineTeaching_experience = responseData['onlineTeaching_experience'];
+      currently_teaching = responseData['currently_teaching'];
+      Teaching_experience = responseData['Teaching_experience'];
+      _oLevel = responseData['oLevel'];
+      _alevel = responseData['alevel'];
+      date_of_birth = responseData['date_of_birth'];
+      Biography = responseData['Biography'];
+      print(Biography);
     } else {
       print('Error: ${response.statusCode}');
     }

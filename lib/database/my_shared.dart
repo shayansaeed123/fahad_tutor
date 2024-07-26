@@ -402,6 +402,14 @@ void set_user_ID(String? userID) {
     return ''.val('cell_token', getBox: preferences).val;
   }
 
+  // void set_home_address(String? home_address) {
+  //   ''.val('home_address', getBox: preferences).val = home_address ?? '';
+  // }
+
+  // String get_home_address() {
+  //   return ''.val('home_address', getBox: preferences).val;
+  // }
+
   // Future<void> setVersionName() async {
   //   await PackageInfo.fromPlatform().then((PackageInfo? packageInfo) {
   //     String? version = packageInfo?.version;
