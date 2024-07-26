@@ -11,6 +11,7 @@ import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
+import 'package:fahad_tutor/res/reusablevisibility.dart';
 import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,7 @@ class _RegistrationChargesState extends State<RegistrationCharges> {
   bool isLoading = false;
   TutorRepository repository = TutorRepository();
   File? _chargesSlip;
+    bool visible = true;
   final picker = ImagePicker();
   String chargesSlip = '';
   Future<void> registerText() async {
@@ -45,6 +47,7 @@ class _RegistrationChargesState extends State<RegistrationCharges> {
     // TODO: implement initState
     super.initState();
     registerText();
+    repository.check_msg();
   }
   Future<void> _pickImage(ImageSource source,) async {
   final pickedFile = await picker.pickImage(source: source);
@@ -171,6 +174,12 @@ Future<void> _uploadImages() async {
                         children: [
                           reusableText("Registration Charges Slip",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
                           reusablaSizaBox(context, 0.020),
+                          ValueListenableBuilder(valueListenable: repository.popup, builder: (context, value, child) {
+              if(value == 1){
+                return reusableVisiblityMesage(context, MySharedPrefrence().get_popup_text(), (){setState(() {visible=false;});}, visible);
+                }else{return Container();}
+            },),
+            reusablaSizaBox(context, 0.020),
                           reusableText(repository.Registration_text,color: colorController.blackColor,fontsize: 14),
                           reusablaSizaBox(context, 0.005),
                           Row(children: [reusableText('see ',fontsize: 13.5,fontweight: FontWeight.bold),
@@ -181,7 +190,8 @@ Future<void> _uploadImages() async {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                reusableText('Add Slip', color: colorController.btnColor,fontsize: 16,fontweight: FontWeight.bold),
+                reusableText('Slip Image', color: colorController.btnColor,fontsize: 16),
+                reusablaSizaBox(context, 0.01),
                 DottedBorder(
                   color: colorController.blackColor,
                     strokeWidth: 2,

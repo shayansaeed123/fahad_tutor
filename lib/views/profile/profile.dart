@@ -149,13 +149,15 @@ void loginClear(){
                           // ),
                         ),
                       ),
+                      reusablaSizaBox(context, .015),
                       reusableText('${MySharedPrefrence().get_tutor_name()}',color: colorController.blackColor,fontsize: 14,),
                   ],
                 )
               ],
             ),
-            reusableText('User Details',color: colorController.blackColor,fontsize: 21,),
             reusablaSizaBox(context, .01),
+            reusableText('User Details',color: colorController.blackColor,fontsize: 19,),
+            reusablaSizaBox(context, .015),
             ValueListenableBuilder<int>(valueListenable: repository.basicInfo, builder: (context, basicInfo, child) {
               return reusablelisttile(context,(){
               print(repository.basicInfo);
@@ -167,8 +169,8 @@ void loginClear(){
                 children: [
                   if(basicInfo == 20)
                   // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
-                  CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
-                  Icon(CupertinoIcons.arrow_right)
+                  CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 15,)),backgroundColor: colorController.greenColor,maxRadius: 11,), 
+                  Icon(Icons.arrow_forward_ios)
                 ],
               ),
             ));
@@ -183,7 +185,7 @@ void loginClear(){
                 children: [
                   if(value == '20')
                   // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
-                  CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+                  CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 15,)),backgroundColor: colorController.greenColor,maxRadius: 11,), 
                   if(value == '21')
                   reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
                   if(value == '8')
@@ -191,7 +193,7 @@ void loginClear(){
                   if(value == '19')
                   Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
                   
-                  Icon(CupertinoIcons.arrow_right)
+                  Icon(Icons.arrow_forward_ios)
                 ],
               ),
             ));
@@ -210,7 +212,7 @@ void loginClear(){
                 children: [
                   if(value == '20')
                   // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
-                  CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+                  CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 15,)),backgroundColor: colorController.greenColor,maxRadius: 11,), 
                   if(value == '21')
                   reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
                   if(value == '8')
@@ -218,7 +220,7 @@ void loginClear(){
                   if(value == '19')
                   Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
                     // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
-                  Icon(CupertinoIcons.arrow_right)
+                  Icon(Icons.arrow_forward_ios)
                 ],
               ),
             ));
@@ -237,11 +239,11 @@ void loginClear(){
                 children: [
                   if(value == '1')
                   // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
-                  CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+                  CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 15,)),backgroundColor: colorController.greenColor,maxRadius: 11,), 
                   if(value == '0')
                   Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
                     // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
-                  Icon(CupertinoIcons.arrow_right)
+                  Icon(Icons.arrow_forward_ios)
                 ],
               ),
             ));
@@ -261,11 +263,11 @@ void loginClear(){
                 children: [
                   if(value == 1)
                   // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
-                  CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+                  CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 15,)),backgroundColor: colorController.greenColor,maxRadius: 11,), 
                   if(value == 0)
                   Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
                     // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
-                  Icon(CupertinoIcons.arrow_right)
+                  Icon(Icons.arrow_forward_ios)
                 ],
               ),
             ));
@@ -288,7 +290,7 @@ void loginClear(){
                 children: [
                   if(value == '20')
                   // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
-                  CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+                  CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 15,)),backgroundColor: colorController.greenColor,maxRadius: 11,), 
                   if(value == '21')
                   reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
                   if(value == '8')
@@ -296,7 +298,7 @@ void loginClear(){
                   if(value == '19')
                   Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
                     // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
-                  Icon(CupertinoIcons.arrow_right)
+                  Icon(Icons.arrow_forward_ios)
                 ],
               ),
             ));
@@ -312,7 +314,7 @@ void loginClear(){
                 children: [
                   if(value == '20')
                   // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
-                  CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+                  CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 15,)),backgroundColor: colorController.greenColor,maxRadius: 11,), 
                   if(value == '21')
                   reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
                   if(value == '8')
@@ -320,7 +322,7 @@ void loginClear(){
                   if(value == '19')
                   Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
                     // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,),
-                  Icon(CupertinoIcons.arrow_right)
+                  Icon(Icons.arrow_forward_ios)
                 ],
               ),
             ));
@@ -335,7 +337,7 @@ void loginClear(){
                 children: [
                   if(value == '20')
                   // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
-                  CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+                  CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 15,)),backgroundColor: colorController.greenColor,maxRadius: 11,), 
                   if(value == '21')
                   reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
                   if(value == '8')
@@ -343,7 +345,7 @@ void loginClear(){
                   if(value == '19')
                   Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
                     // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
-                  Icon(CupertinoIcons.arrow_right)
+                  Icon(Icons.arrow_forward_ios)
                 ],
               ),
             ));
@@ -352,7 +354,7 @@ void loginClear(){
               Navigator.push(context, MaterialPageRoute(builder: (context)=>ResetPassword()));
             },'assets/images/reset_password.png','Change Password',borderWidth: 0.000001),
              reusablaSizaBox(context, .05),
-            reusableText('App Settings',color: colorController.blackColor,fontsize: 21,),
+            reusableText('App Settings',color: colorController.blackColor,fontsize: 19,),
             reusablaSizaBox(context, .01),
   reusablelisttile(context, (){}, 'assets/images/notification_icon.png', 'Notification',widget: Switch(
       value: isToggled, 

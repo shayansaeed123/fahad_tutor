@@ -633,6 +633,7 @@ void updateTutorPlacement() {
                                       searchFieldProps: TextFieldProps(
                                         decoration: InputDecoration(
                                           hintText: 'Search Country',
+                                          hintStyle: TextStyle(fontSize:  11.5),
                                           fillColor: colorController.whiteColor,
                                           contentPadding: EdgeInsets.symmetric(
                                             horizontal: 16, vertical: 0.0),
@@ -647,6 +648,7 @@ void updateTutorPlacement() {
                                         DropDownDecoratorProps(
                                       dropdownSearchDecoration: InputDecoration(
                                         hintText: 'Select Country',
+                                        hintStyle: TextStyle(fontSize:  11.5),
                                         border: InputBorder.none,
                                         // contentPadding: EdgeInsets.symmetric(
                                         //     horizontal: 16, vertical: 8),
@@ -698,6 +700,7 @@ void updateTutorPlacement() {
                                           searchFieldProps: TextFieldProps(
                                             decoration: InputDecoration(
                                               hintText: 'Search City',
+                                              hintStyle: TextStyle(fontSize:  11.5),
                                               fillColor: colorController.whiteColor,
                                               contentPadding: EdgeInsets.symmetric(
                                                 horizontal: 16, vertical: 0.0),
@@ -712,6 +715,7 @@ void updateTutorPlacement() {
                                             DropDownDecoratorProps(
                                           dropdownSearchDecoration: InputDecoration(
                                             hintText: 'Select City',
+                                            hintStyle: TextStyle(fontSize:  11.5),
                                             border: InputBorder.none,
                                             // contentPadding: EdgeInsets.symmetric(
                                             //     horizontal: 16, vertical: 8),
@@ -958,6 +962,7 @@ void updateTutorPlacement() {
                                             DropDownDecoratorProps(
                                           dropdownSearchDecoration: InputDecoration(
                                             hintText: 'Select Area',
+                                            hintStyle: TextStyle(fontSize: 11.5),
                                             border: InputBorder.none,
                                             // contentPadding: EdgeInsets.symmetric(
                                             //     horizontal: 16, vertical: 8),

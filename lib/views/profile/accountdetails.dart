@@ -189,8 +189,8 @@ class _AccountDetailsState extends State<AccountDetails> {
                                       left: MediaQuery.of(context).size.width *
                                           .01),
                                   width: MediaQuery.of(context).size.width,
-                                  height:
-                                      MediaQuery.of(context).size.height * .055,
+                                  // height:
+                                  //     MediaQuery.of(context).size.height * .055,
                                   decoration: BoxDecoration(
                                     border: Border.all(
                                         color: Colors.grey,
@@ -221,9 +221,9 @@ class _AccountDetailsState extends State<AccountDetails> {
   dropdownDecoratorProps: DropDownDecoratorProps(
     dropdownSearchDecoration: InputDecoration(
       hintText: methodValue.isEmpty ? 'Select Method' : methodValue,
-      hintStyle: TextStyle(color: colorController.grayTextColor,),
+      hintStyle: TextStyle(color: colorController.grayTextColor,fontSize: 11.5),
       border: InputBorder.none,
-      contentPadding: EdgeInsets.symmetric(horizontal: 16),
+      // contentPadding: EdgeInsets.symmetric(horizontal: 16),
     ),
   ),
   items: <String>['Jazz Cash', 'Easypaisa'],

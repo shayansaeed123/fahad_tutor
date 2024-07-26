@@ -53,7 +53,7 @@ Widget reusableContactField(
         filled: true,
         fillColor: colorController.whiteColor,
         labelText: labelText,
-        labelStyle: TextStyle(color: color),
+        labelStyle: TextStyle(color: color,fontSize: 11.5),
         // prefixIcon: const Icon(Icons.password_outlined, color: Colors.white),
         hintStyle: TextStyle(color: colorController.textfieldBorderColorBefore),
         border: OutlineInputBorder(

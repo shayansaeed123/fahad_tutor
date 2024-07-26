@@ -1341,6 +1341,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                 child: TextField(
                   controller: searchController,
                   decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(0),
                     hintText: 'Search',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
@@ -1363,9 +1364,11 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                       bool isSelected = selectedIds.any((element) => element['id'] == instituteId);
                       return Column(
                         children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .01, vertical: MediaQuery.of(context).size.width * .00000001),
-                            child: ListTile(
+                          // Padding(
+                          //   padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .0001, vertical: MediaQuery.of(context).size.height * .00000001),
+                          //   child: 
+                            ListTile(
+                              dense: true,
                               title: Text(instituteName),
                               trailing: isSelected ? Icon(Icons.check, color: Colors.black) : null,
                               onTap: () {
@@ -1374,7 +1377,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                                 print('Updated Selected IDs: ${selectedIds}');
                               },
                             ),
-                          ),
+                          // ),
                           if (index != filteredItems.length - 1)
                             Divider(
                               color: Colors.grey,
@@ -1425,7 +1428,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
       backgroundColor: colorController.whiteColor,
     appBar: AppBar(elevation: 0,backgroundColor: Colors.transparent,
     leading: Padding(
-      padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
+      padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.025),
       child: InkWell(
         onTap: (){Navigator.pop(context);},
         child: Image.asset('assets/images/gradient_back.png',fit: BoxFit.contain,height: MediaQuery.of(context).size.height * 0.02,)),

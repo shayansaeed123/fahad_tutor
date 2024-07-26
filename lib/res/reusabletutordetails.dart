@@ -6,6 +6,7 @@ import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 
 // reusabletutorDetails(BuildContext context, 
 // String details,
@@ -146,7 +147,7 @@ reusabletutorDetails(
           child: reusableText(
         '$class_name',
         color: colorController.blackColor,
-        fontsize: 17,
+        fontsize: 14,
         fontweight: FontWeight.bold,
       )),
       content: Container(
@@ -169,8 +170,8 @@ reusabletutorDetails(
                         padding: const EdgeInsets.all(0.0),
                         child: reusableText(
                           '$tuition_name ',
-                          color: colorController.grayTextColor,
-                          fontsize: 15,
+                          color: colorController.lightblackColor,
+                          fontsize: MediaQuery.of(context).size.height * 0.015,
                         ),
                       ),
                       Row(
@@ -215,7 +216,8 @@ reusabletutorDetails(
                     child: reusableText(
                       '$share_date',
                       color: colorController.blackColor,
-                      fontsize: 13.7,
+                      fontweight: FontWeight.bold,
+                      fontsize: MediaQuery.of(context).size.height * 0.015,
                     ),
                   ),
                   Padding(
@@ -223,7 +225,8 @@ reusabletutorDetails(
                     child: reusableText(
                       '$location',
                       color: colorController.blackColor,
-                      fontsize: 13.7,
+                      fontweight: FontWeight.bold,
+                      fontsize: MediaQuery.of(context).size.height * 0.015,
                     ),
                   ),
                   Padding(
@@ -232,15 +235,16 @@ reusabletutorDetails(
                     child: reusableText(
                       'Details',
                       color: colorController.blackColor,
-                      fontsize: 14.2,
+                      fontweight: FontWeight.bold,
+                      fontsize: MediaQuery.of(context).size.height * 0.015,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 5.0),
                     child: reusableText(
                       details,
-                      color: colorController.grayTextColor,
-                      fontsize: 13.7,
+                      color: colorController.lightblackColor,
+                      fontsize: MediaQuery.of(context).size.height * 0.017,
                     ),
                   ),
                 ],
@@ -250,40 +254,48 @@ reusabletutorDetails(
         ),
       ),
       actions: [
-        Center(child: reusableText('$limit', color: colorController.blackColor)),
+        Center(child: reusableText('$limit', color: colorController.blackColor,fontweight: FontWeight.bold,fontsize: MediaQuery.of(context).size.height * 0.015,)),
         SizedBox(width: MediaQuery.of(context).size.width * .010),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             job == 0 && already == 0
-                ? ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateColor.resolveWith(
-                          (states) => colorController.btnColor),
+                ? 
+                Expanded(
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                        shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))),
+                        backgroundColor: MaterialStateColor.resolveWith(
+                            (states) => colorController.btnColor),
+                      ),
+                      onPressed: () {
+                        btnontap();
+                      },
+                      child:
+                          reusableText('Apply', color: colorController.whiteColor),
                     ),
-                    onPressed: () {
-                      btnontap();
-                    },
-                    child:
-                        reusableText('Apply', color: colorController.whiteColor),
-                  )
+                )
                 : Visibility(
                     visible: true,
                     child: Container(),
                   ),
+                  SizedBox(width: MediaQuery.of(context).size.width * .010),
             job == 0 && already == 0
-                ? ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateColor.resolveWith(
-                          (states) => colorController.grayTextColor),
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: reusableText(
-                      'Close',
-                      color: colorController.whiteColor,
-                    ))
+                ? Expanded(
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                        shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))),
+                        backgroundColor: MaterialStateColor.resolveWith(
+                            (states) => colorController.grayTextColor),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: reusableText(
+                        'Close',
+                        color: colorController.whiteColor,
+                      )),
+                )
                 : Expanded(
                     child: reusableBtn(context, 'Close', () {
                       Navigator.pop(context);

@@ -208,7 +208,7 @@ class _NotificationsState extends State<Notifications> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         leading: Padding(
-          padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
+          padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.025),
           child: InkWell(
             onTap: () {
               Navigator.pop(context);

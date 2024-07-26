@@ -16,6 +16,7 @@ import 'package:fahad_tutor/res/reusablevisibility.dart';
 import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
 class AdditionalInfo extends StatefulWidget {
@@ -225,14 +226,14 @@ Future<void> getAddtionalInfo() async {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Expanded(child: reusableDropdownfeild(context, selectedCurrentTeaching, (String? newValue){
+                                      Flexible(child: reusableDropdownfeild(context, selectedCurrentTeaching, (String? newValue){
                                     setState(() {
                                             selectedCurrentTeaching = newValue;
                                             print('Current teaching $selectedCurrentTeaching');
                                           });
                                   }, 'Currently Teaching', ['Yes','No']),),
-                                  reusablaSizaBox(context, .03),
-                                  Expanded(child: reusableDropdownfeild(context, selectedTeachingExp, (String? newValue){
+                                  SizedBox(height: MediaQuery.of(context).size.width * 0.04,),
+                                  Flexible(child: reusableDropdownfeild(context, selectedTeachingExp, (String? newValue){
                                     setState(() {
                                             selectedTeachingExp = newValue;
                                             print('teaching experience $selectedTeachingExp');
@@ -244,14 +245,14 @@ Future<void> getAddtionalInfo() async {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Expanded(child: reusableDropdownfeild(context, oLevel, (String? newValue){
+                                      Flexible(child: reusableDropdownfeild(context, oLevel, (String? newValue){
                                     setState(() {
                                             oLevel = newValue;
                                             print('O-Level Qualified  $oLevel');
                                           });
                                   }, 'O-Level Qualified', ['Yes','No']),),
-                                  reusablaSizaBox(context, 0.03),
-                                  Expanded(child: reusableDropdownfeild(context, aLevel, (String? newValue){
+                                  SizedBox(height: MediaQuery.of(context).size.width * 0.04,),
+                                  Flexible(child: reusableDropdownfeild(context, aLevel, (String? newValue){
                                     setState(() {
                                             aLevel = newValue;
                                             print('A-Level Qualified $aLevel');

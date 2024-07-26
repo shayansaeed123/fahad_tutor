@@ -47,7 +47,7 @@ Widget reusableTextField(
         filled: true,
         fillColor: colorController.whiteColor,
         labelText: labelText,
-        labelStyle: TextStyle(color: color,fontSize: 13.5),
+        labelStyle: TextStyle(color: color,fontSize: 11.5),
         // prefixIcon: const Icon(Icons.password_outlined, color: Colors.white),
         hintStyle: TextStyle(color: colorController.textfieldBorderColorBefore),
         border: OutlineInputBorder(
@@ -216,7 +216,7 @@ Widget icon){
                                             selectedTime == null
                                                 ? ' Date of Birth'
                                                 : '${DateFormat(' yyyy-MM-dd').format(selectedTime)}',
-                                                fontsize: 13.5, // Adjust the font size
+                                                fontsize: 11.5, // Adjust the font size
                                           ),
                                         // ),
                                             )
@@ -258,7 +258,7 @@ reusableDropdownfeild(BuildContext context,String? selected,Function(String?) on
                                         hint: reusableText('$showTitle',
                                             color:
                                                 colorController.grayTextColor,
-                                            fontsize: 14),
+                                            fontsize: 11.5),
                                         items: values.map((String value) {
                                           return DropdownMenuItem<String>(
                                             value: value,
@@ -277,8 +277,10 @@ reusableDropdownfeild(BuildContext context,String? selected,Function(String?) on
                                         style: TextStyle(
                                             color: Colors
                                                 .black), // Dropdown text color
-                                        icon: Icon(Icons
-                                            .arrow_drop_down), // Dropdown icon
+                                        icon: Expanded(
+                                          child: Icon(Icons
+                                              .arrow_drop_down),
+                                        ), // Dropdown icon
                                         underline:
                                             Container(), // Remove underline
                                         // elevation: 0,

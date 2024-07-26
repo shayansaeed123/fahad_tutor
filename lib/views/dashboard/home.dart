@@ -203,7 +203,7 @@ Widget build(BuildContext context) {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     reusableText('Preffered Tuitions',
-                        fontsize: 25,
+                        fontsize: 22.5,
                         color: colorController.blackColor,
                         fontweight: FontWeight.bold),
                     reusableyoutubeIcon(context),
@@ -212,7 +212,7 @@ Widget build(BuildContext context) {
                 reusablaSizaBox(context, .007),
                 Container(
                   width: MediaQuery.of(context).size.width * 1,
-                  height: MediaQuery.of(context).size.height * .065,
+                  // height: MediaQuery.of(context).size.height * .065,
                   child: TextField(
                     controller: _searchCon,
                     onChanged: (value) {
@@ -220,6 +220,7 @@ Widget build(BuildContext context) {
                   },
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10,vertical: 0.0),
                       filled: true,
                       fillColor: Colors.grey[350],
                       hintText: 'Search Tuitions',

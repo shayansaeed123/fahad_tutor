@@ -72,49 +72,123 @@ void reusableloadingApply(BuildContext context, String assetPath, String message
 
 reusableMessagedialog(
     BuildContext context, String titletxt,String contenttxt, String btntxt, Function btnontap, Function canceltap){
-  return showDialog(
-    barrierDismissible: false,
-    context: context,
-    builder: (context) { 
-      return Theme(
-          data: ThemeData.dark().copyWith(
-            dialogTheme: DialogTheme(
-              backgroundColor: colorController.btnColor, // Background color of the dialog
+  return  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 14),
+                  decoration: BoxDecoration(
+                    color:  colorController.btnColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
+                  child: Center(child: reusableText(titletxt,color: colorController.whiteColor,fontsize: 15,fontweight: FontWeight.bold)),
+                ),
+                SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: reusableText(contenttxt,color: colorController.blackColor,fontsize: 11.5,),
+                ),
+                SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      width: 120,
+                      child: TextButton(
+                        onPressed: () {
+                          btnontap();
+                        },
+                        child: reusableText(btntxt,color: colorController.whiteColor,),
+                        style: TextButton.styleFrom(
+                          backgroundColor: colorController.btnColor, 
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 120,
+                      child: TextButton(
+                        onPressed: () {
+                          canceltap();
+                        },
+                        child: reusableText('Cancel',color: colorController.whiteColor,),
+                        style: TextButton.styleFrom( 
+                          backgroundColor: colorController.grayTextColor, 
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16),
+              ],
             ),
           ),
-      
-      child:  AlertDialog(
-      title: Center(child: reusableText(titletxt,color: colorController.whiteColor,fontsize: 16,)),
-      content: reusableText(contenttxt,color: colorController.whiteColor,fontsize: 14,),
-      actions: [
-        ElevatedButton(
-          style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(colorController.whiteColor)),
-          onPressed: () {
-            btnontap();
-            //             Navigator.pop(context);
-            // Navigator.push(context, MaterialPageRoute(builder: ((context) => attendance())));
-          },
-          child: reusableText(
-            btntxt,
-            color: colorController.btnColor,
-          ),
-        ),
-        ElevatedButton(
-          style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(colorController.grayTextColor)),
-          onPressed: () {
-                      canceltap();
-            // Navigator.push(context, MaterialPageRoute(builder: ((context) => attendance())));
-          },
-          child: reusableText(
-            'Cancel',
-            color: colorController.whiteColor,
-          ),
-        ),
-      ],
-      )
+        );
+      },
     );
-    }
-  );
+  // showDialog(
+  //   barrierDismissible: false,
+  //   context: context,
+  //   builder: (context) { 
+  //     return Theme(
+  //         data: ThemeData.dark().copyWith(
+  //           dialogTheme: DialogTheme(
+  //             backgroundColor: colorController.btnColor, // Background color of the dialog
+  //           ),
+  //         ),
+      
+  //     child:  AlertDialog(
+  //     title: Center(child: reusableText(titletxt,color: colorController.whiteColor,fontsize: 16,)),
+  //     content: reusableText(contenttxt,color: colorController.whiteColor,fontsize: 14,),
+  //     actions: [
+  //       ElevatedButton(
+  //         style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(colorController.whiteColor)),
+  //         onPressed: () {
+  //           btnontap();
+  //           //             Navigator.pop(context);
+  //           // Navigator.push(context, MaterialPageRoute(builder: ((context) => attendance())));
+  //         },
+          // child: reusableText(
+          //   btntxt,
+          //   color: colorController.btnColor,
+          // ),
+  //       ),
+  //       ElevatedButton(
+  //         style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(colorController.grayTextColor)),
+  //         onPressed: () {
+  //                     canceltap();
+  //           // Navigator.push(context, MaterialPageRoute(builder: ((context) => attendance())));
+  //         },
+  //         child: reusableText(
+  //           'Cancel',
+  //           color: colorController.whiteColor,
+  //         ),
+  //       ),
+  //     ],
+  //     )
+  //   );
+  //   }
+  // );
 }
 
 reusableAnimationdialog(
