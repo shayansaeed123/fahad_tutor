@@ -125,6 +125,23 @@ final TextEditingController _title = TextEditingController();
   final TextEditingController _furtherInfo = TextEditingController();
   TextEditingController get furtherInfo => _furtherInfo;
 
+   @override
+  void onClose() {
+    _title.dispose();
+    _emailCon.dispose();
+    _loginPassCon.dispose();
+    _registerPassCon.dispose();
+    _teacherCon.dispose();
+    _fatherCon.dispose();
+    _contactCon.dispose();
+    _alterContactCon.dispose();
+    _cnicCon.dispose();
+    _rePassCon.dispose();
+    _religionCon.dispose();
+    _addressCon.dispose();
+    super.onClose();
+  }
+
 
 
 

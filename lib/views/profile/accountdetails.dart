@@ -37,6 +37,15 @@ class _AccountDetailsState extends State<AccountDetails> {
   String methodValue = '';
   bool visible = true;
   TutorRepository repository = TutorRepository();
+   String update_status= '';
+  String Bank_Name = '';
+  String Title = '';
+  String Branch_Code = '';
+  String Account_Number = '';
+  String IBAN_Pptional = '';
+  String Easy_Paisa_Mobile = '';
+  String Easy_Paisa_Title = '';
+  String easypesa_bank = '';
 
   @override
   void initState() {
@@ -56,6 +65,24 @@ class _AccountDetailsState extends State<AccountDetails> {
     _mobilenumber = FocusNode();
     _mobilenumber.addListener(_onFocusChange);
     repository.check_msg();
+     
+    getAccountDetails().then((value) {
+      reusabletextfieldcontroller.title.addListener(_updateTitle);
+        reusabletextfieldcontroller.title.text = Title;
+        reusabletextfieldcontroller.bankname.addListener(_updateTitle);
+        reusabletextfieldcontroller.bankname.text = Bank_Name;
+        reusabletextfieldcontroller.branchcode.addListener(_updateTitle);
+        reusabletextfieldcontroller.branchcode.text = Branch_Code;
+        reusabletextfieldcontroller.accountnumber.addListener(_updateTitle);
+        reusabletextfieldcontroller.accountnumber.text = Account_Number;
+        reusabletextfieldcontroller.ibannumber.addListener(_updateTitle);
+        reusabletextfieldcontroller.ibannumber.text = IBAN_Pptional;
+        reusabletextfieldcontroller.accounttitle.addListener(_updateTitle);
+        reusabletextfieldcontroller.accounttitle.text = easypesa_bank;
+        reusabletextfieldcontroller.mobilenumber.addListener(_updateTitle);
+        reusabletextfieldcontroller.mobilenumber.text = Easy_Paisa_Mobile;
+    });
+
   }
 
   @override
@@ -74,9 +101,29 @@ class _AccountDetailsState extends State<AccountDetails> {
     _accounttitle.dispose();
     _mobilenumber.removeListener(_onFocusChange);
     _mobilenumber.dispose();
+    reusabletextfieldcontroller.title.removeListener(_updateTitle);
+    reusabletextfieldcontroller.bankname.removeListener(_updateTitle);
+    reusabletextfieldcontroller.branchcode.removeListener(_updateTitle);
+    reusabletextfieldcontroller.accountnumber.removeListener(_updateTitle);
+    reusabletextfieldcontroller.accounttitle.removeListener(_updateTitle);
+    reusabletextfieldcontroller.ibannumber.removeListener(_updateTitle);
+    reusabletextfieldcontroller.mobilenumber.removeListener(_updateTitle);
     super.dispose();
   }
   void _onFocusChange() {setState(() {});}
+  void _updateTitle() {
+    if (mounted) {
+      setState(() {
+        Title = reusabletextfieldcontroller.title.text;
+         Bank_Name = reusabletextfieldcontroller.bankname.text;
+        Branch_Code = reusabletextfieldcontroller.branchcode.text;
+        Account_Number = reusabletextfieldcontroller.accountnumber.text;
+        IBAN_Pptional = reusabletextfieldcontroller.ibannumber.text;
+        Easy_Paisa_Mobile = reusabletextfieldcontroller.mobilenumber.text;
+        easypesa_bank = reusabletextfieldcontroller.accounttitle.text;
+      });
+    }
+  }
 
   Future<void> updateAccountDetails()async{
     setState(() {
@@ -126,6 +173,40 @@ class _AccountDetailsState extends State<AccountDetails> {
       setState(() {isLoading = false;});
     }
   }
+
+  Future<void> getAccountDetails() async {
+  setState(() {
+    isLoading = true;
+  });
+  try {
+    final userId = MySharedPrefrence().get_user_ID().toString();
+    print('Fetching data for user ID: $userId');
+    final response = await http.get(
+      Uri.parse('${Utils.baseUrl}mobile_app/step_6.php?code=10&tutor_id=$userId')
+    );
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      update_status = responseData['update_status'];
+      print(responseData);
+      Bank_Name = responseData['Bank_Name'];
+      Title = responseData['Title'];
+      Branch_Code = responseData['Branch_Code'];
+      Account_Number = responseData['Account_Number'];
+      IBAN_Pptional = responseData['IBAN_Pptional'];
+      Easy_Paisa_Mobile = responseData['Easy_Paisa_Mobile'];
+      Easy_Paisa_Title = responseData['Easy_Paisa_Title'];
+      easypesa_bank = responseData['easypesa_bank'];
+    } else {
+      print('Error: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Get API Error: $e');
+  } finally {
+    setState(() {
+      isLoading = false;
+    });
+  }
+}
   @override
   Widget build(BuildContext context) {
     return reusableprofileidget(context,
@@ -143,7 +224,7 @@ class _AccountDetailsState extends State<AccountDetails> {
                 }else{return Container();}},),
                 reusablaSizaBox(context, 0.020),
                           reusableTextField(context, 
-                          reusabletextfieldcontroller.title, 'Title', _title.hasFocus
+                          reusabletextfieldcontroller.title,'Title', _title.hasFocus
                         ? colorController.blueColor
                         : colorController.textfieldBorderColorBefore, _title, () {
                       _title.unfocus();
@@ -210,7 +291,7 @@ class _AccountDetailsState extends State<AccountDetails> {
     searchFieldProps: TextFieldProps(
       decoration: InputDecoration(
         hintText: 'Search...',
-        hintStyle: TextStyle(color: colorController.blackColor),
+        hintStyle: TextStyle(color: colorController.blackColor,fontSize: 12.5),
         fillColor: colorController.whiteColor,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(11),

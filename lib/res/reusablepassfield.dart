@@ -19,6 +19,7 @@ Widget reusablePassField(
     child: TextFormField(
       controller: controller,
       keyboardType: TextInputType.text,
+      style: TextStyle(fontSize: 12.5),
       focusNode: focusnode,
       onFieldSubmitted: (value) {
         onsubmit();

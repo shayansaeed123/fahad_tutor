@@ -30,18 +30,33 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
   bool isLoading = false;
   DateTime? selectedTime;
   late DateTime lastDate = DateTime(1995, 1, 1);
+  late FocusNode _homeAddress;
   late FocusNode _furtherInfofocusNode;
   String? selectedCurrentTeaching;
   String? selectedTeachingExp;
   String? oLevel;
   String? aLevel;
+  TextEditingController home = TextEditingController();
+  TextEditingController furtherInfo = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getAddtionalInfo();
+    getAddtionalInfo().then((value) {
+      reusabletextfieldcontroller.addressCon.addListener(_updateTitle);
+        reusabletextfieldcontroller.addressCon.text = home_address;
+        reusabletextfieldcontroller.furtherInfo.addListener(_updateTitle);
+        reusabletextfieldcontroller.furtherInfo.text = further_information;
+        _biography.addListener(_updateTitle);
+        _biography.text = Biography;
+      if (date_of_birth.isNotEmpty) {
+      selectedTime = DateTime.tryParse(date_of_birth);
+    }
+    });
     _furtherInfofocusNode = FocusNode();
     _furtherInfofocusNode.addListener(_onFocusChange);
+     _homeAddress = FocusNode();
+    _homeAddress.addListener(_onFocusChange);
     repository.check_msg();
   }
 
@@ -51,10 +66,24 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
     super.dispose();
     _furtherInfofocusNode.dispose();
     _furtherInfofocusNode.removeListener(_onFocusChange);
+    _homeAddress.dispose();
+    _homeAddress.removeListener(_onFocusChange);
+    reusabletextfieldcontroller.addressCon.removeListener(_updateTitle);
+    reusabletextfieldcontroller.furtherInfo.removeListener(_updateTitle);
+    _biography.removeListener(_updateTitle);
   }
   void _onFocusChange() {
     setState(() {
     });
+  }
+  void _updateTitle() {
+    if (mounted) {
+      setState(() {
+        home_address = reusabletextfieldcontroller.addressCon.text;
+         further_information = reusabletextfieldcontroller.furtherInfo.text;
+         Biography = _biography.text;
+      });
+    }
   }
   String _selectedValue = 'Tutor';
   String _selectedValue1 = 'Yes';
@@ -75,6 +104,7 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
 
   List<String> selectedPlacements = [];
   List<dynamic> Placements = [];
+  List<dynamic> placement = [];
   String home_address = '';
   String date_of_birth = '';
   String further_information = '';
@@ -120,8 +150,8 @@ void updateTutorPlacement() {
         'father_profession': '',
         'olevel': oLevel.toString(),
         'alevel': aLevel.toString(),
-        'currently_teaching': reusabletextfieldcontroller.accountnumber.text.toString(),
-        'Teaching_ex': selectedCurrentTeaching.toString(),
+        'currently_teaching': selectedCurrentTeaching.toString(),
+        'Teaching_ex': selectedTeachingExp.toString(),
         'DigitalPad': _selectedValue1.toString(),
         'onlineTeaching_experience': _selectedValue2.toString(),
         'online_Skill': '',
@@ -191,7 +221,8 @@ Future<void> getAddtionalInfo() async {
       _alevel = responseData['alevel'];
       date_of_birth = responseData['date_of_birth'];
       Biography = responseData['Biography'];
-      print(Biography);
+      placement = responseData['placements'];
+      print(placement);
     } else {
       print('Error: ${response.statusCode}');
     }
@@ -203,8 +234,6 @@ Future<void> getAddtionalInfo() async {
     });
   }
 }
-
-
   @override
   Widget build(BuildContext context) {
     return reusableprofileidget(context,
@@ -221,7 +250,16 @@ Future<void> getAddtionalInfo() async {
                 return reusableVisiblityMesage(context, MySharedPrefrence().get_popup_text(), (){setState(() {visible=false;});}, visible);
                 }else{return Container();}},),
                 reusablaSizaBox(context, 0.020),
-                          reusablemultilineTextField(reusabletextfieldcontroller.addressCon, 3, 'Home Address'),
+                          reusableTextField(context,reusabletextfieldcontroller.addressCon, 'Home Address',_homeAddress.hasFocus
+                                      ? colorController.blueColor
+                                      : colorController
+                                          .textfieldBorderColorBefore,
+                                  _homeAddress,
+                                  () {
+                                    _homeAddress.unfocus();
+                                    FocusScope.of(context)
+                                        .requestFocus(_furtherInfofocusNode);
+                                  },),
                           reusablaSizaBox(context, 0.020),
                           reusableDateofBirthField(context, lastDate, selectedTime, (DateTime timeofday){
                              setState(() {
@@ -232,7 +270,7 @@ Future<void> getAddtionalInfo() async {
                           SizedBox.shrink(),
                           ),
                           reusablaSizaBox(context, 0.020),
-                          reusableTextField(context, reusabletextfieldcontroller.furtherInfo, 'Further Information', _furtherInfofocusNode.hasFocus
+                          reusableTextField(context,reusabletextfieldcontroller.furtherInfo, 'Further Information', _furtherInfofocusNode.hasFocus
                                       ? colorController.blueColor
                                       : colorController
                                           .textfieldBorderColorBefore,
@@ -246,19 +284,19 @@ Future<void> getAddtionalInfo() async {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Flexible(child: reusableDropdownfeild(context, selectedCurrentTeaching, (String? newValue){
+                                      Flexible(child: reusableDropdownfeild(context,selectedCurrentTeaching, (String? newValue){
                                     setState(() {
                                             selectedCurrentTeaching = newValue;
                                             print('Current teaching $selectedCurrentTeaching');
                                           });
-                                  }, 'Currently Teaching', ['Yes','No']),),
+                                  },currently_teaching == 'null' ? 'Currently Teaching' : currently_teaching, ['Yes','No']),),
                                   SizedBox(height: MediaQuery.of(context).size.width * 0.04,),
-                                  Flexible(child: reusableDropdownfeild(context, selectedTeachingExp, (String? newValue){
+                                  Flexible(child: reusableDropdownfeild(context,selectedTeachingExp, (String? newValue){
                                     setState(() {
                                             selectedTeachingExp = newValue;
                                             print('teaching experience $selectedTeachingExp');
                                           });
-                                  }, 'Teaching Experience', ['1-2 years','2-3 years','5+ years']),)
+                                  }, Teaching_experience == 'null' ? 'Teaching Experience' : Teaching_experience, ['1-2 years','2-3 years','5+ years']),)
                                     ],
                                   ),
                                   reusablaSizaBox(context, 0.020),
@@ -270,14 +308,14 @@ Future<void> getAddtionalInfo() async {
                                             oLevel = newValue;
                                             print('O-Level Qualified  $oLevel');
                                           });
-                                  }, 'O-Level Qualified', ['Yes','No']),),
+                                  }, _oLevel == 'null' ? 'O-Level Qualified' : _oLevel, ['Yes','No']),),
                                   SizedBox(height: MediaQuery.of(context).size.width * 0.04,),
                                   Flexible(child: reusableDropdownfeild(context, aLevel, (String? newValue){
                                     setState(() {
                                             aLevel = newValue;
                                             print('A-Level Qualified $aLevel');
                                           });
-                                  }, 'A-Level Qualified', ['Yes','No']))
+                                  },_alevel == 'null' ? 'A-Level Qualified': _alevel, ['Yes','No']))
                                     ],
                                   ),
                                   reusablaSizaBox(context, .020),
@@ -286,7 +324,7 @@ Future<void> getAddtionalInfo() async {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    buildCheckboxWithTitle('Home', checkbox1,(){
+                                      buildCheckboxWithTitle('Home', checkbox1,(){
                                       setState(() {});
                                       reusableMessagedialog(context, 'Placement',
                     "You will have to visit at student's place", 'Confirm', () {
@@ -330,7 +368,7 @@ Future<void> getAddtionalInfo() async {
                                     'No',
                                     .4,
                                   ),
-                                  _selectedValue1,
+                                  // _selectedValue1,
                                   _selectedValue2,
                                   (String? value) {
                                     // onChanged function

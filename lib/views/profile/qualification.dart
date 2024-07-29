@@ -105,14 +105,20 @@ String? laptop = 'no';
     });
 
     try {
-   List<Map<String, dynamic>> classList = selectedClasses.map((classItem) {
+   List<Map<String, dynamic>> classList = selectedClasses.expand((classItem) {
       // return classItem.toJson();
-      return {
-      'class_id': classItem.classId,
-      'subject_id': classItem.subjectIds.join(','),
-    };
+    //   return {
+    //   'class_id': classItem.classId,
+    //   'subject_id': classItem.subjectIds.join('|'),
+    // };
+    return classItem.subjectIds.asMap().entries.map((e) => {
+    'class_id': classItem.classId,
+    'class_name': classItem.className,
+    'subject_id': e.value,
+    'subject_name': classItem.subjectNames[e.key],
+  });
     }).toList();
-      String classListJson = jsonEncode(classList);
+String classListJson = jsonEncode(classList);
 
       // Create a new list with the key 'preferred_areas_id' instead of 'id'
       List<Map<String, dynamic>> preferredAreasList = selectedIdsArea.map((area) {

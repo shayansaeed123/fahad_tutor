@@ -65,7 +65,7 @@ Widget reusableVisiblityWarning(BuildContext context,String text,Function ontap,
   );
 }
 
-onlineVisibility(BuildContext context,bool isHomeWidgetVisible,Widget widget, String? _selectedValue1,String? _selectedValue2,Function(String?) onChanged,TextEditingController controller,
+onlineVisibility(BuildContext context,bool isHomeWidgetVisible,Widget widget,String? _selectedValue2,Function(String?) onChanged,TextEditingController controller,
 int count,
 //  Widget widget2
  ){

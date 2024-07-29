@@ -25,6 +25,7 @@ Widget reusableTextField(
     child: TextFormField(
       controller: controller,
       keyboardType: keyboardType,
+      style: TextStyle(fontSize: 12.5),
       focusNode: focusnode,
       onFieldSubmitted: (value) {
                               onsubmit();
