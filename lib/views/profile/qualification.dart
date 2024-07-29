@@ -205,64 +205,6 @@ String classListJson = jsonEncode(classList);
   }
   }
 
-//   Future<void> updateStatus() async {
-//   setState(() {
-//     isLoading = true;
-//   });
-//   try {
-//     List<Map<String, dynamic>> classList = selectedClasses.map((classItem) {
-//       return classItem.toJson();
-//     }).toList();
-
-//     String classListJson = jsonEncode(classList);
-
-//     // Debug prints to check the data
-//     print('Class List: $classList');
-//     print('Class List JSON: $classListJson');
-//     print('check tutor Id ${MySharedPrefrence().get_user_ID()}');
-//     print('check update Status ${MySharedPrefrence().get_update_status()}');
-
-//     final response = await http.post(
-//       Uri.parse('${Utils.baseUrl}mobile_app/step_2_update.php'),
-//       headers: {
-//         'Content-Type': 'application/x-www-form-urlencoded',
-//       },
-//       body: {
-//         'code': '10',
-//         'update_status': MySharedPrefrence().get_update_status(),
-//         'tutor_id_edit': MySharedPrefrence().get_user_ID(),
-//         'preferred_areas': jsonEncode(selectedIdsArea),
-//         'preferred_board': jsonEncode(selectedIdsBoard),
-//         'preferred_group': jsonEncode(selectedIdsGroup),
-//         'class_listing': classListJson,
-//         'Institute': jsonEncode(selectedIdsinstitute),
-//         'Degree': jsonEncode(selectedIdsQualification),
-//       },
-//     );
-
-//     print(response.body.toString());
-
-//     if (response.statusCode == 200) {
-//       final Map<String, dynamic> responseData = json.decode(response.body);
-//       print('updateeeeeeeeeeeeeeeeeeeeeeeee $responseData');
-//       if (responseData['success'] == 1) {
-//         // Refetch data to update UI with the latest data
-//         // await saveQualificationData();
-//       } else {
-//         print('Error in response data: ${responseData['message']}');
-//       }
-//     } else {
-//       print('Error2: ' + response.statusCode.toString());
-//     }
-//   } catch (e) {
-//     print('error $e');
-//   } finally {
-//     setState(() {
-//       isLoading = false;
-//     });
-//   }
-// }
-
 Future<void> saveQualificationData() async {
   try {
     final response = await http.get(
