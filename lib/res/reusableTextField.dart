@@ -226,7 +226,8 @@ Widget icon){
 }
 
 reusableDropdownfeild(BuildContext context,String? selected,Function(String?) ontap, String showTitle,List<String> values,){
-  return Container(
+  return 
+  Container(
                                       padding: EdgeInsets.only(
                                           left: MediaQuery.of(context)
                                                   .size
@@ -244,11 +245,12 @@ reusableDropdownfeild(BuildContext context,String? selected,Function(String?) on
                                         borderRadius: BorderRadius.circular(
                                             10.0), // Border radius
                                       ),
-                                      child: DropdownButton<String>(
+                                      child: 
+                                      DropdownButton<String>(
                                         dropdownColor:
                                             colorController.whiteColor,
-                                        value: selected,
-                                  
+                                        value: selected ,
+                                        // isExpanded: true,
                                         onChanged: (String? newValue) {
                                           ontap(newValue);
                                           // setState(() {
@@ -286,8 +288,57 @@ reusableDropdownfeild(BuildContext context,String? selected,Function(String?) on
                                             Container(), // Remove underline
                                         // elevation: 0,
                                       ),
-                                    );
+                                      );
 }
+
+Widget reusableDropdownAdditional(
+    BuildContext context,
+    String? selected,
+    Function(String?) ontap,
+    String showTitle,
+    List<String> values,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 3.0),
+      child: DropdownButtonFormField<String>(
+        isDense: true,
+        borderRadius: BorderRadius.circular(11),
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          labelText: showTitle,
+          labelStyle: TextStyle(fontSize: 11.5),
+          // selected != null && selected.isNotEmpty ? showTitle : null,
+          border: OutlineInputBorder(
+            borderSide: BorderSide(color: colorController.btnColor),
+            borderRadius: BorderRadius.circular(11)),
+        ),
+        dropdownColor: Colors.white, // Replace with your color controller if needed
+        value: values.contains(selected) ? selected : null, // Ensure value is in items
+        onChanged: (String? newValue) {
+          ontap(newValue);
+        },
+        // hint: Text(
+        //   selected == 'null' ? showTitle : '',
+        //   style: TextStyle(color: Colors.grey, fontSize: 11.5),
+        // ),
+        items: values.map((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Container(
+              width: MediaQuery.of(context).size.width * .3,
+              child: Text(
+                value,
+                style: TextStyle(color: Colors.black, fontSize: 14),
+              ),
+            ),
+          );
+        }).toList(),
+        style: TextStyle(color: Colors.black), // Dropdown text color
+        icon: Icon(Icons.arrow_drop_down),
+      ),
+    );
+  }
+
 
 
 

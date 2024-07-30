@@ -230,6 +230,7 @@ Future<void> getAddtionalInfo() async {
           checkbox2 = placement.any((p) => p['id'] == PlacementId2);
           checkbox3 = placement.any((p) => p['id'] == PlacementId3);
           updateTutorPlacement(); // Ensure selectedPlacements is updated
+          isHomeWidgetVisible = checkbox2; // Ensure this state is correctly set
           print('heloo $selectedPlacements');
         });
       // print(responseData);
@@ -305,38 +306,38 @@ Future<void> getAddtionalInfo() async {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Flexible(child: reusableDropdownfeild(context,selectedCurrentTeaching, (String? newValue){
+                                      Flexible(child: reusableDropdownAdditional(context,selectedCurrentTeaching, (String? newValue){
                                     setState(() {
                                             selectedCurrentTeaching = newValue;
                                             print('Current teaching $selectedCurrentTeaching');
                                           });
-                                  },currently_teaching == 'null' ? 'Currently Teaching' : currently_teaching, ['Yes','No']),),
+                                  },'Currently Teaching', ['Yes','No']),),
                                   SizedBox(height: MediaQuery.of(context).size.width * 0.04,),
-                                  Flexible(child: reusableDropdownfeild(context,selectedTeachingExp, (String? newValue){
+                                  Flexible(child: reusableDropdownAdditional(context,selectedTeachingExp, (String? newValue){
                                     setState(() {
                                             selectedTeachingExp = newValue;
                                             print('teaching experience $selectedTeachingExp');
                                           });
-                                  }, Teaching_experience == 'null' ? 'Teaching Experience' : Teaching_experience, ['1-2 years','2-3 years','5+ years']),)
+                                  },'Teaching Experience', ['1-2 years','2-3 years','5+ years']),)
                                     ],
                                   ),
                                   reusablaSizaBox(context, 0.020),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Flexible(child: reusableDropdownfeild(context, oLevel, (String? newValue){
+                                      Flexible(child: reusableDropdownAdditional(context, oLevel, (String? newValue){
                                     setState(() {
                                             oLevel = newValue;
                                             print('O-Level Qualified  $oLevel');
                                           });
-                                  }, _oLevel == 'null' ? 'O-Level Qualified' : _oLevel, ['Yes','No']),),
+                                  }, 'O-Level Qualified', ['Yes','No']),),
                                   SizedBox(height: MediaQuery.of(context).size.width * 0.04,),
-                                  Flexible(child: reusableDropdownfeild(context, aLevel, (String? newValue){
+                                  Flexible(child: reusableDropdownAdditional(context, aLevel, (String? newValue){
                                     setState(() {
                                             aLevel = newValue;
                                             print('A-Level Qualified $aLevel');
                                           });
-                                  },_alevel == 'null' ? 'A-Level Qualified': _alevel, ['Yes','No']))
+                                  },'A-Level Qualified', ['Yes','No']))
                                     ],
                                   ),
                                   reusablaSizaBox(context, .020),
@@ -345,38 +346,43 @@ Future<void> getAddtionalInfo() async {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    buildCheckboxWithTitle('Home', checkbox1, (){
+                                      buildCheckboxWithTitle('Home', checkbox1,(){
                                       setState(() {});
-                                      // checkbox1 = !checkbox1;
-                                      // updateTutorPlacement();
-                                      print(selectedPlacements);
+                                      reusableMessagedialog(context, 'Placement',
+                    "You will have to visit at student's place", 'Confirm', () {
+                      setState(() {});
+                      checkbox1 = true;
+                      updateTutorPlacement();
+                      print(selectedPlacements);
+                    Navigator.pop(context);
+                    setState(() {});
+                }, () {
+                  setState(() {});
+                  checkbox1 = false;
+                  updateTutorPlacement();
+                  print(selectedPlacements);
+                  Navigator.pop(context);
+                  setState(() {});
+                });
                                     }),
-                //                       buildCheckboxWithTitle('Home', checkbox1,(){
-                //                       setState(() {});
-                //                       reusableMessagedialog(context, 'Placement',
-                //     "You will have to visit at student's place", 'Confirm', () {
-                //       setState(() {});
-                //       checkbox1 = true;
-                //       updateTutorPlacement();
-                //       print(selectedPlacements);
-                //     Navigator.pop(context);
-                //     setState(() {});
-                // }, () {
-                //   setState(() {});
-                //   checkbox1 = false;
-                //   updateTutorPlacement();
-                //   print(selectedPlacements);
-                //   Navigator.pop(context);
-                //   setState(() {});
-                // });
-                //                     }),
-                //                     buildCheckboxWithTitle('Online', checkbox2,(){
-                //                       setState(() { });
-                //                     },),
+                                    buildCheckboxWithTitle('Online', checkbox2,(){
+                                      setState(() { 
+                                        checkbox2 = !checkbox2;
+                                        updateTutorPlacement();
+                                        isHomeWidgetVisible = checkbox2; // Update visibility state
+                                        print(selectedPlacements);
+                                      });
+                                    },),
                                   ],
                                 ),
-                                // buildCheckboxWithTitle(
-                                //     "At Tutor's Place", checkbox3, (){},),
+                                buildCheckboxWithTitle(
+                                    "At Tutor's Place", checkbox3, (){
+                                      setState(() {
+                                        checkbox3 = !checkbox3;
+                                        updateTutorPlacement();
+                                        print(selectedPlacements);
+                                      });
+                                    },),
                                 reusablaSizaBox(context, .02),
                                 onlineVisibility(
                                   context,
