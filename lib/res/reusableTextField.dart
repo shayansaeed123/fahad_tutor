@@ -307,7 +307,6 @@ Widget reusableDropdownAdditional(
           contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           labelText: showTitle,
           labelStyle: TextStyle(fontSize: 11.5),
-          // selected != null && selected.isNotEmpty ? showTitle : null,
           border: OutlineInputBorder(
             borderSide: BorderSide(color: colorController.btnColor),
             borderRadius: BorderRadius.circular(11)),
@@ -317,10 +316,6 @@ Widget reusableDropdownAdditional(
         onChanged: (String? newValue) {
           ontap(newValue);
         },
-        // hint: Text(
-        //   selected == 'null' ? showTitle : '',
-        //   style: TextStyle(color: Colors.grey, fontSize: 11.5),
-        // ),
         items: values.map((String value) {
           return DropdownMenuItem<String>(
             value: value,

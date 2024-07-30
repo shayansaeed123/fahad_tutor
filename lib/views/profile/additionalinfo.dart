@@ -46,6 +46,7 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
     _furtherInfofocusNode.addListener(_onFocusChange);
      _homeAddress = FocusNode();
     _homeAddress.addListener(_onFocusChange);
+    _biography.addListener(_updateCharCount);
     repository.check_msg();
     getValues();
     getAddtionalInfo();
@@ -83,6 +84,7 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
     reusabletextfieldcontroller.addressCon.removeListener(_updateTitle);
     reusabletextfieldcontroller.furtherInfo.removeListener(_updateTitle);
     _biography.removeListener(_updateTitle);
+    _biography.dispose();
   }
   void _onFocusChange() {
     setState(() {
@@ -237,10 +239,26 @@ Future<void> getAddtionalInfo() async {
       home_address = responseData['home_address'];
       further_information = responseData['further_information'];
       onlineTeaching_experience = responseData['onlineTeaching_experience'];
-      currently_teaching = responseData['currently_teaching'];
-      Teaching_experience = responseData['Teaching_experience'];
-      _oLevel = responseData['oLevel'];
-      _alevel = responseData['alevel'];
+      // currently_teaching = responseData['currently_teaching'];
+      setState(() {
+          currently_teaching = responseData['currently_teaching'] ?? ''; // Use empty string if null
+          selectedCurrentTeaching = currently_teaching.isEmpty ? null : currently_teaching;
+          print('Fetched currently_teaching: $selectedCurrentTeaching');
+          if(currently_teaching == '0'){
+            selectedCurrentTeaching = 'No';
+          }else{
+            selectedCurrentTeaching = 'Yes';
+          }
+        });
+      // Teaching_experience = responseData['Teaching_experience'];
+      Teaching_experience = responseData['Teaching_experience'] ?? ''; // Use empty string if null
+          selectedTeachingExp = Teaching_experience.isEmpty ? null : Teaching_experience;
+      // _oLevel = responseData['oLevel'];
+      _oLevel = responseData['oLevel'] ?? ''; // Use empty string if null
+          oLevel = _oLevel.isEmpty ? null : _oLevel;
+          _alevel = responseData['alevel'] ?? ''; // Use empty string if null
+          aLevel = _alevel.isEmpty ? null : _alevel;
+      // _alevel = responseData['alevel'];
       date_of_birth = responseData['date_of_birth'];
       Biography = responseData['Biography'];
       placement = responseData['placements'];
@@ -306,12 +324,24 @@ Future<void> getAddtionalInfo() async {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Flexible(child: reusableDropdownAdditional(context,selectedCurrentTeaching, (String? newValue){
-                                    setState(() {
-                                            selectedCurrentTeaching = newValue;
-                                            print('Current teaching $selectedCurrentTeaching');
-                                          });
-                                  },'Currently Teaching', ['Yes','No']),),
+                                      Flexible(child: reusableDropdownAdditional(context,
+                                  //     selectedCurrentTeaching, (String? newValue){
+                                  //   setState(() {
+                                  //           selectedCurrentTeaching = newValue;
+                                  //           print('Current teaching $selectedCurrentTeaching');
+                                  //         });
+                                  // },
+                                  selectedCurrentTeaching,
+          (String? newValue) {
+            setState(() {
+              selectedCurrentTeaching = newValue;
+              // Update currently_teaching if necessary
+              currently_teaching = newValue ?? ''; // Update to 'null' if no value is selected
+              print('Updated selectedCurrentTeaching: $selectedCurrentTeaching');
+                print('Updated currently_teaching: $currently_teaching');
+            });
+          },
+                                  'Currently Teaching', ['Yes','No']),),
                                   SizedBox(height: MediaQuery.of(context).size.width * 0.04,),
                                   Flexible(child: reusableDropdownAdditional(context,selectedTeachingExp, (String? newValue){
                                     setState(() {
