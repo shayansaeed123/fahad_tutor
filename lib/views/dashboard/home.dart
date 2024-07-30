@@ -282,7 +282,7 @@ Widget build(BuildContext context) {
                             var data = filteredTuitions[index];
                             MySharedPrefrence().setAllTuitions(data);
                             return Container(
-                              height: MediaQuery.of(context).size.height * 0.19,
+                              height: MediaQuery.of(context).size.height * 0.23, //19 to 23
                               child: Stack(
                                 children: [
                                   Positioned(

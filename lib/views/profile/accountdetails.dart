@@ -65,25 +65,48 @@ class _AccountDetailsState extends State<AccountDetails> {
     _mobilenumber = FocusNode();
     _mobilenumber.addListener(_onFocusChange);
     repository.check_msg();
-     
-    getAccountDetails().then((value) {
-      reusabletextfieldcontroller.title.addListener(_updateTitle);
-        reusabletextfieldcontroller.title.text = Title;
-        reusabletextfieldcontroller.bankname.addListener(_updateTitle);
-        reusabletextfieldcontroller.bankname.text = Bank_Name;
-        reusabletextfieldcontroller.branchcode.addListener(_updateTitle);
-        reusabletextfieldcontroller.branchcode.text = Branch_Code;
-        reusabletextfieldcontroller.accountnumber.addListener(_updateTitle);
-        reusabletextfieldcontroller.accountnumber.text = Account_Number;
-        reusabletextfieldcontroller.ibannumber.addListener(_updateTitle);
-        reusabletextfieldcontroller.ibannumber.text = IBAN_Pptional;
-        reusabletextfieldcontroller.accounttitle.addListener(_updateTitle);
-        reusabletextfieldcontroller.accounttitle.text = easypesa_bank;
-        reusabletextfieldcontroller.mobilenumber.addListener(_updateTitle);
-        reusabletextfieldcontroller.mobilenumber.text = Easy_Paisa_Mobile;
-    });
-
+      getData();
   }
+  void getData() async {
+    await getAccountDetails();
+    setState(() {
+      reusabletextfieldcontroller.title.text = Title;
+      reusabletextfieldcontroller.bankname.text = Bank_Name;
+      reusabletextfieldcontroller.branchcode.text = Branch_Code;
+      reusabletextfieldcontroller.accountnumber.text = Account_Number;
+      reusabletextfieldcontroller.ibannumber.text = IBAN_Pptional;
+      reusabletextfieldcontroller.accounttitle.text = easypesa_bank;
+      reusabletextfieldcontroller.mobilenumber.text = Easy_Paisa_Mobile;
+
+      reusabletextfieldcontroller.title.addListener(_updateTitle);
+      reusabletextfieldcontroller.bankname.addListener(_updateTitle);
+      reusabletextfieldcontroller.branchcode.addListener(_updateTitle);
+      reusabletextfieldcontroller.accountnumber.addListener(_updateTitle);
+      reusabletextfieldcontroller.ibannumber.addListener(_updateTitle);
+      reusabletextfieldcontroller.accounttitle.addListener(_updateTitle);
+      reusabletextfieldcontroller.mobilenumber.addListener(_updateTitle);
+    });
+  }
+  // void getData()async{
+  //   getAccountDetails().then((value) {
+  //     setState((){
+  //       reusabletextfieldcontroller.title.addListener(_updateTitle);
+  //       reusabletextfieldcontroller.title.text = Title;
+  //       reusabletextfieldcontroller.bankname.addListener(_updateTitle);
+  //       reusabletextfieldcontroller.bankname.text = Bank_Name;
+  //       reusabletextfieldcontroller.branchcode.addListener(_updateTitle);
+  //       reusabletextfieldcontroller.branchcode.text = Branch_Code;
+  //       reusabletextfieldcontroller.accountnumber.addListener(_updateTitle);
+  //       reusabletextfieldcontroller.accountnumber.text = Account_Number;
+  //       reusabletextfieldcontroller.ibannumber.addListener(_updateTitle);
+  //       reusabletextfieldcontroller.ibannumber.text = IBAN_Pptional;
+  //       reusabletextfieldcontroller.accounttitle.addListener(_updateTitle);
+  //       reusabletextfieldcontroller.accounttitle.text = easypesa_bank;
+  //       reusabletextfieldcontroller.mobilenumber.addListener(_updateTitle);
+  //       reusabletextfieldcontroller.mobilenumber.text = Easy_Paisa_Mobile;
+  //     });
+  //   });
+  // }
 
   @override
   void dispose() {

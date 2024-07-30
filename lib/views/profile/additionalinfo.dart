@@ -42,22 +42,34 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getAddtionalInfo().then((value) {
-      reusabletextfieldcontroller.addressCon.addListener(_updateTitle);
-        reusabletextfieldcontroller.addressCon.text = home_address;
-        reusabletextfieldcontroller.furtherInfo.addListener(_updateTitle);
-        reusabletextfieldcontroller.furtherInfo.text = further_information;
-        _biography.addListener(_updateTitle);
-        _biography.text = Biography;
-      if (date_of_birth.isNotEmpty) {
-      selectedTime = DateTime.tryParse(date_of_birth);
-    }
-    });
     _furtherInfofocusNode = FocusNode();
     _furtherInfofocusNode.addListener(_onFocusChange);
      _homeAddress = FocusNode();
     _homeAddress.addListener(_onFocusChange);
     repository.check_msg();
+    getValues();
+    getAddtionalInfo();
+    // getAddtionalInfo().then((_) {
+    //   setState(() {
+    //   });
+    // });
+  }
+
+  void getValues()async{
+    await getAddtionalInfo();
+    setState(() {
+      reusabletextfieldcontroller.addressCon.text = home_address;
+      reusabletextfieldcontroller.furtherInfo.text = further_information;
+       _biography.text = Biography;
+
+      reusabletextfieldcontroller.addressCon.addListener(_updateTitle);
+        reusabletextfieldcontroller.furtherInfo.addListener(_updateTitle);
+        _biography.addListener(_updateTitle);
+        if (date_of_birth.isNotEmpty) {selectedTime = DateTime.tryParse(date_of_birth);}
+        // checkbox1 = placement.any((p) => p['id'] == PlacementId1);
+        // checkbox2 = placement.any((p) => p['id'] == PlacementId2);
+        // checkbox3 = placement.any((p) => p['id'] == PlacementId3);
+    });
   }
 
   @override
@@ -211,6 +223,15 @@ Future<void> getAddtionalInfo() async {
       PlacementId1 = Placements[0]['id'];
       PlacementId2 = Placements[1]['id'];
       PlacementId3 = Placements[2]['id'];
+      
+
+      setState(() {
+          checkbox1 = placement.any((p) => p['id'] == PlacementId1);
+          checkbox2 = placement.any((p) => p['id'] == PlacementId2);
+          checkbox3 = placement.any((p) => p['id'] == PlacementId3);
+          updateTutorPlacement(); // Ensure selectedPlacements is updated
+          print('heloo $selectedPlacements');
+        });
       // print(responseData);
       home_address = responseData['home_address'];
       further_information = responseData['further_information'];
@@ -324,30 +345,32 @@ Future<void> getAddtionalInfo() async {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                      buildCheckboxWithTitle('Home', checkbox1,(){
-                                      setState(() {});
-                                      reusableMessagedialog(context, 'Placement',
-                    "You will have to visit at student's place", 'Confirm', () {
-                      setState(() {});
-                      checkbox1 = true;
-                      updateTutorPlacement();
-                      print(selectedPlacements);
-                    Navigator.pop(context);
-                    setState(() {});
-                }, () {
-                  setState(() {});
-                  checkbox1 = false;
-                  updateTutorPlacement();
-                  print(selectedPlacements);
-                  Navigator.pop(context);
-                  setState(() {});
-                });
-                                    }),
-                                    buildCheckboxWithTitle('Online', checkbox2,(){},),
+                //                       buildCheckboxWithTitle('Home', checkbox1,(){
+                //                       setState(() {});
+                //                       reusableMessagedialog(context, 'Placement',
+                //     "You will have to visit at student's place", 'Confirm', () {
+                //       setState(() {});
+                //       checkbox1 = true;
+                //       updateTutorPlacement();
+                //       print(selectedPlacements);
+                //     Navigator.pop(context);
+                //     setState(() {});
+                // }, () {
+                //   setState(() {});
+                //   checkbox1 = false;
+                //   updateTutorPlacement();
+                //   print(selectedPlacements);
+                //   Navigator.pop(context);
+                //   setState(() {});
+                // });
+                //                     }),
+                //                     buildCheckboxWithTitle('Online', checkbox2,(){
+                //                       setState(() { });
+                //                     },),
                                   ],
                                 ),
-                                buildCheckboxWithTitle(
-                                    "At Tutor's Place", checkbox3, (){},),
+                                // buildCheckboxWithTitle(
+                                //     "At Tutor's Place", checkbox3, (){},),
                                 reusablaSizaBox(context, .02),
                                 onlineVisibility(
                                   context,
@@ -404,27 +427,28 @@ Future<void> getAddtionalInfo() async {
           side: BorderSide(color: colorController.blueColor, width: 1.5),
           value: value,
           onChanged: (newValue) {
-            setState(() {
-              if (title == 'Home') {
-                // checkbox1 = newValue ?? false;
-                ontap();
-              } else if (title == 'Online') {
-                checkbox2 = newValue ?? false;
-                if (newValue == true) {
-                  isHomeWidgetVisible = true;
-                  updateTutorPlacement();
-                   print(selectedPlacements);
-                } else {
-                  updateTutorPlacement();
-                   print(selectedPlacements);
-                  isHomeWidgetVisible = false;
-                }
-              } else if (title == "At Tutor's Place") {
-                checkbox3 = newValue ?? false;
-                updateTutorPlacement();
-                 print(selectedPlacements);
-              }
-            });
+            ontap();
+            // setState(() {
+            //   if (title == 'Home') {
+            //     checkbox1 = newValue ?? false;
+            //     ontap();
+            //   } else if (title == 'Online') {
+            //     checkbox2 = value ?? false;
+            //     if (value == true) {
+            //       isHomeWidgetVisible = true;
+            //       updateTutorPlacement();
+            //        print(selectedPlacements);
+            //     } else {
+            //       updateTutorPlacement();
+            //        print(selectedPlacements);
+            //       isHomeWidgetVisible = false;
+            //     }
+            //   } else if (title == "At Tutor's Place") {
+            //     checkbox3 = value ?? false;
+            //     updateTutorPlacement();
+            //      print(selectedPlacements);
+            //   }
+            // });
           },
         ),
         reusableText(title, fontsize: 15),
