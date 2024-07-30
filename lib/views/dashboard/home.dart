@@ -204,7 +204,7 @@ Widget build(BuildContext context) {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    reusableText('Preffered Tuitions',
+                    reusableText('Preferred Tuitions',
                         fontsize: 22.5,
                         color: colorController.blackColor,
                         fontweight: FontWeight.bold),

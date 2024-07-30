@@ -345,6 +345,12 @@ Future<void> getAddtionalInfo() async {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
+                                    buildCheckboxWithTitle('Home', checkbox1, (){
+                                      setState(() {});
+                                      // checkbox1 = !checkbox1;
+                                      // updateTutorPlacement();
+                                      print(selectedPlacements);
+                                    }),
                 //                       buildCheckboxWithTitle('Home', checkbox1,(){
                 //                       setState(() {});
                 //                       reusableMessagedialog(context, 'Placement',

@@ -24,7 +24,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         useMaterial3: true,
-        fontFamily: 'tutorPhi',
+        fontFamily: 'TutorFont',
+        // textTheme: TextTheme(
+        //   bodySmall: TextStyle(fontFamily: 'TutorFont'),
+        //   bodyMedium: TextStyle(fontFamily: 'TutorFont'),
+        //   // Customize other text styles as needed
+        // ),
       ),
       debugShowCheckedModeBanner: false,
       home: const SplashScreen(),
