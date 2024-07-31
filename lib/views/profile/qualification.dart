@@ -87,17 +87,31 @@ String? laptop = 'no';
 @override
   void initState() {
     super.initState();
+    repository.Check_popup();
     fetchData('Institute','Institute', newItemsinstitute, selectedIdsinstitute, updateSelectedNamesInstitute);
     fetchData('Qualification','Qualification', newItemsQualification, selectedIdsQualification, updateSelectedNamesQualification);
     fetchData('Board', 'Board', newItemsBoard, selectedIdsBoard, updateSelectedNamesBoard);
     fetchData('Group','Group', newItemsGroup, selectedIdsGroup, updateSelectedNamesGroup);
     fetchData('Preferred_Time','Preferred_Time', newItemsTime, selectedIdsTime, updateSelectedNamesTime);
     fetchClassDataAndSubjectData('Class','Class', newItemsClass,);
-    selectArea();
     saveQualificationData();
+    selectArea();
+    saveAreaData();
     repository.check_msg();
+    allFunction();
   }
-  
+  void allFunction()async{
+     fetchData('Institute','Institute', newItemsinstitute, selectedIdsinstitute, updateSelectedNamesInstitute);
+     fetchData('Qualification','Qualification', newItemsQualification, selectedIdsQualification, updateSelectedNamesQualification);
+     fetchData('Board', 'Board', newItemsBoard, selectedIdsBoard, updateSelectedNamesBoard);
+     fetchData('Group','Group', newItemsGroup, selectedIdsGroup, updateSelectedNamesGroup);
+     fetchData('Preferred_Time','Preferred_Time', newItemsTime, selectedIdsTime, updateSelectedNamesTime);
+     fetchClassDataAndSubjectData('Class','Class', newItemsClass,);
+    await saveQualificationData();
+    await selectArea();
+    await saveAreaData();
+    await repository.check_msg();
+  }
   
   Future<void> updateStatus() async {
     setState(() {
@@ -204,6 +218,31 @@ String classListJson = jsonEncode(classList);
     });
   }
   }
+  Future<void> saveAreaData() async {
+  try {
+    final response = await http.get(
+      Uri.parse('${Utils.baseUrl}mobile_app/step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
+    );
+
+    if (response.statusCode == 200) {
+      if (response.body.isNotEmpty) {
+        final Map<String, dynamic> jsonResponse = json.decode(response.body);
+          selectedIdsArea = (jsonResponse['preferred_area_listing'] as List)
+              .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+              .toList();
+          updateSelectedNamesArea();
+          print('area selected $selectedIdsArea');
+        // });
+      } else {
+        throw Exception('Empty response body');
+      }
+    } else {
+      throw Exception('Failed to load country details');
+    }
+  } catch (e) {
+    print('area error$e');
+  }
+}
 
 Future<void> saveQualificationData() async {
   try {
@@ -221,9 +260,9 @@ Future<void> saveQualificationData() async {
           selectedIdsQualification = (jsonResponse['Institute_Qualification'] as List)
               .map<Map<String, String>>((item) => {'id': item['id'].toString()})
               .toList();
-          selectedIdsArea = (jsonResponse['preferred_area_listing'] as List)
-              .map<Map<String, String>>((item) => {'id': item['id'].toString()})
-              .toList();
+          // selectedIdsArea = (jsonResponse['preferred_area_listing'] as List)
+          //     .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+          //     .toList();
           selectedIdsBoard = (jsonResponse['preferred_board_listing'] as List)
               .map<Map<String, String>>((item) => {'id': item['id'].toString()})
               .toList();
@@ -250,6 +289,7 @@ Future<void> saveQualificationData() async {
         //     );
         //   }).toList();
         // });
+
         selectedClasses = (jsonResponse['class_listing'] as List).map((item) {
             return MyClass(
               classId: item['class_id'].toString(),
@@ -258,8 +298,9 @@ Future<void> saveQualificationData() async {
               subjectNames: List<String>.from(item['subject_name'].map((sname) => sname.toString())),
             );
           }).toList();
+
           // MySharedPrefrence().set_city_id(jsonResponse['city_id']);
-          MySharedPrefrence().set_update_status(jsonResponse['update_status']);
+          // MySharedPrefrence().set_update_status(jsonResponse['update_status']);
 
           // Update the selected names
           updateSelectedNamesInstitute();
@@ -445,6 +486,7 @@ Future<void> selectArea() async {
       isLoading = true;
     });
     try {
+      print('heell ${MySharedPrefrence().get_city_id()}');
       final response = await http.post(
           Uri.parse('${Utils.baseUrl}mobile_app/area.php'),
           body: {
@@ -1648,7 +1690,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                         crossAxisCount: 2, // Number of columns
                         crossAxisSpacing: 10.0, // Spacing between columns
                         mainAxisSpacing: 10.0, // Spacing between rows
-                        childAspectRatio: 5.3, // Aspect ratio of each grid item
+                        childAspectRatio: 5.1, // Aspect ratio of each grid item
                       ),
                       itemBuilder: (context, index) {
                         return Container(
@@ -1701,7 +1743,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                         crossAxisCount: 2, // Number of columns
                         crossAxisSpacing: 10.0, // Spacing between columns
                         mainAxisSpacing: 10.0, // Spacing between rows
-                        childAspectRatio: 5.3, // Aspect ratio of each grid item
+                        childAspectRatio: 5.1, // Aspect ratio of each grid item
                       ),
                       itemBuilder: (context, index) {
                         return Container(
@@ -1754,7 +1796,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                         crossAxisCount: 2, // Number of columns
                         crossAxisSpacing: 10.0, // Spacing between columns
                         mainAxisSpacing: 10.0, // Spacing between rows
-                        childAspectRatio: 5.3, // Aspect ratio of each grid item
+                        childAspectRatio: 5.1, // Aspect ratio of each grid item
                       ),
                       itemBuilder: (context, index) {
                         return Container(
@@ -1817,7 +1859,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
       crossAxisCount: 1, // Number of columns
       crossAxisSpacing: 10.0, // Spacing between columns
       mainAxisSpacing: 10.0, // Spacing between rows
-      childAspectRatio: 10.4, // Aspect ratio of each grid item
+      childAspectRatio: 10.2, // Aspect ratio of each grid item
     ),
     itemBuilder: (context, index) {
       String subjects = selectedClasses[index].subjectNames.join(', ');

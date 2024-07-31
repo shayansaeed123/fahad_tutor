@@ -358,6 +358,8 @@ class TutorRepository {
         MySharedPrefrence().set_term_condition_image_online(jsonResponse['term_condition_image_ftalive']);
         MySharedPrefrence().set_attention_title(jsonResponse['attention_popup_title']);
         MySharedPrefrence().set_attention_text(jsonResponse['attention_popup_text']);
+        MySharedPrefrence().set_city_id(jsonResponse['cities']);
+        print(MySharedPrefrence().get_city_id());
         print('FAQ Image ${MySharedPrefrence().get_faqs()}');
         print('terms & conditions Image ${MySharedPrefrence().get_term_condition()}');
         print('registration $_Registration_text');
