@@ -25,11 +25,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         fontFamily: 'TutorFont',
-        // textTheme: TextTheme(
-        //   bodySmall: TextStyle(fontFamily: 'TutorFont'),
-        //   bodyMedium: TextStyle(fontFamily: 'TutorFont'),
-        //   // Customize other text styles as needed
-        // ),
       ),
       debugShowCheckedModeBanner: false,
       home: const SplashScreen(),
