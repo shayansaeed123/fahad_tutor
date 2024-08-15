@@ -14,17 +14,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  // bool _isLoggedIn = false;
-
-  // Future<void> checkLoginStatus() async {
-  //   bool isLoggedIn = await MySharedPrefrence().getUserLoginStatus();
-  //   setState(() {
-  //     _isLoggedIn = isLoggedIn;
-  //   });
-  //   Timer(Duration(seconds: 3), () {
-  //     navigateToScreen();
-  //   });
-  // }
 
   // Future<void> navigateToScreen() async {
   //   print('tutor ID ${MySharedPrefrence().get_user_ID()}');
