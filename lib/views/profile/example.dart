@@ -10,25 +10,6 @@
 // import 'package:flutter/material.dart';
 // import 'package:http/http.dart' as http;
 
-// class example extends StatefulWidget {
-//   const example({super.key});
-
-//   @override
-//   State<example> createState() => _exampleState();
-// }
-
-// class _exampleState extends State<example> {
-//   bool isLoading = false;
-//   List<dynamic> newItemsClass = [];
-// List<dynamic> selectedIdsClass = [];
-// List<String> selectedNamesClass = [];
-// @override
-//   void initState() {
-//     // TODO: implement initState
-//     super.initState();
-//     saveQualificationData();
-//   }
-
 // //   void classSelect() {
 // //   showDialog(
 // //     context: context,
