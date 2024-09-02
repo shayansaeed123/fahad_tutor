@@ -311,7 +311,7 @@ Widget build(BuildContext context) {
                                                 });
                                               });
                                                 }else{
-                                                  reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm', (){
+                                                  reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm','Cancel', (){
                                                     applyTuitions(() {
                                                 setState(() {
                                                   data['already'] = 1;
@@ -364,7 +364,7 @@ Widget build(BuildContext context) {
                                                 });
                                               });
                                                 }else{
-                                                  reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm', (){
+                                                  reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm','Cancel', (){
                                                     applyTuitions(() {
                                                 setState(() {
                                                   data['already'] = 1;
@@ -413,7 +413,7 @@ Widget build(BuildContext context) {
                                                 });
                                               });
                                                 }else{
-                                                  reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm', (){
+                                                  reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm','Cancel', (){
                                                     applyTuitions(() {
                                                 setState(() {
                                                   data['already'] = 1;

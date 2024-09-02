@@ -71,7 +71,7 @@ void reusableloadingApply(BuildContext context, String assetPath, String message
 
 
 reusableMessagedialog(
-    BuildContext context, String titletxt,String contenttxt, String btntxt, Function btnontap, Function canceltap){
+    BuildContext context, String titletxt,String contenttxt, String btntxt, String btntxt2, Function btnontap, Function canceltap){
   return  showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -128,7 +128,7 @@ reusableMessagedialog(
                         onPressed: () {
                           canceltap();
                         },
-                        child: reusableText('Cancel',color: colorController.whiteColor,),
+                        child: reusableText(btntxt2,color: colorController.whiteColor,),
                         style: TextButton.styleFrom( 
                           backgroundColor: colorController.grayTextColor, 
                           shape: RoundedRectangleBorder(
@@ -146,6 +146,8 @@ reusableMessagedialog(
         );
       },
     );
+
+    
   // showDialog(
   //   barrierDismissible: false,
   //   context: context,

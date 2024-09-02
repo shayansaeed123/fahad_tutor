@@ -564,6 +564,7 @@ class _AllTuitionsState extends State<AllTuitions> {
                                     child: InkWell(
                                         onTap: () {
                                           // repository.group_id();
+                                          print('online check ${data['Online_terms_check']}');
                                           g_id = data['group_id'];
                                           tuition_id = data['tuition_id'];
                                           print('tuitions_id ${data['tuition_id']}');
@@ -578,13 +579,17 @@ class _AllTuitionsState extends State<AllTuitions> {
                                               data['location'],
                                               data['limit_statement'],(){
                                                 if(data['group_id'] == '0'){
+                                                  if(data['Online_terms_check']==1){
+
+                                                  }else{
                                                   applyTuitions(() {
                                                 setState(() {
                                                   data['already'] = 1;
                                                 });
                                               });
+                                                  }
                                                 }else{
-                                                  reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm', (){
+                                                  reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm','Cancel', (){
                                                     applyTuitions(() {
                                                 setState(() {
                                                   data['already'] = 1;
@@ -638,7 +643,7 @@ class _AllTuitionsState extends State<AllTuitions> {
                                                 });
                                               });
                                                 }else{
-                                                  reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm', (){
+                                                  reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm','Cancel', (){
                                                     applyTuitions(() {
                                                 setState(() {
                                                   data['already'] = 1;
@@ -688,7 +693,7 @@ class _AllTuitionsState extends State<AllTuitions> {
                                                 });
                                               });
                                                 }else{
-                                                  reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm', (){
+                                                  reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm','Cancel', (){
                                                     applyTuitions(() {
                                                 setState(() {
                                                   data['already'] = 1;

@@ -303,7 +303,7 @@ class _NotificationsState extends State<Notifications> {
                                             context,
                                             'Classes',
                                             'Are you sure${repository.class_name}',
-                                            'Confirm', () {
+                                            'Confirm','Cancel', () {
                                           applyTuitions(() {
                                                 setState(() {
                                                   data['already'] = 1;

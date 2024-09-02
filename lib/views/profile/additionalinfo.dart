@@ -379,7 +379,7 @@ Future<void> getAddtionalInfo() async {
                                       buildCheckboxWithTitle('Home', checkbox1,(){
                                       setState(() {});
                                       reusableMessagedialog(context, 'Placement',
-                    "You will have to visit at student's place", 'Confirm', () {
+                    "You will have to visit at student's place", 'Confirm', 'Cancel',() {
                       setState(() {});
                       checkbox1 = true;
                       updateTutorPlacement();

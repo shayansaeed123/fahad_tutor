@@ -448,7 +448,7 @@ class _ViewTuitionsState extends State<ViewTuitions> {
                                             data['share_date'],
                                             data['location'],
                                             data['limit_statement'],
-                                            (){reusableMessagedialog(context, 'Login', 'Please Login to Apply for Tuition', 'Login', (){
+                                            (){reusableMessagedialog(context, 'Login', 'Please Login to Apply for Tuition', 'Login','Cancel', (){
                                               Navigator.pop(context);
                                               Navigator.pop(context);
                                               Navigator.push(context,MaterialPageRoute(builder: (context) => Login()),);
@@ -492,7 +492,7 @@ class _ViewTuitionsState extends State<ViewTuitions> {
                                               data['share_date'],
                                               data['location'],
                                               data['limit_statement'],
-                                              (){reusableMessagedialog(context, 'Login', 'Please Login to Apply for Tuition', 'Login', (){
+                                              (){reusableMessagedialog(context, 'Login', 'Please Login to Apply for Tuition', 'Login', 'Cancel',(){
                                               Navigator.pop(context);
                                               Navigator.pop(context);
                                               Navigator.push(context,MaterialPageRoute(builder: (context) => Login()),);
@@ -531,7 +531,7 @@ class _ViewTuitionsState extends State<ViewTuitions> {
                                               data['share_date'],
                                               data['location'],
                                               data['limit_statement'],
-                                              (){reusableMessagedialog(context, 'Login', 'Please Login to Apply for Tuition', 'Login', (){
+                                              (){reusableMessagedialog(context, 'Login', 'Please Login to Apply for Tuition', 'Login','Cancel', (){
                                               Navigator.pop(context);
                                               Navigator.pop(context);
                                               Navigator.push(context,MaterialPageRoute(builder: (context) => Login()),);
