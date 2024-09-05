@@ -420,7 +420,7 @@ void loginClear(){
             ),
             reusablaSizaBox(context, .05),
             reusableBtn(context, 'Logout',(){
-              reusableMessagedialog(context, 'Logout', 'Are you sure?', 'Confirm', 'Cancel', (){
+              reusableMessagedialog(context, 'Logout', 'Are you sure?', 'Confirm', 'Cancel', (){ 
                 MySharedPrefrence().logout();
                 loginClear();
                 Navigator.push(context,MaterialPageRoute(
