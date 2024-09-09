@@ -47,7 +47,6 @@ class _FAQState extends State<FAQ> {
                         children: [
                           reusableText("FAQ's",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
                           reusablaSizaBox(context, 0.020),
-                          // Image.network(repository.faqs_images,fit: BoxFit.cover,)
                          CachedNetworkImage(imageUrl: MySharedPrefrence().get_faqs(),
                          errorWidget: (context, url, error) => Container(),
                          fit: BoxFit.cover,
