@@ -283,159 +283,231 @@ Widget build(BuildContext context) {
                             MySharedPrefrence().setAllTuitions(data);
                             return Container(
                               height: MediaQuery.of(context).size.height * 0.23, //19 to 23
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    top: MediaQuery.of(context).size.height * 0.023,
-                                    left: MediaQuery.of(context).size.width * 0.001,
-                                    right: MediaQuery.of(context).size.width * .001,
-                                    child: InkWell(
-                                        onTap: () {
-                                          g_id = data['group_id'];
-                                          tuition_id = data['tuition_id'];
-                                          print('Preferred tuition id: ${data['tuition_id']}');
-                                          reusabletutorDetails(
-                                              context,formatInfo(data['remarks']),
-                                              data['class_name'],
-                                              data['tuition_name'],
-                                              data['Placement'],
-                                              data['job_closed'],
-                                              data['subject'],
-                                              data['share_date'],
-                                              data['location'],
-                                              data['limit_statement'],(){
-                                                if(data['group_id'] == '0'){
-                                                  applyTuitions(() {
-                                                setState(() {
-                                                  data['already'] = 1;
-                                                });
-                                              });
-                                                }else{
-                                                  reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm','Cancel', (){
-                                                    applyTuitions(() {
-                                                setState(() {
-                                                  data['already'] = 1;
-                                                });
-                                              });
-                                                  }, (){Navigator.pop(context);});
-                                                }
-                                              },
-                                              data['group_id'],
-                                              data['tuition_id'],
-                                              data['already'],() {
-                                                setState(() {
-                                                  data['already'] = 1;
-                                                });
-                                              }
-                                                  );
-                                                  setState(() {});
-                                                print('groupppppppppppppppppppppppppp ${data['group_id']}');
-                                                repository.group_id(data['group_id']);
-                                        },
-                                        child: reusablecard(context,
-                                        data['tuition_name'],
-                                        data['class_name'],
-                                        data['share_date'],
-                                        data['location'],
-                                        data['subject'],
-                                        data['already'],
-                                        )),
-                                  ),
-                                  Positioned(
-                                      left: MediaQuery.of(context).size.width * 0.45,
-                                      top: MediaQuery.of(context).size.height * 0.005,
-                                      right: MediaQuery.of(context).size.width * .27,
-                                      child: InkWell(
-                                          onTap: () {
+                              child: InkWell(
+                                onTap: (){
+                                  // repository.group_id();
+                                            print('online check ${data['Online_terms_check']}');
+                                            print('online check headng ${data['Online_terms_check_heading']}');
+                                            print('online check text  ${data['Online_terms_check_text']}');
+                                            g_id = data['group_id'];
+                                            tuition_id = data['tuition_id'];
+                                            print('tuitions_id ${data['tuition_id']}');
                                             reusabletutorDetails(
                                                 context,formatInfo(data['remarks']),
-                                              data['class_name'],
-                                              data['tuition_name'],
-                                              data['Placement'],
-                                              data['job_closed'],
-                                              data['subject'],
-                                              data['share_date'],
-                                              data['location'],
-                                              data['limit_statement'],(){
-                                                if(data['group_id'] == '0'){
-                                                  applyTuitions(() {
-                                                setState(() {
-                                                  data['already'] = 1;
-                                                });
-                                              });
-                                                }else{
-                                                  reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm','Cancel', (){
-                                                    applyTuitions(() {
-                                                setState(() {
-                                                  data['already'] = 1;
-                                                });
-                                              });
-                                                  }, (){Navigator.pop(context);});
+                                                data['class_name'],
+                                                data['tuition_name'],
+                                                data['Placement'],
+                                                data['job_closed'],
+                                                data['subject'],
+                                                data['share_date'],
+                                                data['location'],
+                                                data['limit_statement'],(){
+                                                  if(data['group_id'] == '0'){
+                                                    if(data['Online_terms_check']==1){
+                                                      reusableMessagedialog(context, data['Online_terms_check_heading'], formatInfo(data['Online_terms_check_text']), 'Agree', 'Disagree', (){
+                                                        applyTuitions(() {
+                                                          setState(() {
+                                                            data['already'] = 1;
+                                                          });
+                                                        });
+                                                        Navigator.pop(context);
+                                                      }, (){Navigator.pop(context);});
+                                                    }else{
+                                                        applyTuitions(() {
+                                                          setState(() {
+                                                            data['already'] = 1;
+                                                          });
+                                                        });
+                                                    }
+                                                  }else{
+                                                    reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm','Cancel', (){
+                                                      if(data['Online_terms_check']==1){
+                                                      reusableMessagedialog(context, data['Online_terms_check_heading'], formatInfo(data['Online_terms_check_text']), 'Agree', 'Disagree', (){
+                                                        applyTuitions(() {
+                                                          setState(() {
+                                                            data['already'] = 1;
+                                                          });
+                                                        });
+                                                        Navigator.pop(context);
+                                                      }, (){Navigator.pop(context);});
+                                                    }else{
+                                                        applyTuitions(() {
+                                                          setState(() {
+                                                            data['already'] = 1;
+                                                          });
+                                                        });
+                                                    }
+                                                    }, (){Navigator.pop(context);});
+                                                  }
+                                                },
+                                                data['group_id'],
+                                                data['tuition_id'],
+                                                data['already'],() {
+                                                  setState(() {
+                                                    data['already'] = 1;
+                                                  });
                                                 }
-                                              },
-                                              data['group_id'],
-                                              data['tuition_id'],
-                                              data['already'],() {
-                                                setState(() {
-                                                  data['already'] = 1;
-                                                });
-                                              }
-                                                );
-                                                setState(() {});
-                                                print('groupppppppppppppppppppppppppp ${data['group_id']}');
-                                                repository.group_id(data['group_id']);
-                                          },
-                                          child: reusablecardbtn(
-                                              context,
-                                              '${data['Placement']}',
-                                              colorController.btnColor,
-                                              colorController.whiteColor))),
-                                  Positioned(
-                                      left: MediaQuery.of(context).size.width * 0.72,
-                                      top: MediaQuery.of(context).size.height * 0.005,
-                                      right: MediaQuery.of(context).size.width * .03,
-                                      child: InkWell(
-                                          onTap: () {
-                                            reusabletutorDetails(
-                                                context,formatInfo(data['remarks']),
-                                              data['class_name'],
-                                              data['tuition_name'],
-                                              data['Placement'],
-                                              data['job_closed'],
-                                              data['subject'],
-                                              data['share_date'],
-                                              data['location'],
-                                              data['limit_statement'],(){
-                                                if(data['group_id'] == '0'){
-                                                  applyTuitions(() {
-                                                setState(() {
-                                                  data['already'] = 1;
-                                                });
-                                              });
-                                                }else{
-                                                  reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm','Cancel', (){
-                                                    applyTuitions(() {
-                                                setState(() {
-                                                  data['already'] = 1;
-                                                });
-                                              });
-                                                  }, (){Navigator.pop(context);});
-                                                }
-                                              },
-                                              data['group_id'],
-                                              data['tuition_id'],
-                                              data['already'],() {
-                                                setState(() {
-                                                  data['already'] = 1;
-                                                });
-                                              }
-                                                );
-                                                setState(() {});
-                                                print('groupppppppppppppppppppppppppp ${data['group_id']}');
-                                                repository.group_id(data['group_id']);
-                                          },
-                                          child: reusablecardbtn(context, data['job_closed'] == 0 ? 'Open' : 'Closed', data['job_closed'] == 0 ? colorController.yellowColor : colorController.redColor, data['job_closed'] == 0 ? colorController.blackColor : colorController.whiteColor))),
-                                ],
+                                                    );
+                                                    setState(() {});
+                                                  print('groupppppppppppppppppppppppppp ${data['group_id']}');
+                                                  repository.group_id(data['group_id']);
+                                },
+                                child: Stack(
+                                  children: [
+                                    Positioned(
+                                      top: MediaQuery.of(context).size.height * 0.023,
+                                      left: MediaQuery.of(context).size.width * 0.001,
+                                      right: MediaQuery.of(context).size.width * .001,
+                                      // child: InkWell(
+                                      //     onTap: () {
+                                      //       g_id = data['group_id'];
+                                      //       tuition_id = data['tuition_id'];
+                                      //       print('Preferred tuition id: ${data['tuition_id']}');
+                                      //       reusabletutorDetails(
+                                      //           context,formatInfo(data['remarks']),
+                                      //           data['class_name'],
+                                      //           data['tuition_name'],
+                                      //           data['Placement'],
+                                      //           data['job_closed'],
+                                      //           data['subject'],
+                                      //           data['share_date'],
+                                      //           data['location'],
+                                      //           data['limit_statement'],(){
+                                      //             if(data['group_id'] == '0'){
+                                      //               applyTuitions(() {
+                                      //             setState(() {
+                                      //               data['already'] = 1;
+                                      //             });
+                                      //           });
+                                      //             }else{
+                                      //               reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm','Cancel', (){
+                                      //                 applyTuitions(() {
+                                      //             setState(() {
+                                      //               data['already'] = 1;
+                                      //             });
+                                      //           });
+                                      //               }, (){Navigator.pop(context);});
+                                      //             }
+                                      //           },
+                                      //           data['group_id'],
+                                      //           data['tuition_id'],
+                                      //           data['already'],() {
+                                      //             setState(() {
+                                      //               data['already'] = 1;
+                                      //             });
+                                      //           }
+                                      //               );
+                                      //               setState(() {});
+                                      //             print('groupppppppppppppppppppppppppp ${data['group_id']}');
+                                      //             repository.group_id(data['group_id']);
+                                      //     },
+                                          child: reusablecard(context,
+                                          data['tuition_name'],
+                                          data['class_name'],
+                                          data['share_date'],
+                                          data['location'],
+                                          data['subject'],
+                                          data['already'],
+                                          )),
+                                    // ),
+                                    Positioned(
+                                        left: MediaQuery.of(context).size.width * 0.45,
+                                        top: MediaQuery.of(context).size.height * 0.005,
+                                        right: MediaQuery.of(context).size.width * .27,
+                                        // child: InkWell(
+                                        //     onTap: () {
+                                        //       reusabletutorDetails(
+                                        //           context,formatInfo(data['remarks']),
+                                        //         data['class_name'],
+                                        //         data['tuition_name'],
+                                        //         data['Placement'],
+                                        //         data['job_closed'],
+                                        //         data['subject'],
+                                        //         data['share_date'],
+                                        //         data['location'],
+                                        //         data['limit_statement'],(){
+                                        //           if(data['group_id'] == '0'){
+                                        //             applyTuitions(() {
+                                        //           setState(() {
+                                        //             data['already'] = 1;
+                                        //           });
+                                        //         });
+                                        //           }else{
+                                        //             reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm','Cancel', (){
+                                        //               applyTuitions(() {
+                                        //           setState(() {
+                                        //             data['already'] = 1;
+                                        //           });
+                                        //         });
+                                        //             }, (){Navigator.pop(context);});
+                                        //           }
+                                        //         },
+                                        //         data['group_id'],
+                                        //         data['tuition_id'],
+                                        //         data['already'],() {
+                                        //           setState(() {
+                                        //             data['already'] = 1;
+                                        //           });
+                                        //         }
+                                        //           );
+                                        //           setState(() {});
+                                        //           print('groupppppppppppppppppppppppppp ${data['group_id']}');
+                                        //           repository.group_id(data['group_id']);
+                                        //     },
+                                            child: reusablecardbtn(
+                                                context,
+                                                '${data['Placement']}',
+                                                colorController.btnColor,
+                                                colorController.whiteColor)),
+                                                // ),
+                                    Positioned(
+                                        left: MediaQuery.of(context).size.width * 0.72,
+                                        top: MediaQuery.of(context).size.height * 0.005,
+                                        right: MediaQuery.of(context).size.width * .03,
+                                        // child: InkWell(
+                                        //     onTap: () {
+                                        //       reusabletutorDetails(
+                                        //           context,formatInfo(data['remarks']),
+                                        //         data['class_name'],
+                                        //         data['tuition_name'],
+                                        //         data['Placement'],
+                                        //         data['job_closed'],
+                                        //         data['subject'],
+                                        //         data['share_date'],
+                                        //         data['location'],
+                                        //         data['limit_statement'],(){
+                                        //           if(data['group_id'] == '0'){
+                                        //             applyTuitions(() {
+                                        //           setState(() {
+                                        //             data['already'] = 1;
+                                        //           });
+                                        //         });
+                                        //           }else{
+                                        //             reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm','Cancel', (){
+                                        //               applyTuitions(() {
+                                        //           setState(() {
+                                        //             data['already'] = 1;
+                                        //           });
+                                        //         });
+                                        //             }, (){Navigator.pop(context);});
+                                        //           }
+                                        //         },
+                                        //         data['group_id'],
+                                        //         data['tuition_id'],
+                                        //         data['already'],() {
+                                        //           setState(() {
+                                        //             data['already'] = 1;
+                                        //           });
+                                        //         }
+                                        //           );
+                                        //           setState(() {});
+                                        //           print('groupppppppppppppppppppppppppp ${data['group_id']}');
+                                        //           repository.group_id(data['group_id']);
+                                        //     },
+                                            child: reusablecardbtn(context, data['job_closed'] == 0 ? 'Open' : 'Closed', data['job_closed'] == 0 ? colorController.yellowColor : colorController.redColor, data['job_closed'] == 0 ? colorController.blackColor : colorController.whiteColor))
+                                            // ),
+                                  ],
+                                ),
                               ),
                             );
                           } else{
