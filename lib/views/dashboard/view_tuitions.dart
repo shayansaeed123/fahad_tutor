@@ -317,40 +317,6 @@ class _ViewTuitionsState extends State<ViewTuitions> {
     });
   }
 
-  // void _scrollListener() {
-  //   if (_scrollController.position.pixels ==
-  //           _scrollController.position.maxScrollExtent &&
-  //       !isLoading) {
-  //     loadMoreTuitions();
-  //   }
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   fetchInitialTuitions();
-  //   _scrollController.addListener(_scrollListener);
-  // }
-
-  // Future<void> fetchInitialTuitions() async {
-  //   await repository.fetchTuitions(start, limit);
-  //   setState(() {
-  //     tuitions = repository.listResponse;
-  //   });
-  // }
-
-  // Future<void> loadMoreTuitions() async {
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-  //   start += limit;
-  //   await repository.fetchTuitions(start, limit);
-  //   setState(() {
-  //     tuitions = repository.listResponse;
-  //     isLoading = false;
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
