@@ -106,6 +106,7 @@ class _NotificationsState extends State<Notifications> {
             job_closed = data[0]['job_closed'];
             already = data[0]['already'];
             isLoading2 = false;
+            print(g_id);
           });
         } else {
           print('Error: Empty tuition_listing');
@@ -153,7 +154,7 @@ class _NotificationsState extends State<Notifications> {
 
     try {
       String url =
-          '${Utils.baseUrl}mobile_app/apply_tuition.php?code=10&group_id=$g_id&tuition_id=$tuition_id&tutor_id=${MySharedPrefrence().get_user_ID()}';
+          '${Utils.baseUrl}mobile_app/apply_tuition.php?code=10&group_id=$g_id&tutor_id=${MySharedPrefrence().get_user_ID()}';
       final response = await http.get(Uri.parse(url));
       print('url $url');
       print('group id $g_id');
@@ -293,22 +294,44 @@ class _NotificationsState extends State<Notifications> {
                                         location,
                                         limit_statement, () {
                                       if (g_id == '0') {
-                                        applyTuitions(() {
-                                                setState(() {
-                                                  data['already'] = 1;
-                                                });
-                                              });
+                                       if(data['Online_terms_check']==1){
+                                                      reusableMessagedialog(context, data['Online_terms_check_heading'], formatInfo(data['Online_terms_check_text']), 'Agree', 'Disagree', (){
+                                                        applyTuitions(() {
+                                                          setState(() {
+                                                            data['already'] = 1;
+                                                          });
+                                                        });
+                                                        Navigator.pop(context);
+                                                      }, (){Navigator.pop(context);});
+                                                    }else{
+                                                        applyTuitions(() {
+                                                          setState(() {
+                                                            data['already'] = 1;
+                                                          });
+                                                        });
+                                                    }
                                       } else {
                                         reusableMessagedialog(
                                             context,
                                             'Classes',
                                             'Are you sure${repository.class_name}',
                                             'Confirm','Cancel', () {
-                                          applyTuitions(() {
-                                                setState(() {
-                                                  data['already'] = 1;
-                                                });
-                                              });
+                                          if(data['Online_terms_check']==1){
+                                                      reusableMessagedialog(context, data['Online_terms_check_heading'], formatInfo(data['Online_terms_check_text']), 'Agree', 'Disagree', (){
+                                                        applyTuitions(() {
+                                                          setState(() {
+                                                            data['already'] = 1;
+                                                          });
+                                                        });
+                                                        Navigator.pop(context);
+                                                      }, (){Navigator.pop(context);});
+                                                    }else{
+                                                        applyTuitions(() {
+                                                          setState(() {
+                                                            data['already'] = 1;
+                                                          });
+                                                        });
+                                                    }
                                         }, () {
                                           Navigator.pop(context);
                                         });

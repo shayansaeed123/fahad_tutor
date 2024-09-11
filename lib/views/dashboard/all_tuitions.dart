@@ -448,7 +448,7 @@ class _AllTuitionsState extends State<AllTuitions> {
   // setState(() {
   //   fetchInitialTuitions();
   // });
-}
+  }
 
 
 
