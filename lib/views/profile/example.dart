@@ -137,15 +137,4 @@
 // //     },
 // //   );
 // // }
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListView.builder(
-//       itemCount: selectedIdsClass.length,
-//       itemBuilder: (context, index) {
-//         print(selectedIdsClass[index]['class_name']);
-//         return Text('');
-//       },
-//     );
-//   }
-// }
 
