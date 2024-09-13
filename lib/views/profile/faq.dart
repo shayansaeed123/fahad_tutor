@@ -51,12 +51,6 @@ class _FAQState extends State<FAQ> {
                          errorWidget: (context, url, error) => Container(),
                          fit: BoxFit.cover,
                          )
-                          // if (isLoading)
-                          //   Center(child: reusableloadingrow(context, isLoading))
-                          // else if (repository.faqs_images.isNotEmpty)
-                          //   Image.network(repository.faqs_images, fit: BoxFit.cover)
-                          // else
-                          //   Center(child: reusableText('Please Check Your Internet Connection',color: colorController.blackColor,fontsize: 16)),
                         ],
                       ),
                       
