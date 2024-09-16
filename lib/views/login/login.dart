@@ -40,8 +40,6 @@ class _LoginState extends State<Login> {
   bool pass = true;
   bool isLoading = false;
 
-  // String? value;
-
   @override
   void initState() {
     super.initState();
@@ -66,7 +64,6 @@ class _LoginState extends State<Login> {
 
   void _onFocusChange() {
     setState(() {
-      // Redraw the UI when the focus changes
     });
   }
 

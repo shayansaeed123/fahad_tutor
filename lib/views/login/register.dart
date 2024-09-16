@@ -176,7 +176,6 @@ void updateTutorPlacement() {
         _selectedGender != null && _selectedStatus != null &&
         checkbox1 || checkbox2 || checkbox3 
       ) {
-      // CheckUserContactExictOrNot();
       signInWithGoogle();
       // Navigator.push(context, MaterialPageRoute(builder: (context) => NavBar()));
     } else {
