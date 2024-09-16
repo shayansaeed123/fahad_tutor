@@ -121,20 +121,5 @@
 // //               }).toList(),
 // //             ),
 // //             reusablaSizaBox(context, .030),
-// //             Row(
-// //                       children: [
-// //                         reusableBtn(context, 'Add', (){},width: .34),
-// //                         Expanded(child: reusablewhite(context, 'Cancel', (){
-// //                         }, width: .5))
-// //                       ],
-// //                     )
-// //           ],
-// //         ),
-// //       ),
-// //     );
-// //   },
-// // );
-// //     },
-// //   );
-// // }
+// //            
 
