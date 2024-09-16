@@ -327,7 +327,6 @@ class _AccountDetailsState extends State<AccountDetails> {
       hintText: methodValue.isEmpty ? 'Select Method' : methodValue,
       hintStyle: TextStyle(color: colorController.grayTextColor,fontSize: 11.5),
       border: InputBorder.none,
-      // contentPadding: EdgeInsets.symmetric(horizontal: 16),
     ),
   ),
   items: <String>['Jazz Cash', 'Easypaisa'],

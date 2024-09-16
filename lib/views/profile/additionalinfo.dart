@@ -50,10 +50,6 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
     repository.check_msg();
     getValues();
     getAddtionalInfo();
-    // getAddtionalInfo().then((_) {
-    //   setState(() {
-    //   });
-    // });
   }
 
   void getValues()async{

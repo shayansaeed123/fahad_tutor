@@ -34,7 +34,6 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
   bool visible = true;
   bool updateprofileimage = false;
   String base64updateprofileimage = '';
-  // String is_term_accepted = '';
 
   File? _cnicFront;
   File? _cnicBack;
