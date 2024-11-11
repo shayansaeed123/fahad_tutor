@@ -54,9 +54,9 @@ class _RigisterState extends State<Rigister> {
 
 void updateTutorPlacement() {
   selectedPlacements.clear();
-  if (checkbox1) selectedPlacements.add('Home');
-  if (checkbox2) selectedPlacements.add('Online');
-  if (checkbox3) selectedPlacements.add("At Tutor's Place");
+  if (checkbox1) selectedPlacements.add('1');
+  if (checkbox2) selectedPlacements.add('2');
+  if (checkbox3) selectedPlacements.add("3");
 }
 
 

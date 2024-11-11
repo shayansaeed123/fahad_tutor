@@ -72,20 +72,23 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
-  flutter_launcher_icons: ^0.14.1  # Add this with a version number
+  flutter_launcher_icons: ^0.14.1
 
-flutter_launcher_icons: 
-  android: true
+flutter_launcher_icons:
+  android: "launcher_icon"
   ios: true
-  image_path: "assets/images/fta_logo.png"
-  min_sdk_android: 21
-  remove_alpha_ios: true # Removes transparency for iOS icon
+  image_path: "assets/images/launcher_icon.png"  # Update to your actual icon path
+  min_sdk_android: 23
+  remove_alpha_ios: true  # Removes transparency in iOS icon
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/images/launcher_icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
 flutter:
+  generate: true
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

@@ -177,7 +177,7 @@ void loginClear(){
             },),
             ValueListenableBuilder(valueListenable: repository.qualification_pref, builder: (context, value, child) {
               return reusablelisttile(context,(){
-             Navigator.push(context, MaterialPageRoute(builder: (context) => QualificationAndPreferences(),));
+             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => QualificationAndPreferences(),));
             },'assets/images/qual_pref_icon.png','Qulification and Preferences',widget: Container(
               width: MediaQuery.of(context).size.width * .24,
               child: Row(
