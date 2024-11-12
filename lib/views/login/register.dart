@@ -155,82 +155,163 @@ void updateTutorPlacement() {
   }
 
   void _validateForm() {
-    if (
-      cityName.isNotEmpty &&
-        reusabletextfieldcontroller.teacherCon.text.isNotEmpty &&
-        reusabletextfieldcontroller.fatherCon.text.isNotEmpty &&
-        reusabletextfieldcontroller.registerPassCon.text.isNotEmpty &&
-        reusabletextfieldcontroller.rePassCon.text.isNotEmpty &&
-        reusabletextfieldcontroller.registerPassCon.text ==
-            reusabletextfieldcontroller.rePassCon.text &&
-        reusabletextfieldcontroller.registerPassCon.text.length >= 8 &&
-        reusabletextfieldcontroller.rePassCon.text.length <= 15 &&
-        reusabletextfieldcontroller.contactCon.text.length == 11 &&
-        reusabletextfieldcontroller.alterContactCon.text.length == 11 &&
-        reusabletextfieldcontroller.contactCon.text.isNotEmpty &&
-        reusabletextfieldcontroller.alterContactCon.text.isNotEmpty &&
-        reusabletextfieldcontroller.cnicCon.text.length == 14 &&
-        reusabletextfieldcontroller.religionCon.text.isNotEmpty &&
-        areaName.isNotEmpty &&
-        reusabletextfieldcontroller.addressCon.text.isNotEmpty && 
-        _selectedGender != null && _selectedStatus != null &&
-        checkbox1 || checkbox2 || checkbox3 
-      ) {
-      signInWithGoogle();
-      // Navigator.push(context, MaterialPageRoute(builder: (context) => NavBar()));
-    } else {
-      Utils.snakbar(
-        context,
-        cityName.isEmpty
-            ? 'City is Missing'
-            : reusabletextfieldcontroller.teacherCon.text.isEmpty
-                ? "Tutor name Is Missing"
-                : reusabletextfieldcontroller.fatherCon.text.isEmpty
-                    ? "Father/Husband name Is Missing"
-                    : reusabletextfieldcontroller.contactCon.text.length != 11
-                        ? "Check Phone Number  "
-                        : reusabletextfieldcontroller
-                                    .alterContactCon.text.length !=
-                                11
-                            ? "Check alter Phone Number  "
-                            : reusabletextfieldcontroller.cnicCon.text.length !=
-                                    14
-                                ? "Check CNIC Number  "
-                                : reusabletextfieldcontroller
-                                        .registerPassCon.text.isEmpty
-                                    ? "Password Is Missing"
-                                    : reusabletextfieldcontroller
-                                            .rePassCon.text.isEmpty
-                                        ? "Confirm Password Is Missing"
-                                        : reusabletextfieldcontroller
-                                                    .registerPassCon.text !=
-                                                reusabletextfieldcontroller
-                                                    .rePassCon.text
-                                            ? "Passwords is defferent"
-                                            : reusabletextfieldcontroller
-                                                        .registerPassCon.text.length <
-                                                    8
-                                                ? "Password  Must be at least of 8 and maximum of 15 charracters"
-                                                : reusabletextfieldcontroller
-                                                        .religionCon
-                                                        .text
-                                                        .isEmpty
-                                                    ? "Religion is Missing "
-                                                    : areaName!.isEmpty
-                                                        ? 'Area is Missing'
-                                                        : reusabletextfieldcontroller
-                                                                .addressCon
-                                                                .text
-                                                                .isEmpty
-                                                            ? "Address is Missing" 
-                                                            : _selectedGender == null ? 'Gender is missing' 
-                                                            : _selectedStatus == null ? 'Status is Missing' 
-                                                            : 
-                                                            !(checkbox1 || checkbox2 || checkbox3) ? 'Please select at least one Placement' 
-                                                            : "Fill Correct Fields",
-      );
-    }
+  bool isBiographyValid = !checkbox2 || (_biography.text.length >= 500 && _biography.text.length <= 800);
+
+  if (
+    isBiographyValid &&
+    cityName.isNotEmpty &&
+    reusabletextfieldcontroller.teacherCon.text.isNotEmpty &&
+    reusabletextfieldcontroller.fatherCon.text.isNotEmpty &&
+    reusabletextfieldcontroller.registerPassCon.text.isNotEmpty &&
+    reusabletextfieldcontroller.rePassCon.text.isNotEmpty &&
+    reusabletextfieldcontroller.registerPassCon.text == reusabletextfieldcontroller.rePassCon.text &&
+    reusabletextfieldcontroller.registerPassCon.text.length >= 8 &&
+    reusabletextfieldcontroller.registerPassCon.text.length <= 15 &&
+    reusabletextfieldcontroller.contactCon.text.length == 11 &&
+    reusabletextfieldcontroller.alterContactCon.text.length == 11 &&
+    reusabletextfieldcontroller.contactCon.text.isNotEmpty &&
+    reusabletextfieldcontroller.alterContactCon.text.isNotEmpty &&
+    reusabletextfieldcontroller.cnicCon.text.length == 14 &&
+    reusabletextfieldcontroller.religionCon.text.isNotEmpty &&
+    areaName.isNotEmpty &&
+    reusabletextfieldcontroller.addressCon.text.isNotEmpty &&
+    _selectedGender != null && 
+    _selectedStatus != null &&
+    (checkbox1 || checkbox2 || checkbox3)
+  ) {
+    signInWithGoogle();
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => NavBar()));
+  } else {
+    Utils.snakbar(
+      context,
+      !isBiographyValid
+          ? (_biography.text.length < 500
+              ? 'Biography must be at least 500 characters'
+              : 'Biography must not exceed 800 characters')
+          : cityName.isEmpty
+              ? 'City is Missing'
+              : reusabletextfieldcontroller.teacherCon.text.isEmpty
+                  ? "Tutor name is missing"
+                  : reusabletextfieldcontroller.fatherCon.text.isEmpty
+                      ? "Father/Husband name is missing"
+                      : reusabletextfieldcontroller.contactCon.text.length != 11
+                          ? "Check phone number"
+                          : reusabletextfieldcontroller.alterContactCon.text.length != 11
+                              ? "Check alternate phone number"
+                              : reusabletextfieldcontroller.cnicCon.text.length != 14
+                                  ? "Check CNIC number"
+                                  : reusabletextfieldcontroller.registerPassCon.text.isEmpty
+                                      ? "Password is missing"
+                                      : reusabletextfieldcontroller.rePassCon.text.isEmpty
+                                          ? "Confirm password is missing"
+                                          : reusabletextfieldcontroller.registerPassCon.text != reusabletextfieldcontroller.rePassCon.text
+                                              ? "Passwords do not match"
+                                              : reusabletextfieldcontroller.registerPassCon.text.length < 8
+                                                  ? "Password must be between 8 and 15 characters"
+                                                  : reusabletextfieldcontroller.religionCon.text.isEmpty
+                                                      ? "Religion is missing"
+                                                      : areaName.isEmpty
+                                                          ? 'Area is missing'
+                                                          : reusabletextfieldcontroller.addressCon.text.isEmpty
+                                                              ? "Address is missing"
+                                                              : _selectedGender == null
+                                                                  ? 'Gender is missing'
+                                                                  : _selectedStatus == null
+                                                                      ? 'Status is missing'
+                                                                      : !(checkbox1 || checkbox2 || checkbox3)
+                                                                          ? 'Please select at least one placement'
+                                                                          : "Fill correct fields",
+    );
   }
+}
+
+
+  // void _validateForm() {
+
+  //   // Check if online checkbox is selected, then validate biography length
+  // if (checkbox2 && (_biography.text.length < 500 || _biography.text.length > 800)) {
+  //   Utils.snakbar(context, _biography.text.length < 500
+  //       ? 'Biography must be at least 500 characters'
+  //       : 'Biography must not exceed 800 characters');
+  //   return;
+  // }
+
+  //   if (
+  //     cityName.isNotEmpty &&
+  //       reusabletextfieldcontroller.teacherCon.text.isNotEmpty &&
+  //       reusabletextfieldcontroller.fatherCon.text.isNotEmpty &&
+  //       reusabletextfieldcontroller.registerPassCon.text.isNotEmpty &&
+  //       reusabletextfieldcontroller.rePassCon.text.isNotEmpty &&
+  //       reusabletextfieldcontroller.registerPassCon.text ==
+  //           reusabletextfieldcontroller.rePassCon.text &&
+  //       reusabletextfieldcontroller.registerPassCon.text.length >= 8 &&
+  //       reusabletextfieldcontroller.rePassCon.text.length <= 15 &&
+  //       reusabletextfieldcontroller.contactCon.text.length == 11 &&
+  //       reusabletextfieldcontroller.alterContactCon.text.length == 11 &&
+  //       reusabletextfieldcontroller.contactCon.text.isNotEmpty &&
+  //       reusabletextfieldcontroller.alterContactCon.text.isNotEmpty &&
+  //       reusabletextfieldcontroller.cnicCon.text.length == 14 &&
+  //       reusabletextfieldcontroller.religionCon.text.isNotEmpty &&
+  //       areaName.isNotEmpty &&
+  //       reusabletextfieldcontroller.addressCon.text.isNotEmpty && 
+  //       _selectedGender != null && _selectedStatus != null &&
+  //       checkbox1 || checkbox2 || checkbox3 
+  //     ) {
+  //     signInWithGoogle();
+  //     // Navigator.push(context, MaterialPageRoute(builder: (context) => NavBar()));
+  //   } else {
+  //     Utils.snakbar(
+  //       context,
+  //       cityName.isEmpty
+  //           ? 'City is Missing'
+  //           : reusabletextfieldcontroller.teacherCon.text.isEmpty
+  //               ? "Tutor name Is Missing"
+  //               : reusabletextfieldcontroller.fatherCon.text.isEmpty
+  //                   ? "Father/Husband name Is Missing"
+  //                   : reusabletextfieldcontroller.contactCon.text.length != 11
+  //                       ? "Check Phone Number  "
+  //                       : reusabletextfieldcontroller
+  //                                   .alterContactCon.text.length !=
+  //                               11
+  //                           ? "Check alter Phone Number  "
+  //                           : reusabletextfieldcontroller.cnicCon.text.length !=
+  //                                   14
+  //                               ? "Check CNIC Number  "
+  //                               : reusabletextfieldcontroller
+  //                                       .registerPassCon.text.isEmpty
+  //                                   ? "Password Is Missing"
+  //                                   : reusabletextfieldcontroller
+  //                                           .rePassCon.text.isEmpty
+  //                                       ? "Confirm Password Is Missing"
+  //                                       : reusabletextfieldcontroller
+  //                                                   .registerPassCon.text !=
+  //                                               reusabletextfieldcontroller
+  //                                                   .rePassCon.text
+  //                                           ? "Passwords is defferent"
+  //                                           : reusabletextfieldcontroller
+  //                                                       .registerPassCon.text.length <
+  //                                                   8
+  //                                               ? "Password  Must be at least of 8 and maximum of 15 charracters"
+  //                                               : reusabletextfieldcontroller
+  //                                                       .religionCon
+  //                                                       .text
+  //                                                       .isEmpty
+  //                                                   ? "Religion is Missing "
+  //                                                   : areaName!.isEmpty
+  //                                                       ? 'Area is Missing'
+  //                                                       : reusabletextfieldcontroller
+  //                                                               .addressCon
+  //                                                               .text
+  //                                                               .isEmpty
+  //                                                           ? "Address is Missing" 
+  //                                                           : _selectedGender == null ? 'Gender is missing' 
+  //                                                           : _selectedStatus == null ? 'Status is Missing' 
+  //                                                           : 
+  //                                                           !(checkbox1 || checkbox2 || checkbox3) ? 'Please select at least one Placement' 
+  //                                                           : "Fill Correct Fields",
+  //     );
+  //   }
+  // }
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -509,8 +590,8 @@ void updateTutorPlacement() {
         if (responseData['success'] == 1) {
           print('response:' + response.body);
           Navigator.pop(context);
-          Navigator.push(
-              context, MaterialPageRoute(builder: ((context) => NavBar())));
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: ((context) => Login())));
           Utils.snakbarSuccess(context, apiMessage);
         } else {
           InkWell(

@@ -876,6 +876,39 @@ Future<void> selectSubject(Function parentSetState) {
 //                       );
 // }
 
+void showCustomSnackbar(BuildContext context, String message) {
+  OverlayEntry overlayEntry = OverlayEntry(
+    builder: (context) => Positioned(
+      bottom: 20.0,
+      left: 20.0,
+      right: 20.0,
+      child: Material(
+        color: Colors.transparent,
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+          decoration: BoxDecoration(
+            color: Color(0xFFbe0000),
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: Text(
+            message,
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ),
+    ),
+  );
+
+  // Insert the OverlayEntry into the Overlay
+  Overlay.of(context)?.insert(overlayEntry);
+
+  // Remove the overlay after a delay
+  Future.delayed(Duration(seconds: 2), () {
+    overlayEntry.remove();
+  });
+}
+
+
 Future<void> classSelect(Function parentSetState) {
   TextEditingController _searchController = TextEditingController();
   return showDialog(
@@ -1079,20 +1112,49 @@ Future<void> classSelect(Function parentSetState) {
                           context,
                           'Add',
                           () {
-                            setState(() {
-                              selectedClasses.add(
-                                MyClass(
-                                  classId: MySharedPrefrence().get_class_id(),
-                                  className: MySharedPrefrence().get_class_name_institute(),
-                                  subjectIds: List.from(tempSelectedIdsSubject),
-                                  subjectNames: List.from(tempSelectedNamesSubject),
-                                ),
-                              );
-                              tempSelectedIdsSubject.clear();
-                              tempSelectedNamesSubject.clear();
-                            });
-                            Navigator.pop(context);
-                          },
+                            // setState(() {
+                            //   selectedClasses.add(
+                            //     MyClass(
+                            //       classId: MySharedPrefrence().get_class_id(),
+                            //       className: MySharedPrefrence().get_class_name_institute(),
+                            //       subjectIds: List.from(tempSelectedIdsSubject),
+                            //       subjectNames: List.from(tempSelectedNamesSubject),
+                            //     ),
+                            //   );
+                            //   tempSelectedIdsSubject.clear();
+                            //   tempSelectedNamesSubject.clear();
+                            // });
+                            // Navigator.pop(context);
+
+          // Check if both class and subject(s) are selected
+          if (MySharedPrefrence().get_class_id() == null ||
+              MySharedPrefrence().get_class_name_institute() == '' ||
+              tempSelectedNamesSubject.isEmpty) {
+            showCustomSnackbar(context, 'Please select both a class and at least one subject.');
+          } else {
+            // Check if the selected class is already added
+            bool classAlreadyExists = selectedClasses.any((classItem) =>
+                classItem.classId == MySharedPrefrence().get_class_id());
+
+            if (classAlreadyExists) {
+              showCustomSnackbar(context, 'This class is already added.');
+            } else {
+              setState(() {
+                selectedClasses.add(
+                  MyClass(
+                    classId: MySharedPrefrence().get_class_id(),
+                    className: MySharedPrefrence().get_class_name_institute(),
+                    subjectIds: List.from(tempSelectedIdsSubject),
+                    subjectNames: List.from(tempSelectedNamesSubject),
+                  ),
+                );
+                tempSelectedIdsSubject.clear();
+                tempSelectedNamesSubject.clear();
+              });
+              Navigator.pop(context);
+            }
+          }
+        },
                           width: .34,
                         ),
                       ),
