@@ -63,9 +63,9 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
         reusabletextfieldcontroller.furtherInfo.addListener(_updateTitle);
         _biography.addListener(_updateTitle);
         if (date_of_birth.isNotEmpty) {selectedTime = DateTime.tryParse(date_of_birth);}
-        // checkbox1 = placement.any((p) => p['id'] == PlacementId1);
-        // checkbox2 = placement.any((p) => p['id'] == PlacementId2);
-        // checkbox3 = placement.any((p) => p['id'] == PlacementId3);
+        checkbox1 = placement.any((p) => p['id'] == PlacementId1);
+        checkbox2 = placement.any((p) => p['id'] == PlacementId2);
+        checkbox3 = placement.any((p) => p['id'] == PlacementId3);
     });
   }
 
@@ -140,6 +140,26 @@ void updateTutorPlacement() {
   bool checkbox1 = false;
   bool checkbox2 = false;
   bool checkbox3 = false;
+
+  void _validateForm() {
+  bool isBiographyValid = !checkbox2 || (_biography.text.length >= 500 && _biography.text.length <= 800);
+
+  if (
+    isBiographyValid 
+  ) {
+    updateAdditionalInfo();
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => NavBar()));
+  } else {
+    Utils.snakbar(
+      context,
+      !isBiographyValid
+          ? (_biography.text.length < 500
+              ? 'Biography must be at least 500 characters'
+              : 'Biography must not exceed 800 characters')
+                                                                          : "Fill correct fields",
+    );
+  }
+  }
 
   Future<void> updateAdditionalInfo() async {
   setState(() {
@@ -445,7 +465,8 @@ Future<void> getAddtionalInfo() async {
                                 Padding(
                                   padding: EdgeInsets.all(MediaQuery.of(context).size.width * .10),
                                   child: reusableBtn(context, 'Update', () {
-                                  updateAdditionalInfo();
+                                  // updateAdditionalInfo();
+                                  _validateForm();
                                   }),
                                 ),
                     ],
