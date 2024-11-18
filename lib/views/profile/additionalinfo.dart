@@ -96,8 +96,8 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
     }
   }
   String _selectedValue = 'Tutor';
-  String _selectedValue1 = 'Yes';
-  String _selectedValue2 = 'none';
+  String _selectedValue1 = '';
+  String _selectedValue2 = '';
   bool isHomeWidgetVisible = false;
   String update_status = '';
   String source = '';
@@ -276,6 +276,8 @@ Future<void> getAddtionalInfo() async {
           aLevel = _alevel.isEmpty ? null : _alevel;
       // _alevel = responseData['alevel'];
       date_of_birth = responseData['date_of_birth'];
+      _selectedValue1 = responseData['DigitalPad'];
+      _selectedValue2 = responseData['onlineTeaching_experience'];
       Biography = responseData['Biography'];
       placement = responseData['placements'];
       print(placement);

@@ -20,6 +20,7 @@ import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Login extends StatefulWidget {
@@ -83,12 +84,32 @@ class _LoginState extends State<Login> {
                 }
   }
 
+  // Future<void> saveAccount(String email, String password) async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   prefs.setString(email, password);
+  // }
+
+  // Future<String?> getPasswordForEmail(String email) async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   return prefs.getString(email);
+  // }
+
+  // void _onEmailChanged(String email) async {
+  //   final password = await getPasswordForEmail(email);
+  //   if (password != null) {
+  //     setState(() {
+  //       reusabletextfieldcontroller.loginPassCon.text = password; // Auto-fill password
+  //     });
+  //   }
+  // }
+
   Future<void> login()async{
     setState(() {
       isLoading = true;
     });
     try{
-      
+      // final email = reusabletextfieldcontroller.emailCon.text.toString();
+      //   final password = reusabletextfieldcontroller.loginPassCon.text.toString();
       final response = await http.post(
       Uri.parse('${Utils.baseUrl}mobile_app/login.php'),
       body: {
@@ -105,6 +126,7 @@ class _LoginState extends State<Login> {
               String apiMessage = responseData['message'];
               if (responseData['success'] == 1) {
                 setState(() {});
+                // await saveAccount(email, password); // Save account on successful login
               print('message $apiMessage');
               MySharedPrefrence().setUserLoginStatus(true);
               MySharedPrefrence().set_user_ID(responseData['ID']);
@@ -247,6 +269,7 @@ TutorRepository _repository = TutorRepository();
                         : colorController.textfieldBorderColorBefore,
                     _emailfocusNode,
                     () {
+                      // _onEmailChanged;
                       _emailfocusNode.unfocus();
                       FocusScope.of(context).requestFocus(_passfocusNode);
                     }, 

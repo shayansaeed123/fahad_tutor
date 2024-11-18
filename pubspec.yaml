@@ -60,6 +60,8 @@ dependencies:
   firebase_messaging: 
   firebase_core: 
   rename_app:
+  flutter_secure_storage: 
+  shared_preferences: 
    
 
 dev_dependencies:
