@@ -558,7 +558,9 @@ void updateTutorPlacement() {
     });
     try {
       updateTutorPlacement(); // Ensure the selected placements are updated
+      final bio = _biography.text.toString();
       print('check email ${MySharedPrefrence().get_user_email()}');
+      print('bio ${bio.toString()}');
       final response = await http.post(
           Uri.parse('${Utils.baseUrl}mobile_app/sign_up.php'),
           body: {
@@ -580,7 +582,7 @@ void updateTutorPlacement() {
             'DigitalPad':_selectedValue1.toString(),
             'onlineTeaching_experience': _selectedValue2.toString(),
             'online_Skill':'',
-            'Biography': _biography.text.toString(),
+            'Biography': bio.toString(),
             'tutor_placement': jsonEncode(selectedPlacements),
           });
       if (response.statusCode == 200) {
@@ -1145,8 +1147,8 @@ void updateTutorPlacement() {
                                   isHomeWidgetVisible,
                                   reusableRadioBtn(
                                     context,
-                                    'Yes',
-                                    'No',
+                                    '1',
+                                    '0',
                                     _selectedValue1,
                                     (String? value) {
                                     // onChanged function
@@ -1161,7 +1163,12 @@ void updateTutorPlacement() {
                                   ),
                                   // _selectedValue1,
                                   _selectedValue2,
-                                  (String? newValue) {setState(() {_selectedValue2 = newValue;});},
+                                  (String? newValue) {
+                                    setState(() {
+                                      _selectedValue2 = newValue;
+                                      print('Experience $_selectedValue2');
+                                      });
+                                    },
                                   // (String? value) {
                                   //   // onChanged function
                                   //   setState(() {

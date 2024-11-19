@@ -62,7 +62,7 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
       reusabletextfieldcontroller.addressCon.addListener(_updateTitle);
         reusabletextfieldcontroller.furtherInfo.addListener(_updateTitle);
         _biography.addListener(_updateTitle);
-        if (date_of_birth.isNotEmpty) {selectedTime = DateTime.tryParse(date_of_birth);}
+        if (date_of_birth.isNotEmpty) {selectedTime = DateTime.parse(date_of_birth);}
         checkbox1 = placement.any((p) => p['id'] == PlacementId1);
         checkbox2 = placement.any((p) => p['id'] == PlacementId2);
         checkbox3 = placement.any((p) => p['id'] == PlacementId3);
@@ -275,7 +275,7 @@ Future<void> getAddtionalInfo() async {
           _alevel = responseData['alevel'] ?? ''; // Use empty string if null
           aLevel = _alevel.isEmpty ? null : _alevel;
       // _alevel = responseData['alevel'];
-      date_of_birth = responseData['date_of_birth'];
+      date_of_birth = responseData['date_of_birth'] ?? '';
       _selectedValue1 = responseData['DigitalPad'];
       _selectedValue2 = responseData['onlineTeaching_experience'];
       Biography = responseData['Biography'];
@@ -319,7 +319,8 @@ Future<void> getAddtionalInfo() async {
                                         .requestFocus(_furtherInfofocusNode);
                                   },),
                           reusablaSizaBox(context, 0.020),
-                          reusableDateofBirthField(context, lastDate, selectedTime, (DateTime timeofday){
+                          reusableDateofBirthField(
+                            context, lastDate, selectedTime, (DateTime timeofday){
                              setState(() {
                                             selectedTime = timeofday;
                                             print('time date $selectedTime');

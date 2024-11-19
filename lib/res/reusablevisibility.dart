@@ -65,7 +65,7 @@ Widget reusableVisiblityWarning(BuildContext context,String text,Function ontap,
   );
 }
 
-onlineVisibility(BuildContext context,bool isHomeWidgetVisible,Widget widget,String? _selectedValue2,Function(String?) onChanged,TextEditingController controller,
+onlineVisibility(BuildContext context,bool isHomeWidgetVisible,Widget widget,String? _selectedValue2,Function(String?) onChanged,TextEditingController controlle,
 int count,
 //  Widget widget2
  ){
@@ -101,7 +101,7 @@ int count,
                 // ],),
                 reusablaSizaBox(context, .01),
                 TextField(
-                  controller: controller,
+                  controller: controlle,
                   maxLines: 10, // Set the maximum number of lines
                   decoration: InputDecoration(
                     alignLabelWithHint: true,
