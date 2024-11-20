@@ -306,7 +306,7 @@ void loginClear(){
                 // }else{
                    Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationCharges(),));
                 // }
-                
+                 
               },'assets/images/reg_charges_slip_icon.png','Registration Charges Slip',widget: Container(
                 width: MediaQuery.of(context).size.width * .24,
                 child: Row(

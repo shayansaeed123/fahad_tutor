@@ -149,6 +149,11 @@ Function(DateTime) selectdateontap,
 Widget icon){
   return InkWell(
                             onTap: ()async{
+                              final DateTime initialDate =
+          (selectedTime != null && !selectedTime.isBefore(lastDate))
+              ? selectedTime
+              : DateTime.now();
+
                               final DateTime? timeofday =
                                             await showDatePicker(
                                           context: context,
@@ -156,7 +161,8 @@ Widget icon){
                                           // lastDate: selectedTime,
                                           // initialDate: selectedTime,
                                           lastDate: DateTime.now(),
-                                          initialDate: selectedTime ?? DateTime.now(),
+                                          // initialDate: selectedTime ?? DateTime.now(),
+                                          initialDate: initialDate,
                                           initialEntryMode:
                                               DatePickerEntryMode.calendar,
                                           builder: (BuildContext context,

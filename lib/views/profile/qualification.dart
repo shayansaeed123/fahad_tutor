@@ -731,7 +731,7 @@ Future<void> selectSubject(Function parentSetState) {
                       prefixIcon: Icon(Icons.search),
                     ),
                     onChanged: (value) {
-                      filterSearchResults(value);
+                      // filterSearchResults(value);
                     },
                   ),
                 ),
@@ -990,7 +990,7 @@ Future<void> classSelect(Function parentSetState) {
             prefixIcon: Icon(Icons.search),
           ),
           onChanged: (value) {
-            filterSearchResults(value);
+            // filterSearchResults(value);
           },
         ),
       ),
