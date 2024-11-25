@@ -28,7 +28,6 @@ class _FAQState extends State<FAQ> {
   }
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     faq();
     
