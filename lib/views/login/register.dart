@@ -52,11 +52,18 @@ class _RigisterState extends State<Rigister> {
 
   List<String> selectedPlacements = [];
 
-void updateTutorPlacement() {
-  selectedPlacements.clear();
-  if (checkbox1) selectedPlacements.add('1');
-  if (checkbox2) selectedPlacements.add('2');
-  if (checkbox3) selectedPlacements.add("3");
+// void updateTutorPlacement() {
+//   selectedPlacements.clear();
+//   if (checkbox1) selectedPlacements.add('1');
+//   if (checkbox2) selectedPlacements.add('2');
+//   if (checkbox3) selectedPlacements.add("3");
+// }
+
+void updateTutorPlacement(String selectedValue) {
+  selectedPlacements
+    ..clear() // Ensure only one value in the list
+    ..add(selectedValue);
+  print("Updated Placements: $selectedPlacements");
 }
 
 
@@ -153,7 +160,9 @@ void updateTutorPlacement() {
   }
 
   void _validateForm() {
-  bool isBiographyValid = !checkbox2 || (_biography.text.length >= 500 && _biography.text.length <= 800);
+  bool isBiographyValid = !(selectedPlacements.contains('2')) || 
+  (_biography.text.length >= 500 && _biography.text.length <= 800);
+  // !checkbox2 || (_biography.text.length >= 500 && _biography.text.length <= 800);
 
   if (
     isBiographyValid &&
@@ -175,7 +184,8 @@ void updateTutorPlacement() {
     reusabletextfieldcontroller.addressCon.text.isNotEmpty &&
     _selectedGender != null && 
     _selectedStatus != null &&
-    (checkbox1 || checkbox2 || checkbox3)
+    selectedPlacements.isNotEmpty
+    // (checkbox1 || checkbox2 || checkbox3)
   ) {
     signInWithGoogle();
     // Navigator.push(context, MaterialPageRoute(builder: (context) => NavBar()));
@@ -216,7 +226,8 @@ void updateTutorPlacement() {
                                                                   ? 'Gender is missing'
                                                                   : _selectedStatus == null
                                                                       ? 'Status is missing'
-                                                                      : !(checkbox1 || checkbox2 || checkbox3)
+                                                                      : selectedPlacements.isEmpty
+                                                                      // : !(checkbox1 || checkbox2 || checkbox3)
                                                                           ? 'Please select at least one placement'
                                                                           : "Fill correct fields",
     );
@@ -555,7 +566,7 @@ void updateTutorPlacement() {
       isLoading = true;
     });
     try {
-      updateTutorPlacement(); // Ensure the selected placements are updated
+      // updateTutorPlacement(); // Ensure the selected placements are updated
       final bio = _biography.text.toString();
       print('check email ${MySharedPrefrence().get_user_email()}');
       print('bio ${bio.toString()}');
@@ -591,7 +602,7 @@ void updateTutorPlacement() {
           print('response:' + response.body);
           Navigator.pop(context);
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: ((context) => Login())));
+              context, MaterialPageRoute(builder: ((context) => NavBar())));
           Utils.snakbarSuccess(context, apiMessage);
         } else {
           InkWell(
@@ -1115,30 +1126,92 @@ void updateTutorPlacement() {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    buildCheckboxWithTitle('Home', checkbox1,(){
-                                      setState(() {});
-                                      reusableMessagedialog(context, 'Placement',
-                    "You will have to visit at student's place", 'Confirm', 'Cancel',() {
-                      setState(() {});
-                      checkbox1 = true;
-                      updateTutorPlacement();
-                      print(selectedPlacements);
-                    Navigator.pop(context);
-                    setState(() {});
-                }, () {
-                  setState(() {});
-                  checkbox1 = false;
-                  updateTutorPlacement();
-                  print(selectedPlacements);
+                //                     buildCheckboxWithTitle('Home', checkbox1,(){
+                //                       setState(() {});
+                //                       reusableMessagedialog(context, 'Placement',
+                //     "You will have to visit at student's place", 'Confirm', 'Cancel',() {
+                //       setState(() {});
+                //       checkbox1 = true;
+                //       updateTutorPlacement();
+                //       print(selectedPlacements);
+                //     Navigator.pop(context);
+                //     setState(() {});
+                // }, () {
+                //   setState(() {});
+                //   checkbox1 = false;
+                //   updateTutorPlacement();
+                //   print(selectedPlacements);
+                //   Navigator.pop(context);
+                //   setState(() {});
+                // });
+                //                     }),
+                //                     buildCheckboxWithTitle('Online', checkbox2,(){},),
+
+                buildRadioWithTitle(
+            'Home',
+            selectedPlacements.isNotEmpty ? selectedPlacements.first : null, // Current selection
+            '1',
+            () {
+              setState(() {
+                selectedPlacements = ['1'];
+                updateTutorPlacement('1');
+                isHomeWidgetVisible = false;
+              });
+              reusableMessagedialog(
+                context,
+                'Placement',
+                "You will have to visit at student's place",
+                'Confirm',
+                'Cancel',
+                () {
+                  setState(() {
+                    selectedPlacements = ['1'];
+                    updateTutorPlacement('1');
+                  });
                   Navigator.pop(context);
-                  setState(() {});
-                });
-                                    }),
-                                    buildCheckboxWithTitle('Online', checkbox2,(){},),
+                },
+                () {
+                  setState(() {
+                    selectedPlacements.clear();
+                    updateTutorPlacement('');
+                  });
+                  Navigator.pop(context);
+                },
+              );
+            },
+          ),
+          buildRadioWithTitle(
+            'Online',
+            selectedPlacements.isNotEmpty ? selectedPlacements.first : null,
+            '2',
+            () {
+              setState(() {
+                selectedPlacements = ['2'];
+                updateTutorPlacement('2');
+                isHomeWidgetVisible = true;
+              });
+            },
+          ),
+      
                                   ],
                                 ),
-                                buildCheckboxWithTitle(
-                                    "At Tutor's Place", checkbox3, (){},),
+                //                 buildCheckboxWithTitle(
+                //                     "At Tutor's Place", checkbox3, (){},),
+
+                buildRadioWithTitle(
+        "At Tutor's Place",
+        selectedPlacements.isNotEmpty ? selectedPlacements.first : null,
+        '3',
+        () {
+          setState(() {
+            selectedPlacements = ['3'];
+            updateTutorPlacement('3');
+            isHomeWidgetVisible = false;
+          });
+        },
+      ),
+
+                
                                 reusablaSizaBox(context, .02),
                                 onlineVisibility(
                                   context,
@@ -1410,44 +1483,64 @@ void updateTutorPlacement() {
     );
   }
 
-  Widget buildCheckboxWithTitle(String title, bool value,Function ontap,){
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Checkbox(
-          shape: ContinuousRectangleBorder(),
-          overlayColor: MaterialStatePropertyAll(colorController.blueColor),
-          activeColor: colorController.blueColor,
-          side: BorderSide(color: colorController.blueColor, width: 1.5),
-          value: value,
-          onChanged: (newValue) {
-            setState(() {
-              if (title == 'Home') {
-                // checkbox1 = newValue ?? false;
-                ontap();
-              } else if (title == 'Online') {
-                checkbox2 = newValue ?? false;
-                if (newValue == true) {
-                  isHomeWidgetVisible = true;
-                  updateTutorPlacement();
-                   print(selectedPlacements);
-                } else {
-                  updateTutorPlacement();
-                   print(selectedPlacements);
-                  isHomeWidgetVisible = false;
-                }
-              } else if (title == "At Tutor's Place") {
-                checkbox3 = newValue ?? false;
-                updateTutorPlacement();
-                 print(selectedPlacements);
-              }
-            });
-          },
-        ),
-        reusableText(title, fontsize: 15),
-      ],
-    );
-  }
+  // Widget buildCheckboxWithTitle(String title, bool value,Function ontap,){
+  //   return Row(
+  //     mainAxisAlignment: MainAxisAlignment.center,
+  //     children: [
+  //       Checkbox(
+  //         shape: ContinuousRectangleBorder(),
+  //         overlayColor: MaterialStatePropertyAll(colorController.blueColor),
+  //         activeColor: colorController.blueColor,
+  //         side: BorderSide(color: colorController.blueColor, width: 1.5),
+  //         value: value,
+  //         onChanged: (newValue) {
+  //           setState(() {
+  //             if (title == 'Home') {
+  //               // checkbox1 = newValue ?? false;
+  //               ontap();
+  //             } else if (title == 'Online') {
+  //               checkbox2 = newValue ?? false;
+  //               if (newValue == true) {
+  //                 isHomeWidgetVisible = true;
+  //                 updateTutorPlacement();
+  //                  print(selectedPlacements);
+  //               } else {
+  //                 updateTutorPlacement();
+  //                  print(selectedPlacements);
+  //                 isHomeWidgetVisible = false;
+  //               }
+  //             } else if (title == "At Tutor's Place") {
+  //               checkbox3 = newValue ?? false;
+  //               updateTutorPlacement();
+  //                print(selectedPlacements);
+  //             }
+  //           });
+  //         },
+  //       ),
+  //       reusableText(title, fontsize: 15),
+  //     ],
+  //   );
+  // }
+
+  Widget buildRadioWithTitle(String title, String? groupValue, String value, Function onTap) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Radio<String>(
+        value: value,
+        groupValue: groupValue, // Controls mutual exclusivity
+        activeColor: colorController.blueColor,
+        onChanged: (newValue) {
+          if (newValue != null) {
+            onTap(); // Trigger the provided callback
+          }
+        },
+      ),
+      reusableText(title, fontsize: 15),
+    ],
+  );
+}
+
 }
 
 class ListItem {

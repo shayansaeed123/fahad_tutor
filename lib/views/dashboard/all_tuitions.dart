@@ -382,7 +382,8 @@ class _AllTuitionsState extends State<AllTuitions> {
         filteredTuitions = tuitions.where((item) {
           return item['class_name'].toLowerCase().contains(query.toLowerCase()) ||
                  item['subject'].toLowerCase().contains(query.toLowerCase()) ||
-                 item['location'].toLowerCase().contains(query.toLowerCase());
+                 item['location'].toLowerCase().contains(query.toLowerCase()) || 
+                 item['tuition_name'].toLowerCase().contains(query.toLowerCase());
         }).toList();
       });
     }

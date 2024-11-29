@@ -136,7 +136,7 @@ class _LoginState extends State<Login> {
               setState(() {});
                 print('Tutor ID ${MySharedPrefrence().get_user_ID()}');
                 print('tutor status ${MySharedPrefrence().getUserLoginStatus()}');
-                basicInfo();
+                _fetchBasicInfo();
                 // Navigator.pop(context);
                 setState(() {
                   
@@ -164,30 +164,44 @@ class _LoginState extends State<Login> {
     }
   }
 
-  Future<void> basicInfo()async{
+  // Function to fetch and save basic info
+  Future<void> _fetchBasicInfo() async {
     setState(() {
       isLoading = true;
     });
-    try{
-      final response = await http.get(
-      Uri.parse('${Utils.baseUrl}mobile_app/step_1.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
-    );
-    if (response.statusCode == 200) {
-              final Map<String, dynamic> responseData =
-                  json.decode(response.body);
-              MySharedPrefrence().set_info(responseData['info']);
-              print('basic Info ${MySharedPrefrence().get_info()}');
-              setState(() {});
-            } else {
-              print('Error2: ' + response.statusCode.toString());
-            }
-    
-    }catch(e){
-      print('Data Not Load $e');
-    }finally{
-      setState(() {isLoading = false;});
-    }
+
+    String userId = MySharedPrefrence().get_user_ID().toString();
+    await repository.basicTutorInfo(userId);
+
+    setState(() {
+      isLoading = false;
+    });
   }
+
+  // Future<void> basicInfo()async{
+  //   setState(() {
+  //     isLoading = true;
+  //   });
+  //   try{
+  //     final response = await http.get(
+  //     Uri.parse('${Utils.baseUrl}mobile_app/step_1.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
+  //   );
+  //   if (response.statusCode == 200) {
+  //             final Map<String, dynamic> responseData =
+  //                 json.decode(response.body);
+  //             MySharedPrefrence().set_info(responseData['info']);
+  //             print('basic Info ${MySharedPrefrence().get_info()}');
+  //             setState(() {});
+  //           } else {
+  //             print('Error2: ' + response.statusCode.toString());
+  //           }
+    
+  //   }catch(e){
+  //     print('Data Not Load $e');
+  //   }finally{
+  //     setState(() {isLoading = false;});
+  //   }
+  // }
 
   
 

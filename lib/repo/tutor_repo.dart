@@ -329,6 +329,30 @@ class TutorRepository {
     }
   }
 
+  Future<void> basicTutorInfo(String tutorId)async{
+    // setState(() {
+    //   isLoading = true;
+    // });
+    try{
+      final response = await http.get(
+      Uri.parse('${Utils.baseUrl}mobile_app/step_1.php?code=10&tutor_id=${tutorId}'),
+    );
+    if (response.statusCode == 200) {
+              final Map<String, dynamic> responseData =
+                  json.decode(response.body);
+              MySharedPrefrence().set_info(responseData['info']);
+              print('basic Info ${MySharedPrefrence().get_info()}');
+              // setState(() {});
+            } else {
+              print('Error2: ' + response.statusCode.toString());
+            }
+    
+    }catch(e){
+      print('Data Not Load $e');
+    }
+  }
+
+
   Future<void> Check_popup()async{
      _isLoading = true;
 
@@ -363,7 +387,7 @@ class TutorRepository {
         print('FAQ Image ${MySharedPrefrence().get_faqs()}');
         print('terms & conditions Image ${MySharedPrefrence().get_term_condition()}');
         print('registration $_Registration_text');
-        print('online term $_is_term_accepted_online');
+        print('online term ${_is_term_accepted_online.toString()}');
       } else {
         print('Error: ${response.statusCode}');
       }
