@@ -600,9 +600,7 @@ class TutorRepository {
     }
   }
 
-  // void doc()async{
-  //   await documentsAttach();
-  // }
+ 
 
 
 

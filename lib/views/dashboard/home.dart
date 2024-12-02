@@ -147,7 +147,6 @@ class _HomeState extends State<Home> {
       print('tuition id $tuition_id');
 
       if (response.statusCode == 200) {
-        // setState(() {isLoading2= false;});
         dynamic jsonResponse = jsonDecode(response.body);
         msg = jsonResponse['message'];
         success = jsonResponse['success'];
