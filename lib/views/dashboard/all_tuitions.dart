@@ -329,6 +329,7 @@ class _AllTuitionsState extends State<AllTuitions> {
   final ScrollController _scrollController = ScrollController();
   Connectivity connectivity = Connectivity();
   TutorRepository repository = TutorRepository();
+  String searchQuery = '';
 
   String formatInfo(String info) {
     return info.replaceAll(';', '\n');
@@ -372,21 +373,37 @@ class _AllTuitionsState extends State<AllTuitions> {
     }
   }
 
+  // void filterTuitions(String query) {
+  //   if (query.isEmpty) {
+  //     setState(() {
+  //       filteredTuitions = tuitions;
+  //     });
+  //   } else {
+  //     setState(() {
+  //       filteredTuitions = tuitions.where((item) {
+  //         return item['class_name'].toLowerCase().contains(query.toLowerCase()) ||
+  //                item['subject'].toLowerCase().contains(query.toLowerCase()) ||
+  //                item['location'].toLowerCase().contains(query.toLowerCase()) || 
+  //                item['tuition_name'].toLowerCase().contains(query.toLowerCase());
+  //       }).toList();
+  //     });
+  //   }
+  // }
+
   void filterTuitions(String query) {
-    if (query.isEmpty) {
-      setState(() {
-        filteredTuitions = tuitions;
-      });
-    } else {
-      setState(() {
-        filteredTuitions = tuitions.where((item) {
-          return item['class_name'].toLowerCase().contains(query.toLowerCase()) ||
-                 item['subject'].toLowerCase().contains(query.toLowerCase()) ||
-                 item['location'].toLowerCase().contains(query.toLowerCase()) || 
-                 item['tuition_name'].toLowerCase().contains(query.toLowerCase());
-        }).toList();
-      });
-    }
+    setState(() {
+      searchQuery = query.toLowerCase();
+      filteredTuitions = tuitions.where((item) {
+        final className = item['class_name']?.toString().toLowerCase() ?? '';
+        final subject = item['subject']?.toString().toLowerCase() ?? '';
+        final location = item['location']?.toString().toLowerCase() ?? '';
+        final tuitionName = item['tuition_name']?.toString().toLowerCase() ?? '';
+        return className.contains(searchQuery) ||
+            subject.contains(searchQuery) ||
+            location.contains(searchQuery) ||
+            tuitionName.contains(searchQuery);
+      }).toList();
+    });
   }
 
   Future<void> loadMoreTuitions() async {

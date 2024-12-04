@@ -63,18 +63,18 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
         reusabletextfieldcontroller.furtherInfo.addListener(_updateTitle);
         _biography.addListener(_updateTitle);
         if (date_of_birth.isNotEmpty) {selectedTime = DateTime.parse(date_of_birth);}
-        // checkbox1 = placement.any((p) => p['id'] == PlacementId1);
-        // checkbox2 = placement.any((p) => p['id'] == PlacementId2);
-        // checkbox3 = placement.any((p) => p['id'] == PlacementId3);
-    setState(() {
-      selectedPlacement = placement.any((p) => p['id'] == PlacementId1)
-          ? PlacementId1
-          : placement.any((p) => p['id'] == PlacementId2)
-              ? PlacementId2
-              : PlacementId3;
-      updateTutorPlacement(); // Update selected placements
-      isHomeWidgetVisible = selectedPlacement == PlacementId2; // Adjust visibility based on selected placement
-    });
+        checkbox1 = placement.any((p) => p['id'] == PlacementId1);
+        checkbox2 = placement.any((p) => p['id'] == PlacementId2);
+        checkbox3 = placement.any((p) => p['id'] == PlacementId3);
+    // setState(() {
+    //   selectedPlacement = placement.any((p) => p['id'] == PlacementId1)
+    //       ? PlacementId1
+    //       : placement.any((p) => p['id'] == PlacementId2)
+    //           ? PlacementId2
+    //           : PlacementId3;
+    //   updateTutorPlacement(); // Update selected placements
+    //   isHomeWidgetVisible = selectedPlacement == PlacementId2; // Adjust visibility based on selected placement
+    // });
     });
   }
 
@@ -139,30 +139,30 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
   String PlacementId1 = '';
   String PlacementId2 = '';
   String PlacementId3 = '';
-  String? selectedPlacement; // This will store the selected placement ID
+  // String? selectedPlacement; // This will store the selected placement ID
 
-// void updateTutorPlacement() {
-//   selectedPlacements.clear();
-//   if (checkbox1) selectedPlacements.add(PlacementId1);
-//   if (checkbox2) selectedPlacements.add(PlacementId2);
-//   if (checkbox3) selectedPlacements.add(PlacementId3);
-// }
+void updateTutorPlacement() {
+  selectedPlacements.clear();
+  if (checkbox1) selectedPlacements.add(PlacementId1);
+  if (checkbox2) selectedPlacements.add(PlacementId2);
+  if (checkbox3) selectedPlacements.add(PlacementId3);
+}
 
  // Update the selected placements based on the radio button selection
-  void updateTutorPlacement() {
-    selectedPlacements.clear();
-    if (selectedPlacement == PlacementId1) selectedPlacements.add(PlacementId1);
-    if (selectedPlacement == PlacementId2) selectedPlacements.add(PlacementId2);
-    if (selectedPlacement == PlacementId3) selectedPlacements.add(PlacementId3);
-  }
+  // void updateTutorPlacement() {
+  //   selectedPlacements.clear();
+  //   if (selectedPlacement == PlacementId1) selectedPlacements.add(PlacementId1);
+  //   if (selectedPlacement == PlacementId2) selectedPlacements.add(PlacementId2);
+  //   if (selectedPlacement == PlacementId3) selectedPlacements.add(PlacementId3);
+  // }
   bool checkbox1 = false;
   bool checkbox2 = false;
   bool checkbox3 = false;
 
   void _validateForm() {
-  bool isBiographyValid = !(selectedPlacements.contains('2')) || 
-  (_biography.text.length >= 500 && _biography.text.length <= 800);
-  // !checkbox2 || (_biography.text.length >= 500 && _biography.text.length <= 800);
+  bool isBiographyValid = !checkbox2 || (_biography.text.length >= 500 && _biography.text.length <= 800);
+  // !(selectedPlacements.contains('2')) || 
+  // (_biography.text.length >= 500 && _biography.text.length <= 800);
 
   if (
     isBiographyValid 
@@ -241,6 +241,82 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
   }
 }
 
+// Future<void> getAddtionalInfo() async {
+//   setState(() {
+//     isLoading = true;
+//   });
+//   try {
+//     final userId = MySharedPrefrence().get_user_ID().toString();
+//     print('Fetching data for user ID: $userId');
+//     final response = await http.get(
+//       Uri.parse('${Utils.baseUrl}mobile_app/step_3.php?code=10&tutor_id=$userId')
+//     );
+//     if (response.statusCode == 200) {
+//       final Map<String, dynamic> responseData = json.decode(response.body);
+
+//       // Assign values with null checks
+//       update_status = responseData['update_status'] ?? '';
+//       Placements = responseData['placement_listing'] ?? [];
+//       PlacementName1 = Placements.isNotEmpty ? Placements[0]['placement_name'] ?? '' : '';
+//       PlacementName2 = Placements.length > 1 ? Placements[1]['placement_name'] ?? '' : '';
+//       PlacementName3 = Placements.length > 2 ? Placements[2]['placement_name'] ?? '' : '';
+//       PlacementId1 = Placements.isNotEmpty ? Placements[0]['id'] ?? '' : '';
+//       PlacementId2 = Placements.length > 1 ? Placements[1]['id'] ?? '' : '';
+//       PlacementId3 = Placements.length > 2 ? Placements[2]['id'] ?? '' : '';
+
+//       // Handle placement selection logic
+//       setState(() {
+//         checkbox1 = placement.any((p) => p['id'] == PlacementId1);
+//         checkbox2 = placement.any((p) => p['id'] == PlacementId2);
+//         checkbox3 = placement.any((p) => p['id'] == PlacementId3);
+//         updateTutorPlacement(); // Ensure selectedPlacements is updated
+//         isHomeWidgetVisible = checkbox2; // Ensure this state is correctly set
+//         print('heloo $selectedPlacements');
+//       });
+
+//       // Assign other fields with null-safe operators
+//       home_address = responseData['home_address'] ?? '';
+//       further_information = responseData['further_information'] ?? '';
+//       onlineTeaching_experience = responseData['onlineTeaching_experience'] ?? '';
+      
+//       setState(() {
+//         currently_teaching = responseData['currently_teaching'] ?? ''; // Default to an empty string
+//         selectedCurrentTeaching = currently_teaching.isEmpty ? null : currently_teaching;
+//         if (currently_teaching == '0') {
+//           selectedCurrentTeaching = 'No';
+//         } else {
+//           selectedCurrentTeaching = 'Yes';
+//         }
+//       });
+
+//       Teaching_experience = responseData['Teaching_experience'] ?? ''; // Default to an empty string
+//       selectedTeachingExp = Teaching_experience.isEmpty ? null : Teaching_experience;
+
+//       _oLevel = responseData['oLevel'] ?? ''; // Default to an empty string
+//       oLevel = _oLevel.isEmpty ? null : _oLevel;
+
+//       _alevel = responseData['alevel'] ?? ''; // Default to an empty string
+//       aLevel = _alevel.isEmpty ? null : _alevel;
+
+//       date_of_birth = responseData['date_of_birth'] ?? '';
+//       _selectedValue1 = responseData['DigitalPad'] ?? '0';
+//       _selectedValue2 = responseData['onlineTeaching_experience'] ?? '';
+//       Biography = responseData['Biography'] ?? '';
+//       placement = responseData['placements'] ?? [];
+      
+//       print(placement);
+//     } else {
+//       print('Error: ${response.statusCode}');
+//     }
+//   } catch (e) {
+//     print('Get API Error: $e');
+//   } finally {
+//     setState(() {
+//       isLoading = false;
+//     });
+//   }
+// }
+
 Future<void> getAddtionalInfo() async {
   setState(() {
     isLoading = true;
@@ -312,6 +388,7 @@ Future<void> getAddtionalInfo() async {
     });
   }
 }
+
   @override
   Widget build(BuildContext context) {
     return reusableprofileidget(context,
@@ -424,69 +501,69 @@ Future<void> getAddtionalInfo() async {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                //                       buildCheckboxWithTitle('Home', checkbox1,(){
-                //                       setState(() {});
-                //                       reusableMessagedialog(context, 'Placement',
-                //     "You will have to visit at student's place", 'Confirm', 'Cancel',() {
-                //       setState(() {});
-                //       checkbox1 = true;
-                //       updateTutorPlacement();
-                //       print(selectedPlacements);
-                //     Navigator.pop(context);
-                //     setState(() {});
-                // }, () {
-                //   setState(() {});
-                //   checkbox1 = false;
-                //   updateTutorPlacement();
-                //   print(selectedPlacements);
-                //   Navigator.pop(context);
-                //   setState(() {});
-                // });
-                //                     }),
-                //                     buildCheckboxWithTitle('Online', checkbox2,(){
-                //                       setState(() { 
-                //                         checkbox2 = !checkbox2;
-                //                         updateTutorPlacement();
-                //                         isHomeWidgetVisible = checkbox2; // Update visibility state
-                //                         print(selectedPlacements);
-                //                       });
-                //                     },),
+                                       buildCheckboxWithTitle('Home', checkbox1,(){
+                                      setState(() {});
+                                      reusableMessagedialog(context, 'Placement',
+                    "You will have to visit at student's place", 'Confirm', 'Cancel',() {
+                      setState(() {});
+                      checkbox1 = true;
+                      updateTutorPlacement();
+                      print(selectedPlacements);
+                    Navigator.pop(context);
+                    setState(() {});
+                }, () {
+                  setState(() {});
+                  checkbox1 = false;
+                  updateTutorPlacement();
+                  print(selectedPlacements);
+                  Navigator.pop(context);
+                  setState(() {});
+                });
+                                    }),
+                                    buildCheckboxWithTitle('Online', checkbox2,(){
+                                      setState(() { 
+                                        checkbox2 = !checkbox2;
+                                        updateTutorPlacement();
+                                        isHomeWidgetVisible = checkbox2; // Update visibility state
+                                        print(selectedPlacements);
+                                      });
+                                    },),
 
-                buildRadioWithTitle('Home', PlacementId1, (newValue) {
-          setState(() {
-            selectedPlacement = newValue as String?;
-            updateTutorPlacement();
-            isHomeWidgetVisible = selectedPlacement == PlacementId2; // Update visibility if needed
-            print(selectedPlacements);
-          });
-        }),
-        buildRadioWithTitle('Online', PlacementId2, (newValue) {
-          setState(() {
-            selectedPlacement = newValue as String?;
-            updateTutorPlacement();
-            isHomeWidgetVisible = selectedPlacement == PlacementId2;
-            print(selectedPlacements);
-          });
-        }),
+        //         buildRadioWithTitle('Home', PlacementId1, (newValue) {
+        //   setState(() {
+        //     selectedPlacement = newValue as String?;
+        //     updateTutorPlacement();
+        //     isHomeWidgetVisible = selectedPlacement == PlacementId2; // Update visibility if needed
+        //     print(selectedPlacements);
+        //   });
+        // }),
+        // buildRadioWithTitle('Online', PlacementId2, (newValue) {
+        //   setState(() {
+        //     selectedPlacement = newValue as String?;
+        //     updateTutorPlacement();
+        //     isHomeWidgetVisible = selectedPlacement == PlacementId2;
+        //     print(selectedPlacements);
+        //   });
+        // }),
                                   ],
                                 ),
-                                // buildCheckboxWithTitle(
-                                //     "At Tutor's Place", checkbox3, (){
-                                //       setState(() {
-                                //         checkbox3 = !checkbox3;
-                                //         updateTutorPlacement();
-                                //         print(selectedPlacements);
-                                //       });
-                                //     },),
+                                buildCheckboxWithTitle(
+                                    "At Tutor's Place", checkbox3, (){
+                                      setState(() {
+                                        checkbox3 = !checkbox3;
+                                        updateTutorPlacement();
+                                        print(selectedPlacements);
+                                      });
+                                    },),
 
-                                 buildRadioWithTitle("At Tutor's Place", PlacementId3, (newValue) {
-          setState(() {
-            selectedPlacement = newValue as String?;
-            updateTutorPlacement();
-            isHomeWidgetVisible = selectedPlacement == PlacementId2;
-            print(selectedPlacements);
-          });
-        }),
+        //                          buildRadioWithTitle("At Tutor's Place", PlacementId3, (newValue) {
+        //   setState(() {
+        //     selectedPlacement = newValue as String?;
+        //     updateTutorPlacement();
+        //     isHomeWidgetVisible = selectedPlacement == PlacementId2;
+        //     print(selectedPlacements);
+        //   });
+        // }),
                                 reusablaSizaBox(context, .02),
                                 onlineVisibility(
                                   context,
@@ -533,26 +610,66 @@ Future<void> getAddtionalInfo() async {
       reusableloadingrow(context, isLoading)
     );
   }
-// Function to create radio buttons with titles
-  Widget buildRadioWithTitle(String title, String value, Function onChanged) {
+
+    Widget buildCheckboxWithTitle(String title, bool value,Function ontap,){
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Radio<String>(
+        Checkbox(
+          shape: ContinuousRectangleBorder(),
+          overlayColor: MaterialStatePropertyAll(colorController.blueColor),
+          activeColor: colorController.blueColor,
+          side: BorderSide(color: colorController.blueColor, width: 1.5),
           value: value,
-          groupValue: selectedPlacement,
           onChanged: (newValue) {
-            onChanged(newValue);
+            ontap();
+            // setState(() {
+            //   if (title == 'Home') {
+            //     checkbox1 = newValue ?? false;
+            //     ontap();
+            //   } else if (title == 'Online') {
+            //     checkbox2 = value ?? false;
+            //     if (value == true) {
+            //       isHomeWidgetVisible = true;
+            //       updateTutorPlacement();
+            //        print(selectedPlacements);
+            //     } else {
+            //       updateTutorPlacement();
+            //        print(selectedPlacements);
+            //       isHomeWidgetVisible = false;
+            //     }
+            //   } else if (title == "At Tutor's Place") {
+            //     checkbox3 = value ?? false;
+            //     updateTutorPlacement();
+            //      print(selectedPlacements);
+            //   }
+            // });
           },
-          fillColor: MaterialStateColor.resolveWith(
-                              (states) => colorController.blueColor),
-              // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            // visualDensity: VisualDensity.compact,
-            activeColor: MaterialStateColor.resolveWith(
-                              (states) => colorController.blueColor),
         ),
-        Text(title),
+        reusableText(title, fontsize: 15),
       ],
     );
   }
+// // Function to create radio buttons with titles
+//   Widget buildRadioWithTitle(String title, String value, Function onChanged) {
+//     return Row(
+//       mainAxisAlignment: MainAxisAlignment.center,
+//       children: [
+//         Radio<String>(
+//           value: value,
+//           groupValue: selectedPlacement,
+//           onChanged: (newValue) {
+//             onChanged(newValue);
+//           },
+//           fillColor: MaterialStateColor.resolveWith(
+//                               (states) => colorController.blueColor),
+//               // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+//             // visualDensity: VisualDensity.compact,
+//             activeColor: MaterialStateColor.resolveWith(
+//                               (states) => colorController.blueColor),
+//         ),
+//         Text(title),
+//       ],
+//     );
+//   }
 }
