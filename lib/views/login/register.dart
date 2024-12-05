@@ -5,6 +5,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/controller/text_field_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
+import 'package:fahad_tutor/repo/tutor_repo.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableTextField.dart';
@@ -42,6 +43,7 @@ class _RigisterState extends State<Rigister> {
   String? _selectedValue2 = 'none';
   bool isHomeWidgetVisible = false;
   final TextEditingController _biography = TextEditingController();
+  TutorRepository repository = TutorRepository();
   int _charCount = 0;
 
   void _updateCharCount() {
@@ -600,9 +602,11 @@ void updateTutorPlacement() {
         // String number = responseData['number'];
         if (responseData['success'] == 1) {
           print('response:' + response.body);
+          MySharedPrefrence().set_user_ID(responseData['ID'].toString());
           Navigator.pop(context);
           Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: ((context) => Login())));
+              context, MaterialPageRoute(builder: ((context) => NavBar())));
+              _fetchBasicInfo();
           Utils.snakbarSuccess(context, apiMessage);
         } else {
           InkWell(
@@ -626,6 +630,84 @@ void updateTutorPlacement() {
         isLoading = false;
       });
     }
+  }
+
+  // Future<void> login()async{
+  //   setState(() {
+  //     isLoading = true;
+  //   });
+  //   try{
+  //     print('password ${reusabletextfieldcontroller.addressCon.text.toString()}');
+  //     print('deviced ${MySharedPrefrence().get_cell_token().toString()}');
+  //     print('email ${MySharedPrefrence().get_user_email().toString()}');
+  //     // final email = reusabletextfieldcontroller.emailCon.text.toString();
+  //     //   final password = reusabletextfieldcontroller.loginPassCon.text.toString();
+  //     final response = await http.post(
+  //     Uri.parse('${Utils.baseUrl}mobile_app/login.php'),
+  //     body: {
+  //       'cell_access_token': MySharedPrefrence().get_cell_token().toString(),
+  //       'deviceid': '1'.toString(),
+  //       'tu_email': MySharedPrefrence().get_user_email().toString(),
+  //       'password': reusabletextfieldcontroller.addressCon.text.toString(),
+  //     }
+  //   );
+  //   if (response.statusCode == 200) {
+  //             final Map<String, dynamic> responseData =
+  //                 json.decode(response.body);
+  //                 print('response $responseData');
+  //             String apiMessage = responseData['message'];
+  //             if (responseData['success'] == 1) {
+  //               setState(() {});
+  //               // await saveAccount(email, password); // Save account on successful login
+  //             print('message $apiMessage');
+  //             MySharedPrefrence().setUserLoginStatus(true);
+  //             MySharedPrefrence().set_user_ID(responseData['ID']);
+  //             // MySharedPrefrence().set_profile_img(responseData['profile_img']);
+  //             setState(() {});
+  //             MySharedPrefrence().set_tutor_name(responseData['teacher_name']);
+  //             setState(() {});
+  //               print('Tutor ID ${MySharedPrefrence().get_user_ID()}');
+  //               print('tutor status ${MySharedPrefrence().getUserLoginStatus()}');
+  //               _fetchBasicInfo();
+  //               // Navigator.pop(context);
+  //               setState(() {
+                  
+  //               });
+  //                   Navigator.pushReplacement(context,MaterialPageRoute(
+  //         builder: (context) => WillPopScope(
+  //           onWillPop: () async => false,
+  //           child: NavBar(),
+  //         ),
+  //       ),
+  //     );
+  //                       Utils.snakbarSuccess(context, apiMessage);
+  //             } else {
+  //               Utils.snakbarFailed(context, apiMessage);
+  //             }
+  //           } else {
+  //             print('Error2: ' + response.statusCode.toString());
+  //           }
+    
+  //   }catch(e){
+  //     Utils.snakbar(context, 'Check your Internet Connection');
+  //     print('login Api Error $e');
+  //   }finally{
+  //     setState(() {isLoading = false;});
+  //   }
+  // }
+
+  // Function to fetch and save basic info
+  Future<void> _fetchBasicInfo() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    String userId = MySharedPrefrence().get_user_ID().toString();
+    await repository.basicTutorInfo(userId);
+
+    setState(() {
+      isLoading = false;
+    });
   }
 
   dynamic countryLists;

@@ -241,82 +241,6 @@ void updateTutorPlacement() {
   }
 }
 
-// Future<void> getAddtionalInfo() async {
-//   setState(() {
-//     isLoading = true;
-//   });
-//   try {
-//     final userId = MySharedPrefrence().get_user_ID().toString();
-//     print('Fetching data for user ID: $userId');
-//     final response = await http.get(
-//       Uri.parse('${Utils.baseUrl}mobile_app/step_3.php?code=10&tutor_id=$userId')
-//     );
-//     if (response.statusCode == 200) {
-//       final Map<String, dynamic> responseData = json.decode(response.body);
-
-//       // Assign values with null checks
-//       update_status = responseData['update_status'] ?? '';
-//       Placements = responseData['placement_listing'] ?? [];
-//       PlacementName1 = Placements.isNotEmpty ? Placements[0]['placement_name'] ?? '' : '';
-//       PlacementName2 = Placements.length > 1 ? Placements[1]['placement_name'] ?? '' : '';
-//       PlacementName3 = Placements.length > 2 ? Placements[2]['placement_name'] ?? '' : '';
-//       PlacementId1 = Placements.isNotEmpty ? Placements[0]['id'] ?? '' : '';
-//       PlacementId2 = Placements.length > 1 ? Placements[1]['id'] ?? '' : '';
-//       PlacementId3 = Placements.length > 2 ? Placements[2]['id'] ?? '' : '';
-
-//       // Handle placement selection logic
-//       setState(() {
-//         checkbox1 = placement.any((p) => p['id'] == PlacementId1);
-//         checkbox2 = placement.any((p) => p['id'] == PlacementId2);
-//         checkbox3 = placement.any((p) => p['id'] == PlacementId3);
-//         updateTutorPlacement(); // Ensure selectedPlacements is updated
-//         isHomeWidgetVisible = checkbox2; // Ensure this state is correctly set
-//         print('heloo $selectedPlacements');
-//       });
-
-//       // Assign other fields with null-safe operators
-//       home_address = responseData['home_address'] ?? '';
-//       further_information = responseData['further_information'] ?? '';
-//       onlineTeaching_experience = responseData['onlineTeaching_experience'] ?? '';
-      
-//       setState(() {
-//         currently_teaching = responseData['currently_teaching'] ?? ''; // Default to an empty string
-//         selectedCurrentTeaching = currently_teaching.isEmpty ? null : currently_teaching;
-//         if (currently_teaching == '0') {
-//           selectedCurrentTeaching = 'No';
-//         } else {
-//           selectedCurrentTeaching = 'Yes';
-//         }
-//       });
-
-//       Teaching_experience = responseData['Teaching_experience'] ?? ''; // Default to an empty string
-//       selectedTeachingExp = Teaching_experience.isEmpty ? null : Teaching_experience;
-
-//       _oLevel = responseData['oLevel'] ?? ''; // Default to an empty string
-//       oLevel = _oLevel.isEmpty ? null : _oLevel;
-
-//       _alevel = responseData['alevel'] ?? ''; // Default to an empty string
-//       aLevel = _alevel.isEmpty ? null : _alevel;
-
-//       date_of_birth = responseData['date_of_birth'] ?? '';
-//       _selectedValue1 = responseData['DigitalPad'] ?? '0';
-//       _selectedValue2 = responseData['onlineTeaching_experience'] ?? '';
-//       Biography = responseData['Biography'] ?? '';
-//       placement = responseData['placements'] ?? [];
-      
-//       print(placement);
-//     } else {
-//       print('Error: ${response.statusCode}');
-//     }
-//   } catch (e) {
-//     print('Get API Error: $e');
-//   } finally {
-//     setState(() {
-//       isLoading = false;
-//     });
-//   }
-// }
-
 Future<void> getAddtionalInfo() async {
   setState(() {
     isLoading = true;
@@ -329,53 +253,57 @@ Future<void> getAddtionalInfo() async {
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
-      update_status = responseData['update_status'];
-      Placements = responseData['placement_listing'];
-      PlacementName1 = Placements[0]['placement_name'];
-      PlacementName2 = Placements[1]['placement_name'];
-      PlacementName3 = Placements[2]['placement_name'];
-      PlacementId1 = Placements[0]['id'];
-      PlacementId2 = Placements[1]['id'];
-      PlacementId3 = Placements[2]['id'];
-      
 
+      // Assign values with null checks
+      update_status = responseData['update_status'] ?? '';
+      Placements = responseData['placement_listing'] ?? [];
+      PlacementName1 = Placements.isNotEmpty ? Placements[0]['placement_name'] ?? '' : '';
+      PlacementName2 = Placements.length > 1 ? Placements[1]['placement_name'] ?? '' : '';
+      PlacementName3 = Placements.length > 2 ? Placements[2]['placement_name'] ?? '' : '';
+      PlacementId1 = Placements.isNotEmpty ? Placements[0]['id'] ?? '' : '';
+      PlacementId2 = Placements.length > 1 ? Placements[1]['id'] ?? '' : '';
+      PlacementId3 = Placements.length > 2 ? Placements[2]['id'] ?? '' : '';
+
+      // Handle placement selection logic
       setState(() {
-          checkbox1 = placement.any((p) => p['id'] == PlacementId1);
-          checkbox2 = placement.any((p) => p['id'] == PlacementId2);
-          checkbox3 = placement.any((p) => p['id'] == PlacementId3);
-          updateTutorPlacement(); // Ensure selectedPlacements is updated
-          isHomeWidgetVisible = checkbox2; // Ensure this state is correctly set
-          print('heloo $selectedPlacements');
-        });
-      // print(responseData);
-      home_address = responseData['home_address'];
-      further_information = responseData['further_information'];
-      onlineTeaching_experience = responseData['onlineTeaching_experience'];
-      // currently_teaching = responseData['currently_teaching'];
+        checkbox1 = placement.any((p) => p['id'] == PlacementId1);
+        checkbox2 = placement.any((p) => p['id'] == PlacementId2);
+        checkbox3 = placement.any((p) => p['id'] == PlacementId3);
+        updateTutorPlacement(); // Ensure selectedPlacements is updated
+        isHomeWidgetVisible = checkbox2; // Ensure this state is correctly set
+        print('heloo $selectedPlacements');
+      });
+
+      // Assign other fields with null-safe operators
+      home_address = responseData['home_address'] ?? '';
+      further_information = responseData['further_information'] ?? '';
+      onlineTeaching_experience = responseData['onlineTeaching_experience'] ?? '';
+      
       setState(() {
-          currently_teaching = responseData['currently_teaching'] ?? ''; // Use empty string if null
-          selectedCurrentTeaching = currently_teaching.isEmpty ? null : currently_teaching;
-          print('Fetched currently_teaching: $selectedCurrentTeaching');
-          if(currently_teaching == '0'){
-            selectedCurrentTeaching = 'No';
-          }else{
-            selectedCurrentTeaching = 'Yes';
-          }
-        });
-      // Teaching_experience = responseData['Teaching_experience'];
-      Teaching_experience = responseData['Teaching_experience'] ?? ''; // Use empty string if null
-          selectedTeachingExp = Teaching_experience.isEmpty ? null : Teaching_experience;
-      // _oLevel = responseData['oLevel'];
-      _oLevel = responseData['oLevel'] ?? ''; // Use empty string if null
-          oLevel = _oLevel.isEmpty ? null : _oLevel;
-          _alevel = responseData['alevel'] ?? ''; // Use empty string if null
-          aLevel = _alevel.isEmpty ? null : _alevel;
-      // _alevel = responseData['alevel'];
+        currently_teaching = responseData['currently_teaching'] ?? ''; // Default to an empty string
+        selectedCurrentTeaching = currently_teaching.isEmpty ? null : currently_teaching;
+        if (currently_teaching == '0') {
+          selectedCurrentTeaching = 'No';
+        } else {
+          selectedCurrentTeaching = 'Yes';
+        }
+      });
+
+      Teaching_experience = responseData['Teaching_experience'] ?? ''; // Default to an empty string
+      selectedTeachingExp = Teaching_experience.isEmpty ? null : Teaching_experience;
+
+      _oLevel = responseData['oLevel'] ?? ''; // Default to an empty string
+      oLevel = _oLevel.isEmpty ? null : _oLevel;
+
+      _alevel = responseData['alevel'] ?? ''; // Default to an empty string
+      aLevel = _alevel.isEmpty ? null : _alevel;
+
       date_of_birth = responseData['date_of_birth'] ?? '';
-      _selectedValue1 = responseData['DigitalPad'];
-      _selectedValue2 = responseData['onlineTeaching_experience'];
-      Biography = responseData['Biography'];
-      placement = responseData['placements'];
+      _selectedValue1 = responseData['DigitalPad'] ?? '0';
+      _selectedValue2 = responseData['onlineTeaching_experience'] ?? '';
+      Biography = responseData['Biography'] ?? '';
+      placement = responseData['placements'] ?? [];
+      
       print(placement);
     } else {
       print('Error: ${response.statusCode}');
@@ -388,6 +316,78 @@ Future<void> getAddtionalInfo() async {
     });
   }
 }
+
+// Future<void> getAddtionalInfo() async {
+//   setState(() {
+//     isLoading = true;
+//   });
+//   try {
+//     final userId = MySharedPrefrence().get_user_ID().toString();
+//     print('Fetching data for user ID: $userId');
+//     final response = await http.get(
+//       Uri.parse('${Utils.baseUrl}mobile_app/step_3.php?code=10&tutor_id=$userId')
+//     );
+//     if (response.statusCode == 200) {
+//       final Map<String, dynamic> responseData = json.decode(response.body);
+//       update_status = responseData['update_status'];
+//       Placements = responseData['placement_listing'];
+//       PlacementName1 = Placements[0]['placement_name'];
+//       PlacementName2 = Placements[1]['placement_name'];
+//       PlacementName3 = Placements[2]['placement_name'];
+//       PlacementId1 = Placements[0]['id'];
+//       PlacementId2 = Placements[1]['id'];
+//       PlacementId3 = Placements[2]['id'];
+      
+
+//       setState(() {
+//           checkbox1 = placement.any((p) => p['id'] == PlacementId1);
+//           checkbox2 = placement.any((p) => p['id'] == PlacementId2);
+//           checkbox3 = placement.any((p) => p['id'] == PlacementId3);
+//           updateTutorPlacement(); // Ensure selectedPlacements is updated
+//           isHomeWidgetVisible = checkbox2; // Ensure this state is correctly set
+//           print('heloo $selectedPlacements');
+//         });
+//       // print(responseData);
+//       home_address = responseData['home_address'];
+//       further_information = responseData['further_information'];
+//       onlineTeaching_experience = responseData['onlineTeaching_experience'];
+//       // currently_teaching = responseData['currently_teaching'];
+//       setState(() {
+//           currently_teaching = responseData['currently_teaching'] ?? ''; // Use empty string if null
+//           selectedCurrentTeaching = currently_teaching.isEmpty ? null : currently_teaching;
+//           print('Fetched currently_teaching: $selectedCurrentTeaching');
+//           if(currently_teaching == '0'){
+//             selectedCurrentTeaching = 'No';
+//           }else{
+//             selectedCurrentTeaching = 'Yes';
+//           }
+//         });
+//       // Teaching_experience = responseData['Teaching_experience'];
+//       Teaching_experience = responseData['Teaching_experience'] ?? ''; // Use empty string if null
+//           selectedTeachingExp = Teaching_experience.isEmpty ? null : Teaching_experience;
+//       // _oLevel = responseData['oLevel'];
+//       _oLevel = responseData['oLevel'] ?? ''; // Use empty string if null
+//           oLevel = _oLevel.isEmpty ? null : _oLevel;
+//           _alevel = responseData['alevel'] ?? ''; // Use empty string if null
+//           aLevel = _alevel.isEmpty ? null : _alevel;
+//       // _alevel = responseData['alevel'];
+//       date_of_birth = responseData['date_of_birth'] ?? '';
+//       _selectedValue1 = responseData['DigitalPad'];
+//       _selectedValue2 = responseData['onlineTeaching_experience'];
+//       Biography = responseData['Biography'];
+//       placement = responseData['placements'];
+//       print(placement);
+//     } else {
+//       print('Error: ${response.statusCode}');
+//     }
+//   } catch (e) {
+//     print('Get API Error: $e');
+//   } finally {
+//     setState(() {
+//       isLoading = false;
+//     });
+//   }
+// }
 
   @override
   Widget build(BuildContext context) {
