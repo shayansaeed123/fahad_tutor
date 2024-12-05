@@ -12,9 +12,6 @@ Widget reusableContactField(
   FocusNode focusnode,
   Function onsubmit,
   int numberLength,
-  // bool validate_or_not,
-  // String message,
-  // String message2,
    {
   TextInputType keyboardType = TextInputType.text,
   bool obscureText = false,
