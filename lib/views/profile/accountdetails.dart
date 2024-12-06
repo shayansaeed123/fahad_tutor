@@ -87,27 +87,6 @@ class _AccountDetailsState extends State<AccountDetails> {
       reusabletextfieldcontroller.mobilenumber.addListener(_updateTitle);
     });
   }
-  // void getData()async{
-  //   getAccountDetails().then((value) {
-  //     setState((){
-  //       reusabletextfieldcontroller.title.addListener(_updateTitle);
-  //       reusabletextfieldcontroller.title.text = Title;
-  //       reusabletextfieldcontroller.bankname.addListener(_updateTitle);
-  //       reusabletextfieldcontroller.bankname.text = Bank_Name;
-  //       reusabletextfieldcontroller.branchcode.addListener(_updateTitle);
-  //       reusabletextfieldcontroller.branchcode.text = Branch_Code;
-  //       reusabletextfieldcontroller.accountnumber.addListener(_updateTitle);
-  //       reusabletextfieldcontroller.accountnumber.text = Account_Number;
-  //       reusabletextfieldcontroller.ibannumber.addListener(_updateTitle);
-  //       reusabletextfieldcontroller.ibannumber.text = IBAN_Pptional;
-  //       reusabletextfieldcontroller.accounttitle.addListener(_updateTitle);
-  //       reusabletextfieldcontroller.accounttitle.text = easypesa_bank;
-  //       reusabletextfieldcontroller.mobilenumber.addListener(_updateTitle);
-  //       reusabletextfieldcontroller.mobilenumber.text = Easy_Paisa_Mobile;
-  //     });
-  //   });
-  // }
-
   @override
   void dispose() {
     _title.removeListener(_onFocusChange);
