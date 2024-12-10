@@ -15,29 +15,6 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
-  // Future<void> navigateToScreen() async {
-  //   print('tutor ID ${MySharedPrefrence().get_user_ID()}');
-  //   print('tutor status ${MySharedPrefrence().getUserLoginStatus()}');
-  //   if (MySharedPrefrence().get_user_ID() != '') {
-  //     Navigator.push(context,MaterialPageRoute(
-  //           builder: (context) => WillPopScope( onWillPop: () async => false, child: NavBar())),);
-  //   } else {
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //           builder: (context) =>
-  //               WillPopScope(onWillPop: () async => false, child: Login())),
-  //     );
-  //   }
-  // }
-
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   checkLoginStatus();
-  // }
-
 
   bool _isLoggedIn = false;
   Timer? _timer;
