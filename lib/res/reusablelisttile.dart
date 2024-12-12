@@ -23,12 +23,4 @@ Widget reusablelisttile(BuildContext context,Function ontap,String image,title,{
     // subtitle: Text('Subtitle'),
     trailing: widget,
   );
-
-  // ListTile(
-  //   // contentPadding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * .01),
-  //   tileColor: colorController.grayTextColor,
-  //   leading: Image.asset('assets/images/basic_info_icon.png',fit: BoxFit.contain,height: MediaQuery.of(context).size.height * .035,),
-  //   title: Text('hello'),
-  //   trailing: Text('data'),
-  // );
 }
