@@ -146,51 +146,6 @@ reusableMessagedialog(
         );
       },
     );
-
-    
-  // showDialog(
-  //   barrierDismissible: false,
-  //   context: context,
-  //   builder: (context) { 
-  //     return Theme(
-  //         data: ThemeData.dark().copyWith(
-  //           dialogTheme: DialogTheme(
-  //             backgroundColor: colorController.btnColor, // Background color of the dialog
-  //           ),
-  //         ),
-      
-  //     child:  AlertDialog(
-  //     title: Center(child: reusableText(titletxt,color: colorController.whiteColor,fontsize: 16,)),
-  //     content: reusableText(contenttxt,color: colorController.whiteColor,fontsize: 14,),
-  //     actions: [
-  //       ElevatedButton(
-  //         style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(colorController.whiteColor)),
-  //         onPressed: () {
-  //           btnontap();
-  //           //             Navigator.pop(context);
-  //           // Navigator.push(context, MaterialPageRoute(builder: ((context) => attendance())));
-  //         },
-          // child: reusableText(
-          //   btntxt,
-          //   color: colorController.btnColor,
-          // ),
-  //       ),
-  //       ElevatedButton(
-  //         style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(colorController.grayTextColor)),
-  //         onPressed: () {
-  //                     canceltap();
-  //           // Navigator.push(context, MaterialPageRoute(builder: ((context) => attendance())));
-  //         },
-  //         child: reusableText(
-  //           'Cancel',
-  //           color: colorController.whiteColor,
-  //         ),
-  //       ),
-  //     ],
-  //     )
-  //   );
-  //   }
-  // );
 }
 
 reusableAnimationdialog(
