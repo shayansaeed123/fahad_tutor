@@ -7,6 +7,7 @@ import 'package:fahad_tutor/views/dashboard/all_tuitions.dart';
 import 'package:fahad_tutor/views/dashboard/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -27,7 +28,14 @@ class _NavBarState extends State<NavBar> {
     super.initState();
     // fetchAllTuitions(start, limit); // Initial fetch
     fetchPrefferedTuitions(start, limit);
+    requestNotificationPermission();
   }
+  void requestNotificationPermission() async {
+  if (await Permission.notification.isDenied) {
+    // Request permission
+    await Permission.notification.request();
+  }
+}
   Future<void> fetchAllTuitions(int start, int limit) async {
     setState(() {
       isLoading = true;

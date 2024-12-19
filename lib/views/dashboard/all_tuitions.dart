@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
+import 'package:fahad_tutor/model/searchmodel.dart';
 import 'package:fahad_tutor/repo/tutor_repo.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
@@ -343,6 +344,16 @@ class _AllTuitionsState extends State<AllTuitions> {
     // searchTuitions(_searchCon.text.toString());
   }
 
+  List<Tuition> searchResults = [];
+
+  // Fetch search results based on input
+  void searchTuitions(String query) async {
+    final results = await repository.searchTuitions(query);
+    setState(() {
+      searchResults = results;
+    });
+  }
+
   Future<void> fetchInitialTuitions() async {
     setState(() {
       isLoading2 = true;
@@ -357,21 +368,21 @@ class _AllTuitionsState extends State<AllTuitions> {
     });
   }
 
-  Future<void> searchTuitions(String searchText) async {
-    String url =
-          '${Utils.baseUrl}mobile_app/search_all_tuitions.php?searchtext=$searchText&code=10&tutor_id=${MySharedPrefrence().get_user_ID()}';
-      final response = await http.get(Uri.parse(url));
+  // Future<void> searchTuitions(String searchText) async {
+  //   String url =
+  //         '${Utils.baseUrl}mobile_app/search_all_tuitions.php?searchtext=$searchText&code=10&tutor_id=${MySharedPrefrence().get_user_ID()}';
+  //     final response = await http.get(Uri.parse(url));
 
-    if (response.statusCode == 200) {
-      final jsonResponse = jsonDecode(response.body);
-      setState(() {
-        tuitions = jsonResponse['tuition_listing'];
-        filteredTuitions = tuitions;
-      }); // Assuming the JSON contains a key 'tuition_listing'
-    } else {
-      throw Exception('Failed to load tuitions');
-    }
-  }
+  //   if (response.statusCode == 200) {
+  //     final jsonResponse = jsonDecode(response.body);
+  //     setState(() {
+  //       tuitions = jsonResponse['tuition_listing'];
+  //       filteredTuitions = tuitions;
+  //     }); // Assuming the JSON contains a key 'tuition_listing'
+  //   } else {
+  //     throw Exception('Failed to load tuitions');
+  //   }
+  // }
 
   // void filterTuitions(String query) {
   //   if (query.isEmpty) {
@@ -512,7 +523,7 @@ class _AllTuitionsState extends State<AllTuitions> {
                     hintText: 'Search Tuitions',
                     prefixIcon: InkWell(
                       onTap: (){
-                        filterTuitions(_searchCon.text);
+                        // filterTuitions(_searchCon.text);
                       },
                       child: Icon(
                         Icons.search,
@@ -535,6 +546,20 @@ class _AllTuitionsState extends State<AllTuitions> {
                   
                 ),
               ),
+               
+          // Expanded(
+          //   child: ListView.builder(
+          //     itemCount: searchResults.length,
+          //     itemBuilder: (context, index) {
+          //       final tuition = searchResults[index];
+          //       return ListTile(
+          //         title: Text(tuition.tuitionName,style: TextStyle(color: Colors.black),),
+          //         subtitle: Text('${tuition.className} - ${tuition.subject}'),
+          //         trailing: Text(tuition.location),
+          //       );
+          //     },
+          //   ),
+          // ),
               reusablaSizaBox(context, .009),
               reusableVisiblityMesage(context, 'Apply carefully to maintain your profile', () {
                 setState(() {

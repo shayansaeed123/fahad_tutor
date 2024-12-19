@@ -61,7 +61,8 @@ dependencies:
   firebase_core: 
   rename_app:
   flutter_secure_storage: 
-  shared_preferences: 
+  shared_preferences:
+  permission_handler: ^10.2.0 
    
 
 dev_dependencies:

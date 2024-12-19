@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:fahad_tutor/controller/text_field_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
+import 'package:fahad_tutor/model/searchmodel.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/views/login/login.dart';
@@ -602,6 +603,33 @@ class TutorRepository {
 
  
 
+ // Define the API URL
+  final String apiUrl = "https://fahadtutors.com/mobile_app/search_all_tuitions.php";
+
+  // Function to fetch search results
+  Future<List<Tuition>> searchTuitions(String searchText) async {
+    final response = await http.get(
+      Uri.parse('$apiUrl?searchtext=$searchText&code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
+    );
+
+    if (response.statusCode == 200) {
+      // Parse the JSON response
+      final Map<String, dynamic> data = json.decode(response.body);
+
+      // Check if there are tuition listings
+      if (data['tuition_listing'] != null) {
+        List<Tuition> tuitions = [];
+        for (var item in data['tuition_listing']) {
+          tuitions.add(Tuition.fromJson(item));
+        }
+        return tuitions;
+      } else {
+        return [];
+      }
+    } else {
+      throw Exception('Failed to load tuitions');
+    }
+  }
 
 
 

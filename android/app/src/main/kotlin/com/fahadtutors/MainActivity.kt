@@ -1,4 +1,4 @@
-package com.ideaz.FahadTutor
+package com.fahadtutors
 
 import io.flutter.embedding.android.FlutterActivity
 

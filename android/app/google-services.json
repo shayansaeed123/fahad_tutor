@@ -1,26 +1,145 @@
 {
   "project_info": {
-    "project_number": "990342767537",
-    "project_id": "fahadtutors-d768d",
-    "storage_bucket": "fahadtutors-d768d.appspot.com"
+    "project_number": "370721197606",
+    "project_id": "fahadtutors-84f8b",
+    "storage_bucket": "fahadtutors-84f8b.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:990342767537:android:1181bd6a3686829c0f5390",
+        "mobilesdk_app_id": "1:370721197606:android:040155981a1836da9120e7",
         "android_client_info": {
-          "package_name": "com.ideaz.FahadTutor"
+          "package_name": "com.fahadtutors"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "370721197606-2mbo2khu663dbfa9jfu6t26u60919jgr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fahadtutors",
+            "certificate_hash": "15421972e70582784d0a7c38136e972d563a7da1"
+          }
+        },
+        {
+          "client_id": "370721197606-8gsh48kso8ennnqsgk7hhot4l6p3pmhj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fahadtutors",
+            "certificate_hash": "d054473a432c1eb86ca6df66c8c6f3b6a7bc1633"
+          }
+        },
+        {
+          "client_id": "370721197606-9gu9v4nskc1iaigi5dtp4kjkpjl99652.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fahadtutors",
+            "certificate_hash": "96c1fa76b9cd409ad6bfd4f4b3aa02fbd771c4a9"
+          }
+        },
+        {
+          "client_id": "370721197606-f56l8nuh832uhdu159d5ev2cg4ur920p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fahadtutors",
+            "certificate_hash": "096dd7273dcba14baca0d0216481d8c9478f5442"
+          }
+        },
+        {
+          "client_id": "370721197606-hgih9tvn6nf7l2p55h2lu88fcqub1fjm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fahadtutors",
+            "certificate_hash": "ad9ea1932750bea0265b943085fe449c93a24855"
+          }
+        },
+        {
+          "client_id": "370721197606-mq0e3t67dt65tp3soi5e1dg1o3dma5s5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fahadtutors",
+            "certificate_hash": "f429600725513737545d4c4bcfafb33983601975"
+          }
+        },
+        {
+          "client_id": "370721197606-ns2ruvtvc0erek59vs7qbbp6ufqe2cg3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fahadtutors",
+            "certificate_hash": "e03860f903c01f77f651a7dd9dd30e98c35aa79a"
+          }
+        },
+        {
+          "client_id": "370721197606-pim5mlnud8hkg51v4tnnm7a898ila8am.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fahadtutors",
+            "certificate_hash": "8c0b7794e5126071a25a0704bb163cc27bdb17c9"
+          }
+        },
+        {
+          "client_id": "370721197606-d8l3jrvkoog8ecf1u4dqggg2qea4d45i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyBr7iVZjZoPUlbXzVkq-5g7ogOqv-FrG70"
+          "current_key": "AIzaSyDC83KxfmAIteOHNssrZ3fDusInE1gbrnk"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "370721197606-d8l3jrvkoog8ecf1u4dqggg2qea4d45i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:370721197606:android:caee2d9d09d22bab9120e7",
+        "android_client_info": {
+          "package_name": "com.fahadtutors.live"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "370721197606-fv9ftufbuuibd3ijr8ou9rsa5747p0ur.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fahadtutors.live",
+            "certificate_hash": "51a543307ccc1911bfdfd006fb91ed6dba6469d7"
+          }
+        },
+        {
+          "client_id": "370721197606-qjp4op2inudesfe341a470d801hk7a8v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fahadtutors.live",
+            "certificate_hash": "32d147c77b2842d6de68b7f5f54e5fe15d55a1e7"
+          }
+        },
+        {
+          "client_id": "370721197606-d8l3jrvkoog8ecf1u4dqggg2qea4d45i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDC83KxfmAIteOHNssrZ3fDusInE1gbrnk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "370721197606-d8l3jrvkoog8ecf1u4dqggg2qea4d45i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

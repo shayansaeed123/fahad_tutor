@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+<!-- Required for notifications on Android 13+ -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 <uses-permission android:name="android.permission.INTERNET"/>
 <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
     <application android:label="Fahad Tutors" android:name="${applicationName}" android:icon="@mipmap/launcher_icon">
@@ -19,7 +21,7 @@
         <meta-data android:name="flutterEmbedding" android:value="2"/>
     </application>
     <!-- Required to query activities that can process text, see:
-         https://developer.android.com/training/package="com.ideaz.FahadTutor">
+         https://developer.android.com/training/package="com.fahadtutors">
          https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
 
          In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
