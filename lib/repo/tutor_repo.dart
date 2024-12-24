@@ -6,6 +6,7 @@ import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/model/searchmodel.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
+import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/views/login/login.dart';
 import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/material.dart';
@@ -171,6 +172,138 @@ class TutorRepository {
 
   // String _preferred_popup_image = '';
   // String get preferred_popup_image => _preferred_popup_image;
+  // Tutor-specific properties
+
+  final ValueNotifier<String> _tuition_id = ValueNotifier<String>('');
+  ValueNotifier<String> get tuition_id => _tuition_id;
+
+  final ValueNotifier<String> _tuition_name = ValueNotifier<String>('');
+  ValueNotifier<String> get tuition_name => _tuition_name;
+
+  final ValueNotifier<String> _share_date = ValueNotifier<String>('');
+  ValueNotifier<String> get share_date => _share_date;
+
+  final ValueNotifier<String> _location = ValueNotifier<String>('');
+  ValueNotifier<String> get location => _location;
+
+  final ValueNotifier<String> _g_id = ValueNotifier<String>('');
+  ValueNotifier<String> get g_id => _g_id;
+
+  final ValueNotifier<String> _remark = ValueNotifier<String>('');
+  ValueNotifier<String> get remark => _remark;
+
+  final ValueNotifier<String> _placment = ValueNotifier<String>('');
+  ValueNotifier<String> get placment => _placment;
+
+  final ValueNotifier<String> _class_namee = ValueNotifier<String>('');
+  ValueNotifier<String> get class_namee => _class_namee;
+
+  final ValueNotifier<String> _subject_name = ValueNotifier<String>('');
+  ValueNotifier<String> get subject_name => _subject_name;
+
+  final ValueNotifier<String> _limit_statement = ValueNotifier<String>('');
+  ValueNotifier<String> get limit_statement => _limit_statement;
+
+  final ValueNotifier<int> _job_closed = ValueNotifier<int>(0);
+  ValueNotifier<int> get job_closed => _job_closed;
+
+  final ValueNotifier<int> _already = ValueNotifier<int>(0);
+  ValueNotifier<int> get already => _already;
+
+    final ValueNotifier<String> _msg = ValueNotifier<String>('');
+  ValueNotifier<String> get msg => _msg;
+
+  final ValueNotifier<int> _succes = ValueNotifier<int>(0);
+  ValueNotifier<int> get succes => _succes;
+
+  final ValueNotifier<int> _is_apply = ValueNotifier<int>(0);
+  ValueNotifier<int> get is_apply => _is_apply;
+ 
+ String formatInfo(String info) {
+    return info.replaceAll(';', '\n');
+  }
+
+    Future<void> getSingleTuitions(String reference) async {
+    _isLoading = true;
+    try {
+      String url =
+          '${Utils.baseUrl}mobile_app/single_tuition.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&tuition=$reference';
+      final response = await http.get(Uri.parse(url));
+      print('url $url');
+      print('refrence id $reference');
+
+      if (response.statusCode == 200) {
+        dynamic jsonResponse = jsonDecode(response.body);
+        var data = jsonResponse['tuition_listing'];
+        if (data.isNotEmpty) {
+            _tuition_id.value = data[0]['tuition_id'];
+            _tuition_name.value = data[0]['tuition_name'];
+            _share_date.value = data[0]['share_date'];
+            _location.value = data[0]['location'];
+            _g_id.value = data[0]['group_id'];
+            _remark.value = data[0]['remarks'];
+            _placment.value = data[0]['Placement'];
+            _class_namee.value = data[0]['class_name'];
+            _subject_name.value = data[0]['subject'];
+            _limit_statement.value = data[0]['limit_statement'];
+            _job_closed.value = data[0]['job_closed'];
+            _already.value = data[0]['already'];
+            _isLoading = false;
+            print(g_id);
+        } else {
+          print('Error: Empty tuition_listing');
+          _isLoading = false;
+        }
+      } else {
+        print('Error: ${response.statusCode}');
+        _isLoading = false;
+      }
+    } catch (e) {
+      print('Error: $e');
+      _isLoading = false;
+    }
+  }
+
+  Future<void> applyTuitions(BuildContext context, Function updateCardState) async {
+    _isLoading = true;
+
+    try {
+      String url =
+          '${Utils.baseUrl}mobile_app/apply_tuition.php?code=10&group_id=$g_id&tutor_id=${MySharedPrefrence().get_user_ID()}';
+      final response = await http.get(Uri.parse(url));
+      print('url $url');
+      print('group id $g_id');
+      print('tuition id $tuition_id');
+
+      if (response.statusCode == 200) {
+        dynamic jsonResponse = jsonDecode(response.body);
+        _msg.value = jsonResponse['message'];
+        _succes.value = jsonResponse['success'];
+        _is_apply.value = jsonResponse['is_applied '];
+        print('apply message $msg');
+        print('success $success');
+        print('apply $is_apply');
+        if(success == 0){
+          Navigator.pop(context);
+          reusableloadingApply(context, 'assets/images/error_lottie.json', msg.value, (){});
+          
+        }else{
+          Navigator.pop(context);
+          reusableloadingApply(context, 'assets/images/success_lottie.json', msg.value,(){});
+          Utils.snakbarSuccess(context, msg.value);
+          updateCardState();
+        }
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception(e);
+    } finally {
+        _isLoading = false;
+
+    }
+  }
 
   Future<void> fetchTuitions(int start, int limit) async {
     _isLoading = true;
@@ -415,7 +548,7 @@ class TutorRepository {
         print('popup msg ${MySharedPrefrence().get_popup_text()}');
       } else {
         print('Error: ${response.statusCode}');
-      }
+      } 
     } catch (e) {
       print('Error: $e');
       throw Exception(e);
@@ -601,13 +734,9 @@ class TutorRepository {
     }
   }
 
- 
-
- // Define the API URL
-  final String apiUrl = "https://fahadtutors.com/mobile_app/search_all_tuitions.php";
 
   // Function to fetch search results
-  Future<List<Tuition>> searchTuitions(String searchText) async {
+  Future<List<Tuition>> searchTuitions(String searchText,String apiUrl) async {
     final response = await http.get(
       Uri.parse('$apiUrl?searchtext=$searchText&code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
     );

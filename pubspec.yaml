@@ -63,6 +63,7 @@ dependencies:
   flutter_secure_storage: 
   shared_preferences:
   permission_handler: ^10.2.0 
+  provider: 
    
 
 dev_dependencies:

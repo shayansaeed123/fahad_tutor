@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
+import 'package:fahad_tutor/model/searchmodel.dart';
 import 'package:fahad_tutor/repo/tutor_repo.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
@@ -63,6 +64,27 @@ class _HomeState extends State<Home> {
       _fetchAndCheckPopup();
     });
   }
+
+  List<Tuition> searchResults = [];
+
+  // Fetch search results based on input
+  void searchTuitions(String query) async {
+    setState(() {
+        isLoading2 = true;
+      });
+      // Define the API URL
+  final String apiUrl = "${Utils.baseUrl}mobile_app/search_pereferred.php";
+  
+    final results = await repository.searchTuitions(query,apiUrl);
+    setState(() {
+      searchResults = results;
+    });
+    setState(() {
+        isLoading2 = false;
+      });
+  }
+
+
   Future<void> _fetchAndCheckPopup() async {
     await fetchInitialTuitions();
     if (mounted) {
@@ -89,21 +111,21 @@ class _HomeState extends State<Home> {
       isLoading2 = false;
     });
   }
-  Future<void> searchTuitions(String searchText) async {
-    String url =
-          '${Utils.baseUrl}mobile_app/search_pereferred.php?searchtext=$searchText&code=10&tutor_id=${MySharedPrefrence().get_user_ID()}';
-      final response = await http.get(Uri.parse(url));
+  // Future<void> searchTuitions(String searchText) async {
+  //   String url =
+  //         '${Utils.baseUrl}mobile_app/search_pereferred.php?searchtext=$searchText&code=10&tutor_id=${MySharedPrefrence().get_user_ID()}';
+  //     final response = await http.get(Uri.parse(url));
 
-    if (response.statusCode == 200) {
-      final jsonResponse = jsonDecode(response.body);
-      setState(() {
-        tuitions = jsonResponse['tuition_listing'];
-        filteredTuitions = tuitions;
-      }); // Assuming the JSON contains a key 'tuition_listing'
-    } else {
-      throw Exception('Failed to load tuitions');
-    }
-  }
+  //   if (response.statusCode == 200) {
+  //     final jsonResponse = jsonDecode(response.body);
+  //     setState(() {
+  //       tuitions = jsonResponse['tuition_listing'];
+  //       filteredTuitions = tuitions;
+  //     }); // Assuming the JSON contains a key 'tuition_listing'
+  //   } else {
+  //     throw Exception('Failed to load tuitions');
+  //   }
+  // }
 
   void filterTuitions(String query) {
     if (query.isEmpty) {
@@ -217,7 +239,7 @@ Widget build(BuildContext context) {
                   child: TextField(
                     controller: _searchCon,
                     onChanged: (value) {
-                   filterTuitions(value);
+                   searchTuitions(value);
                   },
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
@@ -226,7 +248,9 @@ Widget build(BuildContext context) {
                       fillColor: Colors.grey[350],
                       hintText: 'Search Tuitions',
                       prefixIcon: InkWell(
-                        onTap: (){filterTuitions(_searchCon.text);},
+                        onTap: (){
+                          // filterTuitions(_searchCon.text);
+                          },
                         child: Icon(Icons.search, color: Colors.grey[270],)),
                       hintStyle: TextStyle(color: Colors.grey[250]),
                       border: OutlineInputBorder(
@@ -251,6 +275,149 @@ Widget build(BuildContext context) {
                         setState(() {});
                         visible = false;},visible),
                         reusablaSizaBox(context, .025),
+                        _searchCon.text.isNotEmpty ?
+              StreamBuilder(
+                stream: connectivity.onConnectivityChanged,
+                builder: (context, snapshot) {
+                  // Check connectivity status
+          bool isConnected = snapshot.data != ConnectivityResult.none;
+          
+          // if (snapshot.connectionState == ConnectionState.waiting) {
+          //   return Center(child: reusableloadingrow(context, isLoading));
+          // }
+
+          if (!isConnected) {
+            return Center(
+              child: Image.asset('assets/images/no_internet.jpg',fit: BoxFit.cover,filterQuality: FilterQuality.high,)
+            );
+          }
+                  return 
+                  // checkConnection(
+                  //   snapshot,
+                   isLoading2 || widget.isLoading2
+                ? Center(child: reusableloadingrow(context, isLoading2||widget.isLoading2)):
+                    Expanded(
+                      child: ListView.builder(
+                        controller: _scrollController,
+                        itemCount: searchResults.length,
+                        itemBuilder: (context, index) {
+                          final searchTuition = searchResults[index]; 
+                          // if (index < filteredTuitions.length) {
+                          //   var data = filteredTuitions[index];
+                          //   MySharedPrefrence().setAllTuitions(data);
+                            
+                            return Container(
+                              height: MediaQuery.of(context).size.height * 0.23, //19 to 21
+                              child: InkWell(
+                                onTap: (){
+                                  // repository.group_id();
+                                            print('online check ${searchTuition.onlineTermsCheck}');
+                                            print('online check headng ${searchTuition.onlineTermsCheckHeading}');
+                                            print('online check text  ${searchTuition.onlineTermsCheckText}');
+                                            g_id = searchTuition.groupId;
+                                            tuition_id = searchTuition.tuitionId;
+                                            print('tuitions_id ${searchTuition.tuitionId}');
+                                            reusabletutorDetails(
+                                                context,formatInfo(searchTuition.remarks),
+                                                searchTuition.className,
+                                                searchTuition.tuitionName,
+                                                searchTuition.placement,
+                                                searchTuition.jobClosed,
+                                                searchTuition.subject,
+                                                searchTuition.shareDate,
+                                                searchTuition.location,
+                                                searchTuition.limitStatement,(){
+                                                  if(searchTuition.groupId == '0'){
+                                                    if(searchTuition.onlineTermsCheck==1){
+                                                      reusableMessagedialog(context, searchTuition.onlineTermsCheckHeading, formatInfo(searchTuition.onlineTermsCheckText), 'Agree', 'Disagree', (){
+                                                        applyTuitions(() {
+                                                          setState(() {
+                                                            searchTuition.already == 1;
+                                                          });
+                                                        });
+                                                        Navigator.pop(context);
+                                                      }, (){Navigator.pop(context);});
+                                                    }else{
+                                                        applyTuitions(() {
+                                                          setState(() {
+                                                            searchTuition.already == 1;
+                                                          });
+                                                        });
+                                                    }
+                                                  }else{
+                                                    reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm','Cancel', (){
+                                                      if(searchTuition.onlineTermsCheck==1){
+                                                      reusableMessagedialog(context, searchTuition.onlineTermsCheckHeading, formatInfo(searchTuition.onlineTermsCheckText), 'Agree', 'Disagree', (){
+                                                        applyTuitions(() {
+                                                          setState(() {
+                                                            searchTuition.already == 1;
+                                                          });
+                                                        });
+                                                        Navigator.pop(context);
+                                                      }, (){Navigator.pop(context);});
+                                                    }else{
+                                                        applyTuitions(() {
+                                                          setState(() {
+                                                            searchTuition.already == 1;
+                                                          });
+                                                        });
+                                                    }
+                                                    }, (){Navigator.pop(context);});
+                                                  }
+                                                },
+                                                searchTuition.groupId,
+                                                searchTuition.tuitionId,
+                                                searchTuition.already,() {
+                                                  setState(() {
+                                                    searchTuition.already == 1;
+                                                  });
+                                                }
+                                                    );
+                                                    setState(() {});
+                                                  print('groupppppppppppppppppppppppppp ${searchTuition.groupId}');
+                                                  repository.group_id(searchTuition.groupId);
+                                },
+                                child: Stack(
+                                  children: [
+                                    Positioned(
+                                      top: MediaQuery.of(context).size.height * 0.023,
+                                      left: MediaQuery.of(context).size.width * 0.001,
+                                      right: MediaQuery.of(context).size.width * .001,
+                                      
+                                          child: reusablecard(context,
+                                          searchTuition.tuitionName,
+                                         searchTuition.className,
+                                          searchTuition.shareDate,
+                                          searchTuition.location,
+                                          searchTuition.subject,
+                                          searchTuition.already,
+                                          )),
+                                    // ),
+                                    Positioned(
+                                        left: MediaQuery.of(context).size.width * 0.45,
+                                        top: MediaQuery.of(context).size.height * 0.005,
+                                        right: MediaQuery.of(context).size.width * .27,
+                                        
+                                            child: reusablecardbtn(
+                                                context,
+                                                '${searchTuition.placement}',
+                                                colorController.btnColor,
+                                                colorController.whiteColor)),
+                                                // ),
+                                    Positioned(
+                                        left: MediaQuery.of(context).size.width * 0.72,
+                                        top: MediaQuery.of(context).size.height * 0.005,
+                                        right: MediaQuery.of(context).size.width * .03,
+                                            child: reusablecardbtn(context, searchTuition.jobClosed == 0 ? 'Open' : 'Closed', searchTuition.jobClosed == 0 ? colorController.yellowColor : colorController.redColor, searchTuition.jobClosed == 0 ? colorController.blackColor : colorController.whiteColor))
+                                  ],
+                                ),
+                              ),
+                            );
+                        },
+                      ),
+                  );
+                },
+              ):
                         StreamBuilder(
                 stream: connectivity.onConnectivityChanged,
                 builder: (context, snapshot) {
