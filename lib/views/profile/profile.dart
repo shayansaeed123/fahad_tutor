@@ -42,7 +42,7 @@ class _ProfileState extends State<Profile> {
   final TutorRepository repository = TutorRepository();
   bool isLoading = false;
   bool isToggled = false;
-  int values =0;
+  int values = 0;
                 String formattedInfo = "";
   String formatInfo(String info) {
     return info.replaceAll(',', '\n');
