@@ -116,20 +116,10 @@ reusableSelectImage2(BuildContext context,Function ontap,String image){
         ? Center(child: imagePath == 'https://www.fahadtutors.com/fta_admin/' || imagePath == '' ? Image.asset(imgCondition,fit: BoxFit.contain,)
                 : Image.network(imagePath,fit: BoxFit.contain,)
                   )
-        // Image.network(
-        //     imagePath,
-        //     fit: BoxFit.cover,
-        //     errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-        //       return Image.asset(imgCondition, fit: BoxFit.cover);
-        //     },
-        //   )
         : imagePath == 'https://www.fahadtutors.com/fta_admin/' || imagePath == '' ?  Image.asset(imgCondition,fit: BoxFit.contain,)
         :
          Image.file(
             File(imagePath),
             fit: BoxFit.cover,
-            // errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-            //   return Image.asset(imgCondition, fit: BoxFit.cover);
-            // },
           );
   }
