@@ -33,12 +33,11 @@ reusablepopup(BuildContext context,String image)async{
                 right: 2,
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pop(); // Close the dialog
+                    Navigator.of(context).pop(); 
                   },
                   child: Container(
                     padding: EdgeInsets.all(5),
                     decoration: BoxDecoration(
-                      // color: Colors.white,
                       shape: BoxShape.circle,
                     ),
                     child: Image.asset('assets/images/remove.png',fit: BoxFit.contain,width: MediaQuery.of(context).size.width*0.08,)

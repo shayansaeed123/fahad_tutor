@@ -15,12 +15,11 @@ Widget reusablelisttile(BuildContext context,Function ontap,String image,title,{
     contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.01), // Adjust as needed
     tileColor: Colors.grey.shade100,
     shape: Border(bottom: BorderSide(color: colorController.blackColor,width: borderWidth)),
-    dense: true, // Decrease the height of the ListTile
+    dense: true, 
     minVerticalPadding: 0, 
     horizontalTitleGap: 2.0, 
     leading: Image.asset(image,fit: BoxFit.contain,height: MediaQuery.of(context).size.height * .025,),
     title: reusableText(title,fontsize: 13,color: colorController.blackColor),
-    // subtitle: Text('Subtitle'),
     trailing: widget,
   );
 }
