@@ -19,9 +19,6 @@ class ResetPassword extends StatefulWidget {
 }
 
 class _ResetPassordState extends State<ResetPassword> {
-  // final TextEditingController _oldPassController = TextEditingController();
-  // final TextEditingController _newPassController = TextEditingController();
-  // final TextEditingController _confirmPassController = TextEditingController();
   late FocusNode _oldPassfocusNode;
   late FocusNode _newPassfocusNode;
   late FocusNode _confirmPassfocusNode;
@@ -40,9 +37,7 @@ class _ResetPassordState extends State<ResetPassword> {
         reusabletextfieldcontroller.newPass.text.length >= 8 &&
         reusabletextfieldcontroller.conPass.text.length <= 15 
       ) {
-      // CheckUserContactExictOrNot();
       repository.resetPassword(context);
-      // Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));
     } else {
       Utils.snakbar(
         context,

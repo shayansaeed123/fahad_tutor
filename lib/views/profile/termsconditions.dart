@@ -41,7 +41,6 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
   }
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _imageUrl = widget.imageUrl;
     _btn = widget.btn;
