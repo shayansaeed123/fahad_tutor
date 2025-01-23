@@ -297,11 +297,6 @@ Future<void> saveQualificationData() async {
               subjectNames: List<String>.from(item['subject_name'].map((sname) => sname.toString())),
             );
           }).toList();
-
-          // MySharedPrefrence().set_city_id(jsonResponse['city_id']);
-          // MySharedPrefrence().set_update_status(jsonResponse['update_status']);
-
-          // Update the selected names
           updateSelectedNamesInstitute();
           updateSelectedNamesQualification();
           updateSelectedNamesBoard();
