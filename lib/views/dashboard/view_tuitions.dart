@@ -277,7 +277,6 @@ class ViewTuitions extends StatefulWidget {
 
 class _ViewTuitionsState extends State<ViewTuitions> {
   TutorRepository repository = TutorRepository();
-  // TextEditingController _searchCon = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   Connectivity connectivity = Connectivity();
 

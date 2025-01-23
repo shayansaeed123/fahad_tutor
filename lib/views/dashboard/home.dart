@@ -72,7 +72,6 @@ class _HomeState extends State<Home> {
     setState(() {
         isLoading2 = true;
       });
-      // Define the API URL
   final String apiUrl = "${Utils.baseUrl}mobile_app/search_pereferred.php";
   
     final results = await repository.searchTuitions(query,apiUrl);
@@ -157,9 +156,7 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> applyTuitions(Function updateCardState) async {
-    // setState(() {
-    //   isLoading2 = true;
-    // });
+    
     try {
       String url =
           '${Utils.baseUrl}mobile_app/apply_tuition.php?code=10&group_id=$g_id&tutor_id=${MySharedPrefrence().get_user_ID()}';
