@@ -129,7 +129,6 @@ class _LoginState extends State<Login> {
               print('message $apiMessage');
               MySharedPrefrence().setUserLoginStatus(true);
               MySharedPrefrence().set_user_ID(responseData['ID']);
-              // MySharedPrefrence().set_profile_img(responseData['profile_img']);
               setState(() {});
               MySharedPrefrence().set_tutor_name(responseData['teacher_name']);
               setState(() {});
