@@ -126,7 +126,6 @@ class _LoginState extends State<Login> {
               String apiMessage = responseData['message'];
               if (responseData['success'] == 1) {
                 setState(() {});
-                // await saveAccount(email, password); // Save account on successful login
               print('message $apiMessage');
               MySharedPrefrence().setUserLoginStatus(true);
               MySharedPrefrence().set_user_ID(responseData['ID']);
