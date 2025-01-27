@@ -43,6 +43,7 @@ class _NotificationsState extends State<Notifications> {
   String limit_statement = '';
   int job_closed = 0;
   int already = 0;
+  List<dynamic> tuitionData = [];
   TutorRepository repository = TutorRepository();
 
   @override
@@ -90,21 +91,21 @@ class _NotificationsState extends State<Notifications> {
 
       if (response.statusCode == 200) {
         dynamic jsonResponse = jsonDecode(response.body);
-        var data = jsonResponse['tuition_listing'];
-        if (data.isNotEmpty) {
+        tuitionData = jsonResponse['tuition_listing'];
+        if (tuitionData.isNotEmpty) {
           setState(() {
-            tuition_id = data[0]['tuition_id'];
-            tuition_name = data[0]['tuition_name'];
-            share_date = data[0]['share_date'];
-            location = data[0]['location'];
-            g_id = data[0]['group_id'];
-            remark = data[0]['remarks'];
-            placment = data[0]['Placement'];
-            class_name = data[0]['class_name'];
-            subject_name = data[0]['subject'];
-            limit_statement = data[0]['limit_statement'];
-            job_closed = data[0]['job_closed'];
-            already = data[0]['already'];
+            tuition_id = tuitionData[0]['tuition_id'];
+            tuition_name = tuitionData[0]['tuition_name'];
+            share_date = tuitionData[0]['share_date'];
+            location = tuitionData[0]['location'];
+            g_id = tuitionData[0]['group_id'];
+            remark = tuitionData[0]['remarks'];
+            placment = tuitionData[0]['Placement'];
+            class_name = tuitionData[0]['class_name'];
+            subject_name = tuitionData[0]['subject'];
+            limit_statement = tuitionData[0]['limit_statement'];
+            job_closed = tuitionData[0]['job_closed'];
+            already = tuitionData[0]['already'];
             isLoading2 = false;
             print(g_id);
           });
@@ -281,8 +282,74 @@ class _NotificationsState extends State<Notifications> {
                                   setState(() {
                                     refrence = reference;
                                   });
+                                  print(tuitionData);
                                   getSingleTuitions(reference).then((value) {
-                                    reusabletutorDetails(
+                                    if(tuitionData.isEmpty){
+                                      showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      backgroundColor: colorController.whiteColor,
+      content: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * .2,
+        child: Image.asset('assets/images/closed.png',fit: BoxFit.contain,)
+        // SingleChildScrollView(
+        //   scrollDirection: Axis.vertical,
+        //   child: Column(
+        //     crossAxisAlignment: CrossAxisAlignment.start,
+        //     children: [
+        //       // Padding(
+        //       //   padding: const EdgeInsets.all(0.8),
+        //       //   child: reusableText(
+        //       //     text,
+        //       //     color: colorController.grayTextColor,
+        //       //     fontsize: 12,
+        //       //   ),
+        //       // ),
+        //       Image.asset('assets/images/closed.png',fit: BoxFit.cover,)
+        //     ],
+        //   ),
+        // ),
+      ),
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Image.asset(
+                'assets/images/remove.png',
+                height: MediaQuery.of(context).size.height * .05,
+                width: MediaQuery.of(context).size.width * .1,
+              ),
+            ),
+            // Container(
+            //   height: MediaQuery.of(context).size.height * .05,
+            //   width: MediaQuery.of(context).size.width * .1,
+            //   child: CircleAvatar(
+            //     backgroundColor: colorController.btnColor,
+            //     child: InkWell(
+            //       onTap: () {
+            //         ontap();
+            //       },
+            //       child: Center(
+            //           child: Icon(
+            //         CupertinoIcons.arrow_right,
+            //         color: colorController.whiteColor,
+            //       )),
+            //     ),
+            //   ),
+            // ),
+          ],
+        ),
+        reusablaSizaBox(context, .01)
+      ],
+    ),
+  );
+                                    }else{
+                                      reusabletutorDetails(
                                         context,
                                         formatInfo(remark),
                                         class_name,
@@ -341,8 +408,10 @@ class _NotificationsState extends State<Notifications> {
                                                   data['already'] = 1;
                                                 });
                                               });
+                                    }
                                     setState(() {});
-                                  });
+                                  }
+                                  );
                                 },
                                 child: Image.asset(
                                   'assets/images/view.png',
