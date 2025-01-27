@@ -293,23 +293,6 @@ class _NotificationsState extends State<Notifications> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height * .2,
         child: Image.asset('assets/images/closed.png',fit: BoxFit.contain,)
-        // SingleChildScrollView(
-        //   scrollDirection: Axis.vertical,
-        //   child: Column(
-        //     crossAxisAlignment: CrossAxisAlignment.start,
-        //     children: [
-        //       // Padding(
-        //       //   padding: const EdgeInsets.all(0.8),
-        //       //   child: reusableText(
-        //       //     text,
-        //       //     color: colorController.grayTextColor,
-        //       //     fontsize: 12,
-        //       //   ),
-        //       // ),
-        //       Image.asset('assets/images/closed.png',fit: BoxFit.cover,)
-        //     ],
-        //   ),
-        // ),
       ),
       actions: [
         Row(
@@ -325,23 +308,6 @@ class _NotificationsState extends State<Notifications> {
                 width: MediaQuery.of(context).size.width * .1,
               ),
             ),
-            // Container(
-            //   height: MediaQuery.of(context).size.height * .05,
-            //   width: MediaQuery.of(context).size.width * .1,
-            //   child: CircleAvatar(
-            //     backgroundColor: colorController.btnColor,
-            //     child: InkWell(
-            //       onTap: () {
-            //         ontap();
-            //       },
-            //       child: Center(
-            //           child: Icon(
-            //         CupertinoIcons.arrow_right,
-            //         color: colorController.whiteColor,
-            //       )),
-            //     ),
-            //   ),
-            // ),
           ],
         ),
         reusablaSizaBox(context, .01)
