@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 reusableappbar(BuildContext context, Color color, Function ontap,
     ValueListenable<Object?> profileimg, Function notificationtap) {
@@ -29,8 +30,13 @@ reusableappbar(BuildContext context, Color color, Function ontap,
             borderRadius: BorderRadius.circular(16.0),
           ),
           child: Center(
-              child: reusableText('Earn Referral Commision',
-                  fontweight: FontWeight.bold)),
+              child: InkWell(
+                onTap: (){
+        launch('https://fahadtutors.com/Referral.php');
+      },
+                child: reusableText('Earn Referral Commision',
+                    fontweight: FontWeight.bold),
+              )),
         ),
       ],
     ),
