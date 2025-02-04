@@ -188,7 +188,7 @@ void updateTutorPlacement() {
   try {
     final bio = _biography.text.toString();
     final response = await http.post(
-      Uri.parse('${Utils.baseUrl}mobile_app/step_3_update.php'),
+      Uri.parse('${Utils.baseUrl}step_3_update.php'),
       body: {
         'code': '10',
         'success' : 1.toString(),
@@ -249,7 +249,7 @@ Future<void> getAddtionalInfo() async {
     final userId = MySharedPrefrence().get_user_ID().toString();
     print('Fetching data for user ID: $userId');
     final response = await http.get(
-      Uri.parse('${Utils.baseUrl}mobile_app/step_3.php?code=10&tutor_id=$userId')
+      Uri.parse('${Utils.baseUrl}step_3.php?code=10&tutor_id=$userId')
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
@@ -325,7 +325,7 @@ Future<void> getAddtionalInfo() async {
 //     final userId = MySharedPrefrence().get_user_ID().toString();
 //     print('Fetching data for user ID: $userId');
 //     final response = await http.get(
-//       Uri.parse('${Utils.baseUrl}mobile_app/step_3.php?code=10&tutor_id=$userId')
+//       Uri.parse('${Utils.baseUrl}step_3.php?code=10&tutor_id=$userId')
 //     );
 //     if (response.statusCode == 200) {
 //       final Map<String, dynamic> responseData = json.decode(response.body);

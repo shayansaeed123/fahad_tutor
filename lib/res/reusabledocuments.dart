@@ -14,7 +14,15 @@ reusableDocuments(BuildContext context,String add1,String add2,String add3, Stri
     Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        reusableText(title1, fontsize: 20,color: colorController.blackColor,fontweight: FontWeight.bold),
+        Text(title1,
+      style: TextStyle(
+        color: colorController.blackColor,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        fontFamily: 'tutorPhi'
+        
+      ),),
+        // reusableText(title1, fontsize: 20,color: colorController.blackColor,fontweight: FontWeight.bold),
         reusablaSizaBox(context, .030),
         DottedBorder(
           color: colorController.blackColor,

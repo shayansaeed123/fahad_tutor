@@ -111,7 +111,7 @@ class _LoginState extends State<Login> {
       // final email = reusabletextfieldcontroller.emailCon.text.toString();
       //   final password = reusabletextfieldcontroller.loginPassCon.text.toString();
       final response = await http.post(
-      Uri.parse('${Utils.baseUrl}mobile_app/login.php'),
+      Uri.parse('${Utils.baseUrl}login.php'),
       body: {
         'cell_access_token': MySharedPrefrence().get_cell_token().toString(),
         'deviceid': '1'.toString(),
@@ -182,7 +182,7 @@ class _LoginState extends State<Login> {
   //   });
   //   try{
   //     final response = await http.get(
-  //     Uri.parse('${Utils.baseUrl}mobile_app/step_1.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
+  //     Uri.parse('${Utils.baseUrl}step_1.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
   //   );
   //   if (response.statusCode == 200) {
   //             final Map<String, dynamic> responseData =

@@ -127,6 +127,44 @@ class _AccountDetailsState extends State<AccountDetails> {
     }
   }
 
+  void _validateForm() {
+     if (
+      reusabletextfieldcontroller.title.text.isNotEmpty && 
+      reusabletextfieldcontroller.bankname.text.isNotEmpty && 
+      reusabletextfieldcontroller.branchcode.text.isNotEmpty && 
+      reusabletextfieldcontroller.accountnumber.text.isNotEmpty && 
+      reusabletextfieldcontroller.ibannumber.text.isNotEmpty && 
+      reusabletextfieldcontroller.mobilenumber.text.isNotEmpty && 
+      methodValue.isNotEmpty && 
+      reusabletextfieldcontroller.accounttitle.text.isNotEmpty
+      
+
+                        ) {
+                  updateAccountDetails();
+                } else {
+                  Utils.snakbar(
+                    context,
+                    reusabletextfieldcontroller.title.text.isEmpty
+                        ? "Title Is Missing"
+                        : reusabletextfieldcontroller.bankname.text.isEmpty
+                            ? "Bank Name Is Missing" :
+                            reusabletextfieldcontroller.branchcode.text.isEmpty
+                            ? "Branch Code Is Missing" :
+                            reusabletextfieldcontroller.accountnumber.text.isEmpty
+                            ? "Account Number Is Missing" :
+                            reusabletextfieldcontroller.ibannumber.text.isEmpty
+                            ? "IBAN Number Is Missing" :
+                            reusabletextfieldcontroller.mobilenumber.text.isEmpty
+                            ? "Mobile Number Is Missing" :
+                            methodValue.isEmpty
+                            ? "Payment Method Is Missing" :
+                            reusabletextfieldcontroller.accounttitle.text.isEmpty
+                            ? "Account Title Is Missing" :
+                             "Fill Correct Fields",
+                  );
+                }
+  }
+
   Future<void> updateAccountDetails()async{
     setState(() {
       isLoading = true;
@@ -134,7 +172,7 @@ class _AccountDetailsState extends State<AccountDetails> {
     try{
       
       final response = await http.post(
-      Uri.parse('${Utils.baseUrl}mobile_app/step_6_update.php'),
+      Uri.parse('${Utils.baseUrl}step_6_update.php'),
       body: {
         'code' : '10'.toString(),
         'tutor_id' : MySharedPrefrence().get_user_ID().toString(),
@@ -184,7 +222,7 @@ class _AccountDetailsState extends State<AccountDetails> {
     final userId = MySharedPrefrence().get_user_ID().toString();
     print('Fetching data for user ID: $userId');
     final response = await http.get(
-      Uri.parse('${Utils.baseUrl}mobile_app/step_6.php?code=10&tutor_id=$userId')
+      Uri.parse('${Utils.baseUrl}step_6.php?code=10&tutor_id=$userId')
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
@@ -338,7 +376,7 @@ class _AccountDetailsState extends State<AccountDetails> {
                     reusablaSizaBox(context, 0.020),
                            Padding(
                              padding: EdgeInsets.all(MediaQuery.of(context).size.width * .10),
-                             child: reusableBtn(context, 'Update', (){updateAccountDetails();}),
+                             child: reusableBtn(context, 'Update', (){_validateForm();}),
                            ),
                             
                     ],

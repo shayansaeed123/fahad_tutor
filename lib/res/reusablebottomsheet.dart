@@ -33,6 +33,7 @@ reuablebottomsheet(BuildContext context, String title, Function gallaryontap,
                   color: colorController.btnColor,
                   fontWeight: FontWeight.bold,
                   fontSize: 22,
+                  fontFamily: 'tutorPhi'
                 )),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,

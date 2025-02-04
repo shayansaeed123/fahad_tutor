@@ -53,7 +53,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
      _isLoading = true;
     try {
       String url =
-          '${Utils.baseUrl}mobile_app/check_popup.php?$_term=1&tutor_id=${MySharedPrefrence().get_user_ID()}';
+          '${Utils.baseUrl}check_popup.php?$_term=1&tutor_id=${MySharedPrefrence().get_user_ID()}';
       final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {

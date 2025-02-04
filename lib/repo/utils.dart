@@ -8,7 +8,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Utils {
-  static const String baseUrl = 'https://fahadtutors.com/';
+  static const String baseUrl = 'https://fahadtutor.com/mobile_app/';
 
   static void fieldFocusChange(
       BuildContext context, FocusNode current, FocusNode nextFocus) {

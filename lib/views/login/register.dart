@@ -381,7 +381,7 @@ void updateTutorPlacement() {
     try {
       
       final response = await http.get(
-        Uri.parse('${Utils.baseUrl}mobile_app/country.php?code=10'),
+        Uri.parse('${Utils.baseUrl}country.php?code=10'),
       );
       if (response.statusCode == 200) {
         if (response.body.isNotEmpty) {
@@ -421,7 +421,7 @@ void updateTutorPlacement() {
     });
     try {
       final response = await http.post(
-          Uri.parse('${Utils.baseUrl}mobile_app/city.php'),
+          Uri.parse('${Utils.baseUrl}city.php'),
           body: {
             'code': '10',
             'country_id': countryId.toString(),
@@ -464,7 +464,7 @@ void updateTutorPlacement() {
     });
     try {
       final response = await http.post(
-          Uri.parse('${Utils.baseUrl}mobile_app/area.php'),
+          Uri.parse('${Utils.baseUrl}area.php'),
           body: {
             'code': '10',
             'city_id': MySharedPrefrence().get_city_id().toString(),
@@ -508,7 +508,8 @@ void updateTutorPlacement() {
     });
     try {
       final response = await http.post(
-          Uri.parse('https://fahadtutors.com/mobile_app/acoount_check.php'),
+          // Uri.parse('https://fahadtutors.com/acoount_check.php'),
+          Uri.parse('${Utils.baseUrl}acoount_check.php'),
           body: {
             'contact_number':reusabletextfieldcontroller.contactCon.text.toString(),
             'cnic': reusabletextfieldcontroller.cnicCon.text.toString(),
@@ -573,7 +574,7 @@ void updateTutorPlacement() {
       print('check email ${MySharedPrefrence().get_user_email()}');
       print('bio ${bio.toString()}');
       final response = await http.post(
-          Uri.parse('${Utils.baseUrl}mobile_app/sign_up.php'),
+          Uri.parse('${Utils.baseUrl}sign_up.php'),
           body: {
             'contact_number':reusabletextfieldcontroller.contactCon.text.toString(),
             'cnic': reusabletextfieldcontroller.cnicCon.text.toString(),
@@ -643,7 +644,7 @@ void updateTutorPlacement() {
   //     // final email = reusabletextfieldcontroller.emailCon.text.toString();
   //     //   final password = reusabletextfieldcontroller.loginPassCon.text.toString();
   //     final response = await http.post(
-  //     Uri.parse('${Utils.baseUrl}mobile_app/login.php'),
+  //     Uri.parse('${Utils.baseUrl}login.php'),
   //     body: {
   //       'cell_access_token': MySharedPrefrence().get_cell_token().toString(),
   //       'deviceid': '1'.toString(),
@@ -794,7 +795,10 @@ void updateTutorPlacement() {
                                     // Border radius
                                   ),
                                   child: 
-                                  DropdownSearch<dynamic>(
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: DropdownSearch<dynamic>(
                                     popupProps: PopupPropsMultiSelection.dialog(
                                       fit: FlexFit.loose,
                                       showSearchBox: true,
@@ -808,7 +812,7 @@ void updateTutorPlacement() {
                                           hintText: 'Search Country',
                                           hintStyle: TextStyle(fontSize:  11.5),
                                           fillColor: colorController.whiteColor,
-                                          contentPadding: EdgeInsets.symmetric(
+                                          contentPadding:  EdgeInsets.symmetric(
                                             horizontal: 16, vertical: 0.0),
                                           border: OutlineInputBorder(
                                             borderRadius:
@@ -823,6 +827,7 @@ void updateTutorPlacement() {
                                         hintText: 'Select Country',
                                         hintStyle: TextStyle(fontSize:  11.5),
                                         border: InputBorder.none,
+                                        contentPadding: EdgeInsets.only(left: MediaQuery.sizeOf(context).width * 0.02,right: MediaQuery.sizeOf(context).width * 0.02,top: MediaQuery.sizeOf(context).height * 0.013),
                                         // contentPadding: EdgeInsets.symmetric(
                                         //     horizontal: 16, vertical: 8),
                                       ),
@@ -841,82 +846,166 @@ void updateTutorPlacement() {
                                     },
                                     selectedItem: countryLists,
                                   ),
+                                      ),
+                                      // Additional Icons to the right
+          InkWell(
+            onTap: (){
+              setState(() {
+                selectCountry();
+              });
+            },
+            child: Icon(Icons.sync)),
+                                    ],
+                                  )
                                 ),
                                 reusablaSizaBox(context, .015),
                                 AbsorbPointer(
-                                  absorbing: !isCityDropdownEnabled,
-                                  child: Opacity(
-                                    opacity: isCityDropdownEnabled ? 1.0 : 0.5,
-                                    child: Container(
-                                      padding: EdgeInsets.only(
-                                          left: MediaQuery.of(context).size.width *
-                                              .01),
-                                      width: MediaQuery.of(context).size.width,
-                                      // height:
-                                      //     MediaQuery.of(context).size.height * .055,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors.grey,
-                                            width: 1.5), // Border color
-                                        borderRadius: BorderRadius.circular(
-                                            10.0), // Border radius
-                                      ),
-                                      child: DropdownSearch<dynamic>(
-                                        popupProps: PopupPropsMultiSelection.dialog(
-                                          fit: FlexFit.loose,
-                                          showSearchBox: true,
-                                          dialogProps: DialogProps(
-                                            backgroundColor:
-                                                colorController.whiteColor,
-                                            elevation: 10,
-                                          ),
-                                          searchFieldProps: TextFieldProps(
-                                            decoration: InputDecoration(
-                                              hintText: 'Search City',
-                                              hintStyle: TextStyle(fontSize:  11.5),
-                                              fillColor: colorController.whiteColor,
-                                              contentPadding: EdgeInsets.symmetric(
-                                                horizontal: 16, vertical: 0.0),
-                                              border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(11),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        dropdownDecoratorProps:
-                                            DropDownDecoratorProps(
-                                          dropdownSearchDecoration: InputDecoration(
-                                            hintText: 'Select City',
-                                            hintStyle: TextStyle(fontSize:  11.5),
-                                            border: InputBorder.none,
-                                            // contentPadding: EdgeInsets.symmetric(
-                                            //     horizontal: 16, vertical: 8),
-                                          ),
-                                        ),
-                                        items: cityList,
-                                        itemAsString: (dynamic city) =>
-                                            city['c_name'].toString(),
-                                        onChanged: isCityDropdownEnabled
-                                            ? (dynamic newValue) {
-                                                setState(() {
-                                                  cityLists = newValue;
-                                                  // cityId = newValue['c_id'].toString();
-                                                  MySharedPrefrence().set_city_id(newValue['c_id'].toString());
-                                                  isAreaDropdownEnabled = true;
-                                                });
-                                                print(
-                                                    'Selected city ID: ${newValue['c_id']}');
-                                                print(
-                                                    'Selected city Name: ${newValue['c_name']}');
-                                                selectArea();
-                                              }
-                                            : null,
-                                        selectedItem: cityLists,
-                                      ),
-                                    ),
-                                  ),
-                                ),
+  absorbing: !isCityDropdownEnabled,
+  child: Opacity(
+    opacity: isCityDropdownEnabled ? 1.0 : 0.5,
+    child: Container(
+      padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.01),
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey, width: 1.5),
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Row(
+        children: [
+          // Expanded to ensure DropdownSearch takes full width
+          Expanded(
+            child: DropdownSearch<dynamic>(
+              popupProps: PopupPropsMultiSelection.dialog(
+                fit: FlexFit.loose,
+                showSearchBox: true,
+                dialogProps: DialogProps(
+                  backgroundColor: colorController.whiteColor,
+                  elevation: 10,
+                ),
+                searchFieldProps: TextFieldProps(
+                  decoration: InputDecoration(
+                    hintText: 'Search City',
+                    hintStyle: TextStyle(fontSize: 11.5),
+                    fillColor: colorController.whiteColor,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 0.0),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(11)),
+                  ),
+                ),
+              ),
+              dropdownDecoratorProps: DropDownDecoratorProps(
+                dropdownSearchDecoration: InputDecoration(
+                  hintText: 'Select City',
+                  hintStyle: TextStyle(fontSize: 11.5),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.only(left: MediaQuery.sizeOf(context).width * 0.02,right: MediaQuery.sizeOf(context).width * 0.02,top: MediaQuery.sizeOf(context).height * 0.013),
+                ),
+              ),
+              items: cityList,
+              itemAsString: (dynamic city) => city['c_name'].toString(),
+              onChanged: isCityDropdownEnabled
+                  ? (dynamic newValue) {
+                      setState(() {
+                        cityLists = newValue;
+                        MySharedPrefrence().set_city_id(newValue['c_id'].toString());
+                        isAreaDropdownEnabled = true;
+                      });
+                      print('Selected city ID: ${newValue['c_id']}');
+                      print('Selected city Name: ${newValue['c_name']}');
+                      selectArea();
+                    }
+                  : null,
+              selectedItem: cityLists,
+            ),
+          ),
+          // Additional Icons to the right
+          InkWell(
+            onTap: (){
+              setState(() {
+                selectCity();
+              });
+            },
+            child: Icon(Icons.sync, )),
+        ],
+      ),
+    ),
+  ),
+),
+
+                                // AbsorbPointer(
+                                //   absorbing: !isCityDropdownEnabled,
+                                //   child: Opacity(
+                                //     opacity: isCityDropdownEnabled ? 1.0 : 0.5,
+                                //     child: Container(
+                                //       padding: EdgeInsets.only(
+                                //           left: MediaQuery.of(context).size.width *
+                                //               .01),
+                                //       width: MediaQuery.of(context).size.width,
+                                //       // height:
+                                //       //     MediaQuery.of(context).size.height * .055,
+                                //       decoration: BoxDecoration(
+                                //         border: Border.all(
+                                //             color: Colors.grey,
+                                //             width: 1.5), // Border color
+                                //         borderRadius: BorderRadius.circular(
+                                //             10.0), // Border radius
+                                //       ),
+                                //       child: DropdownSearch<dynamic>(
+                                //         popupProps: PopupPropsMultiSelection.dialog(
+                                //           fit: FlexFit.loose,
+                                //           showSearchBox: true,
+                                //           dialogProps: DialogProps(
+                                //             backgroundColor:
+                                //                 colorController.whiteColor,
+                                //             elevation: 10,
+                                //           ),
+                                //           searchFieldProps: TextFieldProps(
+                                //             decoration: InputDecoration(
+                                //               hintText: 'Search City',
+                                //               hintStyle: TextStyle(fontSize:  11.5),
+                                //               fillColor: colorController.whiteColor,
+                                //               contentPadding: EdgeInsets.symmetric(
+                                //                 horizontal: 16, vertical: 0.0),
+                                //               border: OutlineInputBorder(
+                                //                 borderRadius:
+                                //                     BorderRadius.circular(11),
+                                //               ),
+                                //             ),
+                                //           ),
+                                //         ),
+                                //         dropdownDecoratorProps:
+                                //             DropDownDecoratorProps(
+                                //           dropdownSearchDecoration: InputDecoration(
+                                //             hintText: 'Select City',
+                                //             hintStyle: TextStyle(fontSize:  11.5),
+                                //             border: InputBorder.none,
+                                //             suffixIcon: Icon(Icons.access_alarm)
+                                //             // contentPadding: EdgeInsets.symmetric(
+                                //             //     horizontal: 16, vertical: 8),
+                                //           ),
+                                //         ),
+                                //         items: cityList,
+                                //         itemAsString: (dynamic city) =>
+                                //             city['c_name'].toString(),
+                                //         onChanged: isCityDropdownEnabled
+                                //             ? (dynamic newValue) {
+                                //                 setState(() {
+                                //                   cityLists = newValue;
+                                //                   // cityId = newValue['c_id'].toString();
+                                //                   MySharedPrefrence().set_city_id(newValue['c_id'].toString());
+                                //                   isAreaDropdownEnabled = true;
+                                //                 });
+                                //                 print(
+                                //                     'Selected city ID: ${newValue['c_id']}');
+                                //                 print(
+                                //                     'Selected city Name: ${newValue['c_name']}');
+                                //                 selectArea();
+                                //               }
+                                //             : null,
+                                //         selectedItem: cityLists,
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
                                 reusablaSizaBox(context, .015),
                                 reusableTextField(
                                   context,
@@ -1109,7 +1198,10 @@ void updateTutorPlacement() {
                                             10.0), // Border radius
                                       ),
                                     
-                                      child: DropdownSearch<dynamic>(
+                                      child: 
+                                      Row(
+                                        children: [
+                                          Expanded(child: DropdownSearch<dynamic>(
                                         popupProps: PopupPropsMultiSelection.dialog(
                                           fit: FlexFit.loose,
                                           showSearchBox: true,
@@ -1137,6 +1229,7 @@ void updateTutorPlacement() {
                                             hintText: 'Select Area',
                                             hintStyle: TextStyle(fontSize: 11.5),
                                             border: InputBorder.none,
+                                            contentPadding: EdgeInsets.only(left: MediaQuery.sizeOf(context).width * 0.02,right: MediaQuery.sizeOf(context).width * 0.02,top: MediaQuery.sizeOf(context).height * 0.013),
                                             // contentPadding: EdgeInsets.symmetric(
                                             //     horizontal: 16, vertical: 8),
                                           ),
@@ -1158,7 +1251,17 @@ void updateTutorPlacement() {
                                               }
                                             : null,
                                         selectedItem: areaLists,
-                                         ),
+                                         ),),
+                                          InkWell(
+            onTap: (){
+              setState(() {
+                selectArea();
+              });
+            },
+            child: Icon(Icons.sync, )),
+                                        ],
+                                      )
+                                      
                                     ),
                                   ),
                                 ),

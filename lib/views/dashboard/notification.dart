@@ -84,7 +84,7 @@ class _NotificationsState extends State<Notifications> {
 
     try {
       String url =
-          '${Utils.baseUrl}mobile_app/single_tuition.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&tuition=$reference';
+          '${Utils.baseUrl}single_tuition.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&tuition=$reference';
       final response = await http.get(Uri.parse(url));
       print('url $url');
       print('refrence id $reference');
@@ -155,7 +155,7 @@ class _NotificationsState extends State<Notifications> {
 
     try {
       String url =
-          '${Utils.baseUrl}mobile_app/apply_tuition.php?code=10&group_id=$g_id&tutor_id=${MySharedPrefrence().get_user_ID()}';
+          '${Utils.baseUrl}apply_tuition.php?code=10&group_id=$g_id&tutor_id=${MySharedPrefrence().get_user_ID()}';
       final response = await http.get(Uri.parse(url));
       print('url $url');
       print('group id $g_id');

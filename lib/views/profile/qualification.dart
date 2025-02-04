@@ -31,7 +31,7 @@ class _QualificationAndPreferencesState extends State<QualificationAndPreference
   bool visible = true;
   TutorRepository repository = TutorRepository();
 
-  List<dynamic> newItemsTime = [];
+List<dynamic> newItemsTime = [];
 List<Map<String, String>> selectedIdsTime = [];
 List<String> selectedNamesTime = [];
 
@@ -187,7 +187,7 @@ String classListJson = jsonEncode(classList);
       };
       print('list class $classListJson');
       final response = await http.post(
-        Uri.parse('${Utils.baseUrl}mobile_app/step_2_update.php'),
+        Uri.parse('${Utils.baseUrl}step_2_update.php'),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
@@ -220,7 +220,7 @@ String classListJson = jsonEncode(classList);
   Future<void> saveAreaData() async {
   try {
     final response = await http.get(
-      Uri.parse('${Utils.baseUrl}mobile_app/step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
+      Uri.parse('${Utils.baseUrl}step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
     );
 
     if (response.statusCode == 200) {
@@ -246,7 +246,7 @@ String classListJson = jsonEncode(classList);
 Future<void> saveQualificationData() async {
   try {
     final response = await http.get(
-      Uri.parse('${Utils.baseUrl}mobile_app/step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
+      Uri.parse('${Utils.baseUrl}step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
     );
 
     if (response.statusCode == 200) {
@@ -322,7 +322,7 @@ Future<void> saveQualificationData() async {
       isLoading = true;
     });
     try {
-      String url = '${Utils.baseUrl}mobile_app/all_in.php?$type=1';
+      String url = '${Utils.baseUrl}all_in.php?$type=1';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 
@@ -358,7 +358,7 @@ Future<void> saveQualificationData() async {
       isLoading = true;
     });
     try {
-      String url = '${Utils.baseUrl}mobile_app/all_in.php?$type=1';
+      String url = '${Utils.baseUrl}all_in.php?$type=1';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 
@@ -414,7 +414,7 @@ Future<void> saveQualificationData() async {
 
 //   try {
 //     final response = await http.get(
-//       Uri.parse('${Utils.baseUrl}mobile_app/step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
+//       Uri.parse('${Utils.baseUrl}step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
 //     );
 //     print(MySharedPrefrence().get_user_ID());
 //     if (response.statusCode == 200) {
@@ -482,7 +482,7 @@ Future<void> selectArea() async {
     try {
       print('heell ${MySharedPrefrence().get_city_id()}');
       final response = await http.post(
-          Uri.parse('${Utils.baseUrl}mobile_app/area.php'),
+          Uri.parse('${Utils.baseUrl}area.php'),
           body: {
             'code': '10',
             'city_id': MySharedPrefrence().get_city_id(),
@@ -510,14 +510,14 @@ Future<void> selectArea() async {
     }
   }
 
-void updateSelectedNamesInstitute() {
+  void updateSelectedNamesInstitute() {
   selectedNamesinstitute = selectedIdsinstitute.map((selected) {
     return (newItemsinstitute.firstWhere(
       (item) => item['id'] == selected['id'],
       orElse: () => {'names': 'Unknown'},
     )['names'] as String);
   }).toList();
-}
+  }
 
 void updateSelectedNamesQualification() {
   selectedNamesQualification = selectedIdsQualification.map((selected) {
@@ -1580,7 +1580,15 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                 children: [
                   InkWell(
                     onTap: (){},
-                    child: reusableText("Qualification and \nPreferences", color: colorController.blackColor, fontsize: 25, fontweight: FontWeight.bold)),
+                    child: Text("Qualification and \nPreferences",
+      style: TextStyle(
+        color: colorController.blackColor,
+        fontSize: 25,
+        fontWeight: FontWeight.bold,
+        fontFamily: 'tutorPhi'
+        
+      ),)),
+      
                   reusablaSizaBox(context, 0.020),
                   ValueListenableBuilder(valueListenable: repository.popup, builder: (context, value, child) {
               if(value == 1){

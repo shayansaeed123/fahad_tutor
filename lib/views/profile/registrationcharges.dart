@@ -97,7 +97,8 @@ Future<void> _uploadImages() async {
       isLoading = true;
     });
     try{
-      String uploadUrl = 'https://fahadtutors.com/mobile_app/upload_doc_5.php';
+      // String uploadUrl = 'https://fahadtutors.com/upload_doc_5.php';
+      String uploadUrl = '${Utils.baseUrl}upload_doc_5.php';
     var request = http.MultipartRequest('POST', Uri.parse(uploadUrl));
         if (_chargesSlip != null) {
           request.files.add(await http.MultipartFile.fromPath('Registration', _chargesSlip!.path));
@@ -125,13 +126,27 @@ Future<void> _uploadImages() async {
     }
   }
 
+  void _validateForm() {
+  if (_chargesSlip != null &&
+      _chargesSlip!.path.isNotEmpty) {
+    _uploadData();
+  } else {
+    Utils.snakbar(
+      context,
+      _chargesSlip == null || _chargesSlip!.path.isEmpty
+          ? "Select Image"
+                      : "Fill Correct Fields",
+    );
+  }
+}
+
   Future<void> _uploadData() async {
     setState(() {
       isLoading = true;
     });
     try {
       final response = await http.post(
-          Uri.parse('${Utils.baseUrl}mobile_app/step_5_update.php'),
+          Uri.parse('${Utils.baseUrl}step_5_update.php'),
           body: {
         'code': '10',
         'update_status': '4',
@@ -231,7 +246,7 @@ Future<void> _uploadImages() async {
               padding: EdgeInsets.all(MediaQuery.of(context).size.width * .16),
               child: reusableBtn(context, 'Update', (){
                 setState(() {});
-                _uploadData();
+                _validateForm();
               }),
             )
                 ],

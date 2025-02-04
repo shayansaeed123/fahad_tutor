@@ -56,7 +56,7 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
 
   //   try {
   //     String url =
-  //         '${Utils.baseUrl}mobile_app/get_ducoments.php?code=10&tutors_ids=${MySharedPrefrence().get_user_ID()}';
+  //         '${Utils.baseUrl}get_ducoments.php?code=10&tutors_ids=${MySharedPrefrence().get_user_ID()}';
   //     final response = await http.get(Uri.parse(url));
   //     print('url $url');
 
@@ -172,7 +172,8 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
     });
 
     try{
-      String uploadUrl = 'https://fahadtutors.com/mobile_app/upload_doc_4.php';
+      // String uploadUrl = 'https://fahadtutors.com/upload_doc_4.php';
+      String uploadUrl = '${Utils.baseUrl}upload_doc_4.php';
     var request = http.MultipartRequest('POST', Uri.parse(uploadUrl));
 
     switch (imageType) {
@@ -260,13 +261,40 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
     }
   }
 
+  void _validateForm() {
+  if (_profile != null &&
+      _cnicFront != null &&
+      _cnicBack != null &&
+      _last_document != null &&
+      _profile!.path.isNotEmpty &&
+      _cnicFront!.path.isNotEmpty &&
+      _cnicBack!.path.isNotEmpty &&
+      _last_document!.path.isNotEmpty) {
+    _uploadData();
+  } else {
+    Utils.snakbar(
+      context,
+      _profile == null || _profile!.path.isEmpty
+          ? "Select Profile Image"
+          : _cnicFront == null || _cnicFront!.path.isEmpty
+              ? "Select CNIC FRONT Image"
+              : _cnicBack == null || _cnicBack!.path.isEmpty
+                  ? "Select CNIC BACK Image"
+                  : _last_document == null || _last_document!.path.isEmpty
+                      ? "Select Last Document Image"
+                      : "Fill Correct Fields",
+    );
+  }
+}
+
+
   Future<void> _uploadData() async {
     setState(() {
       isLoading = true;
     });
     try {
       final response = await http.post(
-          Uri.parse('${Utils.baseUrl}mobile_app/step_4_update.php'),
+          Uri.parse('${Utils.baseUrl}step_4_update.php'),
           body: {
         'code': '10',
         'update_status': '4',
@@ -388,7 +416,7 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
                                 setState(() {
                                   
                                 });
-                                _uploadData();
+                                _validateForm();
                                 setState(() {
                                   
                                 });

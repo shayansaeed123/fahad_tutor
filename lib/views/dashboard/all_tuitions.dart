@@ -75,7 +75,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 //     });
 //     try {
 //       String url =
-//           '${Utils.baseUrl}mobile_app/tuitions.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=${limit}';
+//           '${Utils.baseUrl}tuitions.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=${limit}';
 //       final response = await http.get(Uri.parse(url));
 //       if (response.statusCode == 200) {
 //         final Map<String, dynamic> responseData = json.decode(response.body);
@@ -352,7 +352,7 @@ class _AllTuitionsState extends State<AllTuitions> {
         isLoading2 = true;
       });
       // Define the API URL
-  final String apiUrl = "${Utils.baseUrl}mobile_app/search_all_tuitions.php";
+  final String apiUrl = "${Utils.baseUrl}search_all_tuitions.php";
   
     final results = await repository.searchTuitions(query,apiUrl);
     setState(() {
@@ -379,7 +379,7 @@ class _AllTuitionsState extends State<AllTuitions> {
 
   // Future<void> searchTuitions(String searchText) async {
   //   String url =
-  //         '${Utils.baseUrl}mobile_app/search_all_tuitions.php?searchtext=$searchText&code=10&tutor_id=${MySharedPrefrence().get_user_ID()}';
+  //         '${Utils.baseUrl}search_all_tuitions.php?searchtext=$searchText&code=10&tutor_id=${MySharedPrefrence().get_user_ID()}';
   //     final response = await http.get(Uri.parse(url));
 
   //   if (response.statusCode == 200) {
@@ -446,7 +446,7 @@ class _AllTuitionsState extends State<AllTuitions> {
 
     try {
       String url =
-          '${Utils.baseUrl}mobile_app/apply_tuition.php?code=10&group_id=$g_id&tuition_id=$tuition_id&tutor_id=${MySharedPrefrence().get_user_ID()}';
+          '${Utils.baseUrl}apply_tuition.php?code=10&group_id=$g_id&tuition_id=$tuition_id&tutor_id=${MySharedPrefrence().get_user_ID()}';
       final response = await http.get(Uri.parse(url));
       print('url $url');
       print('group id $g_id');

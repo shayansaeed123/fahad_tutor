@@ -32,7 +32,7 @@ import 'package:firebase_core/firebase_core.dart';
   //  try{
   //   _isLoading = false;
   //   String url =
-  //         '${Utils.baseUrl}mobile_app/tuitions.php?code=10&tutor_id=31110&start=$start&end=${limit}';
+  //         '${Utils.baseUrl}/tuitions.php?code=10&tutor_id=31110&start=$start&end=${limit}';
   //    final response = await http.get(Uri.parse(url));
   //    print('url $url');
 
@@ -227,7 +227,7 @@ class TutorRepository {
     _isLoading = true;
     try {
       String url =
-          '${Utils.baseUrl}mobile_app/single_tuition.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&tuition=$reference';
+          '${Utils.baseUrl}single_tuition.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&tuition=$reference';
       final response = await http.get(Uri.parse(url));
       print('url $url');
       print('refrence id $reference');
@@ -269,7 +269,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${Utils.baseUrl}mobile_app/apply_tuition.php?code=10&group_id=$g_id&tutor_id=${MySharedPrefrence().get_user_ID()}';
+          '${Utils.baseUrl}apply_tuition.php?code=10&group_id=$g_id&tutor_id=${MySharedPrefrence().get_user_ID()}';
       final response = await http.get(Uri.parse(url));
       print('url $url');
       print('group id $g_id');
@@ -311,7 +311,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${Utils.baseUrl}mobile_app/tuitions.php?code=10&tutor_id=31110&start=$start&end=$limit';
+          '${Utils.baseUrl}tuitions.php?code=10&tutor_id=31110&start=$start&end=$limit';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 
@@ -342,7 +342,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${Utils.baseUrl}mobile_app/tuitions.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=$limit';
+          '${Utils.baseUrl}tuitions.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=$limit';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 
@@ -374,7 +374,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${Utils.baseUrl}mobile_app/preferred_tuition.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=$limit';
+          '${Utils.baseUrl}preferred_tuition.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=$limit';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 
@@ -413,7 +413,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${Utils.baseUrl}mobile_app/group_class.php?code=10&group_id=$g_id';
+          '${Utils.baseUrl}group_class.php?code=10&group_id=$g_id';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 
@@ -439,7 +439,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${Utils.baseUrl}mobile_app/feedback.php';
+          '${Utils.baseUrl}feedback.php';
       final response = await http.post(Uri.parse(url),body: {
         'tutor_id' : MySharedPrefrence().get_user_ID().toString(),
         'remarks' : reusabletextfieldcontroller.feedback.toString(),
@@ -469,7 +469,7 @@ class TutorRepository {
     // });
     try{
       final response = await http.get(
-      Uri.parse('${Utils.baseUrl}mobile_app/step_1.php?code=10&tutor_id=${tutorId}'),
+      Uri.parse('${Utils.baseUrl}step_1.php?code=10&tutor_id=${tutorId}'),
     );
     if (response.statusCode == 200) {
               final Map<String, dynamic> responseData =
@@ -492,7 +492,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${Utils.baseUrl}mobile_app/check_popup.php?step_check=1&tutor_id=${MySharedPrefrence().get_user_ID()}';
+          '${Utils.baseUrl}check_popup.php?step_check=1&tutor_id=${MySharedPrefrence().get_user_ID()}';
       final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
@@ -537,7 +537,7 @@ class TutorRepository {
      _isLoading = true;
     try {
       String url =
-          '${Utils.baseUrl}mobile_app/check_popup.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}';
+          '${Utils.baseUrl}check_popup.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}';
       final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
@@ -562,7 +562,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${Utils.baseUrl}mobile_app/check_popup.php?delete_check=1';
+          '${Utils.baseUrl}check_popup.php?delete_check=1';
       final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
@@ -592,7 +592,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${Utils.baseUrl}mobile_app/deletemyaccount.php';
+          '${Utils.baseUrl}deletemyaccount.php';
       final response = await http.post(Uri.parse(url),body: {
         'celltoken' : MySharedPrefrence().get_cell_token().toString(),
         'tutor_id' : MySharedPrefrence().get_user_ID().toString(),
@@ -631,7 +631,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${Utils.baseUrl}mobile_app/password_rest.php';
+          '${Utils.baseUrl}password_rest.php';
       final response = await http.post(Uri.parse(url),body: {
         'tutor_id' : MySharedPrefrence().get_user_ID().toString(),
         'code':'10'.toString(),
@@ -669,7 +669,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${Utils.baseUrl}mobile_app/get_notification.php?tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start';
+          '${Utils.baseUrl}get_notification.php?tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 
@@ -703,7 +703,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${Utils.baseUrl}mobile_app/get_ducoments.php?code=10&tutors_ids=${MySharedPrefrence().get_user_ID()}';
+          '${Utils.baseUrl}get_ducoments.php?code=10&tutors_ids=${MySharedPrefrence().get_user_ID()}';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 
@@ -790,7 +790,7 @@ class TutorRepository {
   //   List<String> itemsname) async {
   //   _isLoading = true;
   //   try {
-  //     String url = '${Utils.baseUrl}mobile_app/all_in.php?${urlPoint}=1';
+  //     String url = '${Utils.baseUrl}/all_in.php?${urlPoint}=1';
   //     final response = await http.get(Uri.parse(url));
   //     print('url $url');
 
@@ -850,7 +850,7 @@ class TutorRepository {
 
   //   try {
   //     final response = await http.get(
-  //       Uri.parse('${Utils.baseUrl}mobile_app/step_2.php?code=10&tutor_id=31225'),
+  //       Uri.parse('${Utils.baseUrl}/step_2.php?code=10&tutor_id=31225'),
   //     );
   //     if (response.statusCode == 200) {
   //       if (response.body.isNotEmpty) {
@@ -906,7 +906,7 @@ class TutorRepository {
   // Future<void> fetchQualificationData(String urlPoint, String responseData, String target) async {
   //   _isLoading = true;
   //   try {
-  //     String url = '${Utils.baseUrl}mobile_app/all_in.php?${urlPoint}=1';
+  //     String url = '${Utils.baseUrl}/all_in.php?${urlPoint}=1';
   //     final response = await http.get(Uri.parse(url));
   //     print('url $url');
 
@@ -946,7 +946,7 @@ class TutorRepository {
   // Future<void> saveQualificationData(String saveResponseData, String target) async {
   //   _isLoading = true;
   //   try {
-  //     final response = await http.get(Uri.parse('${Utils.baseUrl}mobile_app/step_2.php?code=10&tutor_id=31225'));
+  //     final response = await http.get(Uri.parse('${Utils.baseUrl}/step_2.php?code=10&tutor_id=31225'));
   //     if (response.statusCode == 200) {
   //       if (response.body.isNotEmpty) {
   //         final Map<String, dynamic> jsonResponse = json.decode(response.body);
