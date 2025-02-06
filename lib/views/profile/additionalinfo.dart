@@ -165,7 +165,8 @@ void updateTutorPlacement() {
   // (_biography.text.length >= 500 && _biography.text.length <= 800);
 
   if (
-    isBiographyValid 
+    isBiographyValid && reusabletextfieldcontroller.furtherInfo.text.isNotEmpty &&
+    reusabletextfieldcontroller.addressCon.text.isNotEmpty
   ) {
     updateAdditionalInfo();
     // Navigator.push(context, MaterialPageRoute(builder: (context) => NavBar()));
@@ -175,7 +176,11 @@ void updateTutorPlacement() {
       !isBiographyValid
           ? (_biography.text.length < 500
               ? 'Biography must be at least 500 characters'
-              : 'Biography must not exceed 800 characters')
+              : 'Biography must not exceed 800 characters') :
+              reusabletextfieldcontroller.furtherInfo.text.isEmpty
+                            ? "Enter Further Information" :
+                            reusabletextfieldcontroller.addressCon.text.isEmpty
+                            ? "Enter Home Address" 
                                                                           : "Fill correct fields",
     );
   }

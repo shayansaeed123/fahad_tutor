@@ -111,6 +111,31 @@ String? laptop = 'no';
     await saveAreaData();
     await repository.check_msg();
   }
+
+  void _validateForm() {
+     if (selectedNamesinstitute.isNotEmpty && selectedIdsQualification.isNotEmpty 
+     && selectedIdsArea.isNotEmpty && selectedIdsBoard.isNotEmpty 
+     && selectedIdsGroup.isNotEmpty  && selectedClasses.isNotEmpty 
+                        ) {
+                  updateStatus();
+                } else {
+                  Utils.snakbar(
+                    context,
+                    selectedNamesinstitute.isEmpty
+                        ? "Select Atleast 1 Institute"
+                        : selectedIdsQualification.isEmpty
+                            ? "Select Atleast 1 Qualification"
+                            : selectedIdsArea.isEmpty
+                            ? "Select Atleast 1 Area"
+                            : selectedIdsBoard.isEmpty
+                            ? "Select Atleast 1 Board"
+                            : selectedIdsGroup.isEmpty
+                            ? "Select Atleast 1 Group" 
+                            : selectedClasses.isEmpty
+                            ? "Select Atleast 1 Preffered Class with Subject": "Fill Correct Fields",
+                  );
+                }
+  }
   
   Future<void> updateStatus() async {
     setState(() {
@@ -1910,7 +1935,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                           await classSelect(setState);
                           setState(() {});
                           },
-                        child: reusableText('Add More Classes',color: colorController.btnColor,fontweight: FontWeight.bold)),
+                        child: reusableText(selectedClasses.isEmpty ? 'Add Classes' : 'Add More Classes',color: colorController.btnColor,fontweight: FontWeight.bold)),
                   ),
                   reusablaSizaBox(context, .020),
                   Container(
@@ -2074,7 +2099,8 @@ if (isQuranClassSelected())
                   reusablaSizaBox(context, .050),
                   reusableBtn(context, 'Update', (){
                     setState(() {
-                      updateStatus();
+                      // updateStatus();
+                      _validateForm();
                     });
                   }),
                   reusablaSizaBox(context, .020),
