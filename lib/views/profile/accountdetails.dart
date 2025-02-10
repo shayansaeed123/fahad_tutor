@@ -127,43 +127,43 @@ class _AccountDetailsState extends State<AccountDetails> {
     }
   }
 
-  void _validateForm() {
-     if (
-      reusabletextfieldcontroller.title.text.isNotEmpty && 
-      reusabletextfieldcontroller.bankname.text.isNotEmpty && 
-      reusabletextfieldcontroller.branchcode.text.isNotEmpty && 
-      reusabletextfieldcontroller.accountnumber.text.isNotEmpty && 
-      reusabletextfieldcontroller.ibannumber.text.isNotEmpty && 
-      reusabletextfieldcontroller.mobilenumber.text.isNotEmpty && 
-      methodValue.isNotEmpty && 
-      reusabletextfieldcontroller.accounttitle.text.isNotEmpty
+  // void _validateForm() {
+  //    if (
+  //     reusabletextfieldcontroller.title.text.isNotEmpty && 
+  //     reusabletextfieldcontroller.bankname.text.isNotEmpty && 
+  //     reusabletextfieldcontroller.branchcode.text.isNotEmpty && 
+  //     reusabletextfieldcontroller.accountnumber.text.isNotEmpty && 
+  //     reusabletextfieldcontroller.ibannumber.text.isNotEmpty && 
+  //     reusabletextfieldcontroller.mobilenumber.text.isNotEmpty && 
+  //     methodValue.isNotEmpty && 
+  //     reusabletextfieldcontroller.accounttitle.text.isNotEmpty
       
 
-                        ) {
-                  updateAccountDetails();
-                } else {
-                  Utils.snakbar(
-                    context,
-                    reusabletextfieldcontroller.title.text.isEmpty
-                        ? "Title Is Missing"
-                        : reusabletextfieldcontroller.bankname.text.isEmpty
-                            ? "Bank Name Is Missing" :
-                            reusabletextfieldcontroller.branchcode.text.isEmpty
-                            ? "Branch Code Is Missing" :
-                            reusabletextfieldcontroller.accountnumber.text.isEmpty
-                            ? "Account Number Is Missing" :
-                            reusabletextfieldcontroller.ibannumber.text.isEmpty
-                            ? "IBAN Number Is Missing" :
-                            reusabletextfieldcontroller.mobilenumber.text.isEmpty
-                            ? "Mobile Number Is Missing" :
-                            methodValue.isEmpty
-                            ? "Payment Method Is Missing" :
-                            reusabletextfieldcontroller.accounttitle.text.isEmpty
-                            ? "Account Title Is Missing" :
-                             "Fill Correct Fields",
-                  );
-                }
-  }
+  //                       ) {
+  //                 updateAccountDetails();
+  //               } else {
+  //                 Utils.snakbar(
+  //                   context,
+  //                   reusabletextfieldcontroller.title.text.isEmpty
+  //                       ? "Title Is Missing"
+  //                       : reusabletextfieldcontroller.bankname.text.isEmpty
+  //                           ? "Bank Name Is Missing" :
+  //                           reusabletextfieldcontroller.branchcode.text.isEmpty
+  //                           ? "Branch Code Is Missing" :
+  //                           reusabletextfieldcontroller.accountnumber.text.isEmpty
+  //                           ? "Account Number Is Missing" :
+  //                           reusabletextfieldcontroller.ibannumber.text.isEmpty
+  //                           ? "IBAN Number Is Missing" :
+  //                           reusabletextfieldcontroller.mobilenumber.text.isEmpty
+  //                           ? "Mobile Number Is Missing" :
+  //                           methodValue.isEmpty
+  //                           ? "Payment Method Is Missing" :
+  //                           reusabletextfieldcontroller.accounttitle.text.isEmpty
+  //                           ? "Account Title Is Missing" :
+  //                            "Fill Correct Fields",
+  //                 );
+  //               }
+  // }
 
   Future<void> updateAccountDetails()async{
     setState(() {
@@ -376,7 +376,10 @@ class _AccountDetailsState extends State<AccountDetails> {
                     reusablaSizaBox(context, 0.020),
                            Padding(
                              padding: EdgeInsets.all(MediaQuery.of(context).size.width * .10),
-                             child: reusableBtn(context, 'Update', (){_validateForm();}),
+                             child: reusableBtn(context, 'Update', (){
+                              updateAccountDetails();
+                              // _validateForm();
+                              }),
                            ),
                             
                     ],

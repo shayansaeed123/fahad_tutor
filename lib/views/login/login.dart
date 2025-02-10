@@ -131,8 +131,10 @@ class _LoginState extends State<Login> {
               MySharedPrefrence().set_user_ID(responseData['ID']);
               setState(() {});
               MySharedPrefrence().set_tutor_name(responseData['teacher_name']);
+              MySharedPrefrence().set_gender(responseData['gender']);
               setState(() {});
                 print('Tutor ID ${MySharedPrefrence().get_user_ID()}');
+                print('gender ${MySharedPrefrence().get_gender()}');
                 print('tutor status ${MySharedPrefrence().getUserLoginStatus()}');
                 _fetchBasicInfo();
                 // Navigator.pop(context);

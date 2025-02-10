@@ -43,6 +43,11 @@ class _NotificationsState extends State<Notifications> {
   String limit_statement = '';
   int job_closed = 0;
   int already = 0;
+  int onlineTermsCheck = 0;
+  String onlineText = '';
+  String onlineHeading = '';
+  int error = 0;
+  String error_msg = '';
   List<dynamic> tuitionData = [];
   TutorRepository repository = TutorRepository();
 
@@ -106,6 +111,11 @@ class _NotificationsState extends State<Notifications> {
             limit_statement = tuitionData[0]['limit_statement'];
             job_closed = tuitionData[0]['job_closed'];
             already = tuitionData[0]['already'];
+            onlineTermsCheck = tuitionData[0]['Online_terms_check'];
+            onlineText = tuitionData[0]['Online_terms_check_text'];
+            onlineHeading = tuitionData[0]['Online_terms_check_heading'];
+            error = tuitionData[0]['error'];
+            error_msg = tuitionData[0]['error_msg'];
             isLoading2 = false;
             print(g_id);
           });
@@ -155,7 +165,7 @@ class _NotificationsState extends State<Notifications> {
 
     try {
       String url =
-          '${Utils.baseUrl}apply_tuition.php?code=10&group_id=$g_id&tutor_id=${MySharedPrefrence().get_user_ID()}';
+          '${Utils.baseUrl}apply_tuition.php?code=10&group_id=$g_id&tuition_id=$tuition_id&tutor_id=${MySharedPrefrence().get_user_ID()}';
       final response = await http.get(Uri.parse(url));
       print('url $url');
       print('group id $g_id');
@@ -286,35 +296,40 @@ class _NotificationsState extends State<Notifications> {
                                   getSingleTuitions(reference).then((value) {
                                     if(tuitionData.isEmpty){
                                       showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      backgroundColor: colorController.whiteColor,
-      content: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * .2,
-        child: Image.asset('assets/images/closed.png',fit: BoxFit.contain,)
-      ),
-      actions: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Image.asset(
-                'assets/images/remove.png',
-                height: MediaQuery.of(context).size.height * .05,
-                width: MediaQuery.of(context).size.width * .1,
-              ),
-            ),
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                        backgroundColor: colorController.whiteColor,
+                                          content: Container(
+                                                width: MediaQuery.of(context).size.width,
+                                            height: MediaQuery.of(context).size.height * .2,
+                                          child: Image.asset('assets/images/closed.png',fit: BoxFit.contain,)
+                                              ),
+                                              actions: [
+                                                Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                InkWell(
+                                                onTap: () {
+                                                Navigator.pop(context);
+                                                  },
+                                                child: Image.asset(
+                                                'assets/images/remove.png',
+                                                  height: MediaQuery.of(context).size.height * .05,
+                                                   width: MediaQuery.of(context).size.width * .1,
+                                                ),
+                                ),
           ],
         ),
         reusablaSizaBox(context, .01)
       ],
     ),
   );
-                                    }else{
+                                    }else if(error == 1){
+                                      reusableloadingApply(context, 'assets/images/error_lottie.json', error_msg, refreshPage);
+                                    }
+                                    
+                                    else{
+                                      print('online ${onlineTermsCheck}');
                                       reusabletutorDetails(
                                         context,
                                         formatInfo(remark),
@@ -326,9 +341,9 @@ class _NotificationsState extends State<Notifications> {
                                         share_date,
                                         location,
                                         limit_statement, () {
-                                      if (g_id == '0') {
-                                       if(data['Online_terms_check']==1){
-                                                      reusableMessagedialog(context, data['Online_terms_check_heading'], formatInfo(data['Online_terms_check_text']), 'Agree', 'Disagree', (){
+                                        if (g_id == '0') {
+                                          if(onlineTermsCheck==1){
+                                                      reusableMessagedialog(context, onlineHeading, formatInfo(onlineText), 'Agree', 'Disagree', (){
                                                         applyTuitions(() {
                                                           setState(() {
                                                             data['already'] = 1;
@@ -349,8 +364,8 @@ class _NotificationsState extends State<Notifications> {
                                             'Classes',
                                             'Are you sure${repository.class_name}',
                                             'Confirm','Cancel', () {
-                                          if(data['Online_terms_check']==1){
-                                                      reusableMessagedialog(context, data['Online_terms_check_heading'], formatInfo(data['Online_terms_check_text']), 'Agree', 'Disagree', (){
+                                          if(onlineTermsCheck==1){
+                                                      reusableMessagedialog(context, onlineHeading, formatInfo(onlineText), 'Agree', 'Disagree', (){
                                                         applyTuitions(() {
                                                           setState(() {
                                                             data['already'] = 1;

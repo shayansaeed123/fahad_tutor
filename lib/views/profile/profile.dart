@@ -103,6 +103,7 @@ void loginClear(){
     repository.check_msg();
     repository.check_delete_account();
     repository.documentsAttach();
+    repository.basicTutorInfo(MySharedPrefrence().get_user_ID().toString());
   }
        
   @override

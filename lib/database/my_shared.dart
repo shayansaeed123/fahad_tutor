@@ -225,6 +225,16 @@ void set_user_ID(String? userID) {
     return 0.val('job_closed', getBox: preferences).val;
   }
 
+  void set_gender(int? gender) {
+    0.val('gender', getBox: preferences).val =
+        gender ?? 0;
+  }
+
+  int get_gender() {
+    return 0.val('gender', getBox: preferences).val;
+  }
+  
+
   void set_tutor_id(String? tutor_id) {
     ''.val('tutor_id', getBox: preferences).val = tutor_id ?? '';
   }
