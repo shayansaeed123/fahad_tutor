@@ -137,7 +137,6 @@ class _LoginState extends State<Login> {
                 print('gender ${MySharedPrefrence().get_gender()}');
                 print('tutor status ${MySharedPrefrence().getUserLoginStatus()}');
                 _fetchBasicInfo();
-                // Navigator.pop(context);
                 setState(() {
                   
                 });
@@ -177,31 +176,6 @@ class _LoginState extends State<Login> {
       isLoading = false;
     });
   }
-
-  // Future<void> basicInfo()async{
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-  //   try{
-  //     final response = await http.get(
-  //     Uri.parse('${Utils.baseUrl}step_1.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
-  //   );
-  //   if (response.statusCode == 200) {
-  //             final Map<String, dynamic> responseData =
-  //                 json.decode(response.body);
-  //             MySharedPrefrence().set_info(responseData['info']);
-  //             print('basic Info ${MySharedPrefrence().get_info()}');
-  //             setState(() {});
-  //           } else {
-  //             print('Error2: ' + response.statusCode.toString());
-  //           }
-    
-  //   }catch(e){
-  //     print('Data Not Load $e');
-  //   }finally{
-  //     setState(() {isLoading = false;});
-  //   }
-  // }
 
   
 
