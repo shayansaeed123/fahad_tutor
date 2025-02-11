@@ -352,11 +352,27 @@ class _NotificationsState extends State<Notifications> {
                                                         Navigator.pop(context);
                                                       }, (){Navigator.pop(context);});
                                                     }else{
-                                                        applyTuitions(() {
+                                                        // applyTuitions(() {
+                                                        //   setState(() {
+                                                        //     data['already'] = 1;
+                                                        //   });
+                                                        // });
+                                                        if(MySharedPrefrence().get_gender() == 2){
+                                                          reusableMessagedialog(context, 'Confirmation', "You will have to visit at Student's Place", 'Apply', 'Cancel', (){
+                                                            applyTuitions(() {
                                                           setState(() {
                                                             data['already'] = 1;
                                                           });
                                                         });
+                                                        Navigator.pop(context);
+                                                      }, (){Navigator.pop(context);});
+                                                        }else{
+                                                          applyTuitions(() {
+                                                          setState(() {
+                                                            data['already'] = 1;
+                                                          });
+                                                        });
+                                                        }
                                                     }
                                       } else {
                                         reusableMessagedialog(
@@ -374,11 +390,27 @@ class _NotificationsState extends State<Notifications> {
                                                         Navigator.pop(context);
                                                       }, (){Navigator.pop(context);});
                                                     }else{
-                                                        applyTuitions(() {
+                                                        // applyTuitions(() {
+                                                        //   setState(() {
+                                                        //     data['already'] = 1;
+                                                        //   });
+                                                        // });
+                                                        if(MySharedPrefrence().get_gender() == 2){
+                                                          reusableMessagedialog(context, 'Confirmation', "You will have to visit at Student's Place", 'Apply', 'Cancel', (){
+                                                            applyTuitions(() {
                                                           setState(() {
                                                             data['already'] = 1;
                                                           });
                                                         });
+                                                        Navigator.pop(context);
+                                                      }, (){Navigator.pop(context);});
+                                                        }else{
+                                                          applyTuitions(() {
+                                                          setState(() {
+                                                            data['already'] = 1;
+                                                          });
+                                                        });
+                                                        }
                                                     }
                                         }, () {
                                           Navigator.pop(context);

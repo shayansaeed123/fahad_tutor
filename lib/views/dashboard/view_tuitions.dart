@@ -364,7 +364,7 @@ class _ViewTuitionsState extends State<ViewTuitions> {
                         borderSide: BorderSide.none),
                     errorBorder: InputBorder.none,
                     disabledBorder: InputBorder.none,
-                  ),
+                  )
                 ),
               ),
               reusablaSizaBox(context, .009),
