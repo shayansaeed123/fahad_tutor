@@ -140,31 +140,4 @@ class NotificationState with ChangeNotifier {
     notifyListeners();  // Notify listeners when the state changes
   }
 }
-// import 'package:firebase_messaging/firebase_messaging.dart';
 
-// class NotificationService {
-//   static Function(RemoteMessage)? onMessageReceived;
-
-//   static void initialize() {
-//     // Request notification permissions
-//     FirebaseMessaging.instance.requestPermission();
-
-//     // Handle notifications when the app is in the foreground
-//     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-//       print("Foreground notification received: ${message.notification?.title}");
-//       if (onMessageReceived != null) {
-//         print("Calling onMessageReceived callback");
-//         onMessageReceived!(message);
-//       } else {
-//         print("onMessageReceived is null");
-//       }
-//     });
-
-//     // Handle notifications when the app is opened by tapping the notification
-//     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-//       if (onMessageReceived != null) {
-//         onMessageReceived!(message);
-//       }
-//     });
-//   }
-// }
