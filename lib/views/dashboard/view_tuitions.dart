@@ -532,15 +532,6 @@ class _ViewTuitionsState extends State<ViewTuitions> {
                                 vertical:
                                     MediaQuery.of(context).size.height * .03,
                               ),
-                              // child: repository.isLoading
-                                  // ? Center(
-                                  //     child: CircularProgressIndicator(
-                                  //     color: colorController.btnColor,
-                                  //   )) : repository.showLoadMoreButton ? Center(
-                              //         child: reusableloadingrow(context, isLoading))
-                              //     : reusableBtn(context, 'Load More', () {
-                              //         loadMoreTuitions();
-                              //       }),
                               child: isLoading
                                   ? reusableloadingrow(context, isLoading)
                                   : repository.showLoadMoreButton
