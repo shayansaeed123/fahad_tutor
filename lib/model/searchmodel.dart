@@ -2,7 +2,6 @@ class Tuition {
   final String shareDate;
   final String tuitionId;
   final String tuitionName;
-  // final String status;
   final String className;
   final String subject;
   final int totalApply;
@@ -14,7 +13,6 @@ class Tuition {
   final String location;
   final String remarks;
   final String groupId;
-  // final String eligibleId;
   final String placement;
   final int already;
   final int jobClosed;
@@ -24,7 +22,6 @@ class Tuition {
     required this.shareDate,
     required this.tuitionId,
     required this.tuitionName,
-    // required this.status,
     required this.className,
     required this.subject,
     required this.totalApply,
@@ -36,7 +33,6 @@ class Tuition {
     required this.location,
     required this.remarks,
     required this.groupId,
-    // required this.eligibleId,
     required this.placement,
     required this.already,
     required this.jobClosed,
@@ -48,7 +44,6 @@ class Tuition {
       shareDate: json['share_date'],
       tuitionId: json['tuition_id'],
       tuitionName: json['tuition_name'],
-      // status: json['t_status'],
       className: json['class_name'],
       subject: json['subject'],
       totalApply: json['total_apply'],
@@ -60,7 +55,6 @@ class Tuition {
       location: json['location'],
       remarks: json['remarks'],
       groupId: json['group_id'],
-      // eligibleId: json['eligible_id'],
       placement: json['Placement'],
       already: json['already'],
       jobClosed: json['job_closed'],
