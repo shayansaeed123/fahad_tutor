@@ -84,6 +84,7 @@ class _NavBarState extends State<NavBar> {
               fontFamily: 'tutorPhi',
               activeIcon: Icon(CupertinoIcons.book_fill,color: colorController.whiteColor,)),
         ],
+        initialActiveIndex: bottomNavigationController.selectedIndex.value, // ✅ Maintain active index
         onTap: (index) {
           bottomNavigationController.changeIndex(index);
           if (index == 1) {

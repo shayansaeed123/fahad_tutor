@@ -65,6 +65,7 @@ dependencies:
   shared_preferences:
   permission_handler: ^10.2.0 
   provider: 
+  flutter_local_notifications:
    
 
 dev_dependencies:
