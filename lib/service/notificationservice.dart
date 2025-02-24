@@ -201,18 +201,6 @@ class NotificationService {
   );
 }
 
-
-//   static void handleNotificationClick(RemoteMessage message) {
-//     final data = message.data;
-//     final tuitionId = data['tution_id'] ?? "";
-//     final title = message.notification?.title ?? "Notification";
-//     final body = message.notification?.body ?? "No details provided";
-
-//     if (tuitionId.isNotEmpty) {
-//         _showNotificationDialog(tuitionId, data, title, body);  // ✅ Pass title & body
-//     }
-// }
-
 static void handleNotificationClick(RemoteMessage message) {
   final Map<String, dynamic> data = message.data;
   final String? tuitionId = data['tution_id'];  // ✅ Get tuition_id safely
