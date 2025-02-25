@@ -54,6 +54,10 @@ class _HomeState extends State<Home> {
     return info.replaceAll(';', '\n');
   }
 
+  String formatAttention(String info) {
+    return info.replaceAll('<><>', '\n');
+  }
+
   @override
   void initState() {
     super.initState();
@@ -93,7 +97,13 @@ class _HomeState extends State<Home> {
 
   void _checkPreferredPopup() {
     if (repository.preferred_popup.value == 1) {
-      reusablepopup(context,'${repository.preferred_popup_image.value}');
+      reusablepopup(context,'${repository.preferred_popup_image.value}',);
+    }
+    if(repository.discount_popup.value == '1'){
+      reusablepopup(context, '${repository.discount_popup_image.value}',);
+    }
+    if(repository.attention_popup.value == 1){
+      reusableAttention(context, repository.attention_popup_title.value, formatAttention(repository.attention_popup_text.value));
     }
   }
 

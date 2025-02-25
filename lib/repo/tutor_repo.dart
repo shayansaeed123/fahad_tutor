@@ -143,6 +143,12 @@ class TutorRepository {
   final ValueNotifier<String> _preferred_popup_image = ValueNotifier<String>('');
   ValueNotifier<String> get preferred_popup_image => _preferred_popup_image;
 
+  final ValueNotifier<String> _discount_popup = ValueNotifier<String>('');
+  ValueNotifier<String> get discount_popup => _discount_popup;
+
+  final ValueNotifier<String> _discount_popup_image = ValueNotifier<String>('');
+  ValueNotifier<String> get discount_popup_image => _discount_popup_image;
+
   final ValueNotifier<String> _profile_image = ValueNotifier<String>('');
   ValueNotifier<String> get profile_image => _profile_image;
 
@@ -169,6 +175,16 @@ class TutorRepository {
 
   final ValueNotifier<int> _doc_error = ValueNotifier<int>(0);
   ValueNotifier<int> get doc_error => _doc_error;
+
+
+  final ValueNotifier<String> _attention_popup_text = ValueNotifier<String>('');
+  ValueNotifier<String> get attention_popup_text => _attention_popup_text;
+
+  final ValueNotifier<String> _attention_popup_title = ValueNotifier<String>('');
+  ValueNotifier<String> get attention_popup_title => _attention_popup_title;
+
+  final ValueNotifier<int> _attention_popup = ValueNotifier<int>(0);
+  ValueNotifier<int> get attention_popup => _attention_popup;
 
   // String _preferred_popup_image = '';
   // String get preferred_popup_image => _preferred_popup_image;
@@ -382,7 +398,13 @@ class TutorRepository {
         dynamic jsonResponse = jsonDecode(response.body);
         List<dynamic> newItems = jsonResponse['tuition_listing'];
         _preferred_popup.value = jsonResponse['enable_popup_status'][0]; 
+        _discount_popup.value = jsonResponse['discount_popup_status'][0];
         _preferred_popup_image.value = jsonResponse['popup_img'][0];
+        _discount_popup_image.value = jsonResponse['discount_img'][0];
+        _attention_popup.value = jsonResponse['attention_popup'][0];
+        _attention_popup_text.value = jsonResponse['attention_popup_text'][0];
+        _attention_popup_title.value = jsonResponse['attention_popup_title'][0];
+
         print('img $_preferred_popup_image');
         if (start == 0) {
           _prefferedTuitionsList = newItems;
