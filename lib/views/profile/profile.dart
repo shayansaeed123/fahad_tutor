@@ -24,6 +24,7 @@ import 'package:fahad_tutor/views/profile/qualification.dart';
 import 'package:fahad_tutor/views/profile/registrationcharges.dart';
 import 'package:fahad_tutor/views/profile/resetpassword.dart';
 import 'package:fahad_tutor/views/profile/termsconditions.dart';
+import 'package:fahad_tutor/views/profile/trainingvideo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
@@ -421,6 +422,9 @@ void loginClear(){
               reusablelisttile(context,(){
                 launch('https://fahadtutors.com/aboutus.php?gad_source=1&gclid=EAIaIQobChMIv_SZ6YSNhgMVMQsGAB1ymwKqEAAYASAFEgLvSPD_BwE');
               },'assets/images/about_us_icon.png','About Us',),
+              reusablelisttile(context,(){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => TrainingVideos(),));
+              },'assets/images/training.png','Training Videos',),
               ValueListenableBuilder(valueListenable: repository.delete_account, builder: (context, value, child) {
                 if(value == 1){
                   return reusablelisttile(context,(){
