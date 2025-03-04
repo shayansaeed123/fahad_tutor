@@ -131,6 +131,9 @@ class TutorRepository {
   final ValueNotifier<int> _is_term_accepted_online_option = ValueNotifier<int>(0);
   ValueNotifier<int> get is_term_accepted_online_option => _is_term_accepted_online_option;
 
+  final ValueNotifier<int> _traning_video = ValueNotifier<int>(0);
+  ValueNotifier<int> get traning_video => _traning_video;
+
   final ValueNotifier<int> _attention_option = ValueNotifier<int>(0);
   ValueNotifier<int> get attention_option => _attention_option;
 
@@ -531,6 +534,7 @@ class TutorRepository {
         _payment_recipt.value = jsonResponse['payment_recipt'];
         _is_term_accepted_online_option.value = jsonResponse['term_condition_online_option'];
         _is_term_accepted_online.value = jsonResponse['term_condition_online'];
+        _traning_video.value = jsonResponse['traning_video'];
         _attention_option.value = jsonResponse['attention_popup'];
         _payment_recipt_option.value = jsonResponse['option'];
          MySharedPrefrence().set_term_condition_image(jsonResponse['term_condition_image']);

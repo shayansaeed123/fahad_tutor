@@ -66,6 +66,7 @@ dependencies:
   permission_handler: ^10.2.0 
   provider: 
   flutter_local_notifications:
+  youtube_player_flutter: 
    
 
 dev_dependencies:
