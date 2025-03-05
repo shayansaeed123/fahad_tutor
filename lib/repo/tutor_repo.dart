@@ -189,6 +189,9 @@ class TutorRepository {
   final ValueNotifier<int> _attention_popup = ValueNotifier<int>(0);
   ValueNotifier<int> get attention_popup => _attention_popup;
 
+  final ValueNotifier<int> _account_check = ValueNotifier<int>(0);
+  ValueNotifier<int> get account_check => _account_check;
+
   // String _preferred_popup_image = '';
   // String get preferred_popup_image => _preferred_popup_image;
   // Tutor-specific properties
@@ -393,7 +396,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${Utils.baseUrl}preferred_tuition.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=$limit';
+          '${Utils.baseUrl}preferred_tuition.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=$limit&cell_access_token=${MySharedPrefrence().get_cell_token().toString()}';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 
@@ -407,6 +410,7 @@ class TutorRepository {
         _attention_popup.value = jsonResponse['attention_popup'][0];
         _attention_popup_text.value = jsonResponse['attention_popup_text'][0];
         _attention_popup_title.value = jsonResponse['attention_popup_title'][0];
+        _account_check.value = jsonResponse['account_check'][0];
 
         print('img $_preferred_popup_image');
         if (start == 0) {
@@ -467,7 +471,7 @@ class TutorRepository {
           '${Utils.baseUrl}feedback.php';
       final response = await http.post(Uri.parse(url),body: {
         'tutor_id' : MySharedPrefrence().get_user_ID().toString(),
-        'remarks' : reusabletextfieldcontroller.feedback.toString(),
+        'remakrs' : reusabletextfieldcontroller.feedback.toString(),
         'code':'10'.toString(),
       });
 

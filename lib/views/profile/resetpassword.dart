@@ -171,7 +171,12 @@ class _ResetPassordState extends State<ResetPassword> {
                 });
               }),
           reusablaSizaBox(context, 0.040),
-          reusableBtn(context, 'Reset Password',(){_validateForm();})
+          reusableBtn(context, 'Reset Password',(){
+            _validateForm();
+            reusabletextfieldcontroller.oldPass.clear();
+            reusabletextfieldcontroller.newPass.clear();
+            reusabletextfieldcontroller.conPass.clear();
+            })
         ],
       ),
     ),

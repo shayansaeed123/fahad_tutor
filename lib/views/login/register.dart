@@ -907,6 +907,8 @@ void updateTutorPlacement() {
                       setState(() {
                         cityLists = newValue;
                         MySharedPrefrence().set_city_id(newValue['c_id'].toString());
+                        // Reset area selection
+                        areaLists = null;
                         isAreaDropdownEnabled = true;
                       });
                       print('Selected city ID: ${newValue['c_id']}');
@@ -1490,10 +1492,10 @@ void updateTutorPlacement() {
                                       color: colorController.grayTextColor,
                                       fontsize: 14),
                                   items: <String>[
-                                    'Option 1',
-                                    'Option 2',
-                                    'Option 3',
-                                    'Option 4'
+                                    // 'Option 1',
+                                    // 'Option 2',
+                                    // 'Option 3',
+                                    // 'Option 4'
                                   ].map((String value) {
                                     return DropdownMenuItem<String>(
                                       value: value,
@@ -1544,10 +1546,10 @@ void updateTutorPlacement() {
                                       color: colorController.grayTextColor,
                                       fontsize: 14),
                                   items: <String>[
-                                    'Option 1',
-                                    'Option 2',
-                                    'Option 3',
-                                    'Option 4',
+                                    // 'Option 1',
+                                    // 'Option 2',
+                                    // 'Option 3',
+                                    // 'Option 4',
                                   ].map((String value) {
                                     return DropdownMenuItem<String>(
                                       value: value,

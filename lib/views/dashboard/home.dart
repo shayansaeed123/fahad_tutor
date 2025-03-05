@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
+import 'package:fahad_tutor/controller/text_field_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/model/searchmodel.dart';
 import 'package:fahad_tutor/repo/tutor_repo.dart';
@@ -23,6 +24,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
+
+import '../login/login.dart';
 
 class Home extends StatefulWidget {
   Home({super.key,required this.isLoading2});
@@ -104,6 +107,14 @@ class _HomeState extends State<Home> {
     }
     if(repository.attention_popup.value == 1){
       reusableAttention(context, repository.attention_popup_title.value, formatAttention(repository.attention_popup_text.value));
+    }
+    if(repository.account_check.value == 0){
+      setState(() {
+        MySharedPrefrence().logout();
+        reusabletextfieldcontroller.loginPassCon.clear();
+                  Navigator.push(context,MaterialPageRoute(
+              builder: (context) => WillPopScope( onWillPop: () async => false, child: Login())),);
+      });
     }
   }
 
