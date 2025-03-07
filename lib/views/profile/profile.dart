@@ -431,6 +431,9 @@ void loginClear(){
                   return SizedBox.shrink();
                 }
               },),
+              reusablelisttile(context,(){
+                launch('https://www.whatsapp.com/channel/0029Vb6aNRi6xCSRi9FdB80T');
+              },'assets/images/whatsapp.png','Join WhatsApp Channel',),
               ValueListenableBuilder(valueListenable: repository.delete_account, builder: (context, value, child) {
                 if(value == 1){
                   return reusablelisttile(context,(){
