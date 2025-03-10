@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
@@ -54,29 +53,8 @@ class _TrainingVideosState extends State<TrainingVideos> {
     // TODO: implement initState
     super.initState();
     getData();
-    // _initializeYouTubeControllers();
   }
-  // void _initializeYouTubeControllers() {
-  //   _controllers = VideoData.map((video) {
-  //     final videoId = YoutubePlayer.convertUrlToId(video['url']);
-  //     return YoutubePlayerController(
-  //       initialVideoId: videoId ?? "", // Fallback to empty if null
-  //       flags: YoutubePlayerFlags(
-  //         autoPlay: false,
-  //         useHybridComposition: true, // Force Hybrid Composition
-  //         mute: false,
-  //       ),
-  //     );
-  //   }).toList();
-  // }
-
-  // @override
-  // void dispose() {
-  //   for (var controller in _controllers) {
-  //     controller.dispose(); // Prevent memory leaks
-  //   }
-  //   super.dispose();
-  // }
+  
   @override
   Widget build(BuildContext context) {
     return reusableprofileidget(context, Padding(
