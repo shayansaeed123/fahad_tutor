@@ -84,25 +84,6 @@ class _LoginState extends State<Login> {
                 }
   }
 
-  // Future<void> saveAccount(String email, String password) async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   prefs.setString(email, password);
-  // }
-
-  // Future<String?> getPasswordForEmail(String email) async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   return prefs.getString(email);
-  // }
-
-  // void _onEmailChanged(String email) async {
-  //   final password = await getPasswordForEmail(email);
-  //   if (password != null) {
-  //     setState(() {
-  //       reusabletextfieldcontroller.loginPassCon.text = password; // Auto-fill password
-  //     });
-  //   }
-  // }
-
   Future<void> login()async{
     setState(() {
       isLoading = true;
