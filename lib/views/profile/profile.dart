@@ -460,8 +460,9 @@ void loginClear(){
                 reusableMessagedialog(context, 'Logout', 'Are you sure?', 'Confirm', 'Cancel', (){ 
                   MySharedPrefrence().logout();
                   loginClear();
-                  Navigator.push(context,MaterialPageRoute(
-              builder: (context) => WillPopScope( onWillPop: () async => false, child: Login())),);
+              //     Navigator.push(context,MaterialPageRoute(
+              // builder: (context) => WillPopScope( onWillPop: () async => false, child: Login())),);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Login(),));
                 }, (){Navigator.pop(context);});
               }),
               reusablaSizaBox(context, .05),

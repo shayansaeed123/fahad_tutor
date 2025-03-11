@@ -163,178 +163,181 @@ class _LoginState extends State<Login> {
 TutorRepository _repository = TutorRepository();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: colorController.whiteColor,
-      body: Stack(
-        children: [
-          SafeArea(
-              child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * .05),
-            child: SingleChildScrollView(
-              child:
-                  Form(
-                    key: _formKey,
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.03),
-                        child: Image.asset(
-                          'assets/images/logo_1.png',
-                          filterQuality: FilterQuality.high,
-                          fit: BoxFit.contain,
-                          width: MediaQuery.of(context).size.width * .25,
-                          height: MediaQuery.of(context).size.height * .12,
+    return WillPopScope(
+      onWillPop: repository.onWillPop,
+      child: Scaffold(
+        backgroundColor: colorController.whiteColor,
+        body: Stack(
+          children: [
+            SafeArea(
+                child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * .05),
+              child: SingleChildScrollView(
+                child:
+                    Form(
+                      key: _formKey,
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.03),
+                          child: Image.asset(
+                            'assets/images/logo_1.png',
+                            filterQuality: FilterQuality.high,
+                            fit: BoxFit.contain,
+                            width: MediaQuery.of(context).size.width * .25,
+                            height: MediaQuery.of(context).size.height * .12,
+                          ),
                         ),
-                      ),
-                    ],
-                                ),
-                                reusablaSizaBox(context, .03),
-                                reusableText('Welcome Back!',
-                      fontsize: 26, fontweight: FontWeight.bold),
-                                reusablaSizaBox(context, .01),
-                                reusableText(
-                    'Sign in to continue',
-                    color: colorController.textfieldBorderColorBefore,
-                    fontsize: 18,
-                                ),
-                                reusablaSizaBox(context, .01),
-                                Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Radio<String>(
-                        overlayColor: MaterialStateColor.resolveWith(
-                            (states) => colorController.blueColor),
-                        fillColor: MaterialStateColor.resolveWith((states) =>
-                            colorController
-                                .blueColor), // Fill color when the radio button is selected
-                        focusColor: colorController
-                            .blueColor, // Border color when the radio button is focused
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        value: 'Tutor',
-                        groupValue: _selectedValue,
-                        // activeColor: MaterialStateColor.resolveWith(
-                        //     (states) => colorController.blueColor),
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedValue = value!;
-                          });
-                        },
-                      ),
-                      reusableText('Tutor',
-                          fontsize: 14, fontweight: FontWeight.w200),
-                    ],
-                                ),
-                                reusablaSizaBox(context, .02),
-                                reusableTextField(
-                    context,
-                    reusabletextfieldcontroller.emailCon,
-                    'Email Address',
-                    _emailfocusNode.hasFocus
-                        ? colorController.blueColor
-                        : colorController.textfieldBorderColorBefore,
-                    _emailfocusNode,
-                    () {
-                      // _onEmailChanged;
-                      _emailfocusNode.unfocus();
-                      FocusScope.of(context).requestFocus(_passfocusNode);
-                    }, 
-                    // true,
-                    // validateEmail, 
-                    keyboardType: TextInputType.emailAddress,
-                                ),
-                                reusablaSizaBox(context, .04),
-                                reusablePassField(
+                      ],
+                                  ),
+                                  reusablaSizaBox(context, .03),
+                                  reusableText('Welcome Back!',
+                        fontsize: 26, fontweight: FontWeight.bold),
+                                  reusablaSizaBox(context, .01),
+                                  reusableText(
+                      'Sign in to continue',
+                      color: colorController.textfieldBorderColorBefore,
+                      fontsize: 18,
+                                  ),
+                                  reusablaSizaBox(context, .01),
+                                  Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Radio<String>(
+                          overlayColor: MaterialStateColor.resolveWith(
+                              (states) => colorController.blueColor),
+                          fillColor: MaterialStateColor.resolveWith((states) =>
+                              colorController
+                                  .blueColor), // Fill color when the radio button is selected
+                          focusColor: colorController
+                              .blueColor, // Border color when the radio button is focused
+                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          value: 'Tutor',
+                          groupValue: _selectedValue,
+                          // activeColor: MaterialStateColor.resolveWith(
+                          //     (states) => colorController.blueColor),
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedValue = value!;
+                            });
+                          },
+                        ),
+                        reusableText('Tutor',
+                            fontsize: 14, fontweight: FontWeight.w200),
+                      ],
+                                  ),
+                                  reusablaSizaBox(context, .02),
+                                  reusableTextField(
                       context,
-                      reusabletextfieldcontroller.loginPassCon,
-                      'Password',
-                      _passfocusNode.hasFocus
+                      reusabletextfieldcontroller.emailCon,
+                      'Email Address',
+                      _emailfocusNode.hasFocus
                           ? colorController.blueColor
                           : colorController.textfieldBorderColorBefore,
-                      _passfocusNode, () {
-                    _passfocusNode.unfocus();
-                    FocusScope.of(context).requestFocus(_buttonFocusNode);
-                                },
-                                // true,
-                                pass,(){
-                                  setState(() {
-                                    pass = !pass;
-                                  });
-                                }),
-                                reusablaSizaBox(context, .02),
-                                Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      reusableText('Forgot Password? ',
-                          fontsize: 13,
-                          color: colorController.grayTextColor,
-                          fontweight: FontWeight.w400),
-                      InkWell(
+                      _emailfocusNode,
+                      () {
+                        // _onEmailChanged;
+                        _emailfocusNode.unfocus();
+                        FocusScope.of(context).requestFocus(_passfocusNode);
+                      }, 
+                      // true,
+                      // validateEmail, 
+                      keyboardType: TextInputType.emailAddress,
+                                  ),
+                                  reusablaSizaBox(context, .04),
+                                  reusablePassField(
+                        context,
+                        reusabletextfieldcontroller.loginPassCon,
+                        'Password',
+                        _passfocusNode.hasFocus
+                            ? colorController.blueColor
+                            : colorController.textfieldBorderColorBefore,
+                        _passfocusNode, () {
+                      _passfocusNode.unfocus();
+                      FocusScope.of(context).requestFocus(_buttonFocusNode);
+                                  },
+                                  // true,
+                                  pass,(){
+                                    setState(() {
+                                      pass = !pass;
+                                    });
+                                  }),
+                                  reusablaSizaBox(context, .02),
+                                  Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        reusableText('Forgot Password? ',
+                            fontsize: 13,
+                            color: colorController.grayTextColor,
+                            fontweight: FontWeight.w400),
+                        InkWell(
+                          onTap: () {
+                            launch('https://fahadtutors.com/login.php?Forgotten=0');
+                          },
+                          child: reusableText('Reset',
+                              fontsize: 13,
+                              color: colorController.blueColor,
+                              fontweight: FontWeight.bold),
+                        )
+                      ],
+                                  ),
+                                  reusablaSizaBox(context, .02),
+                                  reusableBtn(context, 'Login',
+                                  (){
+                                    _buttonFocusNode.unfocus();
+                                    _validateForm();
+                                  }
+                                  ),
+                                  reusablaSizaBox(context, .03),
+                                  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        reusableText("Don't have an account? ",
+                            fontsize: 13,
+                            color: colorController.grayTextColor,
+                            fontweight: FontWeight.w400),
+                        InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Rigister(),
+                                  ));
+                            },
+                            child: reusableText('Register Now',
+                                fontsize: 13,
+                                color: colorController.blueColor,
+                                fontweight: FontWeight.bold))
+                      ],
+                                  ),
+                                  reusablaSizaBox(context, .03),
+                                  reusableBtn(context, 'View Tuitions',()async{
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => ViewTuitions(),));
+                                  }),
+                                  reusablaSizaBox(context, .025),
+                                  Center(
+                      child: InkWell(
                         onTap: () {
-                          launch('https://fahadtutors.com/login.php?Forgotten=0');
+                          launch('https://fahadtutors.com/contact.php');
                         },
-                        child: reusableText('Reset',
+                        child: reusableText('Support',
                             fontsize: 13,
                             color: colorController.blueColor,
                             fontweight: FontWeight.bold),
-                      )
-                    ],
-                                ),
-                                reusablaSizaBox(context, .02),
-                                reusableBtn(context, 'Login',
-                                (){
-                                  _buttonFocusNode.unfocus();
-                                  _validateForm();
-                                }
-                                ),
-                                reusablaSizaBox(context, .03),
-                                Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      reusableText("Don't have an account? ",
-                          fontsize: 13,
-                          color: colorController.grayTextColor,
-                          fontweight: FontWeight.w400),
-                      InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Rigister(),
-                                ));
-                          },
-                          child: reusableText('Register Now',
-                              fontsize: 13,
-                              color: colorController.blueColor,
-                              fontweight: FontWeight.bold))
-                    ],
-                                ),
-                                reusablaSizaBox(context, .03),
-                                reusableBtn(context, 'View Tuitions',()async{
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ViewTuitions(),));
-                                }),
-                                reusablaSizaBox(context, .025),
-                                Center(
-                    child: InkWell(
-                      onTap: () {
-                        launch('https://fahadtutors.com/contact.php');
-                      },
-                      child: reusableText('Support',
-                          fontsize: 13,
-                          color: colorController.blueColor,
-                          fontweight: FontWeight.bold),
+                      ),
+                                  )
+                                ]),
                     ),
-                                )
-                              ]),
-                  ),
-            ),
-          )),
-          if(isLoading == true)
-            reusableloadingrow(context, isLoading),
-        ],
+              ),
+            )),
+            if(isLoading == true)
+              reusableloadingrow(context, isLoading),
+          ],
+        ),
       ),
     );
   }

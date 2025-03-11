@@ -100,10 +100,10 @@ class _HomeState extends State<Home> {
 
   void _checkPreferredPopup() {
     if (repository.preferred_popup.value == 1) {
-      reusablepopup(context,'${repository.preferred_popup_image.value}',);
+      reusablepopup1(context,'${repository.preferred_popup_image.value}',);
     }
     if(repository.discount_popup.value == '1'){
-      reusablepopup(context, '${repository.discount_popup_image.value}',);
+      reusablepopup2(context, '${repository.discount_popup_image.value}',);
     }
     if(repository.attention_popup.value == 1){
       reusableAttention(context, repository.attention_popup_title.value, formatAttention(repository.attention_popup_text.value));
@@ -112,8 +112,10 @@ class _HomeState extends State<Home> {
       setState(() {
         MySharedPrefrence().logout();
         reusabletextfieldcontroller.loginPassCon.clear();
-                  Navigator.push(context,MaterialPageRoute(
-              builder: (context) => WillPopScope( onWillPop: () async => false, child: Login())),);
+              //     Navigator.push(context,MaterialPageRoute(
+              // builder: (context) => WillPopScope( onWillPop: () async => false, child: Login())),);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Login(),));
+              
       });
     }
   }
@@ -224,573 +226,576 @@ class _HomeState extends State<Home> {
 
   @override
 Widget build(BuildContext context) {
-  return Scaffold(
-    backgroundColor: colorController.whiteColor,
-    appBar: reusableappbar(context, colorController.yellowColor,()async{
-      // await repository.Check_popup();
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(),));},repository.profile_image,(){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>Notifications()));
-      }),
-    body: 
-    // Stack(
-    //   children: [
-        SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * .032),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    reusableText('Preferred Tuitions',
-                        fontsize: 22.5,
-                        color: colorController.blackColor,
-                        fontweight: FontWeight.bold),
-                    reusableyoutubeIcon(context),
-                  ],
-                ),
-                reusablaSizaBox(context, .007),
-                Container(
-                  width: MediaQuery.of(context).size.width * 1,
-                  // height: MediaQuery.of(context).size.height * .065,
-                  child: TextField(
-                    controller: _searchCon,
-                    onChanged: (value) {
-                   searchTuitions(value);
-                  },
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10,vertical: 0.0),
-                      filled: true,
-                      fillColor: Colors.grey[350],
-                      hintText: 'Search Tuitions',
-                      prefixIcon: InkWell(
-                        onTap: (){
-                          // filterTuitions(_searchCon.text);
-                          },
-                        child: Icon(Icons.search, color: Colors.grey[270],)),
-                      hintStyle: TextStyle(color: Colors.grey[250]),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide.none
+  return WillPopScope(
+    onWillPop: repository.onWillPop,
+    child: Scaffold(
+      backgroundColor: colorController.whiteColor,
+      appBar: reusableappbar(context, colorController.yellowColor,()async{
+        // await repository.Check_popup();
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Profile(),));},repository.profile_image,(){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>Notifications()));
+        }),
+      body: 
+      // Stack(
+      //   children: [
+          SafeArea(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * .032),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      reusableText('Preferred Tuitions',
+                          fontsize: 22.5,
+                          color: colorController.blackColor,
+                          fontweight: FontWeight.bold),
+                      reusableyoutubeIcon(context),
+                    ],
+                  ),
+                  reusablaSizaBox(context, .007),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 1,
+                    // height: MediaQuery.of(context).size.height * .065,
+                    child: TextField(
+                      controller: _searchCon,
+                      onChanged: (value) {
+                     searchTuitions(value);
+                    },
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(horizontal: 10,vertical: 0.0),
+                        filled: true,
+                        fillColor: Colors.grey[350],
+                        hintText: 'Search Tuitions',
+                        prefixIcon: InkWell(
+                          onTap: (){
+                            // filterTuitions(_searchCon.text);
+                            },
+                          child: Icon(Icons.search, color: Colors.grey[270],)),
+                        hintStyle: TextStyle(color: Colors.grey[250]),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide.none
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide.none
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide.none
+                        ),
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
                       ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide.none
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                        borderSide: BorderSide.none
-                      ),
-                      errorBorder: InputBorder.none,
-                      disabledBorder: InputBorder.none,
                     ),
                   ),
-                ),
-                  reusablaSizaBox(context, .009),
-                      reusableVisiblityMesage(context, 'Apply carefully to maintain your profile', (){
-                        setState(() {});
-                        visible = false;},visible),
-                        reusablaSizaBox(context, .025),
-                        _searchCon.text.isNotEmpty ?
-              StreamBuilder(
-                stream: connectivity.onConnectivityChanged,
-                builder: (context, snapshot) {
-                  // Check connectivity status
-          bool isConnected = snapshot.data != ConnectivityResult.none;
-          
-          // if (snapshot.connectionState == ConnectionState.waiting) {
-          //   return Center(child: reusableloadingrow(context, isLoading));
-          // }
-
-          if (!isConnected) {
-            return Center(
-              child: Image.asset('assets/images/no_internet.jpg',fit: BoxFit.cover,filterQuality: FilterQuality.high,)
-            );
-          }
-                  return 
-                  // checkConnection(
-                  //   snapshot,
-                   isLoading2 || widget.isLoading2
-                ? Center(child: reusableloadingrow(context, isLoading2||widget.isLoading2)):
-                    Expanded(
-                      child: ListView.builder(
-                        controller: _scrollController,
-                        itemCount: searchResults.length,
-                        itemBuilder: (context, index) {
-                          final searchTuition = searchResults[index]; 
-                          // if (index < filteredTuitions.length) {
-                          //   var data = filteredTuitions[index];
-                          //   MySharedPrefrence().setAllTuitions(data);
-                            
-                            return Container(
-                              height: MediaQuery.of(context).size.height * 0.23, //19 to 21
-                              child: InkWell(
-                                onTap: (){
-                                  // repository.group_id();
-                                            print('online check ${searchTuition.onlineTermsCheck}');
-                                            print('online check headng ${searchTuition.onlineTermsCheckHeading}');
-                                            print('online check text  ${searchTuition.onlineTermsCheckText}');
-                                            g_id = searchTuition.groupId;
-                                            tuition_id = searchTuition.tuitionId;
-                                            print('tuitions_id ${searchTuition.tuitionId}');
-                                            reusabletutorDetails(
-                                                context,formatInfo(searchTuition.remarks),
-                                                searchTuition.className,
-                                                searchTuition.tuitionName,
-                                                searchTuition.placement,
-                                                searchTuition.jobClosed,
-                                                searchTuition.subject,
-                                                searchTuition.shareDate,
-                                                searchTuition.location,
-                                                searchTuition.limitStatement,(){
-                                                  if(searchTuition.groupId == '0'){
-                                                    if(searchTuition.onlineTermsCheck==1){
-                                                      reusableMessagedialog(context, searchTuition.onlineTermsCheckHeading, formatInfo(searchTuition.onlineTermsCheckText), 'Agree', 'Disagree', (){
-                                                        applyTuitions(() {
-                                                          setState(() {
-                                                            searchTuition.already == 1;
-                                                          });
-                                                        });
-                                                        Navigator.pop(context);
-                                                      }, (){Navigator.pop(context);});
-                                                    }else{
-                                                        // applyTuitions(() {
-                                                        //   setState(() {
-                                                        //     searchTuition.already == 1;
-                                                        //   });
-                                                        // });
-                                                        if(MySharedPrefrence().get_gender() == 2){
-                                                          reusableMessagedialog(context, 'Confirmation', "You will have to visit at Student's Place", 'Apply', 'Cancel', (){
-                                                            applyTuitions(() {
-                                                          setState(() {
-                                                            searchTuition.already == 1;
-                                                          });
-                                                        });
-                                                        Navigator.pop(context);
-                                                      }, (){Navigator.pop(context);});
-                                                        }else{
-                                                          applyTuitions(() {
-                                                          setState(() {
-                                                            searchTuition.already == 1;
-                                                          });
-                                                        });
-                                                        }
-                                                    }
-                                                  }else{
-                                                    reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm','Cancel', (){
+                    reusablaSizaBox(context, .009),
+                        reusableVisiblityMesage(context, 'Apply carefully to maintain your profile', (){
+                          setState(() {});
+                          visible = false;},visible),
+                          reusablaSizaBox(context, .025),
+                          _searchCon.text.isNotEmpty ?
+                StreamBuilder(
+                  stream: connectivity.onConnectivityChanged,
+                  builder: (context, snapshot) {
+                    // Check connectivity status
+            bool isConnected = snapshot.data != ConnectivityResult.none;
+            
+            // if (snapshot.connectionState == ConnectionState.waiting) {
+            //   return Center(child: reusableloadingrow(context, isLoading));
+            // }
+    
+            if (!isConnected) {
+              return Center(
+                child: Image.asset('assets/images/no_internet.jpg',fit: BoxFit.cover,filterQuality: FilterQuality.high,)
+              );
+            }
+                    return 
+                    // checkConnection(
+                    //   snapshot,
+                     isLoading2 || widget.isLoading2
+                  ? Center(child: reusableloadingrow(context, isLoading2||widget.isLoading2)):
+                      Expanded(
+                        child: ListView.builder(
+                          controller: _scrollController,
+                          itemCount: searchResults.length,
+                          itemBuilder: (context, index) {
+                            final searchTuition = searchResults[index]; 
+                            // if (index < filteredTuitions.length) {
+                            //   var data = filteredTuitions[index];
+                            //   MySharedPrefrence().setAllTuitions(data);
+                              
+                              return Container(
+                                height: MediaQuery.of(context).size.height * 0.23, //19 to 21
+                                child: InkWell(
+                                  onTap: (){
+                                    // repository.group_id();
+                                              print('online check ${searchTuition.onlineTermsCheck}');
+                                              print('online check headng ${searchTuition.onlineTermsCheckHeading}');
+                                              print('online check text  ${searchTuition.onlineTermsCheckText}');
+                                              g_id = searchTuition.groupId;
+                                              tuition_id = searchTuition.tuitionId;
+                                              print('tuitions_id ${searchTuition.tuitionId}');
+                                              reusabletutorDetails(
+                                                  context,formatInfo(searchTuition.remarks),
+                                                  searchTuition.className,
+                                                  searchTuition.tuitionName,
+                                                  searchTuition.placement,
+                                                  searchTuition.jobClosed,
+                                                  searchTuition.subject,
+                                                  searchTuition.shareDate,
+                                                  searchTuition.location,
+                                                  searchTuition.limitStatement,(){
+                                                    if(searchTuition.groupId == '0'){
                                                       if(searchTuition.onlineTermsCheck==1){
-                                                      reusableMessagedialog(context, searchTuition.onlineTermsCheckHeading, formatInfo(searchTuition.onlineTermsCheckText), 'Agree', 'Disagree', (){
-                                                        applyTuitions(() {
-                                                          setState(() {
-                                                            searchTuition.already == 1;
-                                                          });
-                                                        });
-                                                        Navigator.pop(context);
-                                                      }, (){Navigator.pop(context);});
-                                                    }else{
-                                                        // applyTuitions(() {
-                                                        //   setState(() {
-                                                        //     searchTuition.already == 1;
-                                                        //   });
-                                                        // });
-                                                        if(MySharedPrefrence().get_gender() == 2){
-                                                          reusableMessagedialog(context, 'Confirmation', "You will have to visit at Student's Place", 'Apply', 'Cancel', (){
-                                                            applyTuitions(() {
-                                                          setState(() {
-                                                            searchTuition.already == 1;
-                                                          });
-                                                        });
-                                                        Navigator.pop(context);
-                                                      }, (){Navigator.pop(context);});
-                                                        }else{
+                                                        reusableMessagedialog(context, searchTuition.onlineTermsCheckHeading, formatInfo(searchTuition.onlineTermsCheckText), 'Agree', 'Disagree', (){
                                                           applyTuitions(() {
-                                                          setState(() {
-                                                            searchTuition.already == 1;
+                                                            setState(() {
+                                                              searchTuition.already == 1;
+                                                            });
                                                           });
-                                                        });
-                                                        }
+                                                          Navigator.pop(context);
+                                                        }, (){Navigator.pop(context);});
+                                                      }else{
+                                                          // applyTuitions(() {
+                                                          //   setState(() {
+                                                          //     searchTuition.already == 1;
+                                                          //   });
+                                                          // });
+                                                          if(MySharedPrefrence().get_gender() == 2){
+                                                            reusableMessagedialog(context, 'Confirmation', "You will have to visit at Student's Place", 'Apply', 'Cancel', (){
+                                                              applyTuitions(() {
+                                                            setState(() {
+                                                              searchTuition.already == 1;
+                                                            });
+                                                          });
+                                                          Navigator.pop(context);
+                                                        }, (){Navigator.pop(context);});
+                                                          }else{
+                                                            applyTuitions(() {
+                                                            setState(() {
+                                                              searchTuition.already == 1;
+                                                            });
+                                                          });
+                                                          }
+                                                      }
+                                                    }else{
+                                                      reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm','Cancel', (){
+                                                        if(searchTuition.onlineTermsCheck==1){
+                                                        reusableMessagedialog(context, searchTuition.onlineTermsCheckHeading, formatInfo(searchTuition.onlineTermsCheckText), 'Agree', 'Disagree', (){
+                                                          applyTuitions(() {
+                                                            setState(() {
+                                                              searchTuition.already == 1;
+                                                            });
+                                                          });
+                                                          Navigator.pop(context);
+                                                        }, (){Navigator.pop(context);});
+                                                      }else{
+                                                          // applyTuitions(() {
+                                                          //   setState(() {
+                                                          //     searchTuition.already == 1;
+                                                          //   });
+                                                          // });
+                                                          if(MySharedPrefrence().get_gender() == 2){
+                                                            reusableMessagedialog(context, 'Confirmation', "You will have to visit at Student's Place", 'Apply', 'Cancel', (){
+                                                              applyTuitions(() {
+                                                            setState(() {
+                                                              searchTuition.already == 1;
+                                                            });
+                                                          });
+                                                          Navigator.pop(context);
+                                                        }, (){Navigator.pop(context);});
+                                                          }else{
+                                                            applyTuitions(() {
+                                                            setState(() {
+                                                              searchTuition.already == 1;
+                                                            });
+                                                          });
+                                                          }
+                                                      }
+                                                      }, (){Navigator.pop(context);});
                                                     }
-                                                    }, (){Navigator.pop(context);});
+                                                  },
+                                                  searchTuition.groupId,
+                                                  searchTuition.tuitionId,
+                                                  searchTuition.already,() {
+                                                    setState(() {
+                                                      searchTuition.already == 1;
+                                                    });
                                                   }
-                                                },
-                                                searchTuition.groupId,
-                                                searchTuition.tuitionId,
-                                                searchTuition.already,() {
-                                                  setState(() {
-                                                    searchTuition.already == 1;
-                                                  });
-                                                }
-                                                    );
-                                                    setState(() {});
-                                                  print('groupppppppppppppppppppppppppp ${searchTuition.groupId}');
-                                                  repository.group_id(searchTuition.groupId);
-                                },
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      top: MediaQuery.of(context).size.height * 0.023,
-                                      left: MediaQuery.of(context).size.width * 0.001,
-                                      right: MediaQuery.of(context).size.width * .001,
-                                      
-                                          child: reusablecard(context,
-                                          searchTuition.tuitionName,
-                                         searchTuition.className,
-                                          searchTuition.shareDate,
-                                          searchTuition.location,
-                                          searchTuition.subject,
-                                          searchTuition.already,
-                                          )),
-                                    // ),
-                                    Positioned(
-                                        left: MediaQuery.of(context).size.width * 0.45,
-                                        top: MediaQuery.of(context).size.height * 0.005,
-                                        right: MediaQuery.of(context).size.width * .27,
+                                                      );
+                                                      setState(() {});
+                                                    print('groupppppppppppppppppppppppppp ${searchTuition.groupId}');
+                                                    repository.group_id(searchTuition.groupId);
+                                  },
+                                  child: Stack(
+                                    children: [
+                                      Positioned(
+                                        top: MediaQuery.of(context).size.height * 0.023,
+                                        left: MediaQuery.of(context).size.width * 0.001,
+                                        right: MediaQuery.of(context).size.width * .001,
                                         
-                                            child: reusablecardbtn(
-                                                context,
-                                                '${searchTuition.placement}',
-                                                colorController.btnColor,
-                                                colorController.whiteColor)),
-                                                // ),
-                                    Positioned(
-                                        left: MediaQuery.of(context).size.width * 0.72,
-                                        top: MediaQuery.of(context).size.height * 0.005,
-                                        right: MediaQuery.of(context).size.width * .03,
-                                            child: reusablecardbtn(context, searchTuition.jobClosed == 0 ? 'Open' : 'Closed', searchTuition.jobClosed == 0 ? colorController.yellowColor : colorController.redColor, searchTuition.jobClosed == 0 ? colorController.blackColor : colorController.whiteColor))
-                                  ],
+                                            child: reusablecard(context,
+                                            searchTuition.tuitionName,
+                                           searchTuition.className,
+                                            searchTuition.shareDate,
+                                            searchTuition.location,
+                                            searchTuition.subject,
+                                            searchTuition.already,
+                                            )),
+                                      // ),
+                                      Positioned(
+                                          left: MediaQuery.of(context).size.width * 0.45,
+                                          top: MediaQuery.of(context).size.height * 0.005,
+                                          right: MediaQuery.of(context).size.width * .27,
+                                          
+                                              child: reusablecardbtn(
+                                                  context,
+                                                  '${searchTuition.placement}',
+                                                  colorController.btnColor,
+                                                  colorController.whiteColor)),
+                                                  // ),
+                                      Positioned(
+                                          left: MediaQuery.of(context).size.width * 0.72,
+                                          top: MediaQuery.of(context).size.height * 0.005,
+                                          right: MediaQuery.of(context).size.width * .03,
+                                              child: reusablecardbtn(context, searchTuition.jobClosed == 0 ? 'Open' : 'Closed', searchTuition.jobClosed == 0 ? colorController.yellowColor : colorController.redColor, searchTuition.jobClosed == 0 ? colorController.blackColor : colorController.whiteColor))
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            );
-                        },
-                      ),
-                  );
-                },
-              ):
-                        StreamBuilder(
-                stream: connectivity.onConnectivityChanged,
-                builder: (context, snapshot) {
-                   // Check connectivity status
-          bool isConnected = snapshot.data != ConnectivityResult.none;
-          
-          // if (snapshot.connectionState == ConnectionState.waiting) {
-          //   return Center(child: reusableloadingrow(context, isLoading));
-          // }
-
-          if (!isConnected) {
-            return Center(
-              child: Image.asset('assets/images/no_internet.jpg',fit: BoxFit.cover,filterQuality: FilterQuality.high,)
-            );
-          }
-
-                  return 
-                  // checkConnection(
-                  //   snapshot,
-                   widget.isLoading2 || isLoading2
-                ? Center(child: reusableloadingrow(context, widget.isLoading2||isLoading2)):
-                    Expanded(
-                      child: ListView.builder(
-                        controller: _scrollController,
-                        itemCount: filteredTuitions.length + 1,
-                        itemBuilder: (context, index) {
-                          if (index < filteredTuitions.length) {
-                            var data = filteredTuitions[index];
-                            MySharedPrefrence().setAllTuitions(data);
-                            return Container(
-                              height: MediaQuery.of(context).size.height * 0.23, //19 to 23
-                              child: InkWell(
-                                onTap: (){
-                                  // repository.group_id();
-                                            print('online check ${data['Online_terms_check']}');
-                                            print('online check headng ${data['Online_terms_check_heading']}');
-                                            print('online check text  ${data['Online_terms_check_text']}');
-                                            g_id = data['group_id'];
-                                            tuition_id = data['tuition_id'];
-                                            print('tuitions_id ${data['tuition_id']}');
-                                            reusabletutorDetails(
-                                                context,formatInfo(data['remarks']),
-                                                data['class_name'],
-                                                data['tuition_name'],
-                                                data['Placement'],
-                                                data['job_closed'],
-                                                data['subject'],
-                                                data['share_date'],
-                                                data['location'],
-                                                data['limit_statement'],(){
-                                                  if(data['group_id'] == '0'){
-                                                    if(data['Online_terms_check']==1){
-                                                      reusableMessagedialog(context, data['Online_terms_check_heading'], formatInfo(data['Online_terms_check_text']), 'Agree', 'Disagree', (){
-                                                        applyTuitions(() {
-                                                          setState(() {
-                                                            data['already'] = 1;
-                                                          });
-                                                        });
-                                                        Navigator.pop(context);
-                                                      }, (){Navigator.pop(context);});
-                                                    }else{
-                                                        // applyTuitions(() {
-                                                        //   setState(() {
-                                                        //     data['already'] = 1;
-                                                        //   });
-                                                        // });
-                                                        if(MySharedPrefrence().get_gender() == 2){
-                                                          reusableMessagedialog(context, 'Confirmation', "You will have to visit at Student's Place", 'Apply', 'Cancel', (){
-                                                            applyTuitions(() {
-                                                          setState(() {
-                                                            data['already'] = 1;
-                                                          });
-                                                        });
-                                                        Navigator.pop(context);
-                                                      }, (){Navigator.pop(context);});
-                                                        }else{
-                                                          applyTuitions(() {
-                                                          setState(() {
-                                                            data['already'] = 1;
-                                                          });
-                                                        });
-                                                        }
-                                                    }
-                                                  }else{
-                                                    reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm','Cancel', (){
-                                                      if(data['Online_terms_check']==1){
-                                                      reusableMessagedialog(context, data['Online_terms_check_heading'], formatInfo(data['Online_terms_check_text']), 'Agree', 'Disagree', (){
-                                                        applyTuitions(() {
-                                                          setState(() {
-                                                            data['already'] = 1;
-                                                          });
-                                                        });
-                                                        Navigator.pop(context);
-                                                      }, (){Navigator.pop(context);});
-                                                    }else{
-                                                        // applyTuitions(() {
-                                                        //   setState(() {
-                                                        //     data['already'] = 1;
-                                                        //   });
-                                                        // });
-                                                        if(MySharedPrefrence().get_gender() == 2){
-                                                          reusableMessagedialog(context, 'Confirmation', "You will have to visit at Student's Place", 'Apply', 'Cancel', (){
-                                                            applyTuitions(() {
-                                                          setState(() {
-                                                            data['already'] = 1;
-                                                          });
-                                                        });
-                                                        Navigator.pop(context);
-                                                      }, (){Navigator.pop(context);});
-                                                        }else{
-                                                          applyTuitions(() {
-                                                          setState(() {
-                                                            data['already'] = 1;
-                                                          });
-                                                        });
-                                                        }
-                                                    }
-                                                    }, (){Navigator.pop(context);});
-                                                  }
-                                                },
-                                                data['group_id'],
-                                                data['tuition_id'],
-                                                data['already'],() {
-                                                  setState(() {
-                                                    data['already'] = 1;
-                                                  });
-                                                }
-                                                    );
-                                                    setState(() {});
-                                                  print('groupppppppppppppppppppppppppp ${data['group_id']}');
-                                                  repository.group_id(data['group_id']);
-                                },
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      top: MediaQuery.of(context).size.height * 0.023,
-                                      left: MediaQuery.of(context).size.width * 0.001,
-                                      right: MediaQuery.of(context).size.width * .001,
-                                      // child: InkWell(
-                                      //     onTap: () {
-                                      //       g_id = data['group_id'];
-                                      //       tuition_id = data['tuition_id'];
-                                      //       print('Preferred tuition id: ${data['tuition_id']}');
-                                      //       reusabletutorDetails(
-                                      //           context,formatInfo(data['remarks']),
-                                      //           data['class_name'],
-                                      //           data['tuition_name'],
-                                      //           data['Placement'],
-                                      //           data['job_closed'],
-                                      //           data['subject'],
-                                      //           data['share_date'],
-                                      //           data['location'],
-                                      //           data['limit_statement'],(){
-                                      //             if(data['group_id'] == '0'){
-                                      //               applyTuitions(() {
-                                      //             setState(() {
-                                      //               data['already'] = 1;
-                                      //             });
-                                      //           });
-                                      //             }else{
-                                      //               reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm','Cancel', (){
-                                      //                 applyTuitions(() {
-                                      //             setState(() {
-                                      //               data['already'] = 1;
-                                      //             });
-                                      //           });
-                                      //               }, (){Navigator.pop(context);});
-                                      //             }
-                                      //           },
-                                      //           data['group_id'],
-                                      //           data['tuition_id'],
-                                      //           data['already'],() {
-                                      //             setState(() {
-                                      //               data['already'] = 1;
-                                      //             });
-                                      //           }
-                                      //               );
-                                      //               setState(() {});
-                                      //             print('groupppppppppppppppppppppppppp ${data['group_id']}');
-                                      //             repository.group_id(data['group_id']);
-                                      //     },
-                                          child: reusablecard(context,
-                                          data['tuition_name'],
-                                          data['class_name'],
-                                          data['share_date'],
-                                          data['location'],
-                                          data['subject'],
-                                          data['already'],
-                                          )),
-                                    // ),
-                                    Positioned(
-                                        left: MediaQuery.of(context).size.width * 0.45,
-                                        top: MediaQuery.of(context).size.height * 0.005,
-                                        right: MediaQuery.of(context).size.width * .27,
-                                        // child: InkWell(
-                                        //     onTap: () {
-                                        //       reusabletutorDetails(
-                                        //           context,formatInfo(data['remarks']),
-                                        //         data['class_name'],
-                                        //         data['tuition_name'],
-                                        //         data['Placement'],
-                                        //         data['job_closed'],
-                                        //         data['subject'],
-                                        //         data['share_date'],
-                                        //         data['location'],
-                                        //         data['limit_statement'],(){
-                                        //           if(data['group_id'] == '0'){
-                                        //             applyTuitions(() {
-                                        //           setState(() {
-                                        //             data['already'] = 1;
-                                        //           });
-                                        //         });
-                                        //           }else{
-                                        //             reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm','Cancel', (){
-                                        //               applyTuitions(() {
-                                        //           setState(() {
-                                        //             data['already'] = 1;
-                                        //           });
-                                        //         });
-                                        //             }, (){Navigator.pop(context);});
-                                        //           }
-                                        //         },
-                                        //         data['group_id'],
-                                        //         data['tuition_id'],
-                                        //         data['already'],() {
-                                        //           setState(() {
-                                        //             data['already'] = 1;
-                                        //           });
-                                        //         }
-                                        //           );
-                                        //           setState(() {});
-                                        //           print('groupppppppppppppppppppppppppp ${data['group_id']}');
-                                        //           repository.group_id(data['group_id']);
-                                        //     },
-                                            child: reusablecardbtn(
-                                                context,
-                                                '${data['Placement']}',
-                                                colorController.btnColor,
-                                                colorController.whiteColor)),
-                                                // ),
-                                    Positioned(
-                                        left: MediaQuery.of(context).size.width * 0.72,
-                                        top: MediaQuery.of(context).size.height * 0.005,
-                                        right: MediaQuery.of(context).size.width * .03,
-                                        // child: InkWell(
-                                        //     onTap: () {
-                                        //       reusabletutorDetails(
-                                        //           context,formatInfo(data['remarks']),
-                                        //         data['class_name'],
-                                        //         data['tuition_name'],
-                                        //         data['Placement'],
-                                        //         data['job_closed'],
-                                        //         data['subject'],
-                                        //         data['share_date'],
-                                        //         data['location'],
-                                        //         data['limit_statement'],(){
-                                        //           if(data['group_id'] == '0'){
-                                        //             applyTuitions(() {
-                                        //           setState(() {
-                                        //             data['already'] = 1;
-                                        //           });
-                                        //         });
-                                        //           }else{
-                                        //             reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm','Cancel', (){
-                                        //               applyTuitions(() {
-                                        //           setState(() {
-                                        //             data['already'] = 1;
-                                        //           });
-                                        //         });
-                                        //             }, (){Navigator.pop(context);});
-                                        //           }
-                                        //         },
-                                        //         data['group_id'],
-                                        //         data['tuition_id'],
-                                        //         data['already'],() {
-                                        //           setState(() {
-                                        //             data['already'] = 1;
-                                        //           });
-                                        //         }
-                                        //           );
-                                        //           setState(() {});
-                                        //           print('groupppppppppppppppppppppppppp ${data['group_id']}');
-                                        //           repository.group_id(data['group_id']);
-                                        //     },
-                                            child: reusablecardbtn(context, data['job_closed'] == 0 ? 'Open' : 'Closed', data['job_closed'] == 0 ? colorController.yellowColor : colorController.redColor, data['job_closed'] == 0 ? colorController.blackColor : colorController.whiteColor))
-                                            // ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          } else{
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: MediaQuery.of(context).size.width * .32,
-                                vertical: MediaQuery.of(context).size.height * .03,
-                              ),
-                              child: isLoading
-                                  ? reusableloadingrow(context, isLoading)
-                                  : repository.showLoadMoreButton
-                                      ? reusableBtn(
-                                          context, 'Load More', () {
-                                          loadMoreTuitions();
-                                        })
-                                      : Center(
-                                      child: CircularProgressIndicator(
-                                      color: colorController.btnColor,
-                                    )),
-                            );
-                          }
-                        },
-                      ),
+                              );
+                          },
+                        ),
                     );
-              //     );
-                },
+                  },
+                ):
+                          StreamBuilder(
+                  stream: connectivity.onConnectivityChanged,
+                  builder: (context, snapshot) {
+                     // Check connectivity status
+            bool isConnected = snapshot.data != ConnectivityResult.none;
+            
+            // if (snapshot.connectionState == ConnectionState.waiting) {
+            //   return Center(child: reusableloadingrow(context, isLoading));
+            // }
+    
+            if (!isConnected) {
+              return Center(
+                child: Image.asset('assets/images/no_internet.jpg',fit: BoxFit.cover,filterQuality: FilterQuality.high,)
+              );
+            }
+    
+                    return 
+                    // checkConnection(
+                    //   snapshot,
+                     widget.isLoading2 || isLoading2
+                  ? Center(child: reusableloadingrow(context, widget.isLoading2||isLoading2)):
+                      Expanded(
+                        child: ListView.builder(
+                          controller: _scrollController,
+                          itemCount: filteredTuitions.length + 1,
+                          itemBuilder: (context, index) {
+                            if (index < filteredTuitions.length) {
+                              var data = filteredTuitions[index];
+                              MySharedPrefrence().setAllTuitions(data);
+                              return Container(
+                                height: MediaQuery.of(context).size.height * 0.23, //19 to 23
+                                child: InkWell(
+                                  onTap: (){
+                                    // repository.group_id();
+                                              print('online check ${data['Online_terms_check']}');
+                                              print('online check headng ${data['Online_terms_check_heading']}');
+                                              print('online check text  ${data['Online_terms_check_text']}');
+                                              g_id = data['group_id'];
+                                              tuition_id = data['tuition_id'];
+                                              print('tuitions_id ${data['tuition_id']}');
+                                              reusabletutorDetails(
+                                                  context,formatInfo(data['remarks']),
+                                                  data['class_name'],
+                                                  data['tuition_name'],
+                                                  data['Placement'],
+                                                  data['job_closed'],
+                                                  data['subject'],
+                                                  data['share_date'],
+                                                  data['location'],
+                                                  data['limit_statement'],(){
+                                                    if(data['group_id'] == '0'){
+                                                      if(data['Online_terms_check']==1){
+                                                        reusableMessagedialog(context, data['Online_terms_check_heading'], formatInfo(data['Online_terms_check_text']), 'Agree', 'Disagree', (){
+                                                          applyTuitions(() {
+                                                            setState(() {
+                                                              data['already'] = 1;
+                                                            });
+                                                          });
+                                                          Navigator.pop(context);
+                                                        }, (){Navigator.pop(context);});
+                                                      }else{
+                                                          // applyTuitions(() {
+                                                          //   setState(() {
+                                                          //     data['already'] = 1;
+                                                          //   });
+                                                          // });
+                                                          if(MySharedPrefrence().get_gender() == 2){
+                                                            reusableMessagedialog(context, 'Confirmation', "You will have to visit at Student's Place", 'Apply', 'Cancel', (){
+                                                              applyTuitions(() {
+                                                            setState(() {
+                                                              data['already'] = 1;
+                                                            });
+                                                          });
+                                                          Navigator.pop(context);
+                                                        }, (){Navigator.pop(context);});
+                                                          }else{
+                                                            applyTuitions(() {
+                                                            setState(() {
+                                                              data['already'] = 1;
+                                                            });
+                                                          });
+                                                          }
+                                                      }
+                                                    }else{
+                                                      reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm','Cancel', (){
+                                                        if(data['Online_terms_check']==1){
+                                                        reusableMessagedialog(context, data['Online_terms_check_heading'], formatInfo(data['Online_terms_check_text']), 'Agree', 'Disagree', (){
+                                                          applyTuitions(() {
+                                                            setState(() {
+                                                              data['already'] = 1;
+                                                            });
+                                                          });
+                                                          Navigator.pop(context);
+                                                        }, (){Navigator.pop(context);});
+                                                      }else{
+                                                          // applyTuitions(() {
+                                                          //   setState(() {
+                                                          //     data['already'] = 1;
+                                                          //   });
+                                                          // });
+                                                          if(MySharedPrefrence().get_gender() == 2){
+                                                            reusableMessagedialog(context, 'Confirmation', "You will have to visit at Student's Place", 'Apply', 'Cancel', (){
+                                                              applyTuitions(() {
+                                                            setState(() {
+                                                              data['already'] = 1;
+                                                            });
+                                                          });
+                                                          Navigator.pop(context);
+                                                        }, (){Navigator.pop(context);});
+                                                          }else{
+                                                            applyTuitions(() {
+                                                            setState(() {
+                                                              data['already'] = 1;
+                                                            });
+                                                          });
+                                                          }
+                                                      }
+                                                      }, (){Navigator.pop(context);});
+                                                    }
+                                                  },
+                                                  data['group_id'],
+                                                  data['tuition_id'],
+                                                  data['already'],() {
+                                                    setState(() {
+                                                      data['already'] = 1;
+                                                    });
+                                                  }
+                                                      );
+                                                      setState(() {});
+                                                    print('groupppppppppppppppppppppppppp ${data['group_id']}');
+                                                    repository.group_id(data['group_id']);
+                                  },
+                                  child: Stack(
+                                    children: [
+                                      Positioned(
+                                        top: MediaQuery.of(context).size.height * 0.023,
+                                        left: MediaQuery.of(context).size.width * 0.001,
+                                        right: MediaQuery.of(context).size.width * .001,
+                                        // child: InkWell(
+                                        //     onTap: () {
+                                        //       g_id = data['group_id'];
+                                        //       tuition_id = data['tuition_id'];
+                                        //       print('Preferred tuition id: ${data['tuition_id']}');
+                                        //       reusabletutorDetails(
+                                        //           context,formatInfo(data['remarks']),
+                                        //           data['class_name'],
+                                        //           data['tuition_name'],
+                                        //           data['Placement'],
+                                        //           data['job_closed'],
+                                        //           data['subject'],
+                                        //           data['share_date'],
+                                        //           data['location'],
+                                        //           data['limit_statement'],(){
+                                        //             if(data['group_id'] == '0'){
+                                        //               applyTuitions(() {
+                                        //             setState(() {
+                                        //               data['already'] = 1;
+                                        //             });
+                                        //           });
+                                        //             }else{
+                                        //               reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm','Cancel', (){
+                                        //                 applyTuitions(() {
+                                        //             setState(() {
+                                        //               data['already'] = 1;
+                                        //             });
+                                        //           });
+                                        //               }, (){Navigator.pop(context);});
+                                        //             }
+                                        //           },
+                                        //           data['group_id'],
+                                        //           data['tuition_id'],
+                                        //           data['already'],() {
+                                        //             setState(() {
+                                        //               data['already'] = 1;
+                                        //             });
+                                        //           }
+                                        //               );
+                                        //               setState(() {});
+                                        //             print('groupppppppppppppppppppppppppp ${data['group_id']}');
+                                        //             repository.group_id(data['group_id']);
+                                        //     },
+                                            child: reusablecard(context,
+                                            data['tuition_name'],
+                                            data['class_name'],
+                                            data['share_date'],
+                                            data['location'],
+                                            data['subject'],
+                                            data['already'],
+                                            )),
+                                      // ),
+                                      Positioned(
+                                          left: MediaQuery.of(context).size.width * 0.45,
+                                          top: MediaQuery.of(context).size.height * 0.005,
+                                          right: MediaQuery.of(context).size.width * .27,
+                                          // child: InkWell(
+                                          //     onTap: () {
+                                          //       reusabletutorDetails(
+                                          //           context,formatInfo(data['remarks']),
+                                          //         data['class_name'],
+                                          //         data['tuition_name'],
+                                          //         data['Placement'],
+                                          //         data['job_closed'],
+                                          //         data['subject'],
+                                          //         data['share_date'],
+                                          //         data['location'],
+                                          //         data['limit_statement'],(){
+                                          //           if(data['group_id'] == '0'){
+                                          //             applyTuitions(() {
+                                          //           setState(() {
+                                          //             data['already'] = 1;
+                                          //           });
+                                          //         });
+                                          //           }else{
+                                          //             reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm','Cancel', (){
+                                          //               applyTuitions(() {
+                                          //           setState(() {
+                                          //             data['already'] = 1;
+                                          //           });
+                                          //         });
+                                          //             }, (){Navigator.pop(context);});
+                                          //           }
+                                          //         },
+                                          //         data['group_id'],
+                                          //         data['tuition_id'],
+                                          //         data['already'],() {
+                                          //           setState(() {
+                                          //             data['already'] = 1;
+                                          //           });
+                                          //         }
+                                          //           );
+                                          //           setState(() {});
+                                          //           print('groupppppppppppppppppppppppppp ${data['group_id']}');
+                                          //           repository.group_id(data['group_id']);
+                                          //     },
+                                              child: reusablecardbtn(
+                                                  context,
+                                                  '${data['Placement']}',
+                                                  colorController.btnColor,
+                                                  colorController.whiteColor)),
+                                                  // ),
+                                      Positioned(
+                                          left: MediaQuery.of(context).size.width * 0.72,
+                                          top: MediaQuery.of(context).size.height * 0.005,
+                                          right: MediaQuery.of(context).size.width * .03,
+                                          // child: InkWell(
+                                          //     onTap: () {
+                                          //       reusabletutorDetails(
+                                          //           context,formatInfo(data['remarks']),
+                                          //         data['class_name'],
+                                          //         data['tuition_name'],
+                                          //         data['Placement'],
+                                          //         data['job_closed'],
+                                          //         data['subject'],
+                                          //         data['share_date'],
+                                          //         data['location'],
+                                          //         data['limit_statement'],(){
+                                          //           if(data['group_id'] == '0'){
+                                          //             applyTuitions(() {
+                                          //           setState(() {
+                                          //             data['already'] = 1;
+                                          //           });
+                                          //         });
+                                          //           }else{
+                                          //             reusableMessagedialog(context, 'Classes', 'Are you sure${ repository.class_name}', 'Confirm','Cancel', (){
+                                          //               applyTuitions(() {
+                                          //           setState(() {
+                                          //             data['already'] = 1;
+                                          //           });
+                                          //         });
+                                          //             }, (){Navigator.pop(context);});
+                                          //           }
+                                          //         },
+                                          //         data['group_id'],
+                                          //         data['tuition_id'],
+                                          //         data['already'],() {
+                                          //           setState(() {
+                                          //             data['already'] = 1;
+                                          //           });
+                                          //         }
+                                          //           );
+                                          //           setState(() {});
+                                          //           print('groupppppppppppppppppppppppppp ${data['group_id']}');
+                                          //           repository.group_id(data['group_id']);
+                                          //     },
+                                              child: reusablecardbtn(context, data['job_closed'] == 0 ? 'Open' : 'Closed', data['job_closed'] == 0 ? colorController.yellowColor : colorController.redColor, data['job_closed'] == 0 ? colorController.blackColor : colorController.whiteColor))
+                                              // ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            } else{
+                              return Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: MediaQuery.of(context).size.width * .32,
+                                  vertical: MediaQuery.of(context).size.height * .03,
+                                ),
+                                child: isLoading
+                                    ? reusableloadingrow(context, isLoading)
+                                    : repository.showLoadMoreButton
+                                        ? reusableBtn(
+                                            context, 'Load More', () {
+                                            loadMoreTuitions();
+                                          })
+                                        : Center(
+                                        child: CircularProgressIndicator(
+                                        color: colorController.btnColor,
+                                      )),
+                              );
+                            }
+                          },
+                        ),
+                      );
+                //     );
+                  },
+                ),
+                ],
               ),
-              ],
             ),
           ),
-        ),
-    //     if(isLoading == true)
-    //       reusableloadingrow(context, isLoading),
-    //   ],
-    // ),
+      //     if(isLoading == true)
+      //       reusableloadingrow(context, isLoading),
+      //   ],
+      // ),
+    ),
   );
 }
 

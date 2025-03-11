@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:fahad_tutor/controller/text_field_controller.dart';
@@ -10,6 +11,7 @@ import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/views/login/login.dart';
 import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -787,6 +789,16 @@ class TutorRepository {
       }
     } else {
       throw Exception('Failed to load tuitions');
+    }
+  }
+
+  Future<bool> onWillPop() async {
+    if (Platform.isAndroid) {
+      // For Android, use moveTaskToBack to send the app to the background
+      SystemChannels.platform.invokeMethod('SystemNavigator.pop'); // Correct method call
+      return Future.value(false); // Prevent app from closing
+    } else {
+      return Future.value(false); // For iOS or other platforms, prevent app closure
     }
   }
 
