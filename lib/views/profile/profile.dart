@@ -62,16 +62,14 @@ class _ProfileState extends State<Profile> {
     }
   }
   void _launchPhone(String phone) async {
-    final Uri phoneUri = Uri(
-      scheme: 'tel',
-      path: phone,
-    );
-    if (await canLaunchUrl(phoneUri)) {
-      await launchUrl(phoneUri);
-    } else {
-      throw 'Could not launch $phoneUri';
-    }
+  final Uri phoneUri = Uri.parse("tel:$phone");
+
+  if (await canLaunchUrl(phoneUri)) {
+    await launchUrl(phoneUri);
+  } else {
+    print("Could not launch $phoneUri");
   }
+}
   Future<void> _launchGooglePlayStore() async {
   const url = 'https://play.google.com/store/apps/details?id=com.example.app'; // Replace with your app's URL
   if (await canLaunch(url)) {
@@ -447,9 +445,9 @@ void loginClear(){
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  reusablelink(context, 'assets/images/fb_icon.png', (){launch('facebook.com/FahadTutorAcademy');}),
-                  reusablelink(context, 'assets/images/insta_icon.png', (){launch('instagram.com/fahadtutors');}),
-                  reusablelink(context, 'assets/images/web_icon.png', (){launch('fahadtutors.com');}),
+                  reusablelink(context, 'assets/images/fb_icon.png', (){launch('https://facebook.com/FahadTutorAcademy');}),
+                  reusablelink(context, 'assets/images/insta_icon.png', (){launch('https://instagram.com/fahadtutors');}),
+                  reusablelink(context, 'assets/images/web_icon.png', (){launch('https://fahadtutors.com');}),
                   reusablelink(context, 'assets/images/email.png', (){_launchEmail("info@fahadtutors.com");}),
                   reusablelink(context, 'assets/images/phone_icon.png', (){_launchPhone('03002391994');}),
                   reusablelink(context, 'assets/images/youtube.png', (){launch('https://youtube.com/@fahadtutorsfta?si=ntx5BBwfHIJHlTZ_');},),
