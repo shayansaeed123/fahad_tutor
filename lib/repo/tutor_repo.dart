@@ -398,14 +398,14 @@ class TutorRepository {
 
     try {
       String url =
-          '${Utils.baseUrl}preferred_tuition.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=$limit&cell_access_token=${MySharedPrefrence().get_cell_token().toString()}';
+          '${Utils.baseUrl}preferred_tuition.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=$limit&cell_access_token=${MySharedPrefrence().get_cell_token().toString()}&version=101';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 
       if (response.statusCode == 200) {
         dynamic jsonResponse = jsonDecode(response.body);
         List<dynamic> newItems = jsonResponse['tuition_listing'];
-        _preferred_popup.value = jsonResponse['enable_popup_status'][0]; 
+        _preferred_popup.value = jsonResponse['popup_status'][0]; 
         _discount_popup.value = jsonResponse['discount_popup_status'][0];
         _preferred_popup_image.value = jsonResponse['popup_img'][0];
         _discount_popup_image.value = jsonResponse['discount_img'][0];

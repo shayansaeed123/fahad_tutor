@@ -109,6 +109,7 @@ void updateTutorPlacement() {
   void initState() {
     super.initState();
     selectCountry();
+    repository.get_Token();
     _biography.addListener(_updateCharCount);
     _teacherfocusNode = FocusNode();
     _teacherfocusNode.addListener(_onFocusChange);
@@ -180,7 +181,7 @@ void updateTutorPlacement() {
     reusabletextfieldcontroller.alterContactCon.text.length == 11 &&
     reusabletextfieldcontroller.contactCon.text.isNotEmpty &&
     reusabletextfieldcontroller.alterContactCon.text.isNotEmpty &&
-    reusabletextfieldcontroller.cnicCon.text.length == 14 &&
+    reusabletextfieldcontroller.cnicCon.text.length == 13 &&
     reusabletextfieldcontroller.religionCon.text.isNotEmpty &&
     areaName.isNotEmpty &&
     reusabletextfieldcontroller.addressCon.text.isNotEmpty &&
@@ -208,7 +209,7 @@ void updateTutorPlacement() {
                           ? "Check phone number"
                           : reusabletextfieldcontroller.alterContactCon.text.length != 11
                               ? "Check alternate phone number"
-                              : reusabletextfieldcontroller.cnicCon.text.length != 14
+                              : reusabletextfieldcontroller.cnicCon.text.length != 13
                                   ? "Check CNIC number"
                                   : reusabletextfieldcontroller.registerPassCon.text.isEmpty
                                       ? "Password is missing"
@@ -550,7 +551,7 @@ void updateTutorPlacement() {
           } catch (e) {
             print(e);
           }
-          Navigator.pop(context);
+          // Navigator.pop(context);
         }
       } else {
         print('Error2: ' + response.statusCode.toString());
@@ -572,6 +573,7 @@ void updateTutorPlacement() {
       // updateTutorPlacement(); // Ensure the selected placements are updated
       final bio = _biography.text.toString();
       print('check email ${MySharedPrefrence().get_user_email()}');
+      print('cell_token ${MySharedPrefrence().get_cell_token()}');
       print('bio ${bio.toString()}');
       final response = await http.post(
           Uri.parse('${Utils.baseUrl}sign_up.php'),
@@ -596,6 +598,7 @@ void updateTutorPlacement() {
             'online_Skill':'',
             'Biography': bio.toString(),
             'tutor_placement': jsonEncode(selectedPlacements),
+            'cell_access_token': MySharedPrefrence().get_cell_token(),
           });
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
@@ -616,8 +619,8 @@ void updateTutorPlacement() {
             },
             child: Utils.snakbarFailed(context, apiMessage),
           );
-          Navigator.push(
-              context, MaterialPageRoute(builder: ((context) => Rigister())));
+          // Navigator.push(
+          //     context, MaterialPageRoute(builder: ((context) => Rigister())));
           //   },
           // );
         }
@@ -1103,7 +1106,7 @@ void updateTutorPlacement() {
                                     FocusScope.of(context)
                                         .requestFocus(_passfocusNode);
                                   },
-                                  14,
+                                  13,
                                   // true,
                                   // 'CNIC No is requried',
                                   keyboardType: TextInputType.number,
