@@ -24,6 +24,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 import '../login/login.dart';
 
@@ -99,6 +100,9 @@ class _HomeState extends State<Home> {
   }
 
   void _checkPreferredPopup() {
+    if(repository.goto_play.value == 1){
+      launch('https://play.google.com/store/apps/details?id=com.fahadtutors&hl=en_US');
+    }
     if (repository.preferred_popup.value == 1) {
       reusablepopup1(context,'${repository.preferred_popup_image.value}',);
     }
