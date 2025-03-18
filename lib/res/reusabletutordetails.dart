@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 reusabletutorDetails(
   BuildContext context,
@@ -397,4 +398,99 @@ reusableAttention(BuildContext context,String title, String text) {
       ],
     ),
   );
+}
+
+reusableNewUpdate(BuildContext context, Function onTap){
+  return showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      backgroundColor: colorController.whiteColor,
+      title: Center(
+          child: reusableText(
+        'New Update',
+        color: colorController.blackColor,
+        fontsize: 18,
+        fontweight: FontWeight.bold,
+      )),
+      content: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * .11,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(0.8),
+                child: reusableText(
+                  'The application has been updated with new features! Please update now to enjoy the latest improvements.',
+                  color: colorController.grayTextColor,
+                  fontsize: 12,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      actions: [
+        Center(
+                child: reusableBtn(context, 'Update', (){
+                  Navigator.pop(context);
+                  onTap();
+                })),
+        reusablaSizaBox(context, .01)
+      ],
+    ),
+  ); 
+}
+
+reusableAutoLogout(BuildContext context, Function onTap){
+  return showDialog(
+    context: context,
+    barrierDismissible: false, // ✅ Prevent dismissing by tapping outside
+    builder: (context) => WillPopScope(
+      onWillPop: () async {
+        onTap(); // ✅ Execute logout & navigation on back button press
+        return false; // Prevent default back action
+      },
+      child: AlertDialog(
+        backgroundColor: colorController.whiteColor,
+        title: Center(
+            child: reusableText(
+          'Login Alert',
+          color: colorController.blackColor,
+          fontsize: 18,
+          fontweight: FontWeight.bold,
+        )),
+        content: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * .08,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(0.8),
+                  child: reusableText(
+                    'Your account is already active on another device!',
+                    color: colorController.grayTextColor,
+                    fontsize: 12,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        actions: [
+          Center(
+                  child: reusableBtn(context, 'Ok', (){
+                    Navigator.pop(context);
+                    onTap();
+                  })),
+          reusablaSizaBox(context, .01)
+        ],
+      ),
+    ),
+  ); 
 }

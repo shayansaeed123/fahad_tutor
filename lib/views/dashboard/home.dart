@@ -101,7 +101,9 @@ class _HomeState extends State<Home> {
 
   void _checkPreferredPopup() {
     if(repository.goto_play.value == 1){
-      launch('https://play.google.com/store/apps/details?id=com.fahadtutors&hl=en_US');
+      reusableNewUpdate(context,(){
+        launch('https://play.google.com/store/apps/details?id=com.fahadtutors&hl=en_US');
+      });
     }
     if (repository.preferred_popup.value == 1) {
       reusablepopup1(context,'${repository.preferred_popup_image.value}',);
@@ -114,12 +116,11 @@ class _HomeState extends State<Home> {
     }
     if(repository.account_check.value == 0){
       setState(() {
+        reusableAutoLogout(context,(){
         MySharedPrefrence().logout();
         reusabletextfieldcontroller.loginPassCon.clear();
-              //     Navigator.push(context,MaterialPageRoute(
-              // builder: (context) => WillPopScope( onWillPop: () async => false, child: Login())),);
               Navigator.push(context, MaterialPageRoute(builder: (context) => Login(),));
-              
+      });
       });
     }
   }

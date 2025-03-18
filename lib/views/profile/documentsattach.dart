@@ -262,25 +262,25 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
   }
 
   void _validateForm() {
-  if (_profile != null &&
-      _cnicFront != null &&
-      _cnicBack != null &&
-      _last_document != null &&
-      _profile!.path.isNotEmpty &&
-      _cnicFront!.path.isNotEmpty &&
-      _cnicBack!.path.isNotEmpty &&
-      _last_document!.path.isNotEmpty) {
+  if (repository.profile_image.value != 'https://www.fahadtutors.com/fta_admin/' &&
+      repository.cnic_f.value != 'https://www.fahadtutors.com/fta_admin/' &&
+      repository.cnic_b.value != 'https://www.fahadtutors.com/fta_admin/' &&
+      repository.last_document.value != 'https://www.fahadtutors.com/fta_admin/' &&
+      repository.profile_image.value.isNotEmpty &&
+      repository.cnic_f.value.isNotEmpty &&
+      repository.cnic_b.value.isNotEmpty &&
+      repository.last_document.value.isNotEmpty) {
     _uploadData();
   } else {
     Utils.snakbar(
       context,
-      _profile == null || _profile!.path.isEmpty
+      repository.profile_image.value == 'https://www.fahadtutors.com/fta_admin/' || repository.profile_image.value.isEmpty
           ? "Select Profile Image"
-          : _cnicFront == null || _cnicFront!.path.isEmpty
+          : repository.cnic_f.value == 'https://www.fahadtutors.com/fta_admin/' || repository.cnic_f.value.isEmpty
               ? "Select CNIC FRONT Image"
-              : _cnicBack == null || _cnicBack!.path.isEmpty
+              : repository.cnic_b.value == 'https://www.fahadtutors.com/fta_admin/' || repository.cnic_b.value.isEmpty
                   ? "Select CNIC BACK Image"
-                  : _last_document == null || _last_document!.path.isEmpty
+                  : repository.last_document.value == 'https://www.fahadtutors.com/fta_admin/' || repository.last_document.value.isEmpty
                       ? "Select Last Document Image"
                       : "Fill Correct Fields",
     );
@@ -334,7 +334,7 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
     super.initState();
     doc();
     repository.check_msg();
-    
+    print(MySharedPrefrence().get_user_ID());
   }
   void doc()async{
     setState(() {
