@@ -56,32 +56,6 @@ Widget reusableRadioBtn(
         // ),
       ),
     )
-        // Container(
-        //   width: MediaQuery.of(context).size.width * width,
-        //   height: MediaQuery.of(context).size.height * .08,
-        //   child: RadioListTile(
-        //     value: value1,
-        //     groupValue: _groupValue,
-        //     onChanged: onChanged,
-        //     activeColor: MaterialStateColor.resolveWith(
-        //         (states) => colorController.blueColor),
-        //     title: reusableText(name1, fontsize: 12),
-        //   ),
-        // ),
-        // Container(
-        //   width: MediaQuery.of(context).size.width * width,
-        //   height: MediaQuery.of(context).size.height * .08,
-        //   child: RadioListTile(
-        //     value: value2,
-        //     groupValue: _groupValue,
-        //     onChanged: onChanged,
-        //     activeColor: MaterialStateColor.resolveWith(
-        //         (states) => colorController.blueColor),
-        //     overlayColor: MaterialStateColor.resolveWith(
-        //         (states) => colorController.blueColor),
-        //     title: reusableText(name2, fontsize: 14),
-        //   ),
-        // ),
       ],
     ),
   );
