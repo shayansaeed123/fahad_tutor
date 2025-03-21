@@ -85,13 +85,6 @@ reusableSelectImage1(BuildContext context,Function ontap,String image,String img
               child: Padding(
                 padding: EdgeInsets.all(MediaQuery.of(context).size.width * .013,),
                 child: _displayImage(image, imgCondition),
-                // Center(child: image == 'https://www.fahadtutors.com/fta_admin/' ? Image.asset(imgCondition,fit: BoxFit.contain,width: double.infinity,)
-                // : CircleAvatar(
-                //   radius: MediaQuery.of(context).size.width * 0.4,
-                //   backgroundImage: NetworkImage(image),
-                //   backgroundColor: colorController.blackColor,
-                //   // child: Image.network(image,fit: BoxFit.contain,)
-                //   )),
               ),
             ),
           );
