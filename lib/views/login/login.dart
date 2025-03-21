@@ -218,8 +218,6 @@ TutorRepository _repository = TutorRepository();
                           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           value: 'Tutor',
                           groupValue: _selectedValue,
-                          // activeColor: MaterialStateColor.resolveWith(
-                          //     (states) => colorController.blueColor),
                           onChanged: (value) {
                             setState(() {
                               _selectedValue = value!;
