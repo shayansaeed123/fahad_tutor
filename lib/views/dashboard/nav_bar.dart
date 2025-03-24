@@ -26,13 +26,11 @@ class _NavBarState extends State<NavBar> {
   @override
   void initState() {
     super.initState();
-    // fetchAllTuitions(start, limit); // Initial fetch
     fetchPrefferedTuitions(start, limit);
     requestNotificationPermission();
   }
   void requestNotificationPermission() async {
   if (await Permission.notification.isDenied) {
-    // Request permission
     await Permission.notification.request();
   }
 }

@@ -510,7 +510,6 @@ Widget build(BuildContext context) {
                                 height: MediaQuery.of(context).size.height * 0.23, //19 to 23
                                 child: InkWell(
                                   onTap: (){
-                                    // repository.group_id();
                                               print('online check ${data['Online_terms_check']}');
                                               print('online check headng ${data['Online_terms_check_heading']}');
                                               print('online check text  ${data['Online_terms_check_text']}');
