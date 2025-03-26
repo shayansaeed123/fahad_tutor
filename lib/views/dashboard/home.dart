@@ -58,6 +58,10 @@ class _HomeState extends State<Home> {
     return info.replaceAll(';', '\n');
   }
 
+  String formatApply(String info) {
+    return info.replaceAll(',', '\n');
+  }
+
   String formatAttention(String info) {
     return info.replaceAll('<><>', '\n');
   }
@@ -203,11 +207,11 @@ class _HomeState extends State<Home> {
         print('apply $is_apply');
         if(success == 0){
           Navigator.pop(context);
-          reusableloadingApply(context, 'assets/images/error_lottie.json', msg, refreshPage);
+          reusableloadingApply(context, 'assets/images/error_lottie.json', formatApply(msg), refreshPage);
           
         }else{
           Navigator.pop(context);
-          reusableloadingApply(context, 'assets/images/success_lottie.json', msg,refreshPage);
+          reusableloadingApply(context, 'assets/images/success_lottie.json', formatApply(msg),refreshPage);
           Utils.snakbarSuccess(context, msg);
           updateCardState();
         }
