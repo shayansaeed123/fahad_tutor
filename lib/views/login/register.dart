@@ -910,11 +910,13 @@ void updateTutorPlacement() {
                       setState(() {
                         cityLists = newValue;
                         MySharedPrefrence().set_city_id(newValue['c_id'].toString());
+                        // cityId = newValue['c_id'];
                         // Reset area selection
                         areaLists = null;
                         isAreaDropdownEnabled = true;
                       });
                       print('Selected city ID: ${newValue['c_id']}');
+                      // print('Selected city ID: ${cityId}');
                       print('Selected city Name: ${newValue['c_name']}');
                       selectArea();
                     }
@@ -1292,7 +1294,7 @@ void updateTutorPlacement() {
                                 ),
                                 reusablaSizaBox(context, .015),
                                 Row(
-                                  mainAxisAlignment:
+                                  mainAxisAlignment: 
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     reusableDropdownfeild(context, _selectedGender, (String? newValue){
@@ -1314,9 +1316,12 @@ void updateTutorPlacement() {
                                 reusablaSizaBox(context, .03),
                                 reusableText('Tutors Placment', fontsize: 21),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment: MySharedPrefrence().get_city_id() == '1' || MySharedPrefrence().get_city_id() == '2' || 
+                                    MySharedPrefrence().get_city_id() == '3' || MySharedPrefrence().get_city_id() == '4' ? MainAxisAlignment.spaceEvenly :
+                                      MainAxisAlignment.center,
                                   children: [
+                                    MySharedPrefrence().get_city_id() == '1' || MySharedPrefrence().get_city_id() == '2' || 
+                                    MySharedPrefrence().get_city_id() == '3' || MySharedPrefrence().get_city_id() == '4' ?
                                     buildCheckboxWithTitle('Home', checkbox1,(){
                                       setState(() {});
                                       reusableMessagedialog(context, 'Placement',
@@ -1335,7 +1340,7 @@ void updateTutorPlacement() {
                   Navigator.pop(context);
                   setState(() {});
                 });
-                                    }),
+                                    }) :  SizedBox.shrink(),
                                     buildCheckboxWithTitle('Online', checkbox2,(){},),
 
           //       buildRadioWithTitle(
@@ -1386,24 +1391,10 @@ void updateTutorPlacement() {
       
                                   ],
                                 ),
+                                MySharedPrefrence().get_city_id() == '1' || MySharedPrefrence().get_city_id() == '2' || 
+                                MySharedPrefrence().get_city_id() == '3' || MySharedPrefrence().get_city_id() == '4' ? 
                                 buildCheckboxWithTitle(
-                                    "At Tutor's Place", checkbox3, (){
-                                      setState(() {});
-                                      reusableMessagedialog(context, "Placment", "We offer in-person tuitions in Karachi, Lahore, Islamabad, and Rawalpindi.", "Confirm", "Cancel", (){
-                      setState(() {});
-                      checkbox3 = true;
-                      updateTutorPlacement();
-                      print(selectedPlacements);
-                      Navigator.pop(context);
-                     }, (){
-                     setState(() {});
-                  checkbox3 = false;
-                  updateTutorPlacement();
-                  print(selectedPlacements);
-                  Navigator.pop(context);
-                  setState(() {});
-                  });
-                                    },),
+                                    "At Tutor's Place", checkbox3, (){},) : SizedBox.shrink(),
 
       //           buildRadioWithTitle(
       //   "At Tutor's Place",
@@ -1656,7 +1647,7 @@ void updateTutorPlacement() {
                                   }),
                               reusablaSizaBox(context, .02),
                               reusableBtn(context, 'Register', () {
-                                checkAccount();
+                                // checkAccount();
                               }),
                               reusablaSizaBox(context, .02),
                               Row(
@@ -1717,10 +1708,10 @@ void updateTutorPlacement() {
                   isHomeWidgetVisible = false;
                 }
               } else if (title == "At Tutor's Place") {
-                // checkbox3 = newValue ?? false;
-                // updateTutorPlacement();
-                //  print(selectedPlacements);
-                ontap();
+                checkbox3 = newValue ?? false;
+                updateTutorPlacement();
+                 print(selectedPlacements);
+                // ontap();
               }
             });
           },
