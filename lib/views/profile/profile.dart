@@ -275,9 +275,9 @@ void loginClear(){
                 if(repository.is_term_accepted.value == '8' || repository.is_term_accepted.value == '19'){
                   reusableAnimationdialog(context, 'Restrict', 'Before accepting terms and conditions, Fill all the steps sequentially');
                 }else{
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditions(imageUrl: MySharedPrefrence().get_term_condition_image_online(),btn: repository.is_term_accepted_online.value,title: 'Terms & Conditions (Online)',term: 'term_condition_online',),));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditions(imageUrl: MySharedPrefrence().get_term_condition_image_online(),btn: repository.is_term_accepted_online.value,title: repository.term_condition_heading.value,term: 'term_condition_online',),));
                 }
-              },'assets/images/terms_and_conditions.png','Terms & Conditions (Online)',widget: Container(
+              },'assets/images/terms_and_conditions.png', repository.term_condition_heading.value,widget: Container(
                 width: MediaQuery.of(context).size.width * .24,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,

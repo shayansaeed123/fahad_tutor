@@ -83,7 +83,12 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      reusableText("$_title",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
+                      Text("$_title",style: TextStyle(
+        color: colorController.blackColor,
+        fontSize: 23,
+        fontWeight: FontWeight.bold,
+        fontFamily: 'tutorPhi'
+      )),
                           reusablaSizaBox(context, 0.020),
                            CachedNetworkImage(
                             imageUrl: _imageUrl,

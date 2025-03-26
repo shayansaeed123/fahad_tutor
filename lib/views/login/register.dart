@@ -1012,6 +1012,93 @@ void updateTutorPlacement() {
                                 //   ),
                                 // ),
                                 reusablaSizaBox(context, .015),
+                                AbsorbPointer(
+                                  absorbing: !isAreaDropdownEnabled,
+                                  child: Opacity(
+                                    opacity: isAreaDropdownEnabled ? 1.0 : 0.5,
+                                    child: Container(
+                                      padding: EdgeInsets.only(
+                                          left: MediaQuery.of(context).size.width *
+                                              .01),
+                                      width: MediaQuery.of(context).size.width,
+                                      // height:
+                                      //     MediaQuery.of(context).size.height * .055,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.grey,
+                                            width: 1.5), // Border color
+                                        borderRadius: BorderRadius.circular(
+                                            10.0), // Border radius
+                                      ),
+                                    
+                                      child: 
+                                      Row(
+                                        children: [
+                                          Expanded(child: DropdownSearch<dynamic>(
+                                        popupProps: PopupPropsMultiSelection.dialog(
+                                          fit: FlexFit.loose,
+                                          showSearchBox: true,
+                                          dialogProps: DialogProps(
+                                            backgroundColor:
+                                                colorController.whiteColor,
+                                            elevation: 10,
+                                          ),
+                                          searchFieldProps: TextFieldProps(
+                                            decoration: InputDecoration(
+                                              hintText: 'Search Area',
+                                              fillColor: colorController.whiteColor,
+                                              contentPadding: EdgeInsets.symmetric(
+                                            horizontal: 16, vertical: 0.0),
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(11),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        dropdownDecoratorProps:
+                                            DropDownDecoratorProps(
+                                          dropdownSearchDecoration: InputDecoration(
+                                            hintText: 'Select Area',
+                                            hintStyle: TextStyle(fontSize: 11.5),
+                                            border: InputBorder.none,
+                                            contentPadding: EdgeInsets.only(left: MediaQuery.sizeOf(context).width * 0.02,right: MediaQuery.sizeOf(context).width * 0.02,top: MediaQuery.sizeOf(context).height * 0.013),
+                                            // contentPadding: EdgeInsets.symmetric(
+                                            //     horizontal: 16, vertical: 8),
+                                          ),
+                                        ),
+                                        items: areaList,
+                                        itemAsString: (dynamic area) =>
+                                            area['area_name'].toString(),
+                                        onChanged: isAreaDropdownEnabled
+                                            ? (dynamic newValue) {
+                                                setState(() {
+                                                  areaLists = newValue;
+                                                  areaId =
+                                                      newValue['id'].toString();
+                                                });
+                                                print(
+                                                    'Selected Area ID: ${newValue['id']}');
+                                                print(
+                                                    'Selected Area Name: ${newValue['area_name']}');
+                                              }
+                                            : null,
+                                        selectedItem: areaLists,
+                                         ),),
+                                          InkWell(
+            onTap: (){
+              setState(() {
+                selectArea();
+              });
+            },
+            child: Icon(Icons.sync, )),
+                                        ],
+                                      )
+                                      
+                                    ),
+                                  ),
+                                ),
+                                reusablaSizaBox(context, .015),
                                 reusableTextField(
                                   context,
                                   reusabletextfieldcontroller.teacherCon,
@@ -1184,93 +1271,7 @@ void updateTutorPlacement() {
                                           });
                                 }, Icon(Icons.calendar_month_outlined)),
                                 reusablaSizaBox(context, .015),
-                                AbsorbPointer(
-                                  absorbing: !isAreaDropdownEnabled,
-                                  child: Opacity(
-                                    opacity: isAreaDropdownEnabled ? 1.0 : 0.5,
-                                    child: Container(
-                                      padding: EdgeInsets.only(
-                                          left: MediaQuery.of(context).size.width *
-                                              .01),
-                                      width: MediaQuery.of(context).size.width,
-                                      // height:
-                                      //     MediaQuery.of(context).size.height * .055,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Colors.grey,
-                                            width: 1.5), // Border color
-                                        borderRadius: BorderRadius.circular(
-                                            10.0), // Border radius
-                                      ),
-                                    
-                                      child: 
-                                      Row(
-                                        children: [
-                                          Expanded(child: DropdownSearch<dynamic>(
-                                        popupProps: PopupPropsMultiSelection.dialog(
-                                          fit: FlexFit.loose,
-                                          showSearchBox: true,
-                                          dialogProps: DialogProps(
-                                            backgroundColor:
-                                                colorController.whiteColor,
-                                            elevation: 10,
-                                          ),
-                                          searchFieldProps: TextFieldProps(
-                                            decoration: InputDecoration(
-                                              hintText: 'Search Area',
-                                              fillColor: colorController.whiteColor,
-                                              contentPadding: EdgeInsets.symmetric(
-                                            horizontal: 16, vertical: 0.0),
-                                              border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(11),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        dropdownDecoratorProps:
-                                            DropDownDecoratorProps(
-                                          dropdownSearchDecoration: InputDecoration(
-                                            hintText: 'Select Area',
-                                            hintStyle: TextStyle(fontSize: 11.5),
-                                            border: InputBorder.none,
-                                            contentPadding: EdgeInsets.only(left: MediaQuery.sizeOf(context).width * 0.02,right: MediaQuery.sizeOf(context).width * 0.02,top: MediaQuery.sizeOf(context).height * 0.013),
-                                            // contentPadding: EdgeInsets.symmetric(
-                                            //     horizontal: 16, vertical: 8),
-                                          ),
-                                        ),
-                                        items: areaList,
-                                        itemAsString: (dynamic area) =>
-                                            area['area_name'].toString(),
-                                        onChanged: isAreaDropdownEnabled
-                                            ? (dynamic newValue) {
-                                                setState(() {
-                                                  areaLists = newValue;
-                                                  areaId =
-                                                      newValue['id'].toString();
-                                                });
-                                                print(
-                                                    'Selected Area ID: ${newValue['id']}');
-                                                print(
-                                                    'Selected Area Name: ${newValue['area_name']}');
-                                              }
-                                            : null,
-                                        selectedItem: areaLists,
-                                         ),),
-                                          InkWell(
-            onTap: (){
-              setState(() {
-                selectArea();
-              });
-            },
-            child: Icon(Icons.sync, )),
-                                        ],
-                                      )
-                                      
-                                    ),
-                                  ),
-                                ),
-                                reusablaSizaBox(context, .015),
+                                
                                 reusableTextField(
                                   context,
                                   reusabletextfieldcontroller.addressCon,
@@ -1386,7 +1387,23 @@ void updateTutorPlacement() {
                                   ],
                                 ),
                                 buildCheckboxWithTitle(
-                                    "At Tutor's Place", checkbox3, (){},),
+                                    "At Tutor's Place", checkbox3, (){
+                                      setState(() {});
+                                      reusableMessagedialog(context, "Placment", "We offer in-person tuitions in Karachi, Lahore, Islamabad, and Rawalpindi.", "Confirm", "Cancel", (){
+                      setState(() {});
+                      checkbox3 = true;
+                      updateTutorPlacement();
+                      print(selectedPlacements);
+                      Navigator.pop(context);
+                     }, (){
+                     setState(() {});
+                  checkbox3 = false;
+                  updateTutorPlacement();
+                  print(selectedPlacements);
+                  Navigator.pop(context);
+                  setState(() {});
+                  });
+                                    },),
 
       //           buildRadioWithTitle(
       //   "At Tutor's Place",
@@ -1700,9 +1717,10 @@ void updateTutorPlacement() {
                   isHomeWidgetVisible = false;
                 }
               } else if (title == "At Tutor's Place") {
-                checkbox3 = newValue ?? false;
-                updateTutorPlacement();
-                 print(selectedPlacements);
+                // checkbox3 = newValue ?? false;
+                // updateTutorPlacement();
+                //  print(selectedPlacements);
+                ontap();
               }
             });
           },

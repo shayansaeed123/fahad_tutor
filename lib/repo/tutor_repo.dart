@@ -240,6 +240,9 @@ class TutorRepository {
     final ValueNotifier<String> _msg = ValueNotifier<String>('');
   ValueNotifier<String> get msg => _msg;
 
+  final ValueNotifier<String> _term_condition_heading = ValueNotifier<String>('');
+  ValueNotifier<String> get term_condition_heading => _term_condition_heading;
+
   final ValueNotifier<int> _succes = ValueNotifier<int>(0);
   ValueNotifier<int> get succes => _succes;
 
@@ -542,6 +545,7 @@ class TutorRepository {
         _bank_details.value = jsonResponse['bank_details'];
         _is_term_accepted.value = jsonResponse['is_term_accepted'];
         _payment_recipt.value = jsonResponse['payment_recipt'];
+        _term_condition_heading.value = jsonResponse["term_condition_heading"];
         _is_term_accepted_online_option.value = jsonResponse['term_condition_online_option'];
         _is_term_accepted_online.value = jsonResponse['term_condition_online'];
         _traning_video.value = jsonResponse['traning_video'];
