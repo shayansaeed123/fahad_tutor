@@ -161,8 +161,6 @@ void updateTutorPlacement() {
 
   void _validateForm() {
   bool isBiographyValid = !checkbox2 || (_biography.text.length >= 500 && _biography.text.length <= 800);
-  // !(selectedPlacements.contains('2')) || 
-  // (_biography.text.length >= 500 && _biography.text.length <= 800);
 
   if (
     isBiographyValid && reusabletextfieldcontroller.furtherInfo.text.isNotEmpty &&
