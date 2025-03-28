@@ -336,6 +336,10 @@ class _AllTuitionsState extends State<AllTuitions> {
     return info.replaceAll(';', '\n');
   }
 
+  String formatApply(String info) {
+    return info.replaceAll(',', '\n');
+  }
+
   @override
   void initState() {
     super.initState();
@@ -463,10 +467,10 @@ class _AllTuitionsState extends State<AllTuitions> {
         print('apply $is_apply');
         if(success == 0){
           Navigator.pop(context);
-          reusableloadingApply(context, 'assets/images/error_lottie.json', msg, refreshPage);
+          reusableloadingApply(context, 'assets/images/error_lottie.json', formatApply(msg), refreshPage);
         }else{
           Navigator.pop(context);
-          reusableloadingApply(context, 'assets/images/success_lottie.json', msg,refreshPage);
+          reusableloadingApply(context, 'assets/images/success_lottie.json', formatApply(msg),refreshPage);
           Utils.snakbarSuccess(context, msg);
           updateCardState();
         }

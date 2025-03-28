@@ -14,6 +14,7 @@ import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class TermsAndConditions extends StatefulWidget {
   final String imageUrl;
@@ -47,6 +48,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
     _title = widget.title;
     _term = widget.term;
     faq();
+    print(_imageUrl);
   }
 
   Future<void> isAccepted()async{
@@ -90,6 +92,17 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
         fontFamily: 'tutorPhi'
       )),
                           reusablaSizaBox(context, 0.020),
+                          _term == 'term_condition_online' ?
+                          SizedBox(
+                            height: MediaQuery.sizeOf(context).height * 1,
+                            child: SfPdfViewer.network(
+                              _imageUrl,
+                              currentSearchTextHighlightColor: Colors.red.shade300,
+                              enableDoubleTapZooming: true,
+                              canShowScrollHead: true,
+                              scrollDirection: PdfScrollDirection.vertical,
+                              ),
+                          ) : 
                            CachedNetworkImage(
                             imageUrl: _imageUrl,
                             placeholder: (context, url) => Center(child: reusableloadingrow(context, isLoading==true)),

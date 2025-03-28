@@ -553,7 +553,7 @@ class TutorRepository {
         _payment_recipt_option.value = jsonResponse['option'];
          MySharedPrefrence().set_term_condition_image(jsonResponse['term_condition_image']);
          MySharedPrefrence().set_faqs_images(jsonResponse['faqs_images']);
-        MySharedPrefrence().set_term_condition_image_online(jsonResponse['term_condition_image_ftalive']);
+        MySharedPrefrence().set_term_condition_image_online(jsonResponse['term_condition_image_ftalive_pfg']);
         MySharedPrefrence().set_attention_title(jsonResponse['attention_popup_title']);
         MySharedPrefrence().set_attention_text(jsonResponse['attention_popup_text']);
         MySharedPrefrence().set_city_id(jsonResponse['cities']);

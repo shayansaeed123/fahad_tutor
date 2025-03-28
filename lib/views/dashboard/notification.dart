@@ -57,6 +57,10 @@ class _NotificationsState extends State<Notifications> {
     fetchNotification();
   }
 
+  String formatApply(String info) {
+    return info.replaceAll(',', '\n');
+  }
+
   Future<void> fetchNotification() async {
     setState(() {
       isLoading2 = true;
@@ -182,11 +186,11 @@ class _NotificationsState extends State<Notifications> {
         print('apply $is_apply');
         if(success == 0){
           Navigator.pop(context);
-          reusableloadingApply(context, 'assets/images/error_lottie.json', msg, refreshPage);
+          reusableloadingApply(context, 'assets/images/error_lottie.json', formatApply(msg), refreshPage);
           
         }else{
           Navigator.pop(context);
-          reusableloadingApply(context, 'assets/images/success_lottie.json', msg,refreshPage);
+          reusableloadingApply(context, 'assets/images/success_lottie.json', formatApply(msg),refreshPage);
           Utils.snakbarSuccess(context, msg);
           updateCardState();
         }
