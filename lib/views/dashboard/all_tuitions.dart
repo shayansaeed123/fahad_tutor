@@ -397,22 +397,6 @@ class _AllTuitionsState extends State<AllTuitions> {
   //   }
   // }
 
-  // void filterTuitions(String query) {
-  //   if (query.isEmpty) {
-  //     setState(() {
-  //       filteredTuitions = tuitions;
-  //     });
-  //   } else {
-  //     setState(() {
-  //       filteredTuitions = tuitions.where((item) {
-  //         return item['class_name'].toLowerCase().contains(query.toLowerCase()) ||
-  //                item['subject'].toLowerCase().contains(query.toLowerCase()) ||
-  //                item['location'].toLowerCase().contains(query.toLowerCase()) || 
-  //                item['tuition_name'].toLowerCase().contains(query.toLowerCase());
-  //       }).toList();
-  //     });
-  //   }
-  // }
 
   void filterTuitions(String query) {
     setState(() {
