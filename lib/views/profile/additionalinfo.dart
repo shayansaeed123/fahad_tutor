@@ -501,9 +501,12 @@ Future<void> getAddtionalInfo() async {
                                   reusablaSizaBox(context, .020),
                                   reusableText('Tutors Placment', fontsize: 21),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment: MySharedPrefrence().get_city_id() == '1' || MySharedPrefrence().get_city_id() == '2' || 
+                                    MySharedPrefrence().get_city_id() == '3' || MySharedPrefrence().get_city_id() == '4' ? MainAxisAlignment.spaceEvenly :
+                                      MainAxisAlignment.center,
                                   children: [
+                                       MySharedPrefrence().get_city_id() == '1' || MySharedPrefrence().get_city_id() == '2'
+                                       || MySharedPrefrence().get_city_id() == '3' || MySharedPrefrence().get_city_id() == '4' ?
                                        buildCheckboxWithTitle('Home', checkbox1,(){
                                       setState(() {});
                                       reusableMessagedialog(context, 'Placement',
@@ -522,7 +525,7 @@ Future<void> getAddtionalInfo() async {
                   Navigator.pop(context);
                   setState(() {});
                 });
-                                    }),
+                                    }) : SizedBox.shrink(),
                                     buildCheckboxWithTitle('Online', checkbox2,(){
                                       setState(() { 
                                         checkbox2 = !checkbox2;
@@ -550,6 +553,8 @@ Future<void> getAddtionalInfo() async {
         // }),
                                   ],
                                 ),
+                                MySharedPrefrence().get_city_id() == '1' || MySharedPrefrence().get_city_id() == '2'
+                                || MySharedPrefrence().get_city_id() == '3' || MySharedPrefrence().get_city_id() == '4' ?
                                 buildCheckboxWithTitle(
                                     "At Tutor's Place", checkbox3, (){
                                       setState(() {
@@ -557,7 +562,7 @@ Future<void> getAddtionalInfo() async {
                                         updateTutorPlacement();
                                         print(selectedPlacements);
                                       });
-                                    },),
+                                    },) : SizedBox.shrink(),
 
         //                          buildRadioWithTitle("At Tutor's Place", PlacementId3, (newValue) {
         //   setState(() {

@@ -341,7 +341,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${Utils.baseUrl}tuitions.php?code=10&tutor_id=31110&start=$start&end=$limit';
+          '${Utils.baseUrl}tuitions.php?code=10&tutor_id=0&start=$start&end=$limit';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 

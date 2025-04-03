@@ -763,9 +763,23 @@ void updateTutorPlacement() {
                       fontsize: 18,
                     ),
                     reusablaSizaBox(context, .01),
-                    reusableRadioBtn(
-                      context,
-                      'Student', // Value of the first radio button
+                    // reusableRadioBtn(
+                    //   context,
+                    //   'Student', // Value of the first radio button
+                    //   'Tutor', // Value of the second radio button
+                    //   _selectedValue, // Current selected value
+                    //   (String? value) {
+                    //     // onChanged function
+                    //     setState(() {
+                    //       _selectedValue = value!;
+                    //     });
+                    //   },
+                    //   'Student', // Name of the first radio button
+                    //   'Tutor', // Name of the second r
+                    //   .4,
+                    // ),
+                    reusableRadioBtnOne(
+                      context, // Value of the first radio button
                       'Tutor', // Value of the second radio button
                       _selectedValue, // Current selected value
                       (String? value) {
@@ -773,13 +787,13 @@ void updateTutorPlacement() {
                         setState(() {
                           _selectedValue = value!;
                         });
-                      },
-                      'Student', // Name of the first radio button
+                      }, // Name of the first radio button
                       'Tutor', // Name of the second r
                       .4,
                     ),
-                    _selectedValue == 'Tutor'
-                        ? Form(
+                    // _selectedValue == 'Tutor'
+                    //     ? 
+                        Form(
                             key: _formkey,
                             child: Column(
                               children: [
@@ -1476,202 +1490,202 @@ void updateTutorPlacement() {
                               ],
                             ),
                           )
-                        : Column(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.only(
-                                    left: MediaQuery.of(context).size.width *
-                                        .01),
-                                width: MediaQuery.of(context).size.width,
-                                height:
-                                    MediaQuery.of(context).size.height * .055,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1.5), // Border color
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  // Border radius
-                                ),
-                                child: DropdownButton<String>(
-                                  value: _selectedCountry,
-                                  onChanged: (String? newValue) {
-                                    setState(() {
-                                      _selectedCountry = newValue;
-                                    });
-                                  },
-                                  hint: reusableText('Select Country',
-                                      color: colorController.grayTextColor,
-                                      fontsize: 14),
-                                  items: <String>[
-                                    // 'Option 1',
-                                    // 'Option 2',
-                                    // 'Option 3',
-                                    // 'Option 4'
-                                  ].map((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              .81,
-                                          child: reusableText(value,
-                                              color:
-                                                  colorController.grayTextColor,
-                                              fontsize: 14)),
-                                      // Display 'Select value' if value is null
-                                    );
-                                  }).toList(),
-                                  style: TextStyle(
-                                      color:
-                                          Colors.black), // Dropdown text color
-                                  icon: Icon(
-                                      Icons.arrow_drop_down), // Dropdown icon
-                                  underline: Container(), // Remove underline
-                                  // elevation: 0,
-                                ),
-                              ),
-                              reusablaSizaBox(context, .015),
-                              Container(
-                                padding: EdgeInsets.only(
-                                    left: MediaQuery.of(context).size.width *
-                                        .01),
-                                width: MediaQuery.of(context).size.width,
-                                height:
-                                    MediaQuery.of(context).size.height * .055,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1.5), // Border color
-                                  borderRadius: BorderRadius.circular(
-                                      10.0), // Border radius
-                                ),
-                                child: DropdownButton<String>(
-                                  value: _selectedCity,
-                                  onChanged: (String? newValue) {
-                                    setState(() {
-                                      _selectedCity = newValue;
-                                    });
-                                  },
-                                  hint: reusableText('Select City',
-                                      color: colorController.grayTextColor,
-                                      fontsize: 14),
-                                  items: <String>[
-                                    // 'Option 1',
-                                    // 'Option 2',
-                                    // 'Option 3',
-                                    // 'Option 4',
-                                  ].map((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              .81,
-                                          child: reusableText(value,
-                                              color:
-                                                  colorController.grayTextColor,
-                                              fontsize: 14)),
-                                      // Display 'Select value' if value is null
-                                    );
-                                  }).toList(),
-                                  style: TextStyle(
-                                      color:
-                                          Colors.black), // Dropdown text color
-                                  icon: Icon(
-                                      Icons.arrow_drop_down), // Dropdown icon
-                                  underline: Container(), // Remove underline
-                                  elevation: 0,
-                                ),
-                              ),
-                              reusablaSizaBox(context, .015),
-                              reusableTextField(
-                                context,
-                                reusabletextfieldcontroller.teacherCon,
-                                'Name',
-                                _teacherfocusNode.hasFocus
-                                    ? colorController.blueColor
-                                    : colorController
-                                        .textfieldBorderColorBefore,
-                                _teacherfocusNode,
-                                () {
-                                  _teacherfocusNode.unfocus();
-                                  FocusScope.of(context)
-                                      .requestFocus(_contactfocusNode);
-                                },
-                                // true,
-                                // 'Name is requried',
-                                keyboardType: TextInputType.text,
-                              ),
-                              reusablaSizaBox(context, .015),
-                              reusableTextField(
-                                context,
-                                reusabletextfieldcontroller.contactCon,
-                                'Contact No',
-                                _contactfocusNode.hasFocus
-                                    ? colorController.blueColor
-                                    : colorController
-                                        .textfieldBorderColorBefore,
-                                _contactfocusNode,
-                                () {
-                                  _contactfocusNode.unfocus();
-                                  FocusScope.of(context)
-                                      .requestFocus(_passfocusNode);
-                                },
-                                // true,
-                                // 'Contact No is requried',
-                                keyboardType: TextInputType.phone,
-                              ),
-                              reusablaSizaBox(context, .015),
-                              reusablePassField(
-                                  context,
-                                  reusabletextfieldcontroller.registerPassCon,
-                                  'Password',
-                                  _passfocusNode.hasFocus
-                                      ? colorController.blueColor
-                                      : colorController
-                                          .textfieldBorderColorBefore,
-                                  _passfocusNode,
-                                  () {
-                                    _passfocusNode.unfocus();
-                                    FocusScope.of(context)
-                                        .requestFocus(_passfocusNode);
-                                  },
-                                  // true,'Password is requried' ,
-                                  pass,
-                                  () {
-                                    setState(() {
-                                      pass = !pass;
-                                    });
-                                  }),
-                              reusablaSizaBox(context, .02),
-                              reusableBtn(context, 'Register', () {
-                                // checkAccount();
-                              }),
-                              reusablaSizaBox(context, .02),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  reusableText('Already have an account? ',
-                                      fontsize: 13),
-                                  InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => Login(),
-                                            ));
-                                      },
-                                      child: reusableText('Login',
-                                          color: colorController.blueColor,
-                                          fontsize: 13,
-                                          fontweight: FontWeight.bold)),
-                                ],
-                              ),
-                              reusablaSizaBox(context, .04)
-                            ],
-                          ),
+                        // : Column(
+                        //     children: [
+                        //       Container(
+                        //         padding: EdgeInsets.only(
+                        //             left: MediaQuery.of(context).size.width *
+                        //                 .01),
+                        //         width: MediaQuery.of(context).size.width,
+                        //         height:
+                        //             MediaQuery.of(context).size.height * .055,
+                        //         decoration: BoxDecoration(
+                        //           border: Border.all(
+                        //               color: Colors.grey,
+                        //               width: 1.5), // Border color
+                        //           borderRadius: BorderRadius.circular(10.0),
+                        //           // Border radius
+                        //         ),
+                        //         child: DropdownButton<String>(
+                        //           value: _selectedCountry,
+                        //           onChanged: (String? newValue) {
+                        //             setState(() {
+                        //               _selectedCountry = newValue;
+                        //             });
+                        //           },
+                        //           hint: reusableText('Select Country',
+                        //               color: colorController.grayTextColor,
+                        //               fontsize: 14),
+                        //           items: <String>[
+                        //             // 'Option 1',
+                        //             // 'Option 2',
+                        //             // 'Option 3',
+                        //             // 'Option 4'
+                        //           ].map((String value) {
+                        //             return DropdownMenuItem<String>(
+                        //               value: value,
+                        //               child: Container(
+                        //                   width: MediaQuery.of(context)
+                        //                           .size
+                        //                           .width *
+                        //                       .81,
+                        //                   child: reusableText(value,
+                        //                       color:
+                        //                           colorController.grayTextColor,
+                        //                       fontsize: 14)),
+                        //               // Display 'Select value' if value is null
+                        //             );
+                        //           }).toList(),
+                        //           style: TextStyle(
+                        //               color:
+                        //                   Colors.black), // Dropdown text color
+                        //           icon: Icon(
+                        //               Icons.arrow_drop_down), // Dropdown icon
+                        //           underline: Container(), // Remove underline
+                        //           // elevation: 0,
+                        //         ),
+                        //       ),
+                        //       reusablaSizaBox(context, .015),
+                        //       Container(
+                        //         padding: EdgeInsets.only(
+                        //             left: MediaQuery.of(context).size.width *
+                        //                 .01),
+                        //         width: MediaQuery.of(context).size.width,
+                        //         height:
+                        //             MediaQuery.of(context).size.height * .055,
+                        //         decoration: BoxDecoration(
+                        //           border: Border.all(
+                        //               color: Colors.grey,
+                        //               width: 1.5), // Border color
+                        //           borderRadius: BorderRadius.circular(
+                        //               10.0), // Border radius
+                        //         ),
+                        //         child: DropdownButton<String>(
+                        //           value: _selectedCity,
+                        //           onChanged: (String? newValue) {
+                        //             setState(() {
+                        //               _selectedCity = newValue;
+                        //             });
+                        //           },
+                        //           hint: reusableText('Select City',
+                        //               color: colorController.grayTextColor,
+                        //               fontsize: 14),
+                        //           items: <String>[
+                        //             // 'Option 1',
+                        //             // 'Option 2',
+                        //             // 'Option 3',
+                        //             // 'Option 4',
+                        //           ].map((String value) {
+                        //             return DropdownMenuItem<String>(
+                        //               value: value,
+                        //               child: Container(
+                        //                   width: MediaQuery.of(context)
+                        //                           .size
+                        //                           .width *
+                        //                       .81,
+                        //                   child: reusableText(value,
+                        //                       color:
+                        //                           colorController.grayTextColor,
+                        //                       fontsize: 14)),
+                        //               // Display 'Select value' if value is null
+                        //             );
+                        //           }).toList(),
+                        //           style: TextStyle(
+                        //               color:
+                        //                   Colors.black), // Dropdown text color
+                        //           icon: Icon(
+                        //               Icons.arrow_drop_down), // Dropdown icon
+                        //           underline: Container(), // Remove underline
+                        //           elevation: 0,
+                        //         ),
+                        //       ),
+                        //       reusablaSizaBox(context, .015),
+                        //       reusableTextField(
+                        //         context,
+                        //         reusabletextfieldcontroller.teacherCon,
+                        //         'Name',
+                        //         _teacherfocusNode.hasFocus
+                        //             ? colorController.blueColor
+                        //             : colorController
+                        //                 .textfieldBorderColorBefore,
+                        //         _teacherfocusNode,
+                        //         () {
+                        //           _teacherfocusNode.unfocus();
+                        //           FocusScope.of(context)
+                        //               .requestFocus(_contactfocusNode);
+                        //         },
+                        //         // true,
+                        //         // 'Name is requried',
+                        //         keyboardType: TextInputType.text,
+                        //       ),
+                        //       reusablaSizaBox(context, .015),
+                        //       reusableTextField(
+                        //         context,
+                        //         reusabletextfieldcontroller.contactCon,
+                        //         'Contact No',
+                        //         _contactfocusNode.hasFocus
+                        //             ? colorController.blueColor
+                        //             : colorController
+                        //                 .textfieldBorderColorBefore,
+                        //         _contactfocusNode,
+                        //         () {
+                        //           _contactfocusNode.unfocus();
+                        //           FocusScope.of(context)
+                        //               .requestFocus(_passfocusNode);
+                        //         },
+                        //         // true,
+                        //         // 'Contact No is requried',
+                        //         keyboardType: TextInputType.phone,
+                        //       ),
+                        //       reusablaSizaBox(context, .015),
+                        //       reusablePassField(
+                        //           context,
+                        //           reusabletextfieldcontroller.registerPassCon,
+                        //           'Password',
+                        //           _passfocusNode.hasFocus
+                        //               ? colorController.blueColor
+                        //               : colorController
+                        //                   .textfieldBorderColorBefore,
+                        //           _passfocusNode,
+                        //           () {
+                        //             _passfocusNode.unfocus();
+                        //             FocusScope.of(context)
+                        //                 .requestFocus(_passfocusNode);
+                        //           },
+                        //           // true,'Password is requried' ,
+                        //           pass,
+                        //           () {
+                        //             setState(() {
+                        //               pass = !pass;
+                        //             });
+                        //           }),
+                        //       reusablaSizaBox(context, .02),
+                        //       reusableBtn(context, 'Register', () {
+                        //         // checkAccount();
+                        //       }),
+                        //       reusablaSizaBox(context, .02),
+                        //       Row(
+                        //         mainAxisAlignment: MainAxisAlignment.center,
+                        //         children: [
+                        //           reusableText('Already have an account? ',
+                        //               fontsize: 13),
+                        //           InkWell(
+                        //               onTap: () {
+                        //                 Navigator.push(
+                        //                     context,
+                        //                     MaterialPageRoute(
+                        //                       builder: (context) => Login(),
+                        //                     ));
+                        //               },
+                        //               child: reusableText('Login',
+                        //                   color: colorController.blueColor,
+                        //                   fontsize: 13,
+                        //                   fontweight: FontWeight.bold)),
+                        //         ],
+                        //       ),
+                        //       reusablaSizaBox(context, .04)
+                        //     ],
+                        //   ),
                   ]),
             ),
           )),
