@@ -48,7 +48,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
     _title = widget.title;
     _term = widget.term;
     faq();
-    print(_imageUrl);
+    print(_title);
   }
 
   Future<void> isAccepted()async{

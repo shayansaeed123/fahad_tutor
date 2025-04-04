@@ -124,6 +124,9 @@ class TutorRepository {
   final ValueNotifier<String> _is_term_accepted = ValueNotifier<String>('');
   ValueNotifier<String> get is_term_accepted => _is_term_accepted;
 
+  final ValueNotifier<int> _is_term_home = ValueNotifier<int>(0);
+  ValueNotifier<int> get is_term_home => _is_term_home;
+
   final ValueNotifier<String> _is_term_accepted_online = ValueNotifier<String>('');
   ValueNotifier<String> get is_term_accepted_online => _is_term_accepted_online;
 
@@ -242,6 +245,9 @@ class TutorRepository {
 
   final ValueNotifier<String> _term_condition_heading = ValueNotifier<String>('');
   ValueNotifier<String> get term_condition_heading => _term_condition_heading;
+
+  final ValueNotifier<String> _term_condition_heading_home = ValueNotifier<String>('');
+  ValueNotifier<String> get term_condition_heading_home => _term_condition_heading_home;
 
   final ValueNotifier<int> _succes = ValueNotifier<int>(0);
   ValueNotifier<int> get succes => _succes;
@@ -404,7 +410,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${Utils.baseUrl}preferred_tuition.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=$limit&cell_access_token=${MySharedPrefrence().get_cell_token().toString()}&version=102';
+          '${Utils.baseUrl}preferred_tuition.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=$limit&cell_access_token=${MySharedPrefrence().get_cell_token().toString()}&version=103';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 
@@ -544,8 +550,10 @@ class TutorRepository {
         _additional_info.value = jsonResponse['additional_info'];
         _bank_details.value = jsonResponse['bank_details'];
         _is_term_accepted.value = jsonResponse['is_term_accepted'];
+        _is_term_home.value = jsonResponse['is_term_home'];
         _payment_recipt.value = jsonResponse['payment_recipt'];
         _term_condition_heading.value = jsonResponse["term_condition_heading"];
+        _term_condition_heading_home.value = jsonResponse['term_condition_heading_home'];
         _is_term_accepted_online_option.value = jsonResponse['term_condition_online_option'];
         _is_term_accepted_online.value = jsonResponse['term_condition_online'];
         _traning_video.value = jsonResponse['traning_video'];

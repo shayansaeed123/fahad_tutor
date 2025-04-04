@@ -246,14 +246,15 @@ void loginClear(){
                 ),
               ));
               },),
-              ValueListenableBuilder(valueListenable: repository.is_term_accepted, builder: (context, value, child) {
+              ValueListenableBuilder(valueListenable: repository.is_term_home, builder: (context, value, child) {
+                return value == 1 ? ValueListenableBuilder(valueListenable: repository.is_term_accepted, builder: (context, value, child) {
                 return reusablelisttile(context,(){
                 if(repository.docs_att.value == '8' || repository.docs_att.value == '19'){
                   reusableAnimationdialog(context, 'Restrict', 'Before accepting terms and conditions, Fill all the steps sequentially');
                 }else{
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditions(imageUrl: MySharedPrefrence().get_term_condition_image(), btn: repository.is_term_accepted.value,title: 'Terms & Conditions',term: 'term_condition',),));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditions(imageUrl: MySharedPrefrence().get_term_condition_image(), btn: repository.is_term_accepted.value,title: repository.term_condition_heading_home.value,term: 'term_condition',),));
                 }
-              },'assets/images/terms_and_conditions.png','Terms & Conditions',widget: Container(
+              },'assets/images/terms_and_conditions.png', repository.term_condition_heading_home.value,widget: Container(
                 width: MediaQuery.of(context).size.width * .24,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -268,6 +269,7 @@ void loginClear(){
                   ],
                 ),
               ));
+              },) : Container();
               },),
               ValueListenableBuilder(valueListenable: repository.is_term_accepted_online_option, builder: (context, value, child) {
                 return value == 1 ? ValueListenableBuilder(valueListenable: repository.is_term_accepted_online, builder: (context, value, child) {
