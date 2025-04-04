@@ -818,22 +818,6 @@ class TutorRepository {
     }
   }
 
-
-
-  // Qualification Apis Functions
-
-  // Institute start
-  // List<dynamic> _instituteItems = [];
-  // List<dynamic> get instituteItems => _instituteItems; 
-  // List<Map<String, String>> _selectedIdsinstitute = [];
-  // List<Map<String, String>> get selectedIdsinstitute => _selectedIdsinstitute; 
-  // List<String> _selectedNamesinstitute = [];
-  // List<String> get selectedNamesinstitute => _selectedNamesinstitute;
-  // // Institute end
-
-  
-
-
   // Future<void> fetchQualificationData(
   //   String urlPoint,String responseData,
   //   List<dynamic> items,
