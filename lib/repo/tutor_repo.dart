@@ -831,14 +831,7 @@ class TutorRepository {
   // List<String> get selectedNamesinstitute => _selectedNamesinstitute;
   // // Institute end
 
-  // // Qualification start
-  // List<dynamic> _qualificationItems = [];
-  // List<dynamic> get qualificationItems => _qualificationItems; 
-  // List<Map<String, String>> _selectedIdsqualification = [];
-  // List<Map<String, String>> get selectedIdsqualification => _selectedIdsqualification; 
-  // List<String> _selectedNamesqualification = [];
-  // List<String> get selectedNamesqualification => _selectedNamesqualification;
-  // // Qualification end
+  
 
 
   // Future<void> fetchQualificationData(
