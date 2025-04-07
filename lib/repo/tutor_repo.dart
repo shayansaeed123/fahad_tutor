@@ -863,14 +863,6 @@ class TutorRepository {
   //   }
   // }
 
-  // String removeBom(String responseBody) {
-  //   // Remove BOM if present
-  //   if (responseBody.startsWith('\uFEFF')) {
-  //     return responseBody.substring(1);
-  //   }
-  //   return responseBody;
-  // }
-
   // bool isJsonValid(String jsonString) {
   //   try {
   //     jsonDecode(jsonString);
