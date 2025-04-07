@@ -863,14 +863,7 @@ class TutorRepository {
   //   }
   // }
 
-  // bool isJsonValid(String jsonString) {
-  //   try {
-  //     jsonDecode(jsonString);
-  //     return true;
-  //   } catch (e) {
-  //     return false;
-  //   }
-  // }
+  
 
   // Future<void> saveQualificationData(String saveResponseData) async {
   //   _isLoading = true;
