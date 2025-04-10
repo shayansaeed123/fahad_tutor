@@ -820,27 +820,6 @@ class TutorRepository {
 
   
 
-  //         // Initialize selectedNames based on selectedIds
-  //         updateSelectedNames(items,itemsIds,itemsname);
-
-  //         print('Updated tuitions list: $_instituteItems');
-  //         print('Full JSON response: $jsonResponse');
-  //       } else {
-  //         print('Error: Invalid JSON format');
-  //       }
-  //     } else {
-  //       print('Error: ${response.statusCode}');
-  //     }
-  //   } catch (e) {
-  //     print('Error: $e');
-  //     throw Exception(e);
-  //   } finally {
-  //     _isLoading = false;
-  //   }
-  // }
-
-  
-
   // Future<void> saveQualificationData(String saveResponseData) async {
   //   _isLoading = true;
   //   try {
