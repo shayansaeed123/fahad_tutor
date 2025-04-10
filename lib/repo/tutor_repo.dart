@@ -818,31 +818,7 @@ class TutorRepository {
     }
   }
 
-  // Future<void> fetchQualificationData(
-  //   String urlPoint,String responseData,
-  //   List<dynamic> items,
-  //   List<Map<String, String>> itemsIds,
-  //   List<String> itemsname) async {
-  //   _isLoading = true;
-  //   try {
-  //     String url = '${Utils.baseUrl}/all_in.php?${urlPoint}=1';
-  //     final response = await http.get(Uri.parse(url));
-  //     print('url $url');
-
-  //     if (response.statusCode == 200) {
-  //       // Get the raw bytes of the response
-  //       Uint8List responseBytes = response.bodyBytes;
-
-  //       // Decode the response and handle invalid UTF-8 bytes
-  //       String responseBody = utf8.decode(responseBytes, allowMalformed: true);
-
-  //       // Remove BOM if present
-  //       responseBody = removeBom(responseBody);
-
-  //       // Check if the response contains valid JSON
-  //       if (isJsonValid(responseBody)) {
-  //         dynamic jsonResponse = jsonDecode(responseBody);
-  //         items = jsonResponse['${responseData}'];
+  
 
   //         // Initialize selectedNames based on selectedIds
   //         updateSelectedNames(items,itemsIds,itemsname);
@@ -867,7 +843,6 @@ class TutorRepository {
 
   // Future<void> saveQualificationData(String saveResponseData) async {
   //   _isLoading = true;
-
   //   try {
   //     final response = await http.get(
   //       Uri.parse('${Utils.baseUrl}/step_2.php?code=10&tutor_id=31225'),
