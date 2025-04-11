@@ -29,7 +29,7 @@ class AdditionalInfo extends StatefulWidget {
 class _AdditionalInfoState extends State<AdditionalInfo> {
   bool isLoading = false;
   DateTime? selectedTime;
-  late DateTime lastDate = DateTime(1995, 1, 1);
+  late DateTime lastDate = DateTime(1970, 1, 1);
   late FocusNode _homeAddress;
   late FocusNode _furtherInfofocusNode;
   String? selectedCurrentTeaching;

@@ -86,7 +86,7 @@ void updateTutorPlacement() {
   late FocusNode _homefocusNode;
 
   DateTime? selectedTime;
-  late DateTime lastDate = DateTime(1995, 1, 1);
+  late DateTime lastDate = DateTime(1970, 1, 1);
 
   final _formkey = GlobalKey<FormState>();
   bool checkbox1 = false;
@@ -232,7 +232,8 @@ void updateTutorPlacement() {
                                                                       : selectedPlacements.isEmpty
                                                                       // : !(checkbox1 || checkbox2 || checkbox3)
                                                                           ? 'Please select at least one placement'
-                                                                          : "Fill correct fields",
+                                                                          : signInWithGoogle(),
+                                                                          // : "Fill correct fields",
     );
   }
 }

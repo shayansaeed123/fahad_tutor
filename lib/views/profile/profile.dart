@@ -381,18 +381,18 @@ void loginClear(){
                reusablaSizaBox(context, .05),
               reusableText('App Settings',color: colorController.blackColor,fontsize: 19,),
               reusablaSizaBox(context, .01),
-        reusablelisttile(context, (){}, 'assets/images/notification_icon.png', 'Notification',widget: Switch(
-        value: isToggled, 
-        activeTrackColor: colorController.btnColor,
-        activeColor: colorController.whiteColor,
-        inactiveTrackColor: colorController.grayTextColor,
-        inactiveThumbColor: colorController.blackColor,
-        trackOutlineColor: MaterialStatePropertyAll(colorController.blackColor),
-        onChanged: (value) {
-        setState(() {
-          isToggled = value;
-        });
-      },),),
+      //   reusablelisttile(context, (){}, 'assets/images/notification_icon.png', 'Notification',widget: Switch(
+      //   value: isToggled, 
+      //   activeTrackColor: colorController.btnColor,
+      //   activeColor: colorController.whiteColor,
+      //   inactiveTrackColor: colorController.grayTextColor,
+      //   inactiveThumbColor: colorController.blackColor,
+      //   trackOutlineColor: MaterialStatePropertyAll(colorController.blackColor),
+      //   onChanged: (value) {
+      //   setState(() {
+      //     isToggled = value;
+      //   });
+      // },),),
               reusablelisttile(context,(){
                 Navigator.push(context, MaterialPageRoute(builder: (context) => FAQ(),));
               },'assets/images/faqs_icon.png',"FAQ's",),
