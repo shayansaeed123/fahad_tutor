@@ -280,7 +280,7 @@ class _AccountDetailsState extends State<AccountDetails> {
                     }, ),
                     reusablaSizaBox(context, 0.020),
                     reusableTextField(context, 
-                          reusabletextfieldcontroller.branchcode, 'Barnch Code', _branchcode.hasFocus
+                          reusabletextfieldcontroller.branchcode, 'Branch Code', _branchcode.hasFocus
                         ? colorController.blueColor
                         : colorController.textfieldBorderColorBefore, _branchcode, () {
                       _branchcode.unfocus();
