@@ -818,38 +818,6 @@ class TutorRepository {
     }
   }
 
-  
-
-  // Future<void> saveQualificationData(String saveResponseData) async {
-  //   _isLoading = true;
-  //   try {
-  //     final response = await http.get(
-  //       Uri.parse('${Utils.baseUrl}/step_2.php?code=10&tutor_id=31225'),
-  //     );
-  //     if (response.statusCode == 200) {
-  //       if (response.body.isNotEmpty) {
-  //         final Map<String, dynamic> jsonResponse = json.decode(response.body);
-  //         _selectedIdsinstitute = (jsonResponse['${saveResponseData}'] as List)
-  //             .map<Map<String, String>>((item) => {'id': item['id'].toString()})
-  //             .toList();
-
-  //         // Initialize selectedNames based on selectedIds
-  //         // updateSelectedNames();
-
-  //         print('Selected IDs: $_selectedIdsinstitute');
-  //       } else {
-  //         throw Exception('Empty response body');
-  //       }
-  //     } else {
-  //       throw Exception('Failed to load country details');
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //   } finally {
-  //     _isLoading = false;
-  //   }
-  // }
-
   // void updateSelectedNames(List<dynamic> items,List<Map<String, String>> itemsIds,List<String> itemsname) {
   //   itemsname = itemsIds.map((selected) {
   //     return (items.firstWhere(
