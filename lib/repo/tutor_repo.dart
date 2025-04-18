@@ -373,7 +373,7 @@ class TutorRepository {
   }
 
   Future<void> allTuitions(int start, int limit) async {
-    _isLoading = true;
+    _isLoading = true; 
     _showLoadMoreButton = false;
 
     try {
