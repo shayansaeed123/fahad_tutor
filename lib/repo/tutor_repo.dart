@@ -818,15 +818,6 @@ class TutorRepository {
     }
   }
 
-  // void updateSelectedNames(List<dynamic> items,List<Map<String, String>> itemsIds,List<String> itemsname) {
-  //   itemsname = itemsIds.map((selected) {
-  //     return (items.firstWhere(
-  //       (item) => item['id'] == selected['id'],
-  //       orElse: () => {'names': 'Unknown'},
-  //     )['names'] as String);
-  //   }).toList();
-  // }
-
 
   // // Institute lists
   // List<dynamic> _instituteItems = [];
