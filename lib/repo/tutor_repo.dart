@@ -819,13 +819,7 @@ class TutorRepository {
   }
 
 
-  // // Institute lists
-  // List<dynamic> _instituteItems = [];
-  // List<dynamic> get instituteItems => _instituteItems;
-  // List<Map<String, String>> _selectedIdsInstitute = [];
-  // List<Map<String, String>> get selectedIdsInstitute => _selectedIdsInstitute;
-  // List<String> _selectedNamesInstitute = [];
-  // List<String> get selectedNamesInstitute => _selectedNamesInstitute;
+  
 
   // // Qualification lists
   // List<dynamic> _qualificationItems = [];
