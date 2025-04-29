@@ -68,6 +68,7 @@ dependencies:
   flutter_local_notifications:
   youtube_player_flutter: 
   syncfusion_flutter_pdfviewer: ^20.4.50
+  package_info_plus: 
    
 
 dev_dependencies:

@@ -818,9 +818,6 @@ class TutorRepository {
     }
   }
 
-
-  
-
   // // Qualification lists
   // List<dynamic> _qualificationItems = [];
   // List<dynamic> get qualificationItems => _qualificationItems;

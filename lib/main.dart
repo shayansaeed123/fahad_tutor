@@ -6,10 +6,13 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
+  // PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  // print('Version: ${packageInfo.version}');
   await Firebase.initializeApp();
   // await NotificationPermissionHandler.requestNotificationPermission();
   RemoteMessage? initialMessage =
