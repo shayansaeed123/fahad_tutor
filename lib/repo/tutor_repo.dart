@@ -818,14 +818,6 @@ class TutorRepository {
     }
   }
 
-  // // Qualification lists
-  // List<dynamic> _qualificationItems = [];
-  // List<dynamic> get qualificationItems => _qualificationItems;
-  // List<Map<String, String>> _selectedIdsQualification = [];
-  // List<Map<String, String>> get selectedIdsQualification => _selectedIdsQualification;
-  // List<String> _selectedNamesQualification = [];
-  // List<String> get selectedNamesQualification => _selectedNamesQualification;
-
 
   // Future<void> fetchQualificationData(String urlPoint, String responseData, String target) async {
   //   _isLoading = true;
