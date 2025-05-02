@@ -819,46 +819,6 @@ class TutorRepository {
   }
 
 
-  // Future<void> fetchQualificationData(String urlPoint, String responseData, String target) async {
-  //   _isLoading = true;
-  //   try {
-  //     String url = '${Utils.baseUrl}/all_in.php?${urlPoint}=1';
-  //     final response = await http.get(Uri.parse(url));
-  //     print('url $url');
-
-  //     if (response.statusCode == 200) {
-  //       Uint8List responseBytes = response.bodyBytes;
-  //       String responseBody = utf8.decode(responseBytes, allowMalformed: true);
-  //       responseBody = removeBom(responseBody);
-
-  //       if (isJsonValid(responseBody)) {
-  //         dynamic jsonResponse = jsonDecode(responseBody);
-  //         List<dynamic> items = jsonResponse['${responseData}'];
-
-  //         if (target == 'institute') {
-  //           _instituteItems = items;
-  //           updateSelectedNames(target);
-  //         } else if (target == 'qualification') {
-  //           _qualificationItems = items;
-  //           updateSelectedNames(target);
-  //         }
-
-  //         print('Updated items list: $items');
-  //         print('Full JSON response: $jsonResponse');
-  //       } else {
-  //         print('Error: Invalid JSON format');
-  //       }
-  //     } else {
-  //       print('Error: ${response.statusCode}');
-  //     }
-  //   } catch (e) {
-  //     print('Error: $e');
-  //     throw Exception(e);
-  //   } finally {
-  //     _isLoading = false;
-  //   }
-  // }
-
   // Future<void> saveQualificationData(String saveResponseData, String target) async {
   //   _isLoading = true;
   //   try {
