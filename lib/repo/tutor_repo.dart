@@ -818,40 +818,6 @@ class TutorRepository {
     }
   }
 
-
-  // Future<void> saveQualificationData(String saveResponseData, String target) async {
-  //   _isLoading = true;
-  //   try {
-  //     final response = await http.get(Uri.parse('${Utils.baseUrl}/step_2.php?code=10&tutor_id=31225'));
-  //     if (response.statusCode == 200) {
-  //       if (response.body.isNotEmpty) {
-  //         final Map<String, dynamic> jsonResponse = json.decode(response.body);
-  //         List<Map<String, String>> selectedIds = (jsonResponse['${saveResponseData}'] as List)
-  //             .map<Map<String, String>>((item) => {'id': item['id'].toString()})
-  //             .toList();
-
-  //         if (target == 'institute') {
-  //           _selectedIdsInstitute = selectedIds;
-  //           updateSelectedNames(target);
-  //         } else if (target == 'qualification') {
-  //           _selectedIdsQualification = selectedIds;
-  //           updateSelectedNames(target);
-  //         }
-
-  //         print('Selected IDs for $target: $selectedIds');
-  //       } else {
-  //         throw Exception('Empty response body');
-  //       }
-  //     } else {
-  //       throw Exception('Failed to load details');
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //   } finally {
-  //     _isLoading = false;
-  //   }
-  // }
-
   // void updateSelectedNames(String target) {
   //   if (target == 'institute') {
   //     _selectedNamesInstitute = _selectedIdsInstitute.map((selected) {
