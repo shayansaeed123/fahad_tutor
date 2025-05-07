@@ -818,24 +818,6 @@ class TutorRepository {
     }
   }
 
-  // void updateSelectedNames(String target) {
-  //   if (target == 'institute') {
-  //     _selectedNamesInstitute = _selectedIdsInstitute.map((selected) {
-  //       return (_instituteItems.firstWhere(
-  //         (item) => item['id'] == selected['id'],
-  //         orElse: () => {'names': 'Unknown'},
-  //       )['names'] as String);
-  //     }).toList();
-  //   } else if (target == 'qualification') {
-  //     _selectedNamesQualification = _selectedIdsQualification.map((selected) {
-  //       return (_qualificationItems.firstWhere(
-  //         (item) => item['id'] == selected['id'],
-  //         orElse: () => {'names': 'Unknown'},
-  //       )['names'] as String);
-  //     }).toList();
-  //   }
-  // }
-
   // String removeBom(String responseBody) {
   //   if (responseBody.startsWith('\uFEFF')) {
   //     return responseBody.substring(1);
