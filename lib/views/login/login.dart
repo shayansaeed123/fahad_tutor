@@ -41,7 +41,7 @@ class _LoginState extends State<Login> {
   late FocusNode _buttonFocusNode;
   bool pass = true;
   bool isLoading = false;
-  late String version;
+  // String version = '';
 
   @override
   void initState() {
@@ -52,7 +52,7 @@ class _LoginState extends State<Login> {
     _passfocusNode.addListener(_onFocusChange);
     _buttonFocusNode = FocusNode();
     repository.get_Token();
-    printAppVersion();
+    // printAppVersion();
   }
 
   @override
@@ -161,12 +161,12 @@ class _LoginState extends State<Login> {
     });
   }
 
-  void printAppVersion() async {
-  PackageInfo packageInfo = await PackageInfo.fromPlatform();
-  version = packageInfo.version;
-  print("App Version: ${version}");
-  print("Build Number: ${packageInfo.buildNumber}");
-}
+//   void printAppVersion() async {
+//   PackageInfo packageInfo = await PackageInfo.fromPlatform();
+//   version = packageInfo.version;
+//   print("App Version: ${version}");
+//   print("Build Number: ${packageInfo.buildNumber}");
+// }
 
 
   
@@ -339,13 +339,13 @@ TutorRepository _repository = TutorRepository();
                             fontweight: FontWeight.bold),
                       ),
                                   ),
-                                  Center(
-                                    heightFactor: 2.0,
-                                    child: reusableText('V: $version',
-                                                                fontsize: 7,
-                                                                color: colorController.blueColor,
-                                                                fontweight: FontWeight.bold),
-                                  ),
+                                  // Center(
+                                  //   heightFactor: 2.0,
+                                  //   child: reusableText('V: $version',
+                                  //                               fontsize: 7,
+                                  //                               color: colorController.blueColor,
+                                  //                               fontweight: FontWeight.bold),
+                                  // ),
                                 ]),
                     ),
               ),
