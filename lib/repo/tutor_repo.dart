@@ -818,20 +818,6 @@ class TutorRepository {
     }
   }
 
-  // String removeBom(String responseBody) {
-  //   if (responseBody.startsWith('\uFEFF')) {
-  //     return responseBody.substring(1);
-  //   }
-  //   return responseBody;
-  // }
-
-  // bool isJsonValid(String jsonString) {
-  //   try {
-  //     jsonDecode(jsonString);
-  //     return true;
-  //   } catch (e) {
-  //     return false;
-  //   }
-  // }
+  
 
 }
