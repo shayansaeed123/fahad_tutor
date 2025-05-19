@@ -20,7 +20,6 @@ import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:http/http.dart' as http;
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -160,13 +159,6 @@ class _LoginState extends State<Login> {
       isLoading = false;
     });
   }
-
-//   void printAppVersion() async {
-//   PackageInfo packageInfo = await PackageInfo.fromPlatform();
-//   version = packageInfo.version;
-//   print("App Version: ${version}");
-//   print("Build Number: ${packageInfo.buildNumber}");
-// }
 
 
   
@@ -339,13 +331,13 @@ TutorRepository _repository = TutorRepository();
                             fontweight: FontWeight.bold),
                       ),
                                   ),
-                                  // Center(
-                                  //   heightFactor: 2.0,
-                                  //   child: reusableText('V: $version',
-                                  //                               fontsize: 7,
-                                  //                               color: colorController.blueColor,
-                                  //                               fontweight: FontWeight.bold),
-                                  // ),
+                                  Center(
+                                    heightFactor: 2.0,
+                                    child: reusableText('V: 1.0.105',
+                                                                fontsize: 7,
+                                                                color: colorController.blueColor,
+                                                                fontweight: FontWeight.bold),
+                                  ),
                                 ]),
                     ),
               ),

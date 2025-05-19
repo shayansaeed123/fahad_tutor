@@ -465,7 +465,15 @@ void loginClear(){
               Navigator.push(context, MaterialPageRoute(builder: (context) => Login(),));
                 }, (){Navigator.pop(context);});
               }),
-              reusablaSizaBox(context, .05),
+              reusablaSizaBox(context, .01),
+              Center(
+                                    heightFactor: 2.0,
+                                    child: reusableText('V: 1.0.105',
+                                                                fontsize: 7,
+                                                                color: colorController.blueColor,
+                                                                fontweight: FontWeight.bold),
+                                  ),
+                                  reusablaSizaBox(context, .05),
             ],
           ),
         )
