@@ -86,6 +86,14 @@ void set_user_ID(String? userID) {
     return ''.val('userID', getBox: preferences).val;
   }
 
+  void set_baseUrl(String? baseUrl) {
+    ''.val('baseUrl', getBox: preferences).val = baseUrl ?? '';
+  }
+
+  String get_baseUrl() {
+    return ''.val('baseUrl', getBox: preferences).val;
+  }
+
   void set_tutor_name(String? tutorName) {
     ''.val('tutorName', getBox: preferences).val = tutorName ?? '';
   }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:fahad_tutor/controller/color_controller.dart';
+import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
@@ -27,7 +28,7 @@ class _TrainingVideosState extends State<TrainingVideos> {
     });
     try{
       String url =
-          '${Utils.baseUrl}trainingvideoslinks.php';
+          '${MySharedPrefrence().get_baseUrl()}trainingvideoslinks.php';
       final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {

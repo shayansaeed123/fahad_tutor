@@ -172,7 +172,7 @@ class _AccountDetailsState extends State<AccountDetails> {
     try{
       
       final response = await http.post(
-      Uri.parse('${Utils.baseUrl}step_6_update.php'),
+      Uri.parse('${MySharedPrefrence().get_baseUrl()}step_6_update.php'),
       body: {
         'code' : '10'.toString(),
         'tutor_id' : MySharedPrefrence().get_user_ID().toString(),
@@ -222,7 +222,7 @@ class _AccountDetailsState extends State<AccountDetails> {
     final userId = MySharedPrefrence().get_user_ID().toString();
     print('Fetching data for user ID: $userId');
     final response = await http.get(
-      Uri.parse('${Utils.baseUrl}step_6.php?code=10&tutor_id=$userId')
+      Uri.parse('${MySharedPrefrence().get_baseUrl()}step_6.php?code=10&tutor_id=$userId')
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);

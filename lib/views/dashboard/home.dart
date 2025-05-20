@@ -84,7 +84,7 @@ class _HomeState extends State<Home> {
     setState(() {
         isLoading2 = true;
       });
-  final String apiUrl = "${Utils.baseUrl}search_pereferred.php";
+  final String apiUrl = "${MySharedPrefrence().get_baseUrl()}search_pereferred.php";
   
     final results = await repository.searchTuitions(query,apiUrl);
     setState(() {
@@ -144,7 +144,7 @@ class _HomeState extends State<Home> {
   }
   // Future<void> searchTuitions(String searchText) async {
   //   String url =
-  //         '${Utils.baseUrl}search_pereferred.php?searchtext=$searchText&code=10&tutor_id=${MySharedPrefrence().get_user_ID()}';
+  //         '${MySharedPrefrence().get_baseUrl()}search_pereferred.php?searchtext=$searchText&code=10&tutor_id=${MySharedPrefrence().get_user_ID()}';
   //     final response = await http.get(Uri.parse(url));
 
   //   if (response.statusCode == 200) {
@@ -191,7 +191,7 @@ class _HomeState extends State<Home> {
     
     try {
       String url =
-          '${Utils.baseUrl}apply_tuition.php?code=10&group_id=$g_id&tuition_id=$tuition_id&tutor_id=${MySharedPrefrence().get_user_ID()}';
+          '${MySharedPrefrence().get_baseUrl()}apply_tuition.php?code=10&group_id=$g_id&tuition_id=$tuition_id&tutor_id=${MySharedPrefrence().get_user_ID()}';
       final response = await http.get(Uri.parse(url));
       print('url $url');
       print('group id $g_id');

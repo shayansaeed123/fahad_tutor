@@ -212,7 +212,7 @@ String classListJson = jsonEncode(classList);
       };
       print('list class $classListJson');
       final response = await http.post(
-        Uri.parse('${Utils.baseUrl}step_2_update.php'),
+        Uri.parse('${MySharedPrefrence().get_baseUrl()}step_2_update.php'),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
@@ -245,7 +245,7 @@ String classListJson = jsonEncode(classList);
   Future<void> saveAreaData() async {
   try {
     final response = await http.get(
-      Uri.parse('${Utils.baseUrl}step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
+      Uri.parse('${MySharedPrefrence().get_baseUrl()}step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
     );
 
     if (response.statusCode == 200) {
@@ -271,7 +271,7 @@ String classListJson = jsonEncode(classList);
 Future<void> saveQualificationData() async {
   try {
     final response = await http.get(
-      Uri.parse('${Utils.baseUrl}step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
+      Uri.parse('${MySharedPrefrence().get_baseUrl()}step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
     );
 
     if (response.statusCode == 200) {
@@ -347,7 +347,7 @@ Future<void> saveQualificationData() async {
       isLoading = true;
     });
     try {
-      String url = '${Utils.baseUrl}all_in.php?$type=1';
+      String url = '${MySharedPrefrence().get_baseUrl()}all_in.php?$type=1';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 
@@ -383,7 +383,7 @@ Future<void> saveQualificationData() async {
       isLoading = true;
     });
     try {
-      String url = '${Utils.baseUrl}all_in.php?$type=1';
+      String url = '${MySharedPrefrence().get_baseUrl()}all_in.php?$type=1';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 
@@ -439,7 +439,7 @@ Future<void> saveQualificationData() async {
 
 //   try {
 //     final response = await http.get(
-//       Uri.parse('${Utils.baseUrl}step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
+//       Uri.parse('${MySharedPrefrence().get_baseUrl()}step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
 //     );
 //     print(MySharedPrefrence().get_user_ID());
 //     if (response.statusCode == 200) {
@@ -507,7 +507,7 @@ Future<void> selectArea() async {
     try {
       print('heell ${MySharedPrefrence().get_city_id()}');
       final response = await http.post(
-          Uri.parse('${Utils.baseUrl}area.php'),
+          Uri.parse('${MySharedPrefrence().get_baseUrl()}area.php'),
           body: {
             'code': '10',
             'city_id': MySharedPrefrence().get_city_id(),

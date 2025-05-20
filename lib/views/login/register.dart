@@ -425,7 +425,7 @@ void updateTutorPlacement() {
     try {
       
       final response = await http.get(
-        Uri.parse('${Utils.baseUrl}country.php?code=10'),
+        Uri.parse('${MySharedPrefrence().get_baseUrl()}country.php?code=10'),
       );
       if (response.statusCode == 200) {
         if (response.body.isNotEmpty) {
@@ -465,7 +465,7 @@ void updateTutorPlacement() {
     });
     try {
       final response = await http.post(
-          Uri.parse('${Utils.baseUrl}city.php'),
+          Uri.parse('${MySharedPrefrence().get_baseUrl()}city.php'),
           body: {
             'code': '10',
             'country_id': countryId.toString(),
@@ -508,7 +508,7 @@ void updateTutorPlacement() {
     });
     try {
       final response = await http.post(
-          Uri.parse('${Utils.baseUrl}area.php'),
+          Uri.parse('${MySharedPrefrence().get_baseUrl()}area.php'),
           body: {
             'code': '10',
             'city_id': MySharedPrefrence().get_city_id().toString(),
@@ -553,7 +553,7 @@ void updateTutorPlacement() {
     try {
       final response = await http.post(
           // Uri.parse('https://fahadtutors.com/acoount_check.php'),
-          Uri.parse('${Utils.baseUrl}acoount_check.php'),
+          Uri.parse('${MySharedPrefrence().get_baseUrl()}acoount_check.php'),
           body: {
             'contact_number':reusabletextfieldcontroller.contactCon.text.toString(),
             'cnic': reusabletextfieldcontroller.cnicCon.text.toString(),
@@ -619,7 +619,7 @@ void updateTutorPlacement() {
       print('cell_token ${MySharedPrefrence().get_cell_token()}');
       print('bio ${bio.toString()}');
       final response = await http.post(
-          Uri.parse('${Utils.baseUrl}sign_up.php'),
+          Uri.parse('${MySharedPrefrence().get_baseUrl()}sign_up.php'),
           body: {
             'contact_number':reusabletextfieldcontroller.contactCon.text.toString(),
             'cnic': reusabletextfieldcontroller.cnicCon.text.toString(),
@@ -690,7 +690,7 @@ void updateTutorPlacement() {
   //     // final email = reusabletextfieldcontroller.emailCon.text.toString();
   //     //   final password = reusabletextfieldcontroller.loginPassCon.text.toString();
   //     final response = await http.post(
-  //     Uri.parse('${Utils.baseUrl}login.php'),
+  //     Uri.parse('${MySharedPrefrence().get_baseUrl()}login.php'),
   //     body: {
   //       'cell_access_token': MySharedPrefrence().get_cell_token().toString(),
   //       'deviceid': '1'.toString(),

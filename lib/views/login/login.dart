@@ -94,7 +94,7 @@ class _LoginState extends State<Login> {
       // final email = reusabletextfieldcontroller.emailCon.text.toString();
       //   final password = reusabletextfieldcontroller.loginPassCon.text.toString();
       final response = await http.post(
-      Uri.parse('${Utils.baseUrl}login.php'),
+      Uri.parse('${MySharedPrefrence().get_baseUrl()}login.php'),
       body: {
         'cell_access_token': MySharedPrefrence().get_cell_token().toString(),
         'deviceid': '1'.toString(),

@@ -56,7 +56,7 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
 
   //   try {
   //     String url =
-  //         '${Utils.baseUrl}get_ducoments.php?code=10&tutors_ids=${MySharedPrefrence().get_user_ID()}';
+  //         '${MySharedPrefrence().get_baseUrl()}get_ducoments.php?code=10&tutors_ids=${MySharedPrefrence().get_user_ID()}';
   //     final response = await http.get(Uri.parse(url));
   //     print('url $url');
 
@@ -173,7 +173,7 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
 
     try{
       // String uploadUrl = 'https://fahadtutors.com/upload_doc_4.php';
-      String uploadUrl = '${Utils.baseUrl}upload_doc_4.php';
+      String uploadUrl = '${MySharedPrefrence().get_baseUrl()}upload_doc_4.php';
     var request = http.MultipartRequest('POST', Uri.parse(uploadUrl));
 
     switch (imageType) {
@@ -294,7 +294,7 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
     });
     try {
       final response = await http.post(
-          Uri.parse('${Utils.baseUrl}step_4_update.php'),
+          Uri.parse('${MySharedPrefrence().get_baseUrl()}step_4_update.php'),
           body: {
         'code': '10',
         'update_status': '4',

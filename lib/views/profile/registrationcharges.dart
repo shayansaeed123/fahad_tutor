@@ -98,7 +98,7 @@ Future<void> _uploadImages() async {
     });
     try{
       // String uploadUrl = 'https://fahadtutors.com/upload_doc_5.php';
-      String uploadUrl = '${Utils.baseUrl}upload_doc_5.php';
+      String uploadUrl = '${MySharedPrefrence().get_baseUrl()}upload_doc_5.php';
     var request = http.MultipartRequest('POST', Uri.parse(uploadUrl));
         if (_chargesSlip != null) {
           request.files.add(await http.MultipartFile.fromPath('Registration', _chargesSlip!.path));
@@ -146,7 +146,7 @@ Future<void> _uploadImages() async {
     });
     try {
       final response = await http.post(
-          Uri.parse('${Utils.baseUrl}step_5_update.php'),
+          Uri.parse('${MySharedPrefrence().get_baseUrl()}step_5_update.php'),
           body: {
         'code': '10',
         'update_status': '4',

@@ -2,6 +2,7 @@ import 'dart:async';
 
 
 import 'package:fahad_tutor/database/my_shared.dart';
+import 'package:fahad_tutor/repo/tutor_repo.dart';
 import 'package:fahad_tutor/views/dashboard/nav_bar.dart';
 import 'package:fahad_tutor/views/login/login.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
+  TutorRepository repository = TutorRepository();
 
   bool _isLoggedIn = false;
   Timer? _timer;
@@ -54,6 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     checkLoginStatus();
+    repository.getBasepath();
   }
 
   @override
