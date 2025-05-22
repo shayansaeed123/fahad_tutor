@@ -602,29 +602,29 @@ void loginClear(){
   //             ),
   //           ));
   //           },),
-  //           ValueListenableBuilder(valueListenable: repository.is_term_accepted, builder: (context, value, child) {
-  //             return reusablelisttile(context,(){
-  //             if(repository.docs_att.value == '8' || repository.docs_att.value == '19'){
-  //               reusableAnimationdialog(context, 'Restrict', 'Before accepting terms and conditions, Fill all the steps sequentially');
-  //             }else{
-  //               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TermsAndConditions(imageUrl: MySharedPrefrence().get_term_condition_image(), btn: repository.is_term_accepted.value,title: 'Terms & Conditions',term: 'term_condition',),));
-  //             }
-  //           },'assets/images/terms_and_conditions.png','Terms & Conditions',widget: Container(
-  //             width: MediaQuery.of(context).size.width * .24,
-  //             child: Row(
-  //               mainAxisAlignment: MainAxisAlignment.end,
-  //               children: [
-  //                 if(value == '1')
-  //                 // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
-  //                 CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 15,)),backgroundColor: colorController.greenColor,maxRadius: 11,), 
-  //                 if(value == '0')
-  //                 Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
-  //                   // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
-  //                 Icon(Icons.arrow_forward_ios)
-  //               ],
-  //             ),
-  //           ));
-  //           },),
+            // ValueListenableBuilder(valueListenable: repository.is_term_accepted, builder: (context, value, child) {
+            //   return reusablelisttile(context,(){
+            //   if(repository.docs_att.value == '8' || repository.docs_att.value == '19'){
+            //     reusableAnimationdialog(context, 'Restrict', 'Before accepting terms and conditions, Fill all the steps sequentially');
+            //   }else{
+            //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TermsAndConditions(imageUrl: MySharedPrefrence().get_term_condition_image(), btn: repository.is_term_accepted.value,title: 'Terms & Conditions',term: 'term_condition',),));
+            //   }
+            // },'assets/images/terms_and_conditions.png','Terms & Conditions',widget: Container(
+            //   width: MediaQuery.of(context).size.width * .24,
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.end,
+            //     children: [
+            //       if(value == '1')
+            //       // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+            //       CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 15,)),backgroundColor: colorController.greenColor,maxRadius: 11,), 
+            //       if(value == '0')
+            //       Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+            //         // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+            //       Icon(Icons.arrow_forward_ios)
+            //     ],
+            //   ),
+            // ));
+            // },),
   //           ValueListenableBuilder(valueListenable: repository.is_term_accepted_online_option, builder: (context, value, child) {
   //             return value == 1 ? ValueListenableBuilder(valueListenable: repository.is_term_accepted_online_option, builder: (context, value, child) {
   //             return reusablelisttile(context,(){
