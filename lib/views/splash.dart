@@ -39,15 +39,6 @@ class _SplashScreenState extends State<SplashScreen> {
     if (MySharedPrefrence().get_user_ID() != '') {
       Navigator.push(context, MaterialPageRoute(builder: (context) => NavBar(),));
     } else {
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) => WillPopScope(
-      //       onWillPop: () async => false,
-      //       child: Login(),
-      //     ),
-      //   ),
-      // );
       Navigator.push(context, MaterialPageRoute(builder: (context) => Login(),));
     }
   }
