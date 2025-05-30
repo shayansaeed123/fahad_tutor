@@ -400,12 +400,6 @@ void updateTutorPlacement() {
       // print(MySharedPrefrence().getUserLoginStatus());
       print(MySharedPrefrence().get_user_email());
       checkAccount();
-      // Navigator.push(context,
-      //                       MaterialPageRoute(
-      //                         builder: (context) => WillPopScope(
-      //                             onWillPop: () async => false,
-      //                             child: HomePage()),
-      //                       ));
     } catch (e) {
       print('Error $e');
       // reusabledialog(context, "Login Failed",
