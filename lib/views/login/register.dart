@@ -402,8 +402,6 @@ void updateTutorPlacement() {
       checkAccount();
     } catch (e) {
       print('Error $e');
-      // reusabledialog(context, "Login Failed",
-      //       "An error occurred while trying to log in.", "Ok", () {});
     } finally {
       setState(() {
         isLoading = false;
