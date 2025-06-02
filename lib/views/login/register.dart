@@ -798,21 +798,6 @@ void updateTutorPlacement() {
                       fontsize: 18,
                     ),
                     reusablaSizaBox(context, .01),
-                    // reusableRadioBtn(
-                    //   context,
-                    //   'Student', // Value of the first radio button
-                    //   'Tutor', // Value of the second radio button
-                    //   _selectedValue, // Current selected value
-                    //   (String? value) {
-                    //     // onChanged function
-                    //     setState(() {
-                    //       _selectedValue = value!;
-                    //     });
-                    //   },
-                    //   'Student', // Name of the first radio button
-                    //   'Tutor', // Name of the second r
-                    //   .4,
-                    // ),
                     reusableRadioBtnOne(
                       context, // Value of the first radio button
                       'Tutor', // Value of the second radio button
