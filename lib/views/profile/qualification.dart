@@ -10,6 +10,7 @@ import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
+import 'package:fahad_tutor/res/reusableselecteditem.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/res/reusablevisibility.dart';
 import 'package:fahad_tutor/views/profile/profile.dart';
@@ -55,6 +56,10 @@ List<dynamic> newItemsGroup = [];
 List<Map<String, String>> selectedIdsGroup = [];
 List<String> selectedNamesGroup = [];
 
+List<dynamic> newItemsCourse = [];
+List<Map<String, String>> selectedIdsCourse = [];
+List<String> selectedNamesCourse = [];
+
 List<dynamic> newItemsArea = [];
 List<Map<String, String>> selectedIdsArea = [];
 List<String> selectedNamesArea = [];
@@ -91,6 +96,7 @@ String? laptop = 'no';
     fetchData('Qualification','Qualification', newItemsQualification, selectedIdsQualification, updateSelectedNamesQualification);
     fetchData('Board', 'Board', newItemsBoard, selectedIdsBoard, updateSelectedNamesBoard);
     fetchData('Group','Group', newItemsGroup, selectedIdsGroup, updateSelectedNamesGroup);
+    fetchData('course','course', newItemsCourse, selectedIdsCourse, updateSelectedNamesCourse);
     fetchData('Preferred_Time','Preferred_Time', newItemsTime, selectedIdsTime, updateSelectedNamesTime);
     fetchClassDataAndSubjectData('Class','Class', newItemsClass,);
     saveQualificationData();
@@ -104,6 +110,7 @@ String? laptop = 'no';
      fetchData('Qualification','Qualification', newItemsQualification, selectedIdsQualification, updateSelectedNamesQualification);
      fetchData('Board', 'Board', newItemsBoard, selectedIdsBoard, updateSelectedNamesBoard);
      fetchData('Group','Group', newItemsGroup, selectedIdsGroup, updateSelectedNamesGroup);
+     fetchData('course','course', newItemsCourse, selectedIdsCourse, updateSelectedNamesCourse);
      fetchData('Preferred_Time','Preferred_Time', newItemsTime, selectedIdsTime, updateSelectedNamesTime);
      fetchClassDataAndSubjectData('Class','Class', newItemsClass,);
     await saveQualificationData();
@@ -114,7 +121,7 @@ String? laptop = 'no';
 
   void _validateForm() {
      if (selectedNamesinstitute.isNotEmpty && selectedIdsQualification.isNotEmpty 
-     && selectedIdsArea.isNotEmpty && selectedIdsBoard.isNotEmpty 
+     && selectedIdsArea.isNotEmpty && selectedIdsBoard.isNotEmpty && selectedIdsCourse.isNotEmpty 
      && selectedIdsGroup.isNotEmpty  && selectedClasses.isNotEmpty 
                         ) {
                   updateStatus();
@@ -131,6 +138,8 @@ String? laptop = 'no';
                             ? "Select Atleast 1 Board"
                             : selectedIdsGroup.isEmpty
                             ? "Select Atleast 1 Group" 
+                            : selectedIdsCourse.isEmpty
+                            ? "Select Atleast 1 Course" 
                             : selectedClasses.isEmpty
                             ? "Select Atleast 1 Preffered Class with Subject": "Fill Correct Fields",
                   );
@@ -188,10 +197,17 @@ String classListJson = jsonEncode(classList);
       }).toList();
       String preferredgroupjson = jsonEncode(preferred_group);
 
+      List<Map<String, dynamic>> preferred_course = selectedIdsCourse.map((course) {
+        return {'preferred_course_id': course['id']};
+      }).toList();
+      String preferredcoursejson = jsonEncode(preferred_course);
+
       List<Map<String, dynamic>> preferred_time_query = selectedIdsTime.map((time) {
         return {'Preferred_Time_id': time['id']};
       }).toList();
       String preferredTimejson = jsonEncode(preferred_time_query);
+
+      print(preferredcoursejson);
 
       Map<String, String> body = {
         'code': '10',
@@ -203,6 +219,7 @@ String classListJson = jsonEncode(classList);
         'Degree': qualificationjson,
         'preferred_board': preferredboardjson,
         'preferred_group': preferredgroupjson,
+        'preferred_course': preferredcoursejson,
         'preferred_time_query': preferredTimejson,
         'Quran_Experience': quranOnlineTeaching.toString(),
         'International_client': client.toString(),
@@ -293,6 +310,9 @@ Future<void> saveQualificationData() async {
           selectedIdsGroup = (jsonResponse['preferred_group_listing'] as List)
               .map<Map<String, String>>((item) => {'id': item['id'].toString()})
               .toList();
+          selectedIdsCourse = (jsonResponse['preferred_course_listing'] as List)
+              .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+              .toList();
 
           selectedIdsTime = (jsonResponse['preferred_time_query'] as List)
               .map<Map<String, String>>((item) => {'id': item['id'].toString()})
@@ -326,6 +346,7 @@ Future<void> saveQualificationData() async {
           updateSelectedNamesQualification();
           updateSelectedNamesBoard();
           updateSelectedNamesGroup();
+          updateSelectedNamesCourse();
           updateSelectedNamesArea();
           updateSelectedNamesSubject();
           updateSelectedNamesTime();
@@ -573,6 +594,16 @@ void updateSelectedNamesGroup() {
   // print('Selected Group Names: $selectedNamesGroup');
 }
 
+void updateSelectedNamesCourse() {
+  selectedNamesCourse = selectedIdsCourse.map((selected) {
+    return (newItemsCourse.firstWhere(
+      (item) => item['id'] == selected['id'],
+      orElse: () => {'name': 'Unknown'},
+    )['name'] as String);
+  }).toList();
+  // print('Selected Group Names: $selectedNamesGroup');
+}
+
 void updateSelectedNamesArea() {
   selectedNamesArea = selectedIdsArea.map((selected) {
     return (newItemsArea.firstWhere(
@@ -644,6 +675,12 @@ void toggleSelection(String id, String name, String itemType) {
         selectedNames = selectedNamesGroup;
         newItems = newItemsGroup;
         updateSelectedNames = updateSelectedNamesGroup;
+        break;
+      case 'name':
+        selectedIds = selectedIdsCourse;
+        selectedNames = selectedNamesCourse;
+        newItems = newItemsCourse;
+        updateSelectedNames = updateSelectedNamesCourse;
         break;
       case 'area_name':
         selectedIds = selectedIdsArea;
@@ -1769,160 +1806,246 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                     search(newItemsArea, selectedIdsArea, 'area_name');
                   }),
                   reusablaSizaBox(context, .020),
-                  Container(
-                    constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * selectedNamesArea.length),
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: selectedNamesArea.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, // Number of columns
-                        crossAxisSpacing: 10.0, // Spacing between columns
-                        mainAxisSpacing: 10.0, // Spacing between rows
-                        childAspectRatio: 5.1, // Aspect ratio of each grid item
-                      ),
-                      itemBuilder: (context, index) {
-                        return Container(
-                          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: colorController.qualificationItemsColors,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  selectedNamesArea[index],
-                                  softWrap: true,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: TextStyle(fontSize: 13, color: colorController.whiteColor),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
+                  reusableSelectedItem(context, selectedNamesArea, (index){
+                    setState(() {
                                     // Remove the selected item from the list
                                     selectedIdsArea.removeAt(index);
                                     selectedNamesArea.removeAt(index);
                                     // updateSelectedNames(); // Update the names here
                                   });
-                                },
-                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.050,),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                  },),
+                  // Container(
+                  //   constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * selectedNamesArea.length),
+                  //   child: GridView.builder(
+                  //     shrinkWrap: true,
+                  //     physics: NeverScrollableScrollPhysics(),
+                  //     itemCount: selectedNamesArea.length,
+                  //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  //       crossAxisCount: 2, // Number of columns
+                  //       crossAxisSpacing: 10.0, // Spacing between columns
+                  //       mainAxisSpacing: 10.0, // Spacing between rows
+                  //       childAspectRatio: 5.1, // Aspect ratio of each grid item
+                  //     ),
+                  //     itemBuilder: (context, index) {
+                  //       return Container(
+                  //         padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
+                  //         decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(15),
+                  //           color: colorController.qualificationItemsColors,
+                  //         ),
+                  //         child: Row(
+                  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //           children: [
+                  //             Expanded(
+                  //               child: Text(
+                  //                 selectedNamesArea[index],
+                  //                 softWrap: true,
+                  //                 overflow: TextOverflow.ellipsis,
+                  //                 maxLines: 1,
+                  //                 style: TextStyle(fontSize: 13, color: colorController.whiteColor),
+                  //               ),
+                  //             ),
+                  //             InkWell(
+                  //               onTap: () {
+                  //                 setState(() {
+                  //                   // Remove the selected item from the list
+                  //                   selectedIdsArea.removeAt(index);
+                  //                   selectedNamesArea.removeAt(index);
+                  //                   // updateSelectedNames(); // Update the names here
+                  //                 });
+                  //               },
+                  //               child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.050,),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
                   reusablaSizaBox(context, .020),
                   reusablequlification(context, 'preferred Board', () {
                     search(newItemsBoard, selectedIdsBoard, 'board_name');
                   }),
                   reusablaSizaBox(context, .020),
-                  Container(
-                    constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * selectedNamesBoard.length),
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: selectedNamesBoard.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, // Number of columns
-                        crossAxisSpacing: 10.0, // Spacing between columns
-                        mainAxisSpacing: 10.0, // Spacing between rows
-                        childAspectRatio: 5.1, // Aspect ratio of each grid item
-                      ),
-                      itemBuilder: (context, index) {
-                        return Container(
-                          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: colorController.qualificationItemsColors,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  selectedNamesBoard[index],
-                                  softWrap: true,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: TextStyle(fontSize: 13, color: colorController.whiteColor),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
+                  reusableSelectedItem(context, selectedNamesBoard, (index){
+                    setState(() {
                                     // Remove the selected item from the list
                                     selectedIdsBoard.removeAt(index);
                                     selectedNamesBoard.removeAt(index);
                                     // updateSelectedNames(); // Update the names here
                                   });
-                                },
-                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.050,),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                  },),
+                  // Container(
+                  //   constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * selectedNamesBoard.length),
+                  //   child: GridView.builder(
+                  //     shrinkWrap: true,
+                  //     physics: NeverScrollableScrollPhysics(),
+                  //     itemCount: selectedNamesBoard.length,
+                  //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  //       crossAxisCount: 2, // Number of columns
+                  //       crossAxisSpacing: 10.0, // Spacing between columns
+                  //       mainAxisSpacing: 10.0, // Spacing between rows
+                  //       childAspectRatio: 5.1, // Aspect ratio of each grid item
+                  //     ),
+                  //     itemBuilder: (context, index) {
+                  //       return Container(
+                  //         padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
+                  //         decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(15),
+                  //           color: colorController.qualificationItemsColors,
+                  //         ),
+                  //         child: Row(
+                  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //           children: [
+                  //             Expanded(
+                  //               child: Text(
+                  //                 selectedNamesBoard[index],
+                  //                 softWrap: true,
+                  //                 overflow: TextOverflow.ellipsis,
+                  //                 maxLines: 1,
+                  //                 style: TextStyle(fontSize: 13, color: colorController.whiteColor),
+                  //               ),
+                  //             ),
+                  //             InkWell(
+                  //               onTap: () {
+                  //                 setState(() {
+                  //                   // Remove the selected item from the list
+                  //                   selectedIdsBoard.removeAt(index);
+                  //                   selectedNamesBoard.removeAt(index);
+                  //                   // updateSelectedNames(); // Update the names here
+                  //                 });
+                  //               },
+                  //               child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.050,),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
                   reusablaSizaBox(context, .020),
                   reusablequlification(context, 'preferred Group', () {
                     search(newItemsGroup, selectedIdsGroup, 'group_name');
                   }),
                   reusablaSizaBox(context, .020),
-                  Container(
-                    constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * selectedNamesGroup.length),
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: selectedNamesGroup.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, // Number of columns
-                        crossAxisSpacing: 10.0, // Spacing between columns
-                        mainAxisSpacing: 10.0, // Spacing between rows
-                        childAspectRatio: 5.1, // Aspect ratio of each grid item
-                      ),
-                      itemBuilder: (context, index) {
-                        return Container(
-                          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: colorController.qualificationItemsColors,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  selectedNamesGroup[index],
-                                  softWrap: true,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: TextStyle(fontSize: 13, color: colorController.whiteColor),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
+                  reusableSelectedItem(context, selectedNamesGroup, (index){
+                    setState(() {
                                     // Remove the selected item from the list
                                     selectedIdsGroup.removeAt(index);
                                     selectedNamesGroup.removeAt(index);
                                     // updateSelectedNames(); // Update the names here
                                   });
-                                },
-                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.050,),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                  },),
+                  // Container(
+                  //   constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * selectedNamesGroup.length),
+                  //   child: GridView.builder(
+                  //     shrinkWrap: true,
+                  //     physics: NeverScrollableScrollPhysics(),
+                  //     itemCount: selectedNamesGroup.length,
+                  //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  //       crossAxisCount: 2, // Number of columns
+                  //       crossAxisSpacing: 10.0, // Spacing between columns
+                  //       mainAxisSpacing: 10.0, // Spacing between rows
+                  //       childAspectRatio: 5.1, // Aspect ratio of each grid item
+                  //     ),
+                  //     itemBuilder: (context, index) {
+                  //       return Container(
+                  //         padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
+                  //         decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(15),
+                  //           color: colorController.qualificationItemsColors,
+                  //         ),
+                  //         child: Row(
+                  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //           children: [
+                  //             Expanded(
+                  //               child: Text(
+                  //                 selectedNamesGroup[index],
+                  //                 softWrap: true,
+                  //                 overflow: TextOverflow.ellipsis,
+                  //                 maxLines: 1,
+                  //                 style: TextStyle(fontSize: 13, color: colorController.whiteColor),
+                  //               ),
+                  //             ),
+                  //             InkWell(
+                  //               onTap: () {
+                  //                 setState(() {
+                  //                   // Remove the selected item from the list
+                  //                   selectedIdsGroup.removeAt(index);
+                  //                   selectedNamesGroup.removeAt(index);
+                  //                   // updateSelectedNames(); // Update the names here
+                  //                 });
+                  //               },
+                  //               child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.050,),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
+
+                  reusablaSizaBox(context, .020),
+                  reusablequlification(context, 'preferred Course', () {
+                    search(newItemsCourse, selectedIdsCourse, 'name');
+                  }),
+                  reusablaSizaBox(context, .020),
+                  reusableSelectedItem(context, selectedNamesCourse, (index){
+                    setState(() {
+                                    // Remove the selected item from the list
+                                    selectedIdsCourse.removeAt(index);
+                                    selectedNamesCourse.removeAt(index);
+                                    // updateSelectedNames(); // Update the names here
+                                  });
+                  },),
+                  // Container(
+                  //   constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * selectedNamesCourse.length),
+                  //   child: GridView.builder(
+                  //     shrinkWrap: true,
+                  //     physics: NeverScrollableScrollPhysics(),
+                  //     itemCount: selectedNamesCourse.length,
+                  //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  //       crossAxisCount: 2, // Number of columns
+                  //       crossAxisSpacing: 10.0, // Spacing between columns
+                  //       mainAxisSpacing: 10.0, // Spacing between rows
+                  //       childAspectRatio: 5.1, // Aspect ratio of each grid item
+                  //     ),
+                  //     itemBuilder: (context, index) {
+                  //       return Container(
+                  //         padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
+                  //         decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(15),
+                  //           color: colorController.qualificationItemsColors,
+                  //         ),
+                  //         child: Row(
+                  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //           children: [
+                  //             Expanded(
+                  //               child: Text(
+                  //                 selectedNamesCourse[index],
+                  //                 softWrap: true,
+                  //                 overflow: TextOverflow.ellipsis,
+                  //                 maxLines: 1,
+                  //                 style: TextStyle(fontSize: 13, color: colorController.whiteColor),
+                  //               ),
+                  //             ),
+                  //             InkWell(
+                  //               onTap: () {
+                  //                 setState(() {
+                  //                   // Remove the selected item from the list
+                  //                   selectedIdsCourse.removeAt(index);
+                  //                   selectedNamesCourse.removeAt(index);
+                  //                   // updateSelectedNames(); // Update the names here
+                  //                 });
+                  //               },
+                  //               child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.050,),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
                   reusablaSizaBox(context, .020),
                   Container(
                     padding: EdgeInsets.all(MediaQuery.of(context).size.width * .04),
