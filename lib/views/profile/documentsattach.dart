@@ -41,6 +41,10 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
   File? _last_document;
   File? _other1;
   File? _other2;
+  File? _other3;
+  File? _other4;
+  File? _other5;
+  File? _other6;
   final picker = ImagePicker();
   // String profile = '';
   // String cnic_f = '';
@@ -118,6 +122,22 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
         case 'other2':
           _other2 = File(pickedFile.path);
           selectedImage = _other2;
+          break;
+        case 'other3':
+          _other3 = File(pickedFile.path);
+          selectedImage = _other3;
+          break;
+        case 'other4':
+          _other4 = File(pickedFile.path);
+          selectedImage = _other4;
+          break;
+        case 'other5':
+          _other5 = File(pickedFile.path);
+          selectedImage = _other5;
+          break;
+        case 'other6':
+          _other6 = File(pickedFile.path);
+          selectedImage = _other6;
           break;
       }
       print(imageType);
@@ -207,6 +227,26 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
           request.files.add(await http.MultipartFile.fromPath('other_2', _other2!.path));
         }
         break;
+      case 'other3':
+        if (_other3 != null) {
+          request.files.add(await http.MultipartFile.fromPath('other_3', _other3!.path));
+        }
+        break;
+      case 'other4':
+        if (_other4 != null) {
+          request.files.add(await http.MultipartFile.fromPath('other_4', _other4!.path));
+        }
+        break;
+      case 'other5':
+        if (_other5 != null) {
+          request.files.add(await http.MultipartFile.fromPath('other_5', _other5!.path));
+        }
+        break;
+      case 'other6':
+        if (_other6 != null) {
+          request.files.add(await http.MultipartFile.fromPath('other_6', _other6!.path));
+        }
+        break;
     }
 
     var response = await request.send();
@@ -242,6 +282,22 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
           case 'other2':
             // other2 = responseData['other_2'] ?? other2;
             repository.other_2.value = responseData['other_2'] ?? repository.other_2.value;
+            break;
+          case 'other3':
+            // other1 = responseData['other_1'] ?? other1;
+            repository.other_3.value = responseData['other_3'] ?? repository.other_3.value;
+            break;
+          case 'other4':
+            // other2 = responseData['other_2'] ?? other2;
+            repository.other_4.value = responseData['other_4'] ?? repository.other_4.value;
+            break;
+          case 'other5':
+            // other1 = responseData['other_1'] ?? other1;
+            repository.other_5.value = responseData['other_5'] ?? repository.other_5.value;
+            break;
+          case 'other6':
+            // other2 = responseData['other_2'] ?? other2;
+            repository.other_6.value = responseData['other_6'] ?? repository.other_6.value;
             break;
         }
       });
@@ -306,6 +362,10 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
         'last_document': repository.last_document.value.toString(),
         'other_1': repository.other_1.value.toString(),
         'other_2': repository.other_2.value.toString(),
+        'other_3': repository.other_3.value.toString(),
+        'other_4': repository.other_4.value.toString(),
+        'other_5': repository.other_5.value.toString(),
+        'other_6': repository.other_6.value.toString(),
       },);
       if (response.statusCode == 200) {
         if (response.body.isNotEmpty) {

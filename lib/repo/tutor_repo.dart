@@ -175,6 +175,18 @@ class TutorRepository {
   final ValueNotifier<String> _other_2 = ValueNotifier<String>('');
   ValueNotifier<String> get other_2 => _other_2;
 
+  final ValueNotifier<String> _other_3 = ValueNotifier<String>('');
+  ValueNotifier<String> get other_3 => _other_3;
+
+  final ValueNotifier<String> _other_4 = ValueNotifier<String>('');
+  ValueNotifier<String> get other_4 => _other_4;
+
+  final ValueNotifier<String> _other_5 = ValueNotifier<String>('');
+  ValueNotifier<String> get other_5 => _other_5;
+
+  final ValueNotifier<String> _other_6 = ValueNotifier<String>('');
+  ValueNotifier<String> get other_6 => _other_6;
+
   final ValueNotifier<String> _doc_msg = ValueNotifier<String>('');
   ValueNotifier<String> get doc_msg => _doc_msg;
 
@@ -783,6 +795,10 @@ class TutorRepository {
           _last_document.value = jsonResponse['last_document'];
           _other_1.value = jsonResponse['other_1'];
           _other_2.value = jsonResponse['other_2'];
+          _other_3.value = jsonResponse['other_3'];
+          _other_4.value = jsonResponse['other_4'];
+          _other_5.value = jsonResponse['other_5'];
+          _other_6.value = jsonResponse['other_6'];
           _doc_error.value = jsonResponse['docs_error'];
           _doc_msg.value = jsonResponse['docs_msg'];
           _is_term_accept.value = jsonResponse['is_term_accepted'];

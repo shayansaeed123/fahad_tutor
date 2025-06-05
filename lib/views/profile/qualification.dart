@@ -598,8 +598,8 @@ void updateSelectedNamesCourse() {
   selectedNamesCourse = selectedIdsCourse.map((selected) {
     return (newItemsCourse.firstWhere(
       (item) => item['id'] == selected['id'],
-      orElse: () => {'name': 'Unknown'},
-    )['name'] as String);
+      orElse: () => {'course_name': 'Unknown'},
+    )['course_name'] as String);
   }).toList();
   // print('Selected Group Names: $selectedNamesGroup');
 }
@@ -676,7 +676,7 @@ void toggleSelection(String id, String name, String itemType) {
         newItems = newItemsGroup;
         updateSelectedNames = updateSelectedNamesGroup;
         break;
-      case 'name':
+      case 'course_name':
         selectedIds = selectedIdsCourse;
         selectedNames = selectedNamesCourse;
         newItems = newItemsCourse;
@@ -720,10 +720,16 @@ void toggleSelection(String id, String name, String itemType) {
           selectedIds.add({'id': id});
           selectedNames.add(name);
         } else {
-          Utils.snakbar(context, 'Select only 2 items');
+          Utils.snakbar(context, 'Select only 2');
+        }
+      } else if (itemType == 'course_name') {
+        if (selectedIds.length < 6) {
+          selectedIds.add({'id': id});
+          selectedNames.add(name);
+        } else {
+          Utils.snakbar(context, 'Select only 6');
         }
       } else {
-        // For other types, just add or remove without length constraint
         selectedIds.add({'id': id});
         selectedNames.add(name);
       }
@@ -1987,7 +1993,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
 
                   reusablaSizaBox(context, .020),
                   reusablequlification(context, 'preferred Course', () {
-                    search(newItemsCourse, selectedIdsCourse, 'name');
+                    search(newItemsCourse, selectedIdsCourse, 'course_name');
                   }),
                   reusablaSizaBox(context, .020),
                   reusableSelectedItem(context, selectedNamesCourse, (index){
