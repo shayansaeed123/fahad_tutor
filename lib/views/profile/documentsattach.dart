@@ -276,27 +276,21 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
             repository.last_document.value = responseData['Qualification'] ?? repository.last_document.value;
             break;
           case 'other1':
-            // other1 = responseData['other_1'] ?? other1;
             repository.other_1.value = responseData['other_1'] ?? repository.other_1.value;
             break;
           case 'other2':
-            // other2 = responseData['other_2'] ?? other2;
             repository.other_2.value = responseData['other_2'] ?? repository.other_2.value;
             break;
           case 'other3':
-            // other1 = responseData['other_1'] ?? other1;
             repository.other_3.value = responseData['other_3'] ?? repository.other_3.value;
             break;
           case 'other4':
-            // other2 = responseData['other_2'] ?? other2;
             repository.other_4.value = responseData['other_4'] ?? repository.other_4.value;
             break;
           case 'other5':
-            // other1 = responseData['other_1'] ?? other1;
             repository.other_5.value = responseData['other_5'] ?? repository.other_5.value;
             break;
           case 'other6':
-            // other2 = responseData['other_2'] ?? other2;
             repository.other_6.value = responseData['other_6'] ?? repository.other_6.value;
             break;
         }
