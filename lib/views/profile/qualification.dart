@@ -20,6 +20,18 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+// Extension to group list items by a key
+extension GroupBy<T> on Iterable<T> {
+  Map<K, List<T>> groupBy<K>(K Function(T) keyFn) {
+    final Map<K, List<T>> map = {};
+    for (var element in this) {
+      final key = keyFn(element);
+      map.putIfAbsent(key, () => []).add(element);
+    }
+    return map;
+  }
+}
+
 class QualificationAndPreferences extends StatefulWidget {
   const QualificationAndPreferences({super.key});
 
@@ -417,7 +429,20 @@ Future<void> saveQualificationData() async {
           dynamic jsonResponse = jsonDecode(responseBody);
           setState(() {
             newItems.clear();
-            newItems.addAll(jsonResponse['${responseName}_listing']);
+            if (type == 'course') {
+              // Flatten course listing map into a list with category info
+              Map<String, dynamic> courseMap = jsonResponse['${responseName}_listing'];
+              courseMap.forEach((category, courses) {
+                for (var course in courses) {
+                  course['category'] = category;
+                  newItems.add(course);
+                }
+              });
+            } else {
+              // For group, just add the list
+              newItems.addAll(jsonResponse['${responseName}_listing']);
+            }
+            // newItems.addAll(jsonResponse['${responseName}_listing']);
             updateSelectedNames();
           });
           // print('Updated $responseName list: $newItems');
@@ -1497,101 +1522,254 @@ Future<void> classSelect(Function parentSetState) {
 
 
 
+// void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, String name) {
+//   TextEditingController searchController = TextEditingController();
+//   List<dynamic> filteredItems = List.from(newItems); // Initial list to display
+//   print(newItems);
+
+//   showDialog(
+//     context: context,
+//     builder: (context) => StatefulBuilder(
+//       builder: (context, StateSetter setState) {
+//         void filterSearchResults(String query) {
+//           if (query.isNotEmpty) {
+//             List<dynamic> tempList = [];
+//             newItems.forEach((item) {
+//               if (item[name].toString().toLowerCase().contains(query.toLowerCase())) {
+//                 tempList.add(item);
+//               }
+//             });
+//             setState(() {
+//               filteredItems.clear();
+//               filteredItems.addAll(tempList);
+//             });
+//           } else {
+//             setState(() {
+//               filteredItems.clear();
+//               filteredItems.addAll(newItems);
+//             });
+//           }
+//         }
+
+//         return Dialog(
+//           shape: RoundedRectangleBorder(
+//             borderRadius: BorderRadius.circular(10.0),
+//           ),
+//           backgroundColor: colorController.whiteColor,
+//           surfaceTintColor: colorController.whiteColor,
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               Padding(
+//                 padding: const EdgeInsets.all(8.0),
+//                 child: TextField(
+//                   controller: searchController,
+//                   decoration: InputDecoration(
+//                     contentPadding: EdgeInsets.all(0),
+//                     hintText: 'Search',
+//                     hintStyle: TextStyle(fontSize: 11.5),
+//                     border: OutlineInputBorder(
+//                       borderRadius: BorderRadius.circular(10.0),
+//                     ),
+//                     prefixIcon: Icon(Icons.search),
+//                   ),
+//                   onChanged: (value) {
+//                     filterSearchResults(value);
+//                   },
+//                 ),
+//               ),
+//               Expanded(
+//                 child: Container(
+//                   width: MediaQuery.of(context).size.width * .9,
+//                   child: ListView.builder(
+//                     itemCount: filteredItems.length,
+//                     itemBuilder: (context, index) {
+//                       String instituteName = filteredItems[index][name];
+//                       String instituteId = filteredItems[index]['id'].toString();
+//                       bool isSelected = selectedIds.any((element) => element['id'] == instituteId);
+//                       return Column(
+//                         children: [
+//                           // Padding(
+//                           //   padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .0001, vertical: MediaQuery.of(context).size.height * .00000001),
+//                           //   child: 
+//                             ListTile(
+//                               dense: true,
+//                               contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
+//                               visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+//                               title: reusableText(instituteName,fontsize: 12,color: colorController.lightblackColor),
+//                               trailing: isSelected ? Icon(Icons.check, color: Colors.black) : null,
+//                               onTap: () {
+//                                 setState(() {});
+//                                 toggleSelection(instituteId, instituteName, name);
+//                                 print('Updated Selected IDs: ${selectedIds}');
+//                               },
+//                             ),
+//                           // ),
+//                           if (index != filteredItems.length - 1)
+//                             Divider(
+//                               color: Colors.grey,
+//                               thickness: 1.0,
+//                             ),
+//                         ],
+//                       );
+//                     },
+//                   ),
+//                 ),
+//               ),
+//               Padding(
+//                 padding: const EdgeInsets.all(8.0),
+//                 child: Row(
+//                   children: [
+//                     Expanded(
+//                       child: reusableBtn(context, 'Add', () {
+//                         setState(() {});
+//                         Navigator.pop(context);
+//                       }),
+//                     ),
+//                     reusablaSizaBox(context, .03),
+//                     Expanded(
+//                       child: reusablewhite(context, 'Cancel', () {
+//                         Navigator.pop(context);
+//                       }),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ],
+//           ),
+//         );
+//       },
+//     ),
+//   );
+// }
+
+
 void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, String name) {
-  TextEditingController searchController = TextEditingController();
-  List<dynamic> filteredItems = List.from(newItems); // Initial list to display
+    TextEditingController searchController = TextEditingController();
+    List<dynamic> filteredItems = List.from(newItems);
 
-  showDialog(
-    context: context,
-    builder: (context) => StatefulBuilder(
-      builder: (context, StateSetter setState) {
-        void filterSearchResults(String query) {
-          if (query.isNotEmpty) {
-            List<dynamic> tempList = [];
-            newItems.forEach((item) {
-              if (item[name].toString().toLowerCase().contains(query.toLowerCase())) {
-                tempList.add(item);
-              }
-            });
-            setState(() {
-              filteredItems.clear();
-              filteredItems.addAll(tempList);
-            });
-          } else {
-            setState(() {
-              filteredItems.clear();
-              filteredItems.addAll(newItems);
-            });
+    showDialog(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, StateSetter setState) {
+          void filterSearchResults(String query) {
+            if (query.isNotEmpty) {
+              List<dynamic> tempList = [];
+              newItems.forEach((item) {
+                if (item[name].toString().toLowerCase().contains(query.toLowerCase())) {
+                  tempList.add(item);
+                }
+              });
+              setState(() {
+                filteredItems.clear();
+                filteredItems.addAll(tempList);
+              });
+            } else {
+              setState(() {
+                filteredItems.clear();
+                filteredItems.addAll(newItems);
+              });
+            }
           }
-        }
 
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          backgroundColor: colorController.whiteColor,
-          surfaceTintColor: colorController.whiteColor,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: searchController,
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(0),
-                    hintText: 'Search',
-                    hintStyle: TextStyle(fontSize: 11.5),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            backgroundColor: Colors.white,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: searchController,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(0),
+                      hintText: 'Search',
+                      hintStyle: TextStyle(fontSize: 11.5),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      prefixIcon: Icon(Icons.search),
                     ),
-                    prefixIcon: Icon(Icons.search),
-                  ),
-                  onChanged: (value) {
-                    filterSearchResults(value);
-                  },
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  width: MediaQuery.of(context).size.width * .9,
-                  child: ListView.builder(
-                    itemCount: filteredItems.length,
-                    itemBuilder: (context, index) {
-                      String instituteName = filteredItems[index][name];
-                      String instituteId = filteredItems[index]['id'].toString();
-                      bool isSelected = selectedIds.any((element) => element['id'] == instituteId);
-                      return Column(
-                        children: [
-                          // Padding(
-                          //   padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .0001, vertical: MediaQuery.of(context).size.height * .00000001),
-                          //   child: 
-                            ListTile(
-                              dense: true,
-                              contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
-                              visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                              title: reusableText(instituteName,fontsize: 12,color: colorController.lightblackColor),
-                              trailing: isSelected ? Icon(Icons.check, color: Colors.black) : null,
-                              onTap: () {
-                                setState(() {});
-                                toggleSelection(instituteId, instituteName, name);
-                                print('Updated Selected IDs: ${selectedIds}');
-                              },
-                            ),
-                          // ),
-                          if (index != filteredItems.length - 1)
-                            Divider(
-                              color: Colors.grey,
-                              thickness: 1.0,
-                            ),
-                        ],
-                      );
+                    onChanged: (value) {
+                      filterSearchResults(value);
                     },
                   ),
                 ),
-              ),
-              Padding(
+                Expanded(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * .9,
+                    height: 300, // fixed height for the dialog list
+                    child: (name == 'course_name' && filteredItems.isNotEmpty && filteredItems[0].containsKey('category'))
+                        ? // Grouped course list
+                        ListView(
+                            children: filteredItems
+                                .groupBy((item) => item['category'])
+                                .entries
+                                .map((entry) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                                    child: Text(
+                                      entry.key,
+                                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                                    ),
+                                  ),
+                                  ...entry.value.map((course) {
+                                    String courseName = course['course_name'];
+                                    String courseId = course['id'];
+                                    bool isSelected = selectedIds.any((e) => e['id'] == courseId);
+                                    return ListTile(
+                                      dense: true,
+                                      contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
+                                      title: Text(courseName),
+                                      trailing: isSelected ? Icon(Icons.check, color: Colors.black) : null,
+                                      onTap: () {
+                                        setState(() {});
+                                        toggleSelection(courseId, courseName, name);
+                                      },
+                                    );
+                                  }).toList()
+                                ],
+                              );
+                            }).toList(),
+                          )
+                        : // Normal flat list (for groups)
+                        ListView.builder(
+                            itemCount: filteredItems.length,
+                            itemBuilder: (context, index) {
+                              String itemName = filteredItems[index][name];
+                              String itemId = filteredItems[index]['id'].toString();
+                              bool isSelected = selectedIds.any((element) => element['id'] == itemId);
+                              return Column(
+                                children: [
+                                  ListTile(
+                                    dense: true,
+                                    contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
+                                    title: Text(itemName),
+                                    trailing: isSelected ? Icon(Icons.check, color: Colors.black) : null,
+                                    onTap: () {
+                                      setState(() {});
+                                      toggleSelection(itemId, itemName, name);
+                                    },
+                                  ),
+                                  if (index != filteredItems.length - 1)
+                                    Divider(
+                                      color: Colors.grey,
+                                      thickness: 1.0,
+                                    ),
+                                ],
+                              );
+                            },
+                          ),
+                  ),
+                ),
+                Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
@@ -1610,13 +1788,13 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                   ],
                 ),
               ),
-            ],
-          ),
-        );
-      },
-    ),
-  );
-}
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
 
   bool isQuranClassSelected() {
     return selectedClasses.any((myClass) => myClass.className == 'Quran Subjects');

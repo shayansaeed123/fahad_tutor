@@ -9,7 +9,7 @@ import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-reusableDocuments(BuildContext context,String add1,String add2,String add3, String title1,String title2,String image1, String image2, String image3, Function ontap1,Function ontap2,Function ontap3, String imgCondition){
+reusableDocuments1(BuildContext context,String add1,String title1,String image1, Function ontap1, String imgCondition){
   return  
     Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,7 +33,70 @@ reusableDocuments(BuildContext context,String add1,String add2,String add3, Stri
         ),
         reusablaSizaBox(context, .010),
         reusableText(add1, color: colorController.btnColor,fontsize: 15),
-        reusablaSizaBox(context, .030),
+        // reusablaSizaBox(context, .030),
+        // reusableText(title2, fontsize: 20,color: colorController.blackColor,fontweight: FontWeight.bold),
+        // reusablaSizaBox(context, .030),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: [
+        //     Column(
+        //       children: [
+        //         DottedBorder(
+        //           color: colorController.blackColor,
+        //             strokeWidth: 2,
+        //             dashPattern: [6, 3],
+        //             radius: Radius.circular(15),
+        //             child:  reusableSelectImage1(context, (){ontap2();}, image2,imgCondition)
+        //         ),
+        //         reusablaSizaBox(context, .010),
+        //         reusableText(add2, color: colorController.btnColor,fontsize: 15),
+        //       ],
+        //     ),
+        //     Column(
+        //       children: [
+        //         DottedBorder(
+        //           color: colorController.blackColor,
+        //             strokeWidth: 2,
+        //             dashPattern: [6, 3],
+        //             radius: Radius.circular(15),
+        //             child:  reusableSelectImage1(context, (){ontap3();}, image3,imgCondition)
+        //         ),
+        //         reusablaSizaBox(context, .010),
+        //         reusableText(add3, color: colorController.btnColor,fontsize: 15),
+        //       ],
+        //     ),
+        //   ],
+        // ),
+      ]
+    );
+  // );
+}
+
+reusableDocuments2(BuildContext context,String add2,String add3,String title2,String image2, String image3,Function ontap2,Function ontap3, String imgCondition){
+  return  
+    Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+      //   Text(title1,
+      // style: TextStyle(
+      //   color: colorController.blackColor,
+      //   fontSize: 20,
+      //   fontWeight: FontWeight.bold,
+      //   fontFamily: 'tutorPhi'
+        
+      // ),),
+      //   // reusableText(title1, fontsize: 20,color: colorController.blackColor,fontweight: FontWeight.bold),
+      //   reusablaSizaBox(context, .030),
+      //   DottedBorder(
+      //     color: colorController.blackColor,
+      //       strokeWidth: 2,
+      //       dashPattern: [6, 3],
+      //       // radius: Radius.circular(15),
+      //       child:  reusableSelectImage1(context, (){ontap1();}, image1, imgCondition)
+      //   ),
+      //   reusablaSizaBox(context, .010),
+      //   reusableText(add1, color: colorController.btnColor,fontsize: 15),
+        // reusablaSizaBox(context, .030),
         reusableText(title2, fontsize: 20,color: colorController.blackColor,fontweight: FontWeight.bold),
         reusablaSizaBox(context, .030),
         Row(
@@ -46,7 +109,7 @@ reusableDocuments(BuildContext context,String add1,String add2,String add3, Stri
                     strokeWidth: 2,
                     dashPattern: [6, 3],
                     radius: Radius.circular(15),
-                    child:  reusableSelectImage2(context, (){ontap2();}, image2)
+                    child:  reusableSelectImage1(context, (){ontap2();}, image2,imgCondition)
                 ),
                 reusablaSizaBox(context, .010),
                 reusableText(add2, color: colorController.btnColor,fontsize: 15),
@@ -59,7 +122,7 @@ reusableDocuments(BuildContext context,String add1,String add2,String add3, Stri
                     strokeWidth: 2,
                     dashPattern: [6, 3],
                     radius: Radius.circular(15),
-                    child:  reusableSelectImage2(context, (){ontap3();}, image3)
+                    child:  reusableSelectImage1(context, (){ontap3();}, image3,imgCondition)
                 ),
                 reusablaSizaBox(context, .010),
                 reusableText(add3, color: colorController.btnColor,fontsize: 15),

@@ -421,16 +421,38 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
             reusablaSizaBox(context, 0.020),
                               repository.doc_error.value == 1 ? reusableVisiblityWarning(context, '${repository.doc_msg.value.toString()}', (){setState(() {visible=false;});}, visible) : Container(),
                               reusablaSizaBox(context, 0.020),
-                              reusableDocuments(context,'','Add Image (Front)','Add Image (Back)' ,'Profile', 'CNIC Image', 
-                              // profile,cnic_f,cnic_b,
-                              repository.profile_image.value.toString(),repository.cnic_f.value.toString(),repository.cnic_b.value.toString(),
-                               (){
+                              reusableDocuments1(context, '', 'Profile', repository.profile_image.value.toString(), 
+                              (){
                                 reuablebottomsheet(context, "Choose Profile Image",(){
                                   _pickImage(ImageSource.gallery, 'profile');
                                 },(){
                                   _pickImage(ImageSource.camera,'profile');
                                 });
-                              },(){reuablebottomsheet(context, "Choose CNIC Front Image",(){
+                              }, 'assets/images/profile.png'),
+                              // reusableDocuments(context,'','Add Image (Front)','Add Image (Back)' ,'Profile', 'CNIC Image', 
+                              // // profile,cnic_f,cnic_b,
+                              // repository.profile_image.value.toString(),repository.cnic_f.value.toString(),repository.cnic_b.value.toString(),
+                              //  (){
+                              //   reuablebottomsheet(context, "Choose Profile Image",(){
+                              //     _pickImage(ImageSource.gallery, 'profile');
+                              //   },(){
+                              //     _pickImage(ImageSource.camera,'profile');
+                              //   });
+                              // },(){reuablebottomsheet(context, "Choose CNIC Front Image",(){
+                              //     _pickImage(ImageSource.gallery,'front');
+                              // },(){
+                              //     _pickImage(ImageSource.camera,'front');
+                              // });},
+                              // (){reuablebottomsheet(context, "Choose CNIC Back Image",(){
+                              //     _pickImage(ImageSource.gallery,'back');
+                              // },(){
+                              //     _pickImage(ImageSource.camera,'back');
+                              // });},
+                              // 'assets/images/profile.png'
+                              // ),
+                               reusablaSizaBox(context, 0.010),
+                               reusableDocuments2(context, 'Add Image (Front)','Add Image (Back)', 'CNIC Image', repository.cnic_f.value.toString(),repository.cnic_b.value.toString(), 
+                               (){reuablebottomsheet(context, "Choose CNIC Front Image",(){
                                   _pickImage(ImageSource.gallery,'front');
                               },(){
                                   _pickImage(ImageSource.camera,'front');
@@ -440,19 +462,40 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
                               },(){
                                   _pickImage(ImageSource.camera,'back');
                               });},
-                              'assets/images/profile.png'
-                              ),
-                               reusablaSizaBox(context, 0.020),
-                              reusableDocuments(context, 'Add Image', '', '', 'Last Qualification Proof', 'Attach other Documents(Optional)', 
-                              // last_document ,other1,other2,
-                              repository.last_document.value.toString(),repository.other_1.value.toString(),repository.other_2.value.toString(),
+                               'assets/images/add_img_placeholder.png'),
+                              // reusableDocuments(context, 'Add Image', '', '', 'Last Qualification Proof', 'Attach other Documents(Optional)', 
+                              // // last_document ,other1,other2,
+                              // repository.last_document.value.toString(),repository.other_1.value.toString(),repository.other_2.value.toString(),
+                              // (){
+                              //   reuablebottomsheet(context, "Choose Qualification Image",(){
+                              //     _pickImage(ImageSource.gallery,'qualification');
+                              //   },(){
+                              //     _pickImage(ImageSource.camera,'qualification');
+                              //   });
+                              // },(){reuablebottomsheet(context, "Choose Other Image 1",(){
+                              //   _pickImage(ImageSource.gallery,'other1');
+                              // },(){
+                              //   _pickImage(ImageSource.camera,'other1');
+                              // });},
+                              // (){reuablebottomsheet(context, "Choose Other Image 2",(){
+                              //   _pickImage(ImageSource.gallery,'other2');
+                              // },(){
+                              //   _pickImage(ImageSource.camera,'other2');
+                              // });},
+                              // 'assets/images/add_img_placeholder.png'
+                              // ),
+                              reusablaSizaBox(context, 0.020),
+                              reusableDocuments1(context, 'Add Image', 'Last Qualification Proof', repository.last_document.value.toString(), 
                               (){
                                 reuablebottomsheet(context, "Choose Qualification Image",(){
                                   _pickImage(ImageSource.gallery,'qualification');
                                 },(){
                                   _pickImage(ImageSource.camera,'qualification');
                                 });
-                              },(){reuablebottomsheet(context, "Choose Other Image 1",(){
+                              }, 'assets/images/add_img_placeholder.png'),
+                              reusablaSizaBox(context, 0.010),
+                              reusableDocuments2(context, '','', 'Attach other Documents(Optional)', repository.other_1.value.toString(),repository.other_2.value.toString(),
+                               (){reuablebottomsheet(context, "Choose Other Image 1",(){
                                 _pickImage(ImageSource.gallery,'other1');
                               },(){
                                 _pickImage(ImageSource.camera,'other1');
@@ -462,9 +505,31 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
                               },(){
                                 _pickImage(ImageSource.camera,'other2');
                               });},
-                              'assets/images/add_img_placeholder.png'
-                              ),
-                              reusablaSizaBox(context, 0.010),
+                               'assets/images/add_img_placeholder.png'),
+                              reusableDocuments2(context, '','', '', repository.other_3.value.toString(),repository.other_4.value.toString(),
+                               (){reuablebottomsheet(context, "Choose Other Image 3",(){
+                                _pickImage(ImageSource.gallery,'other3');
+                              },(){
+                                _pickImage(ImageSource.camera,'other3');
+                              });},
+                              (){reuablebottomsheet(context, "Choose Other Image 4",(){
+                                _pickImage(ImageSource.gallery,'other4');
+                              },(){
+                                _pickImage(ImageSource.camera,'other4');
+                              });},
+                               'assets/images/add_img_placeholder.png'),
+                              reusableDocuments2(context, '','', '', repository.other_5.value.toString(),repository.other_6.value.toString(),
+                               (){reuablebottomsheet(context, "Choose Other Image 5",(){
+                                _pickImage(ImageSource.gallery,'other5');
+                              },(){
+                                _pickImage(ImageSource.camera,'other5');
+                              });},
+                              (){reuablebottomsheet(context, "Choose Other Image 6",(){
+                                _pickImage(ImageSource.gallery,'other6');
+                              },(){
+                                _pickImage(ImageSource.camera,'other6');
+                              });},
+                               'assets/images/add_img_placeholder.png'),
                               repository.doc_error.value == 1 ? Container() :
                               reusableBtn(context, 'Submit',(){
                                 setState(() {
