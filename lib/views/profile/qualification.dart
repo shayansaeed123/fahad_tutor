@@ -1842,51 +1842,6 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                 }else{return Container();}
             },),
                   reusablaSizaBox(context, 0.020),
-                  // reusablequlification(context, 'Institute', () {
-                  //     search(newItemsinstitute, selectedIdsinstitute, 'names');
-                  //   }),
-                  //   reusablaSizaBox(context, .020),
-                  //   Container(
-                  //     constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.3),
-                  //     child: ListView.builder(
-                  //       shrinkWrap: true,
-                  //       physics: NeverScrollableScrollPhysics(),
-                  //       itemCount: selectedNamesinstitute.length,
-                  //       itemBuilder: (context, index) {
-                  //         return Container(
-                  //           margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .012),
-                  //           padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
-                  //           decoration: BoxDecoration(
-                  //             borderRadius: BorderRadius.circular(15),
-                  //             color: colorController.qualificationItemsColors,
-                  //           ),
-                  //           child: Row(
-                  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //             children: [
-                  //               Expanded(
-                  //                 child: Text(
-                  //                   selectedNamesinstitute[index],
-                  //                   softWrap: true,
-                  //                   overflow: TextOverflow.ellipsis,
-                  //                   maxLines: 1,
-                  //                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: colorController.whiteColor),
-                  //                 ),
-                  //               ),
-                  //               InkWell(
-                  //                 onTap: () {
-                  //                   setState(() {
-                  //                     selectedIdsinstitute.removeAt(index);
-                  //                     selectedNamesinstitute.removeAt(index);
-                  //                   });
-                  //                 },
-                  //                 child: Icon(Icons.cancel_outlined, color: colorController.whiteColor),
-                  //               ),
-                  //             ],
-                  //           ),
-                  //         );
-                  //       },
-                  //     ),
-                  //   ),
                   reusablequlification(context, 'Institute', () {
                     search(newItemsinstitute, selectedIdsinstitute, 'names');
                   }),
