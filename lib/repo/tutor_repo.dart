@@ -511,13 +511,13 @@ class TutorRepository {
 
   Future<void> feedback()async{
      _isLoading = true;
-
+     print(reusabletextfieldcontroller.feedback.text);
     try {
       String url =
           '${MySharedPrefrence().get_baseUrl()}feedback.php';
       final response = await http.post(Uri.parse(url),body: {
         'tutor_id' : MySharedPrefrence().get_user_ID().toString(),
-        'remakrs' : reusabletextfieldcontroller.feedback.toString(),
+        'remakrs' : reusabletextfieldcontroller.feedback.text,
         'code':'10'.toString(),
       });
 

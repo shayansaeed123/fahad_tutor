@@ -133,7 +133,8 @@ String? laptop = 'no';
 
   void _validateForm() {
      if (selectedNamesinstitute.isNotEmpty && selectedIdsQualification.isNotEmpty 
-     && selectedIdsArea.isNotEmpty && selectedIdsBoard.isNotEmpty && selectedIdsCourse.isNotEmpty 
+     && selectedIdsArea.isNotEmpty && selectedIdsBoard.isNotEmpty 
+    //  && selectedIdsCourse.isNotEmpty 
      && selectedIdsGroup.isNotEmpty  && selectedClasses.isNotEmpty 
                         ) {
                   updateStatus();
@@ -150,8 +151,8 @@ String? laptop = 'no';
                             ? "Select Atleast 1 Board"
                             : selectedIdsGroup.isEmpty
                             ? "Select Atleast 1 Group" 
-                            : selectedIdsCourse.isEmpty
-                            ? "Select Atleast 1 Course" 
+                            // : selectedIdsCourse.isEmpty
+                            // ? "Select Atleast 1 Course" 
                             : selectedClasses.isEmpty
                             ? "Select Atleast 1 Preffered Class with Subject": "Fill Correct Fields",
                   );
