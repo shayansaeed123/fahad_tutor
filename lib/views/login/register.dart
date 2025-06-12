@@ -108,6 +108,7 @@ void updateTutorPlacement() {
   @override
   void initState() {
     super.initState();
+    repository.getBasepath();
     selectCountry();
     repository.get_Token();
     _biography.addListener(_updateCharCount);
@@ -211,7 +212,9 @@ void updateTutorPlacement() {
       errorMessage = "Check phone number";
     } else if (reusabletextfieldcontroller.alterContactCon.text.isEmpty || reusabletextfieldcontroller.alterContactCon.text.length != 11) {
       errorMessage = "Check alternate phone number";
-    } else if (reusabletextfieldcontroller.cnicCon.text.length != 13) {
+    } else if (reusabletextfieldcontroller.contactCon.text == reusabletextfieldcontroller.alterContactCon.text) {
+      errorMessage = "Primary and alternate phone numbers cannot be the same";
+    }else if (reusabletextfieldcontroller.cnicCon.text.length != 13) {
       errorMessage = "Check CNIC number";
     } else if (reusabletextfieldcontroller.registerPassCon.text.isEmpty) {
       errorMessage = "Password is missing";

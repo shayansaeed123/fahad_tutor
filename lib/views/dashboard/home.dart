@@ -70,6 +70,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     // fetchInitialTuitions();
+    repository.getBasepath();
     repository.get_Token();
     repository.documentsAttach();
     WidgetsBinding.instance.addPostFrameCallback((_) {

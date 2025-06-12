@@ -46,15 +46,22 @@ class _ViewTuitionsState extends State<ViewTuitions> {
   void initState() {
     super.initState();
     fetchInitialTuitions();
-    repository.documentsAttach();
+    // repository.documentsAttach();
   }
 
   Future<void> fetchInitialTuitions() async {
-    await repository.fetchTuitions(start, limit);
-    setState(() {
-      tuitions = repository.listResponse;
-    });
-  }
+  setState(() {
+    isLoading = true;
+  });
+
+  await repository.fetchTuitions(start, limit);
+
+  setState(() {
+    // Force UI rebuild with a fresh list
+    tuitions = List.from(repository.listResponse);
+    isLoading = false;
+  });
+}
 
   Future<void> loadMoreTuitions() async {
     setState(() {
@@ -130,7 +137,7 @@ class _ViewTuitionsState extends State<ViewTuitions> {
               StreamBuilder<ConnectivityResult>(
                 stream: connectivity.onConnectivityChanged,
                 builder: (context, snapshot) {
-                  return checkConnection(
+                  return checkConnectio(
                     snapshot,
                     Expanded(
                       child: ListView.builder(

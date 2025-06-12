@@ -21,3 +21,27 @@ checkConnection(
         return Container();
     }
 }
+
+Widget checkConnectio(
+  AsyncSnapshot<ConnectivityResult> snapshot,
+  Widget widget,
+) {
+  if (snapshot.connectionState == ConnectionState.active && snapshot.hasData) {
+    final state = snapshot.data!;
+    if (state == ConnectivityResult.none) {
+      return Center(
+        child: Image.asset(
+          'assets/images/no_internet.jpg',
+          fit: BoxFit.cover,
+          filterQuality: FilterQuality.high,
+        ),
+      );
+    } else {
+      return widget;
+    }
+  }
+
+  // 👇 Return your widget by default (instead of empty Container)
+  return widget;
+}
+
