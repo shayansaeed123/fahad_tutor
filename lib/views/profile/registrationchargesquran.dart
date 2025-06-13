@@ -1,5 +1,7 @@
+
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
@@ -19,14 +21,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 
-class RegistrationCharges extends StatefulWidget {
-  const RegistrationCharges({super.key});
+class RegistrationChargesQuran extends StatefulWidget {
+  const RegistrationChargesQuran({super.key});
 
   @override
-  State<RegistrationCharges> createState() => _RegistrationChargesState();
+  State<RegistrationChargesQuran> createState() => _RegistrationChargesQuranState();
 }
 
-class _RegistrationChargesState extends State<RegistrationCharges> {
+class _RegistrationChargesQuranState extends State<RegistrationChargesQuran> {
   bool isLoading = false;
   TutorRepository repository = TutorRepository();
   File? _chargesSlip;
@@ -187,7 +189,7 @@ Future<void> _uploadImages() async {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          reusableText(repository.registration_heading,color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
+                          reusableText(repository.registration_heading_quran,color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
                           reusablaSizaBox(context, 0.020),
                           ValueListenableBuilder(valueListenable: repository.popup, builder: (context, value, child) {
               if(value == 1){
@@ -195,7 +197,7 @@ Future<void> _uploadImages() async {
                 }else{return Container();}
             },),
             reusablaSizaBox(context, 0.020),
-                          reusableText(repository.Registration_text,color: colorController.blackColor,fontsize: 14),
+                          reusableText(repository.Registration_text_quran,color: colorController.blackColor,fontsize: 14),
                           reusablaSizaBox(context, 0.005),
                           Row(children: [reusableText('see ',fontsize: 13.5,fontweight: FontWeight.bold),
                           InkWell(

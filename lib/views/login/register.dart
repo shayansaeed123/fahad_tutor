@@ -180,6 +180,7 @@ void updateTutorPlacement() {
     reusabletextfieldcontroller.registerPassCon.text.length <= 15 &&
     reusabletextfieldcontroller.contactCon.text.length == 11 &&
     reusabletextfieldcontroller.alterContactCon.text.length == 11 &&
+    reusabletextfieldcontroller.contactCon.text != reusabletextfieldcontroller.alterContactCon.text &&
     reusabletextfieldcontroller.contactCon.text.isNotEmpty &&
     reusabletextfieldcontroller.alterContactCon.text.isNotEmpty &&
     reusabletextfieldcontroller.cnicCon.text.length == 13 &&
@@ -194,93 +195,57 @@ void updateTutorPlacement() {
     signInWithGoogle();
     // Navigator.push(context, MaterialPageRoute(builder: (context) => NavBar()));
   } else {
-    String errorMessage = '';
+  String errorMessage = '';
 
-    if (!isBiographyValid) {
-      errorMessage = _biography.text.length < 500
-          ? 'Biography must be at least 500 characters'
-          : 'Biography must not exceed 800 characters';
-    } else if (cityName.isEmpty) {
-      errorMessage = 'City is Missing';
-    } else if (areaName.isEmpty) {
-      errorMessage = 'Area is missing';
-    }else if (reusabletextfieldcontroller.teacherCon.text.isEmpty) {
-      errorMessage = "Tutor name is missing";
-    } else if (reusabletextfieldcontroller.fatherCon.text.isEmpty) {
-      errorMessage = "Father/Husband name is missing";
-    } else if (reusabletextfieldcontroller.contactCon.text.isEmpty || reusabletextfieldcontroller.contactCon.text.length != 11) {
-      errorMessage = "Check phone number";
-    } else if (reusabletextfieldcontroller.alterContactCon.text.isEmpty || reusabletextfieldcontroller.alterContactCon.text.length != 11) {
-      errorMessage = "Check alternate phone number";
-    } else if (reusabletextfieldcontroller.contactCon.text == reusabletextfieldcontroller.alterContactCon.text) {
-      errorMessage = "Primary and alternate phone numbers cannot be the same";
-    }else if (reusabletextfieldcontroller.cnicCon.text.length != 13) {
-      errorMessage = "Check CNIC number";
-    } else if (reusabletextfieldcontroller.registerPassCon.text.isEmpty) {
-      errorMessage = "Password is missing";
-    } else if (reusabletextfieldcontroller.rePassCon.text.isEmpty) {
-      errorMessage = "Confirm password is missing";
-    } else if (reusabletextfieldcontroller.registerPassCon.text != reusabletextfieldcontroller.rePassCon.text) {
-      errorMessage = "Passwords do not match";
-    } else if (reusabletextfieldcontroller.registerPassCon.text.length < 8 || reusabletextfieldcontroller.registerPassCon.text.length > 15) {
-      errorMessage = "Password must be between 8 and 15 characters";
-    } else if (reusabletextfieldcontroller.religionCon.text.isEmpty) {
-      errorMessage = "Religion is missing";
-    }  else if (reusabletextfieldcontroller.addressCon.text.isEmpty) {
-      errorMessage = "Address is missing";
-    } else if (_selectedGender == null) {
-      errorMessage = 'Gender is missing';
-    } else if (_selectedStatus == null) {
-      errorMessage = 'Status is missing';
-    } else if (selectedPlacements.isEmpty) {
-      errorMessage = 'Please select at least one placement';
-    }
-
-    // Show error message
-    Utils.snakbar(context, errorMessage);
-    // Utils.snakbar(
-    //   context,
-    //   !isBiographyValid
-    //       ? (_biography.text.length < 500
-    //           ? 'Biography must be at least 500 characters'
-    //           : 'Biography must not exceed 800 characters')
-    //       : cityName.isEmpty
-    //           ? 'City is Missing'
-    //           : reusabletextfieldcontroller.teacherCon.text.isEmpty
-    //               ? "Tutor name is missing"
-    //               : reusabletextfieldcontroller.fatherCon.text.isEmpty
-    //                   ? "Father/Husband name is missing"
-    //                   : reusabletextfieldcontroller.contactCon.text.length != 11
-    //                       ? "Check phone number"
-    //                       : reusabletextfieldcontroller.alterContactCon.text.length != 11
-    //                           ? "Check alternate phone number"
-    //                           : reusabletextfieldcontroller.cnicCon.text.length != 13
-    //                               ? "Check CNIC number"
-    //                               : reusabletextfieldcontroller.registerPassCon.text.isEmpty
-    //                                   ? "Password is missing"
-    //                                   : reusabletextfieldcontroller.rePassCon.text.isEmpty
-    //                                       ? "Confirm password is missing"
-    //                                       : reusabletextfieldcontroller.registerPassCon.text != reusabletextfieldcontroller.rePassCon.text
-    //                                           ? "Passwords do not match"
-    //                                           : reusabletextfieldcontroller.registerPassCon.text.length < 8
-    //                                               ? "Password must be between 8 and 15 characters"
-    //                                               : reusabletextfieldcontroller.religionCon.text.isEmpty
-    //                                                   ? "Religion is missing"
-    //                                                   : areaName.isEmpty
-    //                                                       ? 'Area is missing'
-    //                                                       : reusabletextfieldcontroller.addressCon.text.isEmpty
-    //                                                           ? "Address is missing"
-    //                                                           : _selectedGender == null
-    //                                                               ? 'Gender is missing'
-    //                                                               : _selectedStatus == null
-    //                                                                   ? 'Status is missing'
-    //                                                                   : selectedPlacements.isEmpty
-    //                                                                   // : !(checkbox1 || checkbox2 || checkbox3)
-    //                                                                       ? 'Please select at least one placement'
-    //                                                                       : signInWithGoogle(),
-    //                                                                       // : "Fill correct fields",
-    // );
+  if (!isBiographyValid) {
+    errorMessage = _biography.text.length < 500
+        ? 'Biography must be at least 500 characters'
+        : 'Biography must not exceed 800 characters';
+  } else if (cityName.isEmpty) {
+    errorMessage = 'City is Missing';
+  } else if (areaName.isEmpty) {
+    errorMessage = 'Area is missing';
+  } else if (reusabletextfieldcontroller.teacherCon.text.isEmpty) {
+    errorMessage = "Tutor name is missing";
+  } else if (reusabletextfieldcontroller.fatherCon.text.isEmpty) {
+    errorMessage = "Father/Husband name is missing";
+  } else if (reusabletextfieldcontroller.contactCon.text.isEmpty || reusabletextfieldcontroller.contactCon.text.length != 11) {
+    errorMessage = "Check phone number";
+  } else if (reusabletextfieldcontroller.alterContactCon.text.isEmpty || reusabletextfieldcontroller.alterContactCon.text.length != 11) {
+    errorMessage = "Check alternate phone number";
+  } else if (reusabletextfieldcontroller.contactCon.text == reusabletextfieldcontroller.alterContactCon.text) {
+    errorMessage = "Primary and alternate phone numbers cannot be the same";
+  } else if (reusabletextfieldcontroller.cnicCon.text.length != 13) {
+    errorMessage = "Check CNIC number";
+  } else if (reusabletextfieldcontroller.registerPassCon.text.isEmpty) {
+    errorMessage = "Password is missing";
+  } else if (reusabletextfieldcontroller.rePassCon.text.isEmpty) {
+    errorMessage = "Confirm password is missing";
+  } else if (reusabletextfieldcontroller.registerPassCon.text != reusabletextfieldcontroller.rePassCon.text) {
+    errorMessage = "Passwords do not match";
+  } else if (reusabletextfieldcontroller.registerPassCon.text.length < 8 || reusabletextfieldcontroller.registerPassCon.text.length > 15) {
+    errorMessage = "Password must be between 8 and 15 characters";
+  } else if (reusabletextfieldcontroller.religionCon.text.isEmpty) {
+    errorMessage = "Religion is missing";
+  } else if (reusabletextfieldcontroller.addressCon.text.isEmpty) {
+    errorMessage = "Address is missing";
+  } else if (_selectedGender == null) {
+    errorMessage = 'Gender is missing';
+  } else if (_selectedStatus == null) {
+    errorMessage = 'Status is missing';
+  } else if (selectedPlacements.isEmpty) {
+    errorMessage = 'Please select at least one placement';
   }
+
+  // 👇 Show the error message to the user
+  if (errorMessage.isNotEmpty) {
+    // ScaffoldMessenger.of(context).showSnackBar(
+    //   SnackBar(content: Text(errorMessage)),
+    // );
+    Utils.snakbar(context, errorMessage);
+  }
+}
+
 }
 
 

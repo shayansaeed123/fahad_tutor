@@ -95,6 +95,15 @@ class TutorRepository {
   String _Registration_text = '';
   String get Registration_text => _Registration_text;
 
+  String _registration_heading = '';
+  String get registration_heading => _registration_heading;
+
+  String _Registration_text_quran = '';
+  String get Registration_text_quran => _Registration_text_quran;
+  
+  String _registration_heading_quran = '';
+  String get registration_heading_quran => _registration_heading_quran;
+
   int _success = 0;
   int get success => _success;
 
@@ -117,6 +126,9 @@ class TutorRepository {
 
   final ValueNotifier<int> _payment_recipt_option = ValueNotifier<int>(0);
   ValueNotifier<int> get payment_recipt_option => _payment_recipt_option;
+
+  final ValueNotifier<int> _payment_recipt_option_quran = ValueNotifier<int>(0);
+  ValueNotifier<int> get payment_recipt_option_quran => _payment_recipt_option_quran;
 
   final ValueNotifier<String> _bank_details = ValueNotifier<String>('');
   ValueNotifier<String> get bank_details => _bank_details;
@@ -266,6 +278,12 @@ class TutorRepository {
 
   final ValueNotifier<int> _is_apply = ValueNotifier<int>(0);
   ValueNotifier<int> get is_apply => _is_apply;
+
+  final ValueNotifier<String> _registration_slip = ValueNotifier<String>('');
+  ValueNotifier<String> get registration_slip => _registration_slip;
+
+  final ValueNotifier<String> _registration_slip_quran = ValueNotifier<String>('');
+  ValueNotifier<String> get registration_slip_quran => _registration_slip_quran;
  
  String formatInfo(String info) {
     return info.replaceAll(';', '\n');
@@ -441,7 +459,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${MySharedPrefrence().get_baseUrl()}preferred_tuition.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=$limit&cell_access_token=${MySharedPrefrence().get_cell_token().toString()}&version=104';
+          '${MySharedPrefrence().get_baseUrl()}preferred_tuition.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=$limit&cell_access_token=${MySharedPrefrence().get_cell_token().toString()}&version=105';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 
@@ -575,6 +593,11 @@ class TutorRepository {
       MySharedPrefrence().set_faqs(jsonResponse['faqs_images']);
        MySharedPrefrence().set_term_condition(jsonResponse['term_condition_image']);
         _Registration_text = jsonResponse['Registration_text'];
+        _registration_heading = jsonResponse['registration_heading'];
+        _Registration_text_quran = jsonResponse['Registration_text_quran'];
+        _registration_heading_quran = jsonResponse['registration_heading_quran'];
+        _registration_slip.value = jsonResponse['registration_slip'];
+        _registration_slip_quran.value = jsonResponse['registration_slip_quran']; 
         _basicInfo.value = jsonResponse['basic_info'];
         _qualification_pref.value = jsonResponse['qualification_pref'];
         _docs_att.value = jsonResponse['docs_att'];
@@ -590,6 +613,7 @@ class TutorRepository {
         _traning_video.value = jsonResponse['traning_video'];
         _attention_option.value = jsonResponse['attention_popup'];
         _payment_recipt_option.value = jsonResponse['option'];
+        _payment_recipt_option_quran.value = jsonResponse['quran_option'];
          MySharedPrefrence().set_term_condition_image(jsonResponse['term_condition_image']);
          MySharedPrefrence().set_faqs_images(jsonResponse['faqs_images']);
         MySharedPrefrence().set_term_condition_image_online(jsonResponse['term_condition_image_ftalive_pfg']);

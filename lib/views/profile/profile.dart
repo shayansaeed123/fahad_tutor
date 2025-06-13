@@ -22,6 +22,7 @@ import 'package:fahad_tutor/views/profile/faq.dart';
 import 'package:fahad_tutor/views/profile/feedback.dart';
 import 'package:fahad_tutor/views/profile/qualification.dart';
 import 'package:fahad_tutor/views/profile/registrationcharges.dart';
+import 'package:fahad_tutor/views/profile/registrationchargesquran.dart';
 import 'package:fahad_tutor/views/profile/resetpassword.dart';
 import 'package:fahad_tutor/views/profile/termsconditions.dart';
 import 'package:fahad_tutor/views/profile/trainingvideo.dart';
@@ -308,7 +309,7 @@ void loginClear(){
                    Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationCharges(),));
                 // }
                  
-              },'assets/images/reg_charges_slip_icon.png','Registration Charges Slip',widget: Container(
+              },'assets/images/reg_charges_slip_icon.png',repository.registration_slip.value,widget: Container(
                 width: MediaQuery.of(context).size.width * .24,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -329,6 +330,41 @@ void loginClear(){
               ));
               },) : Container();
               },),
+
+              ValueListenableBuilder(valueListenable: repository.payment_recipt_option_quran, builder: (context, value, child) {
+                return value == 1 ? ValueListenableBuilder(valueListenable: repository.payment_recipt, builder: (context, value, child) {
+                return reusablelisttile(context,(){
+                  print(value);
+                // if(value == '8' || value == '19'){
+
+                // if(repository.is_term_accepted.value == '0'){
+                //   reusableAnimationdialog(context, 'Restrict', 'Before accepting registration slip, Fill all the steps sequentially');
+                // }else{
+                   Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationChargesQuran(),));
+                // }
+                 
+              },'assets/images/reg_charges_slip_icon.png',repository.registration_slip_quran.value,widget: Container(
+                width: MediaQuery.of(context).size.width * .24,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    if(value == '20')
+                    // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                    CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 15,)),backgroundColor: colorController.greenColor,maxRadius: 11,), 
+                    if(value == '21')
+                    reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
+                    if(value == '8')
+                    Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                    if(value == '19')
+                    Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                      // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+                    Icon(Icons.arrow_forward_ios)
+                  ],
+                ),
+              ));
+              },) : Container();
+              },),
+
               ValueListenableBuilder(valueListenable: repository.bank_details, builder: (context, value, child) {
                 return reusablelisttile(context,(){
                  Navigator.push(context, MaterialPageRoute(builder: (context)=>AccountDetails()));
