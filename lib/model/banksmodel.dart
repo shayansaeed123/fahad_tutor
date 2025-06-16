@@ -13,3 +13,17 @@ class Bank {
     );
   }
 }
+
+class Wallet {
+  final String id;
+  final String walletName;
+
+  Wallet({required this.id, required this.walletName});
+
+  factory Wallet.fromJson(Map<String, dynamic> json) {
+    return Wallet(
+      id: json['id'],
+      walletName: json['banks_name'],
+    );
+  }
+}

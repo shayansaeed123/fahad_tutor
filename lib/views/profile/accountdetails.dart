@@ -4,6 +4,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/controller/text_field_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
+import 'package:fahad_tutor/model/banksmodel.dart';
 import 'package:fahad_tutor/repo/tutor_repo.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
@@ -27,6 +28,10 @@ class AccountDetails extends StatefulWidget {
 
 class _AccountDetailsState extends State<AccountDetails> {
   bool isLoading = false;
+  List<Bank> _banks = [];
+  Bank? _selectedBank;
+  List<Wallet> _walletbanks = [];
+  Wallet? _selectedWalletBank;
   late FocusNode _title;
   late FocusNode _bankname;
   late FocusNode _branchcode;
@@ -46,10 +51,13 @@ class _AccountDetailsState extends State<AccountDetails> {
   String Easy_Paisa_Mobile = '';
   String Easy_Paisa_Title = '';
   String easypesa_bank = '';
+  String wallet = '';
 
   @override
   void initState() {
     super.initState();
+    loadBanks();
+    loadWalletBanks();
     _title = FocusNode();
     _title.addListener(_onFocusChange);
     _bankname = FocusNode();
@@ -77,6 +85,8 @@ class _AccountDetailsState extends State<AccountDetails> {
       reusabletextfieldcontroller.ibannumber.text = IBAN_Pptional;
       reusabletextfieldcontroller.accounttitle.text = easypesa_bank;
       reusabletextfieldcontroller.mobilenumber.text = Easy_Paisa_Mobile;
+      reusabletextfieldcontroller.wallet.text = wallet;
+      
 
       reusabletextfieldcontroller.title.addListener(_updateTitle);
       reusabletextfieldcontroller.bankname.addListener(_updateTitle);
@@ -85,6 +95,7 @@ class _AccountDetailsState extends State<AccountDetails> {
       reusabletextfieldcontroller.ibannumber.addListener(_updateTitle);
       reusabletextfieldcontroller.accounttitle.addListener(_updateTitle);
       reusabletextfieldcontroller.mobilenumber.addListener(_updateTitle);
+      reusabletextfieldcontroller.wallet.addListener(_updateTitle);
     });
   }
   @override
@@ -123,13 +134,14 @@ class _AccountDetailsState extends State<AccountDetails> {
         IBAN_Pptional = reusabletextfieldcontroller.ibannumber.text;
         Easy_Paisa_Mobile = reusabletextfieldcontroller.mobilenumber.text;
         easypesa_bank = reusabletextfieldcontroller.accounttitle.text;
+        wallet = reusabletextfieldcontroller.wallet.text;
       });
     }
   }
 
    Future<void> loadBanks() async {
     try {
-      final banks = await fetchBanks();
+      final banks = await repository.fetchBanks();
       setState(() {
         _banks = banks;
       });
@@ -138,43 +150,16 @@ class _AccountDetailsState extends State<AccountDetails> {
     }
   }
 
-  // void _validateForm() {
-  //    if (
-  //     reusabletextfieldcontroller.title.text.isNotEmpty && 
-  //     reusabletextfieldcontroller.bankname.text.isNotEmpty && 
-  //     reusabletextfieldcontroller.branchcode.text.isNotEmpty && 
-  //     reusabletextfieldcontroller.accountnumber.text.isNotEmpty && 
-  //     reusabletextfieldcontroller.ibannumber.text.isNotEmpty && 
-  //     reusabletextfieldcontroller.mobilenumber.text.isNotEmpty && 
-  //     methodValue.isNotEmpty && 
-  //     reusabletextfieldcontroller.accounttitle.text.isNotEmpty
-      
-
-  //                       ) {
-  //                 updateAccountDetails();
-  //               } else {
-  //                 Utils.snakbar(
-  //                   context,
-  //                   reusabletextfieldcontroller.title.text.isEmpty
-  //                       ? "Title Is Missing"
-  //                       : reusabletextfieldcontroller.bankname.text.isEmpty
-  //                           ? "Bank Name Is Missing" :
-  //                           reusabletextfieldcontroller.branchcode.text.isEmpty
-  //                           ? "Branch Code Is Missing" :
-  //                           reusabletextfieldcontroller.accountnumber.text.isEmpty
-  //                           ? "Account Number Is Missing" :
-  //                           reusabletextfieldcontroller.ibannumber.text.isEmpty
-  //                           ? "IBAN Number Is Missing" :
-  //                           reusabletextfieldcontroller.mobilenumber.text.isEmpty
-  //                           ? "Mobile Number Is Missing" :
-  //                           methodValue.isEmpty
-  //                           ? "Payment Method Is Missing" :
-  //                           reusabletextfieldcontroller.accounttitle.text.isEmpty
-  //                           ? "Account Title Is Missing" :
-  //                            "Fill Correct Fields",
-  //                 );
-  //               }
-  // }
+  Future<void> loadWalletBanks() async {
+    try {
+      final banks = await repository.fetchWalletBanks();
+      setState(() {
+        _walletbanks = banks;
+      });
+    } catch (e) {
+      print('Error loading banks: $e');
+    }
+  }
 
   Future<void> updateAccountDetails()async{
     setState(() {
@@ -188,13 +173,14 @@ class _AccountDetailsState extends State<AccountDetails> {
         'code' : '10'.toString(),
         'tutor_id' : MySharedPrefrence().get_user_ID().toString(),
         'Title' : reusabletextfieldcontroller.title.text.toString(),
-        'bank_n': reusabletextfieldcontroller.bankname.text.toString(),
+        'bank_n': _selectedBank?.name ?? '',
         'Branch_Code': reusabletextfieldcontroller.branchcode.text.toString(),
         'Account_Number': reusabletextfieldcontroller.accountnumber.text.toString(),
         'IBAN': reusabletextfieldcontroller.ibannumber.text.toString(),
         'Easy_p': reusabletextfieldcontroller.mobilenumber.text.toString(),
         'Titlee': methodValue.toString(),
         'easypesa_bank': reusabletextfieldcontroller.accounttitle.text.toString(),
+        'wallet' : _selectedWalletBank?.walletName ?? '',
       }
     );
     if (response.statusCode == 200) {
@@ -247,6 +233,22 @@ class _AccountDetailsState extends State<AccountDetails> {
       Easy_Paisa_Mobile = responseData['Easy_Paisa_Mobile'];
       Easy_Paisa_Title = responseData['Easy_Paisa_Title'];
       easypesa_bank = responseData['easypesa_bank'];
+      wallet = responseData['wallet'];
+
+      // Set controllers
+  reusabletextfieldcontroller.title.text = Title;
+  reusabletextfieldcontroller.ibannumber.text = IBAN_Pptional;
+
+  // Set selected bank from name
+  _selectedBank = _banks.firstWhere(
+    (bank) => bank.name.toLowerCase() == Bank_Name.toLowerCase(),
+    orElse: () => null!,
+  );
+  // Set selected wallet from name
+  _selectedWalletBank = _walletbanks.firstWhere(
+    (bank) => bank.walletName.toLowerCase() == wallet.toLowerCase(),
+    orElse: () => null!,
+  );
     } else {
       print('Error: ${response.statusCode}');
     }
@@ -274,6 +276,12 @@ class _AccountDetailsState extends State<AccountDetails> {
                 return reusableVisiblityMesage(context, MySharedPrefrence().get_popup_text(), (){setState(() {visible=false;});}, visible);
                 }else{return Container();}},),
                 reusablaSizaBox(context, 0.020),
+                reusableDropdownBankDetails(_banks, _banks.contains(_selectedBank) ? _selectedBank : null, 'Select Bank', (bank) => bank.name, (value) {
+                  setState(() {
+                  _selectedBank = value;
+                  });
+                },),
+                reusablaSizaBox(context, 0.020),
                           reusableTextField(context, 
                           reusabletextfieldcontroller.title,'Title', _title.hasFocus
                         ? colorController.blueColor
@@ -282,30 +290,30 @@ class _AccountDetailsState extends State<AccountDetails> {
                       FocusScope.of(context).requestFocus(_bankname);
                     }, ),
                     reusablaSizaBox(context, 0.020),
-                    reusableTextField(context, 
-                          reusabletextfieldcontroller.bankname, 'Bank Name', _bankname.hasFocus
-                        ? colorController.blueColor
-                        : colorController.textfieldBorderColorBefore, _bankname, () {
-                      _bankname.unfocus();
-                      FocusScope.of(context).requestFocus(_branchcode);
-                    }, ),
-                    reusablaSizaBox(context, 0.020),
-                    reusableTextField(context, 
-                          reusabletextfieldcontroller.branchcode, 'Branch Code', _branchcode.hasFocus
-                        ? colorController.blueColor
-                        : colorController.textfieldBorderColorBefore, _branchcode, () {
-                      _branchcode.unfocus();
-                      FocusScope.of(context).requestFocus(_accountnumber);
-                    }, ),
-                    reusablaSizaBox(context, 0.020),
-                    reusableTextField(context, 
-                          reusabletextfieldcontroller.accountnumber, 'Account Number', _accountnumber.hasFocus
-                        ? colorController.blueColor
-                        : colorController.textfieldBorderColorBefore, _accountnumber, () {
-                      _accountnumber.unfocus();
-                      FocusScope.of(context).requestFocus(_ibannumber);
-                    }, ),
-                    reusablaSizaBox(context, 0.020),
+                    // reusableTextField(context, 
+                    //       reusabletextfieldcontroller.bankname, 'Bank Name', _bankname.hasFocus
+                    //     ? colorController.blueColor
+                    //     : colorController.textfieldBorderColorBefore, _bankname, () {
+                    //   _bankname.unfocus();
+                    //   FocusScope.of(context).requestFocus(_branchcode);
+                    // }, ),
+                    // reusablaSizaBox(context, 0.020),
+                    // reusableTextField(context, 
+                    //       reusabletextfieldcontroller.branchcode, 'Branch Code', _branchcode.hasFocus
+                    //     ? colorController.blueColor
+                    //     : colorController.textfieldBorderColorBefore, _branchcode, () {
+                    //   _branchcode.unfocus();
+                    //   FocusScope.of(context).requestFocus(_accountnumber);
+                    // }, ),
+                    // reusablaSizaBox(context, 0.020),
+                    // reusableTextField(context, 
+                    //       reusabletextfieldcontroller.accountnumber, 'Account Number', _accountnumber.hasFocus
+                    //     ? colorController.blueColor
+                    //     : colorController.textfieldBorderColorBefore, _accountnumber, () {
+                    //   _accountnumber.unfocus();
+                    //   FocusScope.of(context).requestFocus(_ibannumber);
+                    // }, ),
+                    // reusablaSizaBox(context, 0.020),
                     reusableTextField(context, 
                           reusabletextfieldcontroller.ibannumber, 'IBAN Number', _ibannumber.hasFocus
                         ? colorController.blueColor
@@ -316,59 +324,64 @@ class _AccountDetailsState extends State<AccountDetails> {
                     reusablaSizaBox(context, 0.020),
                     Center(child: reusableText('OR',color: colorController.grayTextColor,fontsize: 16,fontweight: FontWeight.bold)),
                     reusablaSizaBox(context, 0.020),
-                    Container(
-                                  padding: EdgeInsets.only(
-                                      left: MediaQuery.of(context).size.width *
-                                          .01),
-                                  width: MediaQuery.of(context).size.width,
-                                  // height:
-                                  //     MediaQuery.of(context).size.height * .055,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.grey,
-                                        width: 1.5), // Border color
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    // Border radius
-                                  ),
-                                  child: 
-                                  DropdownSearch<String>(
-  popupProps: PopupPropsMultiSelection.dialog(
-    fit: FlexFit.loose,
-    showSearchBox: true,
-    dialogProps: DialogProps(
-      backgroundColor: colorController.whiteColor,
-      elevation: 10,
-    ),
-    searchFieldProps: TextFieldProps(
-      decoration: InputDecoration(
-        hintText: 'Search...',
-        hintStyle: TextStyle(color: colorController.blackColor,fontSize: 12.5),
-        fillColor: colorController.whiteColor,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(11),
-        ),
-      ),
-    ),
-  ),
-  dropdownDecoratorProps: DropDownDecoratorProps(
-    dropdownSearchDecoration: InputDecoration(
-      hintText: methodValue.isEmpty ? 'Select Method' : methodValue,
-      hintStyle: TextStyle(color: colorController.grayTextColor,fontSize: 11.5),
-      border: InputBorder.none,
-    ),
-  ),
-  items: <String>['Jazz Cash', 'Easypaisa'],
-  onChanged: (String? newValue) {
-    setState(() {
-      methodValue = newValue ?? '';
-      print(methodValue);
-    });
-  },
-  selectedItem: methodValue.isNotEmpty ? methodValue : null,
-)
+//                     Container(
+//                                   padding: EdgeInsets.only(
+//                                       left: MediaQuery.of(context).size.width *
+//                                           .01),
+//                                   width: MediaQuery.of(context).size.width,
+//                                   // height:
+//                                   //     MediaQuery.of(context).size.height * .055,
+//                                   decoration: BoxDecoration(
+//                                     border: Border.all(
+//                                         color: Colors.grey,
+//                                         width: 1.5), // Border color
+//                                     borderRadius: BorderRadius.circular(10.0),
+//                                     // Border radius
+//                                   ),
+//                                   child: 
+//                                   DropdownSearch<String>(
+//   popupProps: PopupPropsMultiSelection.dialog(
+//     fit: FlexFit.loose,
+//     showSearchBox: true,
+//     dialogProps: DialogProps(
+//       backgroundColor: colorController.whiteColor,
+//       elevation: 10,
+//     ),
+//     searchFieldProps: TextFieldProps(
+//       decoration: InputDecoration(
+//         hintText: 'Search...',
+//         hintStyle: TextStyle(color: colorController.blackColor,fontSize: 12.5),
+//         fillColor: colorController.whiteColor,
+//         border: OutlineInputBorder(
+//           borderRadius: BorderRadius.circular(11),
+//         ),
+//       ),
+//     ),
+//   ),
+//   dropdownDecoratorProps: DropDownDecoratorProps(
+//     dropdownSearchDecoration: InputDecoration(
+//       hintText: methodValue.isEmpty ? 'Select Method' : methodValue,
+//       hintStyle: TextStyle(color: colorController.grayTextColor,fontSize: 11.5),
+//       border: InputBorder.none,
+//     ),
+//   ),
+//   items: <String>['Jazz Cash', 'Easypaisa'],
+//   onChanged: (String? newValue) {
+//     setState(() {
+//       methodValue = newValue ?? '';
+//       print(methodValue);
+//     });
+//   },
+//   selectedItem: methodValue.isNotEmpty ? methodValue : null,
+// )
 
-                                ),
-                                reusablaSizaBox(context, 0.020),
+//                                 ),
+                    reusableDropdownBankDetails(_walletbanks, _walletbanks.contains(_selectedWalletBank) ? _selectedWalletBank : null, 'Select Wallet', (wallet) => wallet.walletName, (value) {
+                     setState(() {
+                      _selectedWalletBank = value;
+                      });
+                    },),
+                    reusablaSizaBox(context, 0.020),
                     reusableTextField(context, 
                           reusabletextfieldcontroller.accounttitle, 'Account Title', _accounttitle.hasFocus
                         ? colorController.blueColor

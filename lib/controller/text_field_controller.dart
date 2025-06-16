@@ -119,6 +119,9 @@ final TextEditingController _title = TextEditingController();
   final TextEditingController _mobilenumber = TextEditingController();
   TextEditingController get mobilenumber => _mobilenumber;
 
+  final TextEditingController _wallet = TextEditingController();
+  TextEditingController get wallet => _wallet;
+
 
 
 

@@ -343,6 +343,33 @@ Widget reusableDropdownAdditional(
     );
   }
 
+  reusableDropdownBankDetails<T>(
+    List<T> items,
+  T? selectedItem,
+  String label,
+  String Function(T) getLabel,
+  Function(T?) onChanged,
+  ){
+    return DropdownButtonFormField<T>(
+      decoration: InputDecoration(
+        labelText: label,
+        isDense: true,
+        contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+      value: selectedItem,
+      items: items.map((item) {
+        return DropdownMenuItem<T>(
+          value: item,
+          child: reusableText(getLabel(item), fontsize: 15),
+        );
+      }).toList(),
+      onChanged: onChanged,
+    );
+  }
+
 
 
 

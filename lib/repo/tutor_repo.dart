@@ -896,4 +896,16 @@ class TutorRepository {
   }
 }
 
+Future<List<Wallet>> fetchWalletBanks() async {
+  final response = await http.get(Uri.parse("${MySharedPrefrence().get_baseUrl()}all_in.php?cash_wallet=1"));
+
+  if (response.statusCode == 200) {
+    final data = json.decode(response.body);
+    final List banksJson = data['cash_wallet_listing'];
+    return banksJson.map((json) => Wallet.fromJson(json)).toList();
+  } else {
+    throw Exception('Failed to load banks');
+  }
+}
+
 }
