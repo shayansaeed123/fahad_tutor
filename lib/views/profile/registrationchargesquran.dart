@@ -102,8 +102,10 @@ Future<void> _uploadImages() async {
       // String uploadUrl = 'https://fahadtutors.com/upload_doc_5.php';
       String uploadUrl = '${MySharedPrefrence().get_baseUrl()}upload_doc_5.php';
     var request = http.MultipartRequest('POST', Uri.parse(uploadUrl));
+    // ✅ Add the field Registration_Quran_check = 1
+    request.fields['Registration_Quran_check'] = '1';
         if (_chargesSlip != null) {
-          request.files.add(await http.MultipartFile.fromPath('Registration', _chargesSlip!.path));
+          request.files.add(await http.MultipartFile.fromPath('Registration_Quran', _chargesSlip!.path));
         }
     var response = await request.send();
     if (response.statusCode == 200) {
@@ -111,7 +113,7 @@ Future<void> _uploadImages() async {
       final responseData = json.decode(responseString);
       print('Response Data: $responseData');
       setState(() {
-        chargesSlip = responseData['Registration'] ?? chargesSlip;
+        chargesSlip = responseData['Registration_Quran'] ?? chargesSlip;
       });
       print('fdgkdfg $chargesSlip');
     } else {
@@ -153,7 +155,7 @@ Future<void> _uploadImages() async {
         'code': '10',
         'update_status': '4',
         'tutor_id': MySharedPrefrence().get_user_ID().toString(),
-        'payment_recipt': chargesSlip.toString(),
+        'payment_recipt_quran': chargesSlip.toString(),
       },);
       if (response.statusCode == 200) {
         if (response.body.isNotEmpty) {

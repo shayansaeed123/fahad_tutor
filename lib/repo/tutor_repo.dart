@@ -4,9 +4,11 @@ import 'dart:typed_data';
 
 import 'package:fahad_tutor/controller/text_field_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
+import 'package:fahad_tutor/model/banksmodel.dart';
 import 'package:fahad_tutor/model/searchmodel.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
+import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/views/login/login.dart';
 import 'package:fahad_tutor/views/profile/profile.dart';
@@ -15,6 +17,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:image_picker/image_picker.dart';
 
 
 
@@ -123,6 +126,9 @@ class TutorRepository {
 
   final ValueNotifier<String> _payment_recipt = ValueNotifier<String>('');
   ValueNotifier<String> get payment_recipt => _payment_recipt;
+  
+  final ValueNotifier<String> _quran_payment_recipt = ValueNotifier<String>('');
+  ValueNotifier<String> get quran_payment_recipt => _quran_payment_recipt;
 
   final ValueNotifier<int> _payment_recipt_option = ValueNotifier<int>(0);
   ValueNotifier<int> get payment_recipt_option => _payment_recipt_option;
@@ -606,6 +612,7 @@ class TutorRepository {
         _is_term_accepted.value = jsonResponse['is_term_accepted'];
         _is_term_home.value = jsonResponse['is_term_home'];
         _payment_recipt.value = jsonResponse['payment_recipt'];
+        _quran_payment_recipt.value = jsonResponse['quran_payment_recipt'];
         _term_condition_heading.value = jsonResponse["term_condition_heading"];
         _term_condition_heading_home.value = jsonResponse['term_condition_heading_home'];
         _is_term_accepted_online_option.value = jsonResponse['term_condition_online_option'];
@@ -877,6 +884,16 @@ class TutorRepository {
     }
   }
 
-  
+  Future<List<Bank>> fetchBanks() async {
+  final response = await http.get(Uri.parse("${MySharedPrefrence().get_baseUrl()}all_in.php?banks=1"));
+
+  if (response.statusCode == 200) {
+    final data = json.decode(response.body);
+    final List banksJson = data['banks_listing'];
+    return banksJson.map((json) => Bank.fromJson(json)).toList();
+  } else {
+    throw Exception('Failed to load banks');
+  }
+}
 
 }

@@ -100,6 +100,8 @@ Future<void> _uploadImages() async {
       // String uploadUrl = 'https://fahadtutors.com/upload_doc_5.php';
       String uploadUrl = '${MySharedPrefrence().get_baseUrl()}upload_doc_5.php';
     var request = http.MultipartRequest('POST', Uri.parse(uploadUrl));
+    // ✅ Add the field Registration_Quran_check = 1
+    request.fields['Registration_check'] = '1';
         if (_chargesSlip != null) {
           request.files.add(await http.MultipartFile.fromPath('Registration', _chargesSlip!.path));
         }

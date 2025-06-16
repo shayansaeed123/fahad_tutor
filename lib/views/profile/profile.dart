@@ -332,7 +332,7 @@ void loginClear(){
               },),
 
               ValueListenableBuilder(valueListenable: repository.payment_recipt_option_quran, builder: (context, value, child) {
-                return value == 1 ? ValueListenableBuilder(valueListenable: repository.payment_recipt, builder: (context, value, child) {
+                return value == 1 ? ValueListenableBuilder(valueListenable: repository.quran_payment_recipt, builder: (context, value, child) {
                 return reusablelisttile(context,(){
                   print(value);
                 // if(value == '8' || value == '19'){

@@ -127,6 +127,17 @@ class _AccountDetailsState extends State<AccountDetails> {
     }
   }
 
+   Future<void> loadBanks() async {
+    try {
+      final banks = await fetchBanks();
+      setState(() {
+        _banks = banks;
+      });
+    } catch (e) {
+      print('Error loading banks: $e');
+    }
+  }
+
   // void _validateForm() {
   //    if (
   //     reusabletextfieldcontroller.title.text.isNotEmpty && 
