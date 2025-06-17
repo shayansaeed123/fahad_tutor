@@ -359,7 +359,7 @@ Widget reusableDropdownAdditional(
           borderRadius: BorderRadius.circular(12),
         ),
       ),
-      value: selectedItem,
+      value: items.contains(selectedItem) ? selectedItem : null,
       items: items.map((item) {
         return DropdownMenuItem<T>(
           value: item,

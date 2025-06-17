@@ -56,8 +56,7 @@ class _AccountDetailsState extends State<AccountDetails> {
   @override
   void initState() {
     super.initState();
-    loadBanks();
-    loadWalletBanks();
+    loadInitialData();
     _title = FocusNode();
     _title.addListener(_onFocusChange);
     _bankname = FocusNode();
@@ -75,6 +74,11 @@ class _AccountDetailsState extends State<AccountDetails> {
     repository.check_msg();
       getData();
   }
+  Future<void> loadInitialData() async {
+  await loadBanks();
+  await loadWalletBanks();   // This must fill _walletbanks
+  await getAccountDetails();   // Now this can match selected bank/wallet
+}
   void getData() async {
     await getAccountDetails();
     setState(() {
@@ -276,7 +280,7 @@ class _AccountDetailsState extends State<AccountDetails> {
                 return reusableVisiblityMesage(context, MySharedPrefrence().get_popup_text(), (){setState(() {visible=false;});}, visible);
                 }else{return Container();}},),
                 reusablaSizaBox(context, 0.020),
-                reusableDropdownBankDetails(_banks, _banks.contains(_selectedBank) ? _selectedBank : null, 'Select Bank', (bank) => bank.name, (value) {
+                reusableDropdownBankDetails(_banks, _selectedBank, 'Select Bank', (bank) => bank.name, (value) {
                   setState(() {
                   _selectedBank = value;
                   });
@@ -376,7 +380,7 @@ class _AccountDetailsState extends State<AccountDetails> {
 // )
 
 //                                 ),
-                    reusableDropdownBankDetails(_walletbanks, _walletbanks.contains(_selectedWalletBank) ? _selectedWalletBank : null, 'Select Wallet', (wallet) => wallet.walletName, (value) {
+                    reusableDropdownBankDetails(_walletbanks, _selectedWalletBank, 'Select Wallet', (wallet) => wallet.walletName, (value) {
                      setState(() {
                       _selectedWalletBank = value;
                       });
