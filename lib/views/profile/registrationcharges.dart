@@ -8,6 +8,7 @@ import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusablebottomsheet.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
+import 'package:fahad_tutor/res/reusabledocuments.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
@@ -42,18 +43,32 @@ class _RegistrationChargesState extends State<RegistrationCharges> {
       isLoading = false;
     });
   }
+  void doc()async{
+    setState(() {
+      isLoading = true;
+    });
+    await repository.documentsAttach();
+    setState(() {
+      isLoading = false;
+    });
+  }
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     registerText();
     repository.check_msg();
+    doc();
   }
   Future<void> _pickImage(ImageSource source,) async {
   final pickedFile = await picker.pickImage(source: source);
 
   if (pickedFile != null) {
-    setState(() {_chargesSlip = File(pickedFile.path);});
+    File? selectedImage;
+    setState(() {
+      _chargesSlip = File(pickedFile.path);
+      selectedImage = _chargesSlip;
+      });
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -111,9 +126,10 @@ Future<void> _uploadImages() async {
       final responseData = json.decode(responseString);
       print('Response Data: $responseData');
       setState(() {
-        chargesSlip = responseData['Registration'] ?? chargesSlip;
+        // chargesSlip = responseData['Registration'] ?? chargesSlip;
+        repository.charges_image.value = responseData['Registration'] ?? repository.charges_image.value;
       });
-      print('fdgkdfg $chargesSlip');
+      print('fdgkdfg ${repository.charges_image.value}');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Upload failed')),
@@ -129,14 +145,14 @@ Future<void> _uploadImages() async {
   }
 
   void _validateForm() {
-  if (_chargesSlip != null &&
-      _chargesSlip!.path.isNotEmpty) {
+  if (repository.charges_image.value != 'https://www.fahadtutors.com/fta_admin/' &&
+      repository.charges_image.value.isNotEmpty ) {
     _uploadData();
   } else {
     Utils.snakbar(
       context,
-      _chargesSlip == null || _chargesSlip!.path.isEmpty
-          ? "Select Image"
+      repository.charges_image.value == 'https://www.fahadtutors.com/fta_admin/' || repository.charges_image.value.isEmpty
+          ? "Select Charges Image"
                       : "Fill Correct Fields",
     );
   }
@@ -153,7 +169,7 @@ Future<void> _uploadImages() async {
         'code': '10',
         'update_status': '4',
         'tutor_id': MySharedPrefrence().get_user_ID().toString(),
-        'payment_recipt': chargesSlip.toString(),
+        'payment_recipt': repository.charges_image.value.toString(),
       },);
       if (response.statusCode == 200) {
         if (response.body.isNotEmpty) {
@@ -208,40 +224,47 @@ Future<void> _uploadImages() async {
                             crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 reusableText('Slip Image', color: colorController.btnColor,fontsize: 16),
-                reusablaSizaBox(context, 0.01),
-                DottedBorder(
-                  color: colorController.blackColor,
-                    strokeWidth: 2,
-                    dashPattern: [6, 3],
-                    radius: Radius.circular(15),
-                    child:  InkWell(
-            onTap: (){
+                // reusablaSizaBox(context, 0.01),
+          //       DottedBorder(
+          //         color: colorController.blackColor,
+          //           strokeWidth: 2,
+          //           dashPattern: [6, 3],
+          //           radius: Radius.circular(15),
+          //           child:  InkWell(
+          //   onTap: (){
+          //     reuablebottomsheet(context, 'Choose Charges Slip Image', (){
+          //       _pickImage(ImageSource.gallery);
+          //     }, (){
+          //       _pickImage(ImageSource.camera);
+          //     });
+          //   },
+          //   child: Container(
+          //     width: MediaQuery.of(context).size.width * .43,
+          //     height: MediaQuery.of(context).size.height * .18,
+          //     decoration: BoxDecoration(
+          //       color: colorController.whiteColor,
+          //       borderRadius: BorderRadius.circular(10),
+          //     ),
+          //     child: Padding(
+          //       padding: EdgeInsets.all(MediaQuery.of(context).size.width * .013,),
+          //       child: _chargesSlip != null
+          //                       ? Image.file(_chargesSlip!, fit: BoxFit.cover) : 
+          //       Center(child: Image.asset('assets/images/add_img_placeholder.png',fit: BoxFit.contain,)
+          //       // : Image.network(image,fit: BoxFit.contain,)
+          //         ),
+          //     ),
+          //   ),
+          // ),
+          //           // reusableSelectImage2(context, (){}, '')
+          //       ),
+          reusableDocuments1(context, '', '', repository.charges_image.value.toString(), (){
               reuablebottomsheet(context, 'Choose Charges Slip Image', (){
                 _pickImage(ImageSource.gallery);
               }, (){
                 _pickImage(ImageSource.camera);
               });
-            },
-            child: Container(
-              width: MediaQuery.of(context).size.width * .43,
-              height: MediaQuery.of(context).size.height * .18,
-              decoration: BoxDecoration(
-                color: colorController.whiteColor,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(MediaQuery.of(context).size.width * .013,),
-                child: _chargesSlip != null
-                                ? Image.file(_chargesSlip!, fit: BoxFit.cover) : 
-                Center(child: Image.asset('assets/images/add_img_placeholder.png',fit: BoxFit.contain,)
-                // : Image.network(image,fit: BoxFit.contain,)
-                  ),
-              ),
-            ),
-          ),
-                    // reusableSelectImage2(context, (){}, '')
-                ),
-                reusablaSizaBox(context, .010),
+            }, 'assets/images/add_img_placeholder.png'),
+                // reusablaSizaBox(context, .010),
               ],
             ),
             Padding(

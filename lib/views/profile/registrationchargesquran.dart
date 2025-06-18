@@ -131,14 +131,14 @@ Future<void> _uploadImages() async {
   }
 
   void _validateForm() {
-  if (_chargesSlip != null &&
-      _chargesSlip!.path.isNotEmpty) {
+  if (repository.charges_image_quran.value != 'https://www.fahadtutors.com/fta_admin/' &&
+      repository.charges_image_quran.value.isNotEmpty ) {
     _uploadData();
   } else {
     Utils.snakbar(
       context,
-      _chargesSlip == null || _chargesSlip!.path.isEmpty
-          ? "Select Image"
+      repository.charges_image_quran.value == 'https://www.fahadtutors.com/fta_admin/' || repository.charges_image_quran.value.isEmpty
+          ? "Select Charges Image"
                       : "Fill Correct Fields",
     );
   }

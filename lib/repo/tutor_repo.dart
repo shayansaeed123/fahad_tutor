@@ -181,6 +181,12 @@ class TutorRepository {
   final ValueNotifier<String> _cnic_b= ValueNotifier<String>('');
   ValueNotifier<String> get cnic_b => _cnic_b;
 
+  final ValueNotifier<String> _charges_image = ValueNotifier<String>('');
+  ValueNotifier<String> get charges_image => _charges_image;
+
+  final ValueNotifier<String> _charges_image_quran = ValueNotifier<String>('');
+  ValueNotifier<String> get charges_image_quran => _charges_image_quran;
+
   final ValueNotifier<String> _cnic_f = ValueNotifier<String>('');
   ValueNotifier<String> get cnic_f => _cnic_f;
 
@@ -833,6 +839,8 @@ class TutorRepository {
           _doc_error.value = jsonResponse['docs_error'];
           _doc_msg.value = jsonResponse['docs_msg'];
           _is_term_accept.value = jsonResponse['is_term_accepted'];
+          _charges_image.value = jsonResponse['payment_recipt'];
+          _charges_image_quran.value = jsonResponse['payment_recipt_quran'];
           // MySharedPrefrence().set_profile_img(profile);
         // });
       } else {

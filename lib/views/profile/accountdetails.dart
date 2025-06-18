@@ -319,7 +319,7 @@ class _AccountDetailsState extends State<AccountDetails> {
                     // }, ),
                     // reusablaSizaBox(context, 0.020),
                     reusableTextField(context, 
-                          reusabletextfieldcontroller.ibannumber, 'IBAN Number', _ibannumber.hasFocus
+                          reusabletextfieldcontroller.ibannumber, 'PK**ABCD***********', _ibannumber.hasFocus
                         ? colorController.blueColor
                         : colorController.textfieldBorderColorBefore, _ibannumber, () {
                       _ibannumber.unfocus();
