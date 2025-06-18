@@ -10,6 +10,7 @@ import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusablebottomsheet.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
+import 'package:fahad_tutor/res/reusabledocuments.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
@@ -44,12 +45,22 @@ class _RegistrationChargesQuranState extends State<RegistrationChargesQuran> {
       isLoading = false;
     });
   }
+  void doc()async{
+    setState(() {
+      isLoading = true;
+    });
+    await repository.documentsAttach();
+    setState(() {
+      isLoading = false;
+    });
+  }
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     registerText();
     repository.check_msg();
+    doc();
   }
   Future<void> _pickImage(ImageSource source,) async {
   final pickedFile = await picker.pickImage(source: source);
@@ -113,7 +124,8 @@ Future<void> _uploadImages() async {
       final responseData = json.decode(responseString);
       print('Response Data: $responseData');
       setState(() {
-        chargesSlip = responseData['Registration_Quran'] ?? chargesSlip;
+        // chargesSlip = responseData['Registration_Quran'] ?? chargesSlip;
+        repository.charges_image_quran.value = responseData['Registration_Quran'] ?? repository.charges_image_quran.value;
       });
       print('fdgkdfg $chargesSlip');
     } else {
@@ -155,7 +167,7 @@ Future<void> _uploadImages() async {
         'code': '10',
         'update_status': '4',
         'tutor_id': MySharedPrefrence().get_user_ID().toString(),
-        'payment_recipt_quran': chargesSlip.toString(),
+        'payment_recipt_quran': repository.charges_image_quran.value.toString(),
       },);
       if (response.statusCode == 200) {
         if (response.body.isNotEmpty) {
@@ -210,40 +222,47 @@ Future<void> _uploadImages() async {
                             crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 reusableText('Slip Image', color: colorController.btnColor,fontsize: 16),
-                reusablaSizaBox(context, 0.01),
-                DottedBorder(
-                  color: colorController.blackColor,
-                    strokeWidth: 2,
-                    dashPattern: [6, 3],
-                    radius: Radius.circular(15),
-                    child:  InkWell(
-            onTap: (){
+          //       reusablaSizaBox(context, 0.01),
+          //       DottedBorder(
+          //         color: colorController.blackColor,
+          //           strokeWidth: 2,
+          //           dashPattern: [6, 3],
+          //           radius: Radius.circular(15),
+          //           child:  InkWell(
+          //   onTap: (){
+          //     reuablebottomsheet(context, 'Choose Charges Slip Image', (){
+          //       _pickImage(ImageSource.gallery);
+          //     }, (){
+          //       _pickImage(ImageSource.camera);
+          //     });
+          //   },
+          //   child: Container(
+          //     width: MediaQuery.of(context).size.width * .43,
+          //     height: MediaQuery.of(context).size.height * .18,
+          //     decoration: BoxDecoration(
+          //       color: colorController.whiteColor,
+          //       borderRadius: BorderRadius.circular(10),
+          //     ),
+          //     child: Padding(
+          //       padding: EdgeInsets.all(MediaQuery.of(context).size.width * .013,),
+          //       child: _chargesSlip != null
+          //                       ? Image.file(_chargesSlip!, fit: BoxFit.cover) : 
+          //       Center(child: Image.asset('assets/images/add_img_placeholder.png',fit: BoxFit.contain,)
+          //       // : Image.network(image,fit: BoxFit.contain,)
+          //         ),
+          //     ),
+          //   ),
+          // ),
+          //           // reusableSelectImage2(context, (){}, '')
+          //       ),
+          //       reusablaSizaBox(context, .010),
+          reusableDocuments1(context, '', '', repository.charges_image_quran.value.toString(), (){
               reuablebottomsheet(context, 'Choose Charges Slip Image', (){
                 _pickImage(ImageSource.gallery);
               }, (){
                 _pickImage(ImageSource.camera);
               });
-            },
-            child: Container(
-              width: MediaQuery.of(context).size.width * .43,
-              height: MediaQuery.of(context).size.height * .18,
-              decoration: BoxDecoration(
-                color: colorController.whiteColor,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(MediaQuery.of(context).size.width * .013,),
-                child: _chargesSlip != null
-                                ? Image.file(_chargesSlip!, fit: BoxFit.cover) : 
-                Center(child: Image.asset('assets/images/add_img_placeholder.png',fit: BoxFit.contain,)
-                // : Image.network(image,fit: BoxFit.contain,)
-                  ),
-              ),
-            ),
-          ),
-                    // reusableSelectImage2(context, (){}, '')
-                ),
-                reusablaSizaBox(context, .010),
+            }, 'assets/images/add_img_placeholder.png'),
               ],
             ),
             Padding(
