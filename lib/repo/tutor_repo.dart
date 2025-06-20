@@ -10,6 +10,7 @@ import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
+import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/views/login/login.dart';
 import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/material.dart';
@@ -62,6 +63,17 @@ import 'package:image_picker/image_picker.dart';
   // }
   
 // }
+// Extension to group list items by a key
+extension GroupBy<T> on Iterable<T> {
+  Map<K, List<T>> groupby<K>(K Function(T) keyFn) {
+    final Map<K, List<T>> map = {};
+    for (var element in this) {
+      final key = keyFn(element);
+      map.putIfAbsent(key, () => []).add(element);
+    }
+    return map;
+  }
+}
 
 class TutorRepository {
   bool _isLoading = false;
@@ -471,7 +483,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${MySharedPrefrence().get_baseUrl()}preferred_tuition.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=$limit&cell_access_token=${MySharedPrefrence().get_cell_token().toString()}&version=105';
+          '${MySharedPrefrence().get_baseUrl()}preferred_tuition.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=$limit&cell_access_token=${MySharedPrefrence().get_cell_token().toString()}&version=104';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 
@@ -915,5 +927,226 @@ Future<List<Wallet>> fetchWalletBanks() async {
     throw Exception('Failed to load banks');
   }
 }
+
+Future<void> fetchData(String type,String responseName, List<dynamic> newItems, List<Map<String, String>> selectedIds, Function updateSelectedNames,Function(bool) setLoading) async {
+    // setState(() {
+    //   isLoading = true;
+    // });
+    setLoading(true);
+    try {
+      String url = '${MySharedPrefrence().get_baseUrl()}all_in.php?$type=1';
+      final response = await http.get(Uri.parse(url));
+      print('url $url');
+
+      if (response.statusCode == 200) {
+        Uint8List responseBytes = response.bodyBytes;
+        String responseBody = utf8.decode(responseBytes, allowMalformed: true);
+        responseBody = removeBom(responseBody);
+
+        if (isJsonValid(responseBody)) {
+          dynamic jsonResponse = jsonDecode(responseBody);
+          // setState(() {
+            newItems.clear();
+            if (type == 'course') {
+              // Flatten course listing map into a list with category info
+              Map<String, dynamic> courseMap = jsonResponse['${responseName}_listing'];
+              courseMap.forEach((category, courses) {
+                for (var course in courses) {
+                  course['category'] = category;
+                  newItems.add(course);
+                }
+              });
+            } else {
+              // For group, just add the list
+              newItems.addAll(jsonResponse['${responseName}_listing']);
+            }
+            // newItems.addAll(jsonResponse['${responseName}_listing']);
+            updateSelectedNames();
+          // });
+          // print('Updated $responseName list: $newItems');
+        } else {
+          print('Error: Invalid JSON format');
+        }
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error hello: $e');
+    } finally {
+      // setState(() {
+      //   isLoading = false;
+      // });
+      setLoading(false);
+    }
+  }
+
+String removeBom(String responseBody) {
+    if (responseBody.startsWith('\uFEFF')) {
+      return responseBody.substring(1);
+    }
+    return responseBody;
+  }
+
+  bool isJsonValid(String jsonString) {
+    try {
+      jsonDecode(jsonString);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  void search(BuildContext context,List<dynamic> newItems, List<Map<String, String>> selectedIds, String name,Function toggleSelection) {
+    TextEditingController searchController = TextEditingController();
+    List<dynamic> filteredItems = List.from(newItems);
+
+    showDialog(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, StateSetter setState) {
+          void filterSearchResults(String query) {
+            if (query.isNotEmpty) {
+              List<dynamic> tempList = [];
+              newItems.forEach((item) {
+                if (item[name].toString().toLowerCase().contains(query.toLowerCase())) {
+                  tempList.add(item);
+                }
+              });
+              setState(() {
+                filteredItems.clear();
+                filteredItems.addAll(tempList);
+              });
+            } else {
+              setState(() {
+                filteredItems.clear();
+                filteredItems.addAll(newItems);
+              });
+            }
+          }
+
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            backgroundColor: Colors.white,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: searchController,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(0),
+                      hintText: 'Search',
+                      hintStyle: TextStyle(fontSize: 11.5),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      prefixIcon: Icon(Icons.search),
+                    ),
+                    onChanged: (value) {
+                      filterSearchResults(value);
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * .9,
+                    height: 300, // fixed height for the dialog list
+                    child: (name == 'course_name' && filteredItems.isNotEmpty && filteredItems[0].containsKey('category'))
+                        ? // Grouped course list
+                        ListView(
+                            children: filteredItems
+                                .groupby((item) => item['category'])
+                                .entries
+                                .map((entry) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                                    child: Text(
+                                      entry.key,
+                                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                                    ),
+                                  ),
+                                  ...entry.value.map((course) {
+                                    String courseName = course['course_name'];
+                                    String courseId = course['id'];
+                                    bool isSelected = selectedIds.any((e) => e['id'] == courseId);
+                                    return ListTile(
+                                      dense: true,
+                                      contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
+                                      title: Text(courseName),
+                                      trailing: isSelected ? Icon(Icons.check, color: Colors.black) : null,
+                                      onTap: () {
+                                        setState(() {});
+                                        toggleSelection(courseId, courseName, name);
+                                      },
+                                    );
+                                  }).toList()
+                                ],
+                              );
+                            }).toList(),
+                          )
+                        : // Normal flat list (for groups)
+                        ListView.builder(
+                            itemCount: filteredItems.length,
+                            itemBuilder: (context, index) {
+                              String itemName = filteredItems[index][name];
+                              String itemId = filteredItems[index]['id'].toString();
+                              bool isSelected = selectedIds.any((element) => element['id'] == itemId);
+                              return Column(
+                                children: [
+                                  ListTile(
+                                    dense: true,
+                                    contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
+                                    title: Text(itemName),
+                                    trailing: isSelected ? Icon(Icons.check, color: Colors.black) : null,
+                                    onTap: () {
+                                      setState(() {});
+                                      toggleSelection(itemId, itemName, name);
+                                    },
+                                  ),
+                                  if (index != filteredItems.length - 1)
+                                    Divider(
+                                      color: Colors.grey,
+                                      thickness: 1.0,
+                                    ),
+                                ],
+                              );
+                            },
+                          ),
+                  ),
+                ),
+                Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: reusableBtn(context, 'Add', () {
+                        setState(() {});
+                        Navigator.pop(context);
+                      }),
+                    ),
+                    reusablaSizaBox(context, .03),
+                    Expanded(
+                      child: reusablewhite(context, 'Cancel', () {
+                        Navigator.pop(context);
+                      }),
+                    ),
+                  ],
+                ),
+              ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  
 
 }

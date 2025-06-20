@@ -94,22 +94,22 @@ List<String> tempSelectedIdsSubject = [];
 
 String instituteName = '';
 String instituteId =  '';
-String? quranOnlineTeaching = 'none';
-String? client = 'no';
-String? maslak = 'Ahle-Sunnat';
-String? Zoom = 'Beginner';
-String? laptop = 'no';
+String? quranOnlineTeaching = '';
+String? client = '';
+String? maslak = '';
+String? Zoom = '';
+String? laptop = '';
 
 @override
   void initState() {
     super.initState();
     repository.Check_popup();
-    fetchData('Institute','Institute', newItemsinstitute, selectedIdsinstitute, updateSelectedNamesInstitute);
-    fetchData('Qualification','Qualification', newItemsQualification, selectedIdsQualification, updateSelectedNamesQualification);
-    fetchData('Board', 'Board', newItemsBoard, selectedIdsBoard, updateSelectedNamesBoard);
-    fetchData('Group','Group', newItemsGroup, selectedIdsGroup, updateSelectedNamesGroup);
-    fetchData('course','course', newItemsCourse, selectedIdsCourse, updateSelectedNamesCourse);
-    fetchData('Preferred_Time','Preferred_Time', newItemsTime, selectedIdsTime, updateSelectedNamesTime);
+    repository.fetchData('Institute','Institute', newItemsinstitute, selectedIdsinstitute, updateSelectedNamesInstitute,(val)=> setState(() {isLoading = val;}));
+    repository.fetchData('Qualification','Qualification', newItemsQualification, selectedIdsQualification, updateSelectedNamesQualification,(val)=> setState(() {isLoading = val;}));
+    repository.fetchData('Board', 'Board', newItemsBoard, selectedIdsBoard, updateSelectedNamesBoard,(val)=> setState(() {isLoading = val;}));
+    repository.fetchData('Group','Group', newItemsGroup, selectedIdsGroup, updateSelectedNamesGroup,(val)=> setState(() {isLoading = val;}));
+    repository.fetchData('course','course', newItemsCourse, selectedIdsCourse, updateSelectedNamesCourse,(val)=> setState(() {isLoading = val;}));
+    repository.fetchData('Preferred_Time','Preferred_Time', newItemsTime, selectedIdsTime, updateSelectedNamesTime,(val)=> setState(() {isLoading = val;}));
     fetchClassDataAndSubjectData('Class','Class', newItemsClass,);
     saveQualificationData();
     selectArea();
@@ -118,12 +118,12 @@ String? laptop = 'no';
     allFunction();
   }
   void allFunction()async{
-     fetchData('Institute','Institute', newItemsinstitute, selectedIdsinstitute, updateSelectedNamesInstitute);
-     fetchData('Qualification','Qualification', newItemsQualification, selectedIdsQualification, updateSelectedNamesQualification);
-     fetchData('Board', 'Board', newItemsBoard, selectedIdsBoard, updateSelectedNamesBoard);
-     fetchData('Group','Group', newItemsGroup, selectedIdsGroup, updateSelectedNamesGroup);
-     fetchData('course','course', newItemsCourse, selectedIdsCourse, updateSelectedNamesCourse);
-     fetchData('Preferred_Time','Preferred_Time', newItemsTime, selectedIdsTime, updateSelectedNamesTime);
+     repository.fetchData('Institute','Institute', newItemsinstitute, selectedIdsinstitute, updateSelectedNamesInstitute,(val)=> setState(() {isLoading = val;}));
+     repository.fetchData('Qualification','Qualification', newItemsQualification, selectedIdsQualification, updateSelectedNamesQualification,(val)=> setState(() {isLoading = val;}));
+     repository.fetchData('Board', 'Board', newItemsBoard, selectedIdsBoard, updateSelectedNamesBoard,(val)=> setState(() {isLoading = val;}));
+     repository.fetchData('Group','Group', newItemsGroup, selectedIdsGroup, updateSelectedNamesGroup,(val)=> setState(() {isLoading = val;}));
+     repository.fetchData('course','course', newItemsCourse, selectedIdsCourse, updateSelectedNamesCourse,(val)=> setState(() {isLoading = val;}));
+     repository.fetchData('Preferred_Time','Preferred_Time', newItemsTime, selectedIdsTime, updateSelectedNamesTime,(val)=> setState(() {isLoading = val;}));
      fetchClassDataAndSubjectData('Class','Class', newItemsClass,);
     await saveQualificationData();
     await selectArea();
@@ -355,6 +355,11 @@ Future<void> saveQualificationData() async {
               subjectNames: List<String>.from(item['subject_name'].map((sname) => sname.toString())),
             );
           }).toList();
+          quranOnlineTeaching = jsonResponse['Quran_Experience'];
+          client = jsonResponse['International_client'];
+          maslak = jsonResponse['Add_Maslak'];
+          Zoom = jsonResponse['Zoom_Proficiency'];
+          laptop = jsonResponse['have_a_laptop'];
           updateSelectedNamesInstitute();
           updateSelectedNamesQualification();
           updateSelectedNamesBoard();
@@ -388,9 +393,9 @@ Future<void> saveQualificationData() async {
       if (response.statusCode == 200) {
         Uint8List responseBytes = response.bodyBytes;
         String responseBody = utf8.decode(responseBytes, allowMalformed: true);
-        responseBody = removeBom(responseBody);
+        responseBody = repository.removeBom(responseBody);
 
-        if (isJsonValid(responseBody)) {
+        if (repository.isJsonValid(responseBody)) {
           dynamic jsonResponse = jsonDecode(responseBody);
           setState(() {
             newItems.clear();
@@ -412,71 +417,57 @@ Future<void> saveQualificationData() async {
     }
   }
 
-  Future<void> fetchData(String type,String responseName, List<dynamic> newItems, List<Map<String, String>> selectedIds, Function updateSelectedNames) async {
-    setState(() {
-      isLoading = true;
-    });
-    try {
-      String url = '${MySharedPrefrence().get_baseUrl()}all_in.php?$type=1';
-      final response = await http.get(Uri.parse(url));
-      print('url $url');
+  // Future<void> fetchData(String type,String responseName, List<dynamic> newItems, List<Map<String, String>> selectedIds, Function updateSelectedNames) async {
+  //   setState(() {
+  //     isLoading = true;
+  //   });
+  //   try {
+  //     String url = '${MySharedPrefrence().get_baseUrl()}all_in.php?$type=1';
+  //     final response = await http.get(Uri.parse(url));
+  //     print('url $url');
 
-      if (response.statusCode == 200) {
-        Uint8List responseBytes = response.bodyBytes;
-        String responseBody = utf8.decode(responseBytes, allowMalformed: true);
-        responseBody = removeBom(responseBody);
+  //     if (response.statusCode == 200) {
+  //       Uint8List responseBytes = response.bodyBytes;
+  //       String responseBody = utf8.decode(responseBytes, allowMalformed: true);
+  //       responseBody = repository.removeBom(responseBody);
 
-        if (isJsonValid(responseBody)) {
-          dynamic jsonResponse = jsonDecode(responseBody);
-          setState(() {
-            newItems.clear();
-            if (type == 'course') {
-              // Flatten course listing map into a list with category info
-              Map<String, dynamic> courseMap = jsonResponse['${responseName}_listing'];
-              courseMap.forEach((category, courses) {
-                for (var course in courses) {
-                  course['category'] = category;
-                  newItems.add(course);
-                }
-              });
-            } else {
-              // For group, just add the list
-              newItems.addAll(jsonResponse['${responseName}_listing']);
-            }
-            // newItems.addAll(jsonResponse['${responseName}_listing']);
-            updateSelectedNames();
-          });
-          // print('Updated $responseName list: $newItems');
-        } else {
-          print('Error: Invalid JSON format');
-        }
-      } else {
-        print('Error: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Error hello: $e');
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
+  //       if (repository.isJsonValid(responseBody)) {
+  //         dynamic jsonResponse = jsonDecode(responseBody);
+  //         setState(() {
+  //           newItems.clear();
+  //           if (type == 'course') {
+  //             // Flatten course listing map into a list with category info
+  //             Map<String, dynamic> courseMap = jsonResponse['${responseName}_listing'];
+  //             courseMap.forEach((category, courses) {
+  //               for (var course in courses) {
+  //                 course['category'] = category;
+  //                 newItems.add(course);
+  //               }
+  //             });
+  //           } else {
+  //             // For group, just add the list
+  //             newItems.addAll(jsonResponse['${responseName}_listing']);
+  //           }
+  //           // newItems.addAll(jsonResponse['${responseName}_listing']);
+  //           updateSelectedNames();
+  //         });
+  //         // print('Updated $responseName list: $newItems');
+  //       } else {
+  //         print('Error: Invalid JSON format');
+  //       }
+  //     } else {
+  //       print('Error: ${response.statusCode}');
+  //     }
+  //   } catch (e) {
+  //     print('Error hello: $e');
+  //   } finally {
+  //     setState(() {
+  //       isLoading = false;
+  //     });
+  //   }
+  // }
 
-  String removeBom(String responseBody) {
-    if (responseBody.startsWith('\uFEFF')) {
-      return responseBody.substring(1);
-    }
-    return responseBody;
-  }
-
-  bool isJsonValid(String jsonString) {
-    try {
-      jsonDecode(jsonString);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
+  
 
 
 // Future<void> saveQualificationData() async {
@@ -1646,156 +1637,156 @@ Future<void> classSelect(Function parentSetState) {
 // }
 
 
-void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, String name) {
-    TextEditingController searchController = TextEditingController();
-    List<dynamic> filteredItems = List.from(newItems);
+// void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, String name) {
+//     TextEditingController searchController = TextEditingController();
+//     List<dynamic> filteredItems = List.from(newItems);
 
-    showDialog(
-      context: context,
-      builder: (context) => StatefulBuilder(
-        builder: (context, StateSetter setState) {
-          void filterSearchResults(String query) {
-            if (query.isNotEmpty) {
-              List<dynamic> tempList = [];
-              newItems.forEach((item) {
-                if (item[name].toString().toLowerCase().contains(query.toLowerCase())) {
-                  tempList.add(item);
-                }
-              });
-              setState(() {
-                filteredItems.clear();
-                filteredItems.addAll(tempList);
-              });
-            } else {
-              setState(() {
-                filteredItems.clear();
-                filteredItems.addAll(newItems);
-              });
-            }
-          }
+//     showDialog(
+//       context: context,
+//       builder: (context) => StatefulBuilder(
+//         builder: (context, StateSetter setState) {
+//           void filterSearchResults(String query) {
+//             if (query.isNotEmpty) {
+//               List<dynamic> tempList = [];
+//               newItems.forEach((item) {
+//                 if (item[name].toString().toLowerCase().contains(query.toLowerCase())) {
+//                   tempList.add(item);
+//                 }
+//               });
+//               setState(() {
+//                 filteredItems.clear();
+//                 filteredItems.addAll(tempList);
+//               });
+//             } else {
+//               setState(() {
+//                 filteredItems.clear();
+//                 filteredItems.addAll(newItems);
+//               });
+//             }
+//           }
 
-          return Dialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            backgroundColor: Colors.white,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: searchController,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(0),
-                      hintText: 'Search',
-                      hintStyle: TextStyle(fontSize: 11.5),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      prefixIcon: Icon(Icons.search),
-                    ),
-                    onChanged: (value) {
-                      filterSearchResults(value);
-                    },
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * .9,
-                    height: 300, // fixed height for the dialog list
-                    child: (name == 'course_name' && filteredItems.isNotEmpty && filteredItems[0].containsKey('category'))
-                        ? // Grouped course list
-                        ListView(
-                            children: filteredItems
-                                .groupBy((item) => item['category'])
-                                .entries
-                                .map((entry) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                                    child: Text(
-                                      entry.key,
-                                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                                    ),
-                                  ),
-                                  ...entry.value.map((course) {
-                                    String courseName = course['course_name'];
-                                    String courseId = course['id'];
-                                    bool isSelected = selectedIds.any((e) => e['id'] == courseId);
-                                    return ListTile(
-                                      dense: true,
-                                      contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
-                                      title: Text(courseName),
-                                      trailing: isSelected ? Icon(Icons.check, color: Colors.black) : null,
-                                      onTap: () {
-                                        setState(() {});
-                                        toggleSelection(courseId, courseName, name);
-                                      },
-                                    );
-                                  }).toList()
-                                ],
-                              );
-                            }).toList(),
-                          )
-                        : // Normal flat list (for groups)
-                        ListView.builder(
-                            itemCount: filteredItems.length,
-                            itemBuilder: (context, index) {
-                              String itemName = filteredItems[index][name];
-                              String itemId = filteredItems[index]['id'].toString();
-                              bool isSelected = selectedIds.any((element) => element['id'] == itemId);
-                              return Column(
-                                children: [
-                                  ListTile(
-                                    dense: true,
-                                    contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
-                                    title: Text(itemName),
-                                    trailing: isSelected ? Icon(Icons.check, color: Colors.black) : null,
-                                    onTap: () {
-                                      setState(() {});
-                                      toggleSelection(itemId, itemName, name);
-                                    },
-                                  ),
-                                  if (index != filteredItems.length - 1)
-                                    Divider(
-                                      color: Colors.grey,
-                                      thickness: 1.0,
-                                    ),
-                                ],
-                              );
-                            },
-                          ),
-                  ),
-                ),
-                Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: reusableBtn(context, 'Add', () {
-                        setState(() {});
-                        Navigator.pop(context);
-                      }),
-                    ),
-                    reusablaSizaBox(context, .03),
-                    Expanded(
-                      child: reusablewhite(context, 'Cancel', () {
-                        Navigator.pop(context);
-                      }),
-                    ),
-                  ],
-                ),
-              ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
+//           return Dialog(
+//             shape: RoundedRectangleBorder(
+//               borderRadius: BorderRadius.circular(10.0),
+//             ),
+//             backgroundColor: Colors.white,
+//             child: Column(
+//               mainAxisSize: MainAxisSize.min,
+//               children: [
+//                 Padding(
+//                   padding: const EdgeInsets.all(8.0),
+//                   child: TextField(
+//                     controller: searchController,
+//                     decoration: InputDecoration(
+//                       contentPadding: EdgeInsets.all(0),
+//                       hintText: 'Search',
+//                       hintStyle: TextStyle(fontSize: 11.5),
+//                       border: OutlineInputBorder(
+//                         borderRadius: BorderRadius.circular(10.0),
+//                       ),
+//                       prefixIcon: Icon(Icons.search),
+//                     ),
+//                     onChanged: (value) {
+//                       filterSearchResults(value);
+//                     },
+//                   ),
+//                 ),
+//                 Expanded(
+//                   child: Container(
+//                     width: MediaQuery.of(context).size.width * .9,
+//                     height: 300, // fixed height for the dialog list
+//                     child: (name == 'course_name' && filteredItems.isNotEmpty && filteredItems[0].containsKey('category'))
+//                         ? // Grouped course list
+//                         ListView(
+//                             children: filteredItems
+//                                 .groupBy((item) => item['category'])
+//                                 .entries
+//                                 .map((entry) {
+//                               return Column(
+//                                 crossAxisAlignment: CrossAxisAlignment.start,
+//                                 children: [
+//                                   Padding(
+//                                     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+//                                     child: Text(
+//                                       entry.key,
+//                                       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+//                                     ),
+//                                   ),
+//                                   ...entry.value.map((course) {
+//                                     String courseName = course['course_name'];
+//                                     String courseId = course['id'];
+//                                     bool isSelected = selectedIds.any((e) => e['id'] == courseId);
+//                                     return ListTile(
+//                                       dense: true,
+//                                       contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
+//                                       title: Text(courseName),
+//                                       trailing: isSelected ? Icon(Icons.check, color: Colors.black) : null,
+//                                       onTap: () {
+//                                         setState(() {});
+//                                         toggleSelection(courseId, courseName, name);
+//                                       },
+//                                     );
+//                                   }).toList()
+//                                 ],
+//                               );
+//                             }).toList(),
+//                           )
+//                         : // Normal flat list (for groups)
+//                         ListView.builder(
+//                             itemCount: filteredItems.length,
+//                             itemBuilder: (context, index) {
+//                               String itemName = filteredItems[index][name];
+//                               String itemId = filteredItems[index]['id'].toString();
+//                               bool isSelected = selectedIds.any((element) => element['id'] == itemId);
+//                               return Column(
+//                                 children: [
+//                                   ListTile(
+//                                     dense: true,
+//                                     contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
+//                                     title: Text(itemName),
+//                                     trailing: isSelected ? Icon(Icons.check, color: Colors.black) : null,
+//                                     onTap: () {
+//                                       setState(() {});
+//                                       toggleSelection(itemId, itemName, name);
+//                                     },
+//                                   ),
+//                                   if (index != filteredItems.length - 1)
+//                                     Divider(
+//                                       color: Colors.grey,
+//                                       thickness: 1.0,
+//                                     ),
+//                                 ],
+//                               );
+//                             },
+//                           ),
+//                   ),
+//                 ),
+//                 Padding(
+//                 padding: const EdgeInsets.all(8.0),
+//                 child: Row(
+//                   children: [
+//                     Expanded(
+//                       child: reusableBtn(context, 'Add', () {
+//                         setState(() {});
+//                         Navigator.pop(context);
+//                       }),
+//                     ),
+//                     reusablaSizaBox(context, .03),
+//                     Expanded(
+//                       child: reusablewhite(context, 'Cancel', () {
+//                         Navigator.pop(context);
+//                       }),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//               ],
+//             ),
+//           );
+//         },
+//       ),
+//     );
+//   }
 
   bool isQuranClassSelected() {
     return selectedClasses.any((myClass) => myClass.className == 'Quran Subjects');
@@ -1844,7 +1835,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
             },),
                   reusablaSizaBox(context, 0.020),
                   reusablequlification(context, 'Institute', () {
-                    search(newItemsinstitute, selectedIdsinstitute, 'names');
+                    repository.search(context, newItemsinstitute, selectedIdsinstitute, 'names',toggleSelection);
                   }),
                   reusablaSizaBox(context, .020),
                   Container(
@@ -1893,7 +1884,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                   ),
                   reusablaSizaBox(context, .020),
                   reusablequlification(context, 'Qualification', () {
-                    search(newItemsQualification, selectedIdsQualification, 'degree_title');
+                    repository.search(context, newItemsQualification, selectedIdsQualification, 'degree_title',toggleSelection);
                   }),
                   reusablaSizaBox(context, .020),
                   Container(
@@ -1943,7 +1934,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                   reusableText("Tutor's Preferences", color: colorController.blackColor, fontsize: 21),
                   reusablaSizaBox(context, .020),
                   reusablequlification(context, 'preferred Area', () {
-                    search(newItemsArea, selectedIdsArea, 'area_name');
+                    repository.search(context, newItemsArea, selectedIdsArea, 'area_name',toggleSelection);
                   }),
                   reusablaSizaBox(context, .020),
                   reusableSelectedItem(context, selectedNamesArea, (index){
@@ -2004,7 +1995,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                   // ),
                   reusablaSizaBox(context, .020),
                   reusablequlification(context, 'preferred Board', () {
-                    search(newItemsBoard, selectedIdsBoard, 'board_name');
+                    repository.search(context, newItemsBoard, selectedIdsBoard, 'board_name',toggleSelection);
                   }),
                   reusablaSizaBox(context, .020),
                   reusableSelectedItem(context, selectedNamesBoard, (index){
@@ -2065,7 +2056,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
                   // ),
                   reusablaSizaBox(context, .020),
                   reusablequlification(context, 'preferred Group', () {
-                    search(newItemsGroup, selectedIdsGroup, 'group_name');
+                    repository.search(context, newItemsGroup, selectedIdsGroup, 'group_name',toggleSelection);
                   }),
                   reusablaSizaBox(context, .020),
                   reusableSelectedItem(context, selectedNamesGroup, (index){
@@ -2127,7 +2118,7 @@ void search(List<dynamic> newItems, List<Map<String, String>> selectedIds, Strin
 
                   reusablaSizaBox(context, .020),
                   reusablequlification(context, 'preferred Course', () {
-                    search(newItemsCourse, selectedIdsCourse, 'course_name');
+                    repository.search(context, newItemsCourse, selectedIdsCourse, 'course_name',toggleSelection);
                   }),
                   reusablaSizaBox(context, .020),
                   reusableSelectedItem(context, selectedNamesCourse, (index){
@@ -2253,7 +2244,7 @@ if (isQuranClassSelected())
                 children: [
                   reusablaSizaBox(context, .020),
                   reusablequlification(context, 'Preferred Time', () {
-                    search(newItemsTime, selectedIdsTime, 'name');
+                    repository.search(context, newItemsTime, selectedIdsTime, 'name',toggleSelection);
                   }),
                   reusablaSizaBox(context, .020),
                   Container(

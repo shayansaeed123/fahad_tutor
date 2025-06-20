@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/controller/text_field_controller.dart';
@@ -50,6 +51,8 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
     repository.check_msg();
     getValues();
     getAddtionalInfo();
+    repository.fetchData('Languages_listing','Languages', newItemsLanguage, selectedIdsLanguage, updateSelectedNamesLanguage,(val)=> setState(() {isLoading = val;}));
+    saveLanguagesData();
   }
 
   void getValues()async{
@@ -113,6 +116,9 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
   bool visible = true;
   final TextEditingController _biography = TextEditingController();
   int _charCount = 0;
+  List<dynamic> newItemsLanguage = [];
+List<Map<String, String>> selectedIdsLanguage = [];
+List<String> selectedNamesLanguage = [];
   TutorRepository repository = TutorRepository();
 
   void _updateCharCount() {
@@ -184,11 +190,148 @@ void updateTutorPlacement() {
   }
   }
 
+  void toggleSelection(String id, String name, String itemType) {
+  setState(() {
+    List<Map<String, String>> selectedIds;
+    List<String> selectedNames;
+    List<dynamic> newItems;
+    Function updateSelectedNames;
+
+    switch (itemType) {
+      case 'language_name':
+        selectedIds = selectedIdsLanguage;
+        selectedNames = selectedNamesLanguage;
+        newItems = newItemsLanguage;
+        updateSelectedNames = updateSelectedNamesLanguage;
+        break;
+      default:
+        return;
+    }
+
+    if (selectedIds.any((element) => element['id'] == id)) {
+      selectedIds.removeWhere((element) => element['id'] == id);
+      selectedNames.remove(name);
+    } else {
+      // // Check length constraint only for 'names' and 'degree_title'
+      // if (itemType == 'names' || itemType == 'degree_title') {
+      //   if (selectedIds.length < 2) {
+      //     selectedIds.add({'id': id});
+      //     selectedNames.add(name);
+      //   } else {
+      //     Utils.snakbar(context, 'Select only 2');
+      //   }
+      // } else if (itemType == 'course_name') {
+      //   if (selectedIds.length < 6) {
+      //     selectedIds.add({'id': id});
+      //     selectedNames.add(name);
+      //   } else {
+      //     Utils.snakbar(context, 'Select only 6');
+      //   }
+      // } else {
+        selectedIds.add({'id': id});
+        selectedNames.add(name);
+      // }
+    }
+
+    updateSelectedNames();
+  });
+}
+
+void updateSelectedNamesLanguage() {
+  selectedNamesLanguage = selectedIdsLanguage.map((selected) {
+    return (newItemsLanguage.firstWhere(
+      (item) => item['id'] == selected['id'],
+      orElse: () => {'language_name': 'Unknown'},
+    )['language_name'] as String);
+  }).toList();
+  // print('Selected Group Names: $selectedNamesGroup');
+}
+Future<void> saveLanguagesData() async {
+  try {
+    final response = await http.get(
+      Uri.parse('${MySharedPrefrence().get_baseUrl()}step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
+    );
+
+    if (response.statusCode == 200) {
+      if (response.body.isNotEmpty) {
+        final Map<String, dynamic> jsonResponse = json.decode(response.body);
+
+          selectedIdsLanguage = (jsonResponse['preferred_languages'] as List)
+              .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+              .toList();
+          
+          updateSelectedNamesLanguage();
+        // });
+      } else {
+        throw Exception('Empty response body');
+      }
+    } else {
+      throw Exception('Failed to load country details');
+    }
+  } catch (e) {
+    print('gfksgdf$e');
+  }
+}
+
+  // Future<void> fetchDataLanguage(String type,String responseName, List<dynamic> newItems, List<Map<String, String>> selectedIds, Function updateSelectedNames) async {
+  //   setState(() {
+  //     isLoading = true;
+  //   });
+  //   try {
+  //     String url = '${MySharedPrefrence().get_baseUrl()}all_in.php?$type=1';
+  //     final response = await http.get(Uri.parse(url));
+  //     print('url $url');
+
+  //     if (response.statusCode == 200) {
+  //       Uint8List responseBytes = response.bodyBytes;
+  //       String responseBody = utf8.decode(responseBytes, allowMalformed: true);
+  //       responseBody = repository.removeBom(responseBody);
+
+  //       if (repository.isJsonValid(responseBody)) {
+  //         dynamic jsonResponse = jsonDecode(responseBody);
+  //         setState(() {
+  //           newItems.clear();
+  //           if (type == 'course') {
+  //             // Flatten course listing map into a list with category info
+  //             Map<String, dynamic> courseMap = jsonResponse['${responseName}_listing'];
+  //             courseMap.forEach((category, courses) {
+  //               for (var course in courses) {
+  //                 course['category'] = category;
+  //                 newItems.add(course);
+  //               }
+  //             });
+  //           } else {
+  //             // For group, just add the list
+  //             newItems.addAll(jsonResponse['${responseName}_listing']);
+  //           }
+  //           // newItems.addAll(jsonResponse['${responseName}_listing']);
+  //           updateSelectedNames();
+  //         });
+  //         // print('Updated $responseName list: $newItems');
+  //       } else {
+  //         print('Error: Invalid JSON format');
+  //       }
+  //     } else {
+  //       print('Error: ${response.statusCode}');
+  //     }
+  //   } catch (e) {
+  //     print('Error hello: $e');
+  //   } finally {
+  //     setState(() {
+  //       isLoading = false;
+  //     });
+  //   }
+  // }
+
   Future<void> updateAdditionalInfo() async {
   setState(() {
     isLoading = true;
   });
   try {
+    List<Map<String, dynamic>> languages_id = selectedIdsLanguage.map((languages) {
+        return {'preferred_languages_id': languages['id']};
+      }).toList();
+      String languagesjson = jsonEncode(languages_id);
     final bio = _biography.text.toString();
     final response = await http.post(
       Uri.parse('${MySharedPrefrence().get_baseUrl()}step_3_update.php'),
@@ -211,6 +354,7 @@ void updateTutorPlacement() {
         'Biography': bio.toString(),
         'tutor_placement': jsonEncode(selectedPlacements),
         'source': '',
+        'preferred_languages': languagesjson,
       }
     );
     print(bio);
@@ -498,6 +642,55 @@ Future<void> getAddtionalInfo() async {
                                   },'A-Level Qualified', ['Yes','No']))
                                     ],
                                   ),
+                                  reusablaSizaBox(context, 0.020),
+                  reusablequlification(context, 'Preferred Languages', () {
+                   repository.search(context, newItemsLanguage, selectedIdsLanguage, 'language_name',toggleSelection);
+                  }),
+                  reusablaSizaBox(context, .020),
+                  Container(
+                    constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.3),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: selectedNamesLanguage.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .012),
+                          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: colorController.qualificationItemsColors,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  selectedNamesLanguage[index],
+                                  softWrap: true,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyle(fontSize: 13, color: colorController.whiteColor),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    // Remove the selected item from the list
+                                    selectedIdsLanguage.removeAt(index);
+                                    selectedNamesLanguage.removeAt(index);
+                                    // updateSelectedNames(); // Update the names here
+                                    print('idddddddddddddd $selectedIdsLanguage');
+                                  });
+                                },
+                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.050,),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                                   reusablaSizaBox(context, .020),
                                   reusableText('Tutors Placment', fontsize: 21),
                                 Row(
