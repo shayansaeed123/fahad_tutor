@@ -273,56 +273,6 @@ Future<void> saveLanguagesData() async {
   }
 }
 
-  // Future<void> fetchDataLanguage(String type,String responseName, List<dynamic> newItems, List<Map<String, String>> selectedIds, Function updateSelectedNames) async {
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-  //   try {
-  //     String url = '${MySharedPrefrence().get_baseUrl()}all_in.php?$type=1';
-  //     final response = await http.get(Uri.parse(url));
-  //     print('url $url');
-
-  //     if (response.statusCode == 200) {
-  //       Uint8List responseBytes = response.bodyBytes;
-  //       String responseBody = utf8.decode(responseBytes, allowMalformed: true);
-  //       responseBody = repository.removeBom(responseBody);
-
-  //       if (repository.isJsonValid(responseBody)) {
-  //         dynamic jsonResponse = jsonDecode(responseBody);
-  //         setState(() {
-  //           newItems.clear();
-  //           if (type == 'course') {
-  //             // Flatten course listing map into a list with category info
-  //             Map<String, dynamic> courseMap = jsonResponse['${responseName}_listing'];
-  //             courseMap.forEach((category, courses) {
-  //               for (var course in courses) {
-  //                 course['category'] = category;
-  //                 newItems.add(course);
-  //               }
-  //             });
-  //           } else {
-  //             // For group, just add the list
-  //             newItems.addAll(jsonResponse['${responseName}_listing']);
-  //           }
-  //           // newItems.addAll(jsonResponse['${responseName}_listing']);
-  //           updateSelectedNames();
-  //         });
-  //         // print('Updated $responseName list: $newItems');
-  //       } else {
-  //         print('Error: Invalid JSON format');
-  //       }
-  //     } else {
-  //       print('Error: ${response.statusCode}');
-  //     }
-  //   } catch (e) {
-  //     print('Error hello: $e');
-  //   } finally {
-  //     setState(() {
-  //       isLoading = false;
-  //     });
-  //   }
-  // }
-
   Future<void> updateAdditionalInfo() async {
   setState(() {
     isLoading = true;

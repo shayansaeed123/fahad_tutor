@@ -343,6 +343,39 @@ Widget reusableDropdownAdditional(
     );
   }
 
+Widget reusableExperienceDropdown(
+  String? selectedValue,
+  List<dynamic> items,
+  Function(String) onChanged,
+  String label,
+) {
+  final validOptions = items.map((e) => e['Experience_name'].toString()).toList();
+
+  // ✅ Set default value if not found
+  final dropdownValue = validOptions.contains(selectedValue) ? selectedValue : 'None';
+
+  return DropdownButtonFormField<String>(
+    value: dropdownValue,
+    isExpanded: true,
+    items: items.map<DropdownMenuItem<String>>((item) {
+      final name = item['Experience_name'].toString();
+      return DropdownMenuItem<String>(
+        value: name,
+        child: Text(name),
+      );
+    }).toList(),
+    onChanged: (value) => onChanged(value!),
+    decoration: InputDecoration(
+      labelText: label,
+      contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10), // 👈 Rounded Border
+    ),
+    ),
+  );
+}
+
+
   reusableDropdownBankDetails<T>(
     List<T> items,
   T? selectedItem,

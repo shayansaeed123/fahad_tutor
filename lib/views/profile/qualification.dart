@@ -7,6 +7,7 @@ import 'package:fahad_tutor/repo/classmodel.dart';
 import 'package:fahad_tutor/repo/tutor_repo.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
+import 'package:fahad_tutor/res/reusableTextField.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
@@ -76,6 +77,11 @@ List<dynamic> newItemsArea = [];
 List<Map<String, String>> selectedIdsArea = [];
 List<String> selectedNamesArea = [];
 
+List<dynamic> newItemsExperience = [];
+List<dynamic> newItemsExperiencePhysical = [];
+// List<Map<String, String>> selectedIdsExperience = [];
+// List<String> selectedNamesExperience = [];
+
 
 List<dynamic> newItemsClass = [];
 List<dynamic> selectedIdsClass = [];
@@ -94,7 +100,15 @@ List<String> tempSelectedIdsSubject = [];
 
 String instituteName = '';
 String instituteId =  '';
-String? quranOnlineTeaching = '';
+String? selectedQuranExperiencePhysical;
+String? _rawQuranExperience; // ← jo API se aaye
+String? get selectedQuranExperience {
+  final valid = newItemsExperience
+      .map((e) => e['Experience_name'].toString())
+      .toSet();
+
+  return valid.contains(_rawQuranExperience) ? _rawQuranExperience : 'None';
+}
 String? client = '';
 String? maslak = '';
 String? Zoom = '';
@@ -110,6 +124,8 @@ String? laptop = '';
     repository.fetchData('Group','Group', newItemsGroup, selectedIdsGroup, updateSelectedNamesGroup,(val)=> setState(() {isLoading = val;}));
     repository.fetchData('course','course', newItemsCourse, selectedIdsCourse, updateSelectedNamesCourse,(val)=> setState(() {isLoading = val;}));
     repository.fetchData('Preferred_Time','Preferred_Time', newItemsTime, selectedIdsTime, updateSelectedNamesTime,(val)=> setState(() {isLoading = val;}));
+    repository.fetchData('Experience_listing','Experience', newItemsExperience, [], (){},(val)=> setState(() {isLoading = val;}));
+    repository.fetchData('Experience_listing','Experience', newItemsExperiencePhysical, [], (){},(val)=> setState(() {isLoading = val;}));
     fetchClassDataAndSubjectData('Class','Class', newItemsClass,);
     saveQualificationData();
     selectArea();
@@ -124,12 +140,16 @@ String? laptop = '';
      repository.fetchData('Group','Group', newItemsGroup, selectedIdsGroup, updateSelectedNamesGroup,(val)=> setState(() {isLoading = val;}));
      repository.fetchData('course','course', newItemsCourse, selectedIdsCourse, updateSelectedNamesCourse,(val)=> setState(() {isLoading = val;}));
      repository.fetchData('Preferred_Time','Preferred_Time', newItemsTime, selectedIdsTime, updateSelectedNamesTime,(val)=> setState(() {isLoading = val;}));
+     repository.fetchData('Experience_listing','Experience', newItemsExperience, [], (){},(val)=> setState(() {isLoading = val;}));
+     repository.fetchData('Experience_listing','Experience', newItemsExperiencePhysical, [], (){},(val)=> setState(() {isLoading = val;}));
      fetchClassDataAndSubjectData('Class','Class', newItemsClass,);
     await saveQualificationData();
     await selectArea();
     await saveAreaData();
     await repository.check_msg();
   }
+
+
 
   void _validateForm() {
      if (selectedNamesinstitute.isNotEmpty && selectedIdsQualification.isNotEmpty 
@@ -234,13 +254,14 @@ String classListJson = jsonEncode(classList);
         'preferred_group': preferredgroupjson,
         'preferred_course': preferredcoursejson,
         'preferred_time_query': preferredTimejson,
-        'Quran_Experience': quranOnlineTeaching.toString(),
+        'Quran_Experience': selectedQuranExperience ?? '',
+        'tutor_quran_teaching_ex': selectedQuranExperiencePhysical ?? '',
         'International_client': client.toString(),
         'Zoom_Proficiency': Zoom.toString(),
         'have_a_laptop': laptop.toString(),
         'Add_Maslak':maslak.toString(),
       };
-      print('list class $classListJson');
+      print('quran Ex $selectedQuranExperiencePhysical');
       final response = await http.post(
         Uri.parse('${MySharedPrefrence().get_baseUrl()}step_2_update.php'),
         headers: {
@@ -355,7 +376,9 @@ Future<void> saveQualificationData() async {
               subjectNames: List<String>.from(item['subject_name'].map((sname) => sname.toString())),
             );
           }).toList();
-          quranOnlineTeaching = jsonResponse['Quran_Experience'];
+          _rawQuranExperience = jsonResponse['Quran_Experience']?.toString();
+          selectedQuranExperiencePhysical = jsonResponse['tutor_quran_teaching_ex']?.toString() ?? 'None';
+          print('fs,gfd,g $selectedQuranExperiencePhysical');
           client = jsonResponse['International_client'];
           maslak = jsonResponse['Add_Maslak'];
           Zoom = jsonResponse['Zoom_Proficiency'];
@@ -660,6 +683,16 @@ void updateSelectedNamesSubject() {
   }).toList();
   // print('Selected Group Names: $selectedNamesGroup');
 }
+
+// void updateSelectedNamesExperience() {
+//   selectedNamesExperience = selectedIdsExperience.map((selected) {
+//     return (newItemsExperience.firstWhere(
+//       (item) => item['id'] == selected['id'],
+//       orElse: () => {'Experience_name': 'Unknown'},
+//     )['Experience_name'] as String);
+//   }).toList();
+//   // print('Selected Group Names: $selectedNamesGroup');
+// }
 
 void toggleSelection(String id, String name, String itemType) {
   setState(() {
@@ -2292,17 +2325,29 @@ if (isQuranClassSelected())
                     ),
                   ),
                   reusablaSizaBox(context, .02),
-                  reusableText('Quran Online Teaching Experience',color: colorController.blackColor,fontsize: 17.0),
-                  reusablaSizaBox(context, .01),
-                  Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(child: buildRadioButton('None', 'none',quranOnlineTeaching,(String? newValue) {setState(() {quranOnlineTeaching = newValue;});},)),
-                Expanded(child: buildRadioButton('1-2 years', '1-2',quranOnlineTeaching,(String? newValue) {setState(() {quranOnlineTeaching = newValue;});},)),
-                Expanded(child: buildRadioButton('3-4 years', '3-4',quranOnlineTeaching,(String? newValue) {setState(() {quranOnlineTeaching = newValue;});},)),
-                Expanded(child: buildRadioButton('5+ years', '5+',quranOnlineTeaching,(String? newValue) {setState(() {quranOnlineTeaching = newValue;});},)),
-              ],
-            ),
+                  // reusableText('Quran Online Teaching Experience',color: colorController.blackColor,fontsize: 17.0),
+                  // reusablaSizaBox(context, .01),
+                  // Flexible(child: 
+                  reusableExperienceDropdown(selectedQuranExperience!, newItemsExperience, (value){
+                    setState(() {});
+                    _rawQuranExperience = value;
+                  },'Quran Online Teaching Experience '),
+                  reusablaSizaBox(context, .02),
+                  reusableExperienceDropdown(selectedQuranExperiencePhysical!, newItemsExperiencePhysical, (value){
+                    setState(() {});
+                    selectedQuranExperiencePhysical = value;
+                    print(selectedQuranExperiencePhysical);
+                  },'Quran Physical Teaching Experience '),
+                                  // ),
+            //       Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Expanded(child: buildRadioButton('None', 'none',quranOnlineTeaching,(String? newValue) {setState(() {quranOnlineTeaching = newValue;});},)),
+            //     Expanded(child: buildRadioButton('1-2 years', '1-2',quranOnlineTeaching,(String? newValue) {setState(() {quranOnlineTeaching = newValue;});},)),
+            //     Expanded(child: buildRadioButton('3-4 years', '3-4',quranOnlineTeaching,(String? newValue) {setState(() {quranOnlineTeaching = newValue;});},)),
+            //     Expanded(child: buildRadioButton('5+ years', '5+',quranOnlineTeaching,(String? newValue) {setState(() {quranOnlineTeaching = newValue;});},)),
+            //   ],
+            // ),
                   reusablaSizaBox(context, .02),
                   reusableText('Have you ever taught international client?',color: colorController.blackColor,fontsize: 17.0),
                   reusablaSizaBox(context, .01),
