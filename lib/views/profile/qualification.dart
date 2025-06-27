@@ -1023,272 +1023,300 @@ void showCustomSnackbar(BuildContext context, String message) {
 
 Future<void> classSelect(Function parentSetState) {
   TextEditingController _searchController = TextEditingController();
+  List<dynamic> filteredItemsClass = List.from(newItemsClass);
   return showDialog(
     context: context,
     builder: (context) {
       return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
-          return Stack(
-            children: [
-              Dialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            backgroundColor: Colors.white,
-            child: Padding(
-              padding: EdgeInsets.all(MediaQuery.of(context).size.width * .08),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  reusableText(
-                    'Add New Class',
-                    color: colorController.blackColor,
-                    fontsize: 20,
-                    fontweight: FontWeight.bold,
-                  ),
-                  reusablaSizaBox(context, .030),
-                  reusableText('Add new class with Subject',color: colorController.lightblackColor),
-                  reusablaSizaBox(context, .010),
-                  reusablequlification(
-                    context,
-                    MySharedPrefrence().get_class_name_institute() == ''
-                        ? 'Select Class'
-                        : MySharedPrefrence().get_class_name_institute(),
-                    () {
-                      List<dynamic> filteredItemsClass = List.from(newItemsClass);
-                      void filterSearchResults(String query) {
-    if (query.isNotEmpty) {
-      List<dynamic> tempList = [];
-      newItemsClass.forEach((item) {
-        if (item['class_name'].toString().toLowerCase().contains(query.toLowerCase())) {
-          tempList.add(item);
-        }
-      });
-      parentSetState(() {
-        filteredItemsClass.clear();
-        filteredItemsClass.addAll(tempList);
-      });
-    } else {
-      parentSetState(() {
-        filteredItemsClass.clear();
-        filteredItemsClass.addAll(newItemsClass);
-      });
-    }
-  }
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return Dialog(
-  shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(10.0),
-  ),
-  backgroundColor: colorController.whiteColor,
-  surfaceTintColor: colorController.whiteColor,
-  child: Column(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: TextField(
-          controller: _searchController,
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(0),
-            hintText: 'Search',
-            hintStyle: TextStyle(fontSize: 11.5),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            prefixIcon: Icon(Icons.search),
-          ),
-          onChanged: (value) {
-            // filterSearchResults(value);
-          },
-        ),
-      ),
-      Expanded(
-        child: Container(
-          width: MediaQuery.of(context).size.width * .9,
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: filteredItemsClass.length,
-            itemBuilder: (BuildContext context, int index) {
-              List<dynamic> filteredItems = List.from(filteredItemsClass);
-              return Column(
-                children: [
-                  ListTile(
-                    dense: true,
-                    contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
-                    visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-                    title: reusableText(filteredItemsClass[index]['class_name'], fontsize: 12, color: colorController.lightblackColor),
-                    onTap: () {
-                      setState(() {
-                        tempSelectedIdsSubject.clear(); // Clear the list
-                        tempSelectedNamesSubject.clear(); // Clear the list
-                        MySharedPrefrence().set_class_id(filteredItemsClass[index]['id']);
-                        MySharedPrefrence().set_class_name_institute(filteredItemsClass[index]['class_name']);
-                        fetchClassDataAndSubjectData(
-                          'class_id=${MySharedPrefrence().get_class_id()}&Subject',
-                          'Subject',
-                          newItemsSubject,
-                        ).then((_) {
-                          setState(() {}); // Update the state after fetching data
-                        });
-                      });
-                      Navigator.pop(context);
-                    },
-                  ),
-                  if (index != filteredItems.length - 1)
-                    Divider(
-                      color: Colors.grey,
-                      thickness: 1.0,
+          return 
+          SingleChildScrollView(
+            child: 
+            Stack(
+              children: [
+                Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              backgroundColor: Colors.white,
+              child: Padding(
+                padding: EdgeInsets.all(MediaQuery.of(context).size.width * .08),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    reusableText(
+                      'Add New Class',
+                      color: colorController.blackColor,
+                      fontsize: 20,
+                      fontweight: FontWeight.bold,
                     ),
-                ],
-              );
-            },
-          ),
-        ),
-      ),
-    ],
-  ),
-);
-                        },
-                      );
-                    },
-                  ),
-                  reusablaSizaBox(context, .030),
-                  reusablequlification(
-                    context,
-                    'Select Subject',
-                    () async {
-                      await selectSubject(setState);
-                      setState(() {});
-                    },
-                  ),
-                  reusablaSizaBox(context, .030),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: tempSelectedNamesSubject.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      if (index < tempSelectedNamesSubject.length) {
-                        return Column(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: MediaQuery.of(context).size.height * .006,
-                                  horizontal: MediaQuery.of(context).size.width * .01),
-                              decoration: BoxDecoration(
-                                color: colorController.qualificationItemsColors,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      tempSelectedNamesSubject[index],
-                                      softWrap: true,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        color: colorController.whiteColor,
-                                        fontSize: 15,
+                    reusablaSizaBox(context, .030),
+                    reusableText('Add new class with Subject',color: colorController.lightblackColor),
+                    reusablaSizaBox(context, .010),
+                    reusablequlification(
+                      context,
+                      MySharedPrefrence().get_class_name_institute() == ''
+                          ? 'Select Class'
+                          : MySharedPrefrence().get_class_name_institute(),
+                      () {
+            //             List<dynamic> filteredItemsClass = List.from(newItemsClass);
+            //             void filterSearchResults(String query) {
+            //     if (query.isNotEmpty) {
+            //       List<dynamic> tempList = [];
+            //       newItemsClass.forEach((item) {
+            //         if (item['class_name'].toString().toLowerCase().contains(query.toLowerCase())) {
+            // tempList.add(item);
+            //         }
+            //       });
+            //       parentSetState(() {
+            //         filteredItemsClass.clear();
+            //         filteredItemsClass.addAll(tempList);
+            //       });
+            //     } else {
+            //       parentSetState(() {
+            //         filteredItemsClass.clear();
+            //         filteredItemsClass.addAll(newItemsClass);
+            //       });
+            //     }
+            //   }
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return StatefulBuilder(
+                              builder: (BuildContext context,StateSetter innerSetState) {
+                                void filterSearchResults(String query) {
+                                List<dynamic> tempList = [];
+                                if (query.isNotEmpty) {
+                                  tempList = newItemsClass
+                                      .where((item) => item['class_name']
+                                          .toString()
+                                          .toLowerCase()
+                                          .contains(query.toLowerCase()))
+                                      .toList();
+                                } else {
+                                  tempList = List.from(newItemsClass);
+                                }
+
+                                innerSetState(() {
+                                  filteredItemsClass = tempList;
+                                });
+                              }
+                                return Dialog(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                              ),
+                                              backgroundColor: colorController.whiteColor,
+                                              surfaceTintColor: colorController.whiteColor,
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: TextField(
+                                            controller: _searchController,
+                                            decoration: InputDecoration(
+                                              contentPadding: EdgeInsets.all(0),
+                                              hintText: 'Search',
+                                              hintStyle: TextStyle(fontSize: 11.5),
+                                              border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(10.0),
+                                              ),
+                                              prefixIcon: Icon(Icons.search),
+                                            ),
+                                            autofocus: true,
+                                        onChanged: filterSearchResults,
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Container(
+                                            width: MediaQuery.of(context).size.width * .9,
+                                            child: filteredItemsClass.isEmpty
+                                            ? Center(child: Text("No matching class found"))
+                                            : ListView.builder(
+                                              shrinkWrap: true,
+                                              itemCount: filteredItemsClass.length,
+                                              itemBuilder: (BuildContext context, int index) {
+                                                List<dynamic> filteredItems = List.from(filteredItemsClass);
+                                                return Column(
+                                                  children: [
+                                                    ListTile(
+                                                      dense: true,
+                                                      contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
+                                                      visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+                                                      title: reusableText(filteredItemsClass[index]['class_name'], fontsize: 12, color: colorController.lightblackColor),
+                                                      onTap: () {
+                                                        setState(() {
+                                                          tempSelectedIdsSubject.clear(); // Clear the list
+                                                          tempSelectedNamesSubject.clear(); // Clear the list
+                                                          MySharedPrefrence().set_class_id(filteredItemsClass[index]['id']);
+                                                          MySharedPrefrence().set_class_name_institute(filteredItemsClass[index]['class_name']);
+                                                          fetchClassDataAndSubjectData(
+                                'class_id=${MySharedPrefrence().get_class_id()}&Subject',
+                                'Subject',
+                                newItemsSubject,
+                                                          ).then((_) {
+                                setState(() {}); // Update the state after fetching data
+                                                          });
+                                                        });
+                                                        Navigator.pop(context);
+                                                      },
+                                                    ),
+                                                    if (index != filteredItems.length - 1)
+                                                      Divider(
+                                                        color: Colors.grey,
+                                                        thickness: 1.0,
+                                                      ),
+                                                  ],
+                                                );
+                                              },
+                                            ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                              }
+                            );
+                          },
+                        );
+                      },
+                    ),
+                    reusablaSizaBox(context, .030),
+                    reusablequlification(
+                      context,
+                      'Select Subject',
+                      () async {
+                        await selectSubject(setState);
+                        setState(() {});
+                      },
+                    ),
+                    reusablaSizaBox(context, .030),
+                    ListView.builder(
+                      // physics: NeverScrollableScrollPhysics(), // disables scroll inside scroll
+                      shrinkWrap: true, // so it doesn't try to expand
+                      itemCount: tempSelectedNamesSubject.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        if (index < tempSelectedNamesSubject.length) {
+                          return Column(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: MediaQuery.of(context).size.height * .006,
+                                    horizontal: MediaQuery.of(context).size.width * .01),
+                                decoration: BoxDecoration(
+                                  color: colorController.qualificationItemsColors,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        tempSelectedNamesSubject[index],
+                                        softWrap: true,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          color: colorController.whiteColor,
+                                          fontSize: 15,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        tempSelectedIdsSubject.removeAt(index);
-                                        tempSelectedNamesSubject.removeAt(index);
-                                      });
-                                    },
-                                    child: Icon(Icons.cancel, color: colorController.whiteColor, size: 20.0),
-                                  ),
-                                ],
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          tempSelectedIdsSubject.removeAt(index);
+                                          tempSelectedNamesSubject.removeAt(index);
+                                        });
+                                      },
+                                      child: Icon(Icons.cancel, color: colorController.whiteColor, size: 20.0),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            reusablaSizaBox(context, .015),
-                          ],
-                        );
-                      } else {
-                        return Container(); 
-                      }
-                    },
-                  ),
-                  reusablaSizaBox(context, .030),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: reusableBtn(
-                          context,
-                          'Add',
-                          () {
-                            // setState(() {
-                            //   selectedClasses.add(
-                            //     MyClass(
-                            //       classId: MySharedPrefrence().get_class_id(),
-                            //       className: MySharedPrefrence().get_class_name_institute(),
-                            //       subjectIds: List.from(tempSelectedIdsSubject),
-                            //       subjectNames: List.from(tempSelectedNamesSubject),
-                            //     ),
-                            //   );
-                            //   tempSelectedIdsSubject.clear();
-                            //   tempSelectedNamesSubject.clear();
-                            // });
-                            // Navigator.pop(context);
-
-          // Check if both class and subject(s) are selected
-          if (MySharedPrefrence().get_class_id() == null ||
-              MySharedPrefrence().get_class_name_institute() == '' ||
-              tempSelectedNamesSubject.isEmpty) {
-            showCustomSnackbar(context, 'Please select both a class and at least one subject.');
-          } else {
-            // Check if the selected class is already added
-            bool classAlreadyExists = selectedClasses.any((classItem) =>
-                classItem.classId == MySharedPrefrence().get_class_id());
-
-            if (classAlreadyExists) {
-              showCustomSnackbar(context, 'This class is already added.');
+                              reusablaSizaBox(context, .015),
+                            ],
+                          );
+                        } else {
+                          return Container(); 
+                        }
+                      },
+                    ),
+                    reusablaSizaBox(context, .030),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: reusableBtn(
+                            context,
+                            'Add',
+                            () {
+                              // setState(() {
+                              //   selectedClasses.add(
+                              //     MyClass(
+                              //       classId: MySharedPrefrence().get_class_id(),
+                              //       className: MySharedPrefrence().get_class_name_institute(),
+                              //       subjectIds: List.from(tempSelectedIdsSubject),
+                              //       subjectNames: List.from(tempSelectedNamesSubject),
+                              //     ),
+                              //   );
+                              //   tempSelectedIdsSubject.clear();
+                              //   tempSelectedNamesSubject.clear();
+                              // });
+                              // Navigator.pop(context);
+            
+            // Check if both class and subject(s) are selected
+            if (MySharedPrefrence().get_class_id() == null ||
+                MySharedPrefrence().get_class_name_institute() == '' ||
+                tempSelectedNamesSubject.isEmpty) {
+              showCustomSnackbar(context, 'Please select both a class and at least one subject.');
             } else {
-              setState(() {
-                selectedClasses.add(
-                  MyClass(
-                    classId: MySharedPrefrence().get_class_id(),
-                    className: MySharedPrefrence().get_class_name_institute(),
-                    subjectIds: List.from(tempSelectedIdsSubject),
-                    subjectNames: List.from(tempSelectedNamesSubject),
-                  ),
-                );
-                tempSelectedIdsSubject.clear();
-                tempSelectedNamesSubject.clear();
-              });
-              Navigator.pop(context);
+              // Check if the selected class is already added
+              bool classAlreadyExists = selectedClasses.any((classItem) =>
+                  classItem.classId == MySharedPrefrence().get_class_id());
+            
+              if (classAlreadyExists) {
+                showCustomSnackbar(context, 'This class is already added.');
+              } else {
+                setState(() {
+                  selectedClasses.add(
+                    MyClass(
+                      classId: MySharedPrefrence().get_class_id(),
+                      className: MySharedPrefrence().get_class_name_institute(),
+                      subjectIds: List.from(tempSelectedIdsSubject),
+                      subjectNames: List.from(tempSelectedNamesSubject),
+                    ),
+                  );
+                  tempSelectedIdsSubject.clear();
+                  tempSelectedNamesSubject.clear();
+                });
+                Navigator.pop(context);
+              }
             }
-          }
-        },
-                          width: .34,
+                    },
+                            width: .34,
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: reusablewhite(
-                          context,
-                          'Cancel',
-                          () {
-                            Navigator.pop(context);
-                          },
-                          width: .5,
+                        Expanded(
+                          child: reusablewhite(
+                            context,
+                            'Cancel',
+                            () {
+                              Navigator.pop(context);
+                            },
+                            width: .5,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          if(isLoading == true)
-            reusableloadingrow(context, isLoading),
-            ],
+            // if(isLoading == true)
+            //   reusableloadingrow(context, isLoading),
+              ],
+            ),
           );
         },
       );

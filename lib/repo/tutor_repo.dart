@@ -483,7 +483,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${MySharedPrefrence().get_baseUrl()}preferred_tuition.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=$limit&cell_access_token=${MySharedPrefrence().get_cell_token().toString()}&version=104';
+          '${MySharedPrefrence().get_baseUrl()}preferred_tuition.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=$limit&cell_access_token=${MySharedPrefrence().get_cell_token().toString()}&version=105';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 

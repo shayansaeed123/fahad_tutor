@@ -37,6 +37,8 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
   String? selectedTeachingExp;
   String? oLevel;
   String? aLevel;
+  List<dynamic> newItemsAcademyExperience = [];
+  List<dynamic> newItemsAcademyExperienceOnlie = [];
   TextEditingController home = TextEditingController();
   TextEditingController furtherInfo = TextEditingController();
   @override
@@ -52,6 +54,8 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
     getValues();
     getAddtionalInfo();
     repository.fetchData('Languages_listing','Languages', newItemsLanguage, selectedIdsLanguage, updateSelectedNamesLanguage,(val)=> setState(() {isLoading = val;}));
+    repository.fetchData('Experience_listing','Experience', newItemsAcademyExperience, [], (){},(val)=> setState(() {isLoading = val;}));
+    repository.fetchData('Experience_listing','Experience', newItemsAcademyExperienceOnlie, [], (){},(val)=> setState(() {isLoading = val;}));
     saveLanguagesData();
   }
 
@@ -494,6 +498,7 @@ Future<void> getAddtionalInfo() async {
                   child: 
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min, // Important!
                         children: [
                           reusableText("Additional\nInformation",color: colorController.blackColor,fontsize: 25,fontweight: FontWeight.bold),
                           reusablaSizaBox(context, 0.020),
@@ -534,10 +539,11 @@ Future<void> getAddtionalInfo() async {
                                         .requestFocus(_furtherInfofocusNode);
                                   },),
                                   reusablaSizaBox(context, 0.020),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Flexible(child: reusableDropdownAdditional(context,
+                                  // Row(
+                                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  //   children: [
+                                      // Flexible(child: 
+                                      reusableDropdownAdditional(context,
                                   //     selectedCurrentTeaching, (String? newValue){
                                   //   setState(() {
                                   //           selectedCurrentTeaching = newValue;
@@ -563,16 +569,19 @@ Future<void> getAddtionalInfo() async {
                 print('Updated currently_teaching: $currently_teaching');
             });
           },
-                                  'Currently Teaching', ['Yes','No']),),
-                                  SizedBox(height: MediaQuery.of(context).size.width * 0.04,),
-                                  Flexible(child: reusableDropdownAdditional(context,selectedTeachingExp, (String? newValue){
-                                    setState(() {
-                                            selectedTeachingExp = newValue;
-                                            print('teaching experience $selectedTeachingExp');
-                                          });
-                                  },'Teaching Experience', ['1-2 years','2-3 years','5+ years']),)
-                                    ],
-                                  ),
+                                  'Currently Teaching', ['Yes','No']),
+                                  // ),
+                                  // SizedBox(height: MediaQuery.of(context).size.width * 0.04,),
+                                  // Flexible(child: reusableDropdownAdditional(context,selectedTeachingExp, (String? newValue){
+                                  //   setState(() {
+                                  //           selectedTeachingExp = newValue;
+                                  //           print('teaching experience $selectedTeachingExp');
+                                  //         });
+                                  // },'Teaching Experience', ['1-2 years','2-3 years','5+ years']),),
+                                  //   ],
+                                  // ),
+                                  reusablaSizaBox(context, 0.020),
+                                  reusableExperienceDropdown(selectedTeachingExp, newItemsAcademyExperience, (val){selectedTeachingExp = val;}, 'Academy Physical Experience'),
                                   reusablaSizaBox(context, 0.020),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -593,7 +602,7 @@ Future<void> getAddtionalInfo() async {
                                     ],
                                   ),
                                   reusablaSizaBox(context, 0.020),
-                  reusablequlification(context, 'Preferred Languages', () {
+                  reusablequlification(context, 'Speak Languages', () {
                    repository.search(context, newItemsLanguage, selectedIdsLanguage, 'language_name',toggleSelection);
                   }),
                   reusablaSizaBox(context, .020),
@@ -737,6 +746,7 @@ Future<void> getAddtionalInfo() async {
                                   ),
                                   // _selectedValue1,
                                   _selectedValue2,
+                                  newItemsAcademyExperienceOnlie,
                                   (String? value) {
                                     // onChanged function
                                     setState(() {

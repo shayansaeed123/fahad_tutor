@@ -2,6 +2,7 @@
 
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
+import 'package:fahad_tutor/res/reusableTextField.dart';
 import 'package:fahad_tutor/res/reusableradiobtn.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:flutter/cupertino.dart';
@@ -65,7 +66,7 @@ Widget reusableVisiblityWarning(BuildContext context,String text,Function ontap,
   );
 }
 
-onlineVisibility(BuildContext context,bool isHomeWidgetVisible,Widget widget,String? _selectedValue2,Function(String?) onChanged,TextEditingController controlle,
+onlineVisibility(BuildContext context,bool isHomeWidgetVisible,Widget widget,String? _selectedValue2,List<dynamic> items, Function(String?) onChanged,TextEditingController controlle,
 int count,
 //  Widget widget2
  ){
@@ -76,20 +77,23 @@ int count,
               children: [
                 reusableText('Do you have Digital Pad?',color: colorController.grayTextColor,fontsize: 20,),
                 widget,
-                reusableText('Teaching Experience',color: colorController.grayTextColor,fontsize: 18.5),
+                // reusableText('Teaching Experience',color: colorController.grayTextColor,fontsize: 18.5),
                 // Container(
                 //   padding: EdgeInsets.all(0),
                 //   width: MediaQuery.of(context).size.width,
                 //   child: 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(child: buildRadioButton('None', 'none',_selectedValue2,onChanged)),
-                Expanded(child: buildRadioButton('1-2 years', '1-2',_selectedValue2,onChanged)),
-                Expanded(child: buildRadioButton('3-4 years', '3-4',_selectedValue2,onChanged)),
-                Expanded(child: buildRadioButton('5+ years', '5+',_selectedValue2,onChanged)),
-                    ],
-                  ),
+                reusablaSizaBox(context, .02),
+                reusableExperienceDropdown(_selectedValue2, items, onChanged, 'Academy Online Experience'),
+                //   Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       Expanded(child: buildRadioButton('None', 'none',_selectedValue2,onChanged)),
+                // Expanded(child: buildRadioButton('1-2 years', '1-2',_selectedValue2,onChanged)),
+                // Expanded(child: buildRadioButton('3-4 years', '3-4',_selectedValue2,onChanged)),
+                // Expanded(child: buildRadioButton('5+ years', '5+',_selectedValue2,onChanged)),
+                //     ],
+                //   ),
+
                 // ),
                 // Row(
                 //   mainAxisAlignment: MainAxisAlignment.spaceBetween,

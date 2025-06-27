@@ -98,6 +98,7 @@ void updateTutorPlacement() {
   List<dynamic> countryList = [];
   List<dynamic> cityList = [];
   List<dynamic> areaList = [];
+  List<dynamic> onlineExperienceList = [];
   String countryName = '';
   String cityName = '';
   String countryId = '';
@@ -130,6 +131,7 @@ void updateTutorPlacement() {
     _religionfocusNode.addListener(_onFocusChange);
     _homefocusNode = FocusNode();
     _homefocusNode.addListener(_onFocusChange);
+    repository.fetchData('Experience_listing','Experience', onlineExperienceList, [], (){},(val)=> setState(() {isLoading = val;}));
   }
   
 
@@ -1434,6 +1436,7 @@ void updateTutorPlacement() {
                                   ),
                                   // _selectedValue1,
                                   _selectedValue2,
+                                  onlineExperienceList,
                                   (String? newValue) {
                                     setState(() {
                                       _selectedValue2 = newValue;
