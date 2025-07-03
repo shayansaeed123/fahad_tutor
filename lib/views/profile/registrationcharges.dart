@@ -224,39 +224,7 @@ Future<void> _uploadImages() async {
                             crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 reusableText('Slip Image', color: colorController.btnColor,fontsize: 16),
-                // reusablaSizaBox(context, 0.01),
-          //       DottedBorder(
-          //         color: colorController.blackColor,
-          //           strokeWidth: 2,
-          //           dashPattern: [6, 3],
-          //           radius: Radius.circular(15),
-          //           child:  InkWell(
-          //   onTap: (){
-          //     reuablebottomsheet(context, 'Choose Charges Slip Image', (){
-          //       _pickImage(ImageSource.gallery);
-          //     }, (){
-          //       _pickImage(ImageSource.camera);
-          //     });
-          //   },
-          //   child: Container(
-          //     width: MediaQuery.of(context).size.width * .43,
-          //     height: MediaQuery.of(context).size.height * .18,
-          //     decoration: BoxDecoration(
-          //       color: colorController.whiteColor,
-          //       borderRadius: BorderRadius.circular(10),
-          //     ),
-          //     child: Padding(
-          //       padding: EdgeInsets.all(MediaQuery.of(context).size.width * .013,),
-          //       child: _chargesSlip != null
-          //                       ? Image.file(_chargesSlip!, fit: BoxFit.cover) : 
-          //       Center(child: Image.asset('assets/images/add_img_placeholder.png',fit: BoxFit.contain,)
-          //       // : Image.network(image,fit: BoxFit.contain,)
-          //         ),
-          //     ),
-          //   ),
-          // ),
-          //           // reusableSelectImage2(context, (){}, '')
-          //       ),
+                
           reusableDocuments1(context, '', '', repository.charges_image.value.toString(), (){
               reuablebottomsheet(context, 'Choose Charges Slip Image', (){
                 _pickImage(ImageSource.gallery);
