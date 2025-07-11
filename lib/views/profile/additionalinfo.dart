@@ -30,6 +30,7 @@ class AdditionalInfo extends StatefulWidget {
 class _AdditionalInfoState extends State<AdditionalInfo> {
   bool isLoading = false;
   DateTime? selectedTime;
+  DateTime? selectedCnicDate;
   late DateTime lastDate = DateTime(1970, 1, 1);
   late FocusNode _homeAddress;
   late FocusNode _furtherInfofocusNode;
@@ -70,6 +71,7 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
         reusabletextfieldcontroller.furtherInfo.addListener(_updateTitle);
         _biography.addListener(_updateTitle);
         if (date_of_birth.isNotEmpty) {selectedTime = DateTime.parse(date_of_birth);}
+        if (cnic_date.isNotEmpty) {selectedCnicDate = DateTime.parse(cnic_date);}
         checkbox1 = placement.any((p) => p['id'] == PlacementId1);
         checkbox2 = placement.any((p) => p['id'] == PlacementId2);
         checkbox3 = placement.any((p) => p['id'] == PlacementId3);
@@ -136,6 +138,7 @@ List<String> selectedNamesLanguage = [];
   List<dynamic> placement = [];
   String home_address = '';
   String date_of_birth = '';
+  String cnic_date = '';
   String further_information = '';
   String currently_teaching = '';
   String Teaching_experience = '';
@@ -174,7 +177,7 @@ void updateTutorPlacement() {
 
   if (
     isBiographyValid && reusabletextfieldcontroller.furtherInfo.text.isNotEmpty &&
-    reusabletextfieldcontroller.addressCon.text.isNotEmpty
+    reusabletextfieldcontroller.addressCon.text.isNotEmpty 
   ) {
     updateAdditionalInfo();
     // Navigator.push(context, MaterialPageRoute(builder: (context) => NavBar()));
@@ -297,6 +300,7 @@ Future<void> saveLanguagesData() async {
         'home_address': reusabletextfieldcontroller.addressCon.text.toString(),
         'further_info': reusabletextfieldcontroller.furtherInfo.text.toString(),
         'date_of_birth': selectedTime.toString(),
+        'Cnic_date': selectedCnicDate.toString(),
         'father_profession': '',
         'olevel': oLevel.toString(),
         'alevel': aLevel.toString(),
@@ -400,6 +404,7 @@ Future<void> getAddtionalInfo() async {
       aLevel = _alevel.isEmpty ? null : _alevel;
 
       date_of_birth = responseData['date_of_birth'] ?? '';
+      cnic_date = responseData['Cnic_date'] ?? '';
       _selectedValue1 = responseData['DigitalPad'] ?? '0';
       _selectedValue2 = responseData['onlineTeaching_experience'] ?? '';
       Biography = responseData['Biography'] ?? '';
@@ -525,7 +530,17 @@ Future<void> getAddtionalInfo() async {
                                             print('time date $selectedTime');
                                           });
                           },
-                          SizedBox.shrink(),
+                          SizedBox.shrink(),'Date of Birth'
+                          ),
+                          reusablaSizaBox(context, 0.020),
+                          reusableDateofBirthField(
+                            context, lastDate, selectedCnicDate, (DateTime timeofday){
+                             setState(() {
+                                            selectedCnicDate = timeofday;
+                                            print('Cnic date $selectedCnicDate');
+                                          });
+                          },
+                          SizedBox.shrink(),'Cnic Issue Date'
                           ),
                           reusablaSizaBox(context, 0.020),
                           reusableTextField(context,reusabletextfieldcontroller.furtherInfo, 'Further Information', _furtherInfofocusNode.hasFocus
@@ -602,7 +617,7 @@ Future<void> getAddtionalInfo() async {
                                     ],
                                   ),
                                   reusablaSizaBox(context, 0.020),
-                  reusablequlification(context, 'Speak Languages', () {
+                  reusablequlification(context, 'Can Speak Languages', () {
                    repository.search(context, newItemsLanguage, selectedIdsLanguage, 'language_name',toggleSelection);
                   }),
                   reusablaSizaBox(context, .020),

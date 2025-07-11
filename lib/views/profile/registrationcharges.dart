@@ -224,7 +224,6 @@ Future<void> _uploadImages() async {
                             crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 reusableText('Slip Image', color: colorController.btnColor,fontsize: 16),
-                
           reusableDocuments1(context, '', '', repository.charges_image.value.toString(), (){
               reuablebottomsheet(context, 'Choose Charges Slip Image', (){
                 _pickImage(ImageSource.gallery);

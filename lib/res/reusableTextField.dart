@@ -142,94 +142,187 @@ reusablemultilineTextField(TextEditingController controller,int numLine,String n
             );
 }
 
-reusableDateofBirthField(BuildContext context,
-DateTime lastDate,
-DateTime? selectedTime,
-Function(DateTime) selectdateontap,
-Widget icon){
+// reusableDateofBirthField(BuildContext context,
+// DateTime lastDate,
+// DateTime? selectedTime,
+// Function(DateTime) selectdateontap,
+// Widget icon,
+// String hint){
+//   return InkWell(
+//                             onTap: ()async{
+//                               final DateTime initialDate =
+//           (selectedTime != null && !selectedTime.isBefore(lastDate))
+//               ? selectedTime
+//               : DateTime.now();
+
+//                               final DateTime? timeofday =
+//                                             await showDatePicker(
+//                                           context: context,
+//                                           firstDate: lastDate,
+//                                           // lastDate: selectedTime,
+//                                           // initialDate: selectedTime,
+//                                           lastDate: DateTime.now(),
+//                                           // initialDate: selectedTime ?? DateTime.now(),
+//                                           initialDate: initialDate,
+//                                           initialEntryMode:
+//                                               DatePickerEntryMode.calendar,
+//                                           builder: (BuildContext context,
+//                                               Widget? child) {
+//                                             return Theme(
+//                                               data: ThemeData.dark().copyWith(
+//                                                   // primaryColor: colorController.btnColor,
+//                                                   colorScheme:
+//                                                       ColorScheme.light(
+//                                                     primary: colorController
+//                                                         .btnColor, // Header background color
+//                                                     onPrimary: colorController
+//                                                         .whiteColor, // Header text color
+//                                                     onSurface: colorController
+//                                                         .btnColor, // Body text color
+//                                                   ),
+//                                                   dialogBackgroundColor: Colors
+//                                                       .white, // Background color
+//                                                   bannerTheme:
+//                                                       MaterialBannerThemeData(
+//                                                           backgroundColor:
+//                                                               colorController
+//                                                                   .btnColor)),
+//                                               child: child!,
+//                                             );
+//                                           },
+//                                         );
+//                                         if (timeofday != null) {
+                                         
+//                                           selectdateontap(timeofday);
+//                                         }
+//                             },
+//                             child: 
+//                             // Container(
+//                             //   height: MediaQuery.of(context).size.height * .052,
+//                             //   width: MediaQuery.of(context).size.width,
+//                             //   decoration: BoxDecoration(
+//                             //             border: Border.all(
+//                             //                 color: colorController.grayTextColor,
+//                             //                 width: 1.5),
+//                             //             borderRadius: BorderRadius.circular(10)),
+//                             //             child: 
+//                                         ListTile(
+//                                         enabled: false,
+//                                         dense: true,
+//                                         shape: RoundedRectangleBorder(
+//               side: BorderSide(
+//                 color: Colors.grey, // Border color
+//                 width: 1.5, // Border width
+//               ),
+//               borderRadius: BorderRadius.circular(10), // Border radius
+//             ),
+//                                         trailing: icon,
+//                                         contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
+//                                         title: Align(
+//                                           alignment: Alignment.topLeft,
+//                                           child: reusableText(
+//                                             selectedTime == null
+//                                                 ? '$hint'
+//                                                 : '${DateFormat(' yyyy-MM-dd').format(selectedTime)}',
+//                                                 fontsize: 11.5, // Adjust the font size
+//                                           ),
+//                                         // ),
+//                                             )
+//                             ),
+//                           );
+// }
+
+Widget reusableDateofBirthField(
+  BuildContext context,
+  DateTime lastDate,
+  DateTime? selectedTime,
+  Function(DateTime) selectdateontap,
+  Widget icon,
+  String hint,
+) {
+  final controller = TextEditingController(
+    text: selectedTime == null
+        ? ''
+        : DateFormat('yyyy-MM-dd').format(selectedTime),
+  );
+
   return InkWell(
-                            onTap: ()async{
-                              final DateTime initialDate =
+    onTap: () async {
+      final DateTime initialDate =
           (selectedTime != null && !selectedTime.isBefore(lastDate))
               ? selectedTime
               : DateTime.now();
 
-                              final DateTime? timeofday =
-                                            await showDatePicker(
-                                          context: context,
-                                          firstDate: lastDate,
-                                          // lastDate: selectedTime,
-                                          // initialDate: selectedTime,
-                                          lastDate: DateTime.now(),
-                                          // initialDate: selectedTime ?? DateTime.now(),
-                                          initialDate: initialDate,
-                                          initialEntryMode:
-                                              DatePickerEntryMode.calendar,
-                                          builder: (BuildContext context,
-                                              Widget? child) {
-                                            return Theme(
-                                              data: ThemeData.dark().copyWith(
-                                                  // primaryColor: colorController.btnColor,
-                                                  colorScheme:
-                                                      ColorScheme.light(
-                                                    primary: colorController
-                                                        .btnColor, // Header background color
-                                                    onPrimary: colorController
-                                                        .whiteColor, // Header text color
-                                                    onSurface: colorController
-                                                        .btnColor, // Body text color
-                                                  ),
-                                                  dialogBackgroundColor: Colors
-                                                      .white, // Background color
-                                                  bannerTheme:
-                                                      MaterialBannerThemeData(
-                                                          backgroundColor:
-                                                              colorController
-                                                                  .btnColor)),
-                                              child: child!,
-                                            );
-                                          },
-                                        );
-                                        if (timeofday != null) {
-                                         
-                                          selectdateontap(timeofday);
-                                        }
-                            },
-                            child: 
-                            // Container(
-                            //   height: MediaQuery.of(context).size.height * .052,
-                            //   width: MediaQuery.of(context).size.width,
-                            //   decoration: BoxDecoration(
-                            //             border: Border.all(
-                            //                 color: colorController.grayTextColor,
-                            //                 width: 1.5),
-                            //             borderRadius: BorderRadius.circular(10)),
-                            //             child: 
-                                        ListTile(
-                                        enabled: false,
-                                        dense: true,
-                                        shape: RoundedRectangleBorder(
-              side: BorderSide(
-                color: Colors.grey, // Border color
-                width: 1.5, // Border width
+      final DateTime? picked = await showDatePicker(
+        context: context,
+        firstDate: lastDate,
+        lastDate: DateTime.now(),
+        initialDate: initialDate,
+        builder: (BuildContext context, Widget? child) {
+          return Theme(
+            data: ThemeData.light().copyWith(
+              colorScheme: ColorScheme.light(
+                primary: colorController.btnColor,
+                onPrimary: colorController.whiteColor,
+                onSurface: colorController.btnColor,
               ),
-              borderRadius: BorderRadius.circular(10), // Border radius
+              dialogBackgroundColor: Colors.white,
             ),
-                                        trailing: icon,
-                                        contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
-                                        title: Align(
-                                          alignment: Alignment.topLeft,
-                                          child: reusableText(
-                                            selectedTime == null
-                                                ? ' Date of Birth'
-                                                : '${DateFormat(' yyyy-MM-dd').format(selectedTime)}',
-                                                fontsize: 11.5, // Adjust the font size
-                                          ),
-                                        // ),
-                                            )
-                            ),
-                          );
+            child: child!,
+          );
+        },
+      );
+
+      if (picked != null) {
+        selectdateontap(picked);
+      }
+    },
+    child: IgnorePointer(
+      child: TextFormField(
+        controller: controller,
+        style: TextStyle(fontSize: 12.0,color: colorController.blackColor,),
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: colorController.whiteColor,
+          labelText: selectedTime != null ? hint : null, // Float only if date is selected
+          suffixIcon: icon,
+          hintText: selectedTime == null ? hint : null, // Show hint only if no date
+          hintStyle: TextStyle(
+            color: colorController.textfieldBorderColorBefore,
+            fontSize: 11,
+          ),
+          labelStyle: TextStyle(
+            color: colorController.textfieldBorderColorBefore,
+            fontSize: 11.5,
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(
+              color: colorController.textfieldBorderColorBefore,
+              width: 1.5,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(
+              color: colorController.textfieldBorderColorBefore,
+              width: 1.5,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(
+              color: colorController.textfieldBorderColorAfter,
+              width: 1.5,
+            ),
+          ),
+          contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10),
+        ),
+      ),
+    ),
+  );
 }
+
 
 
 

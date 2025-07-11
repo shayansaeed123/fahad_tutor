@@ -44,7 +44,17 @@ class _FAQState extends State<FAQ> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          reusableText("FAQ's",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
+                          // reusableText("FAQ's",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
+                          Text(
+                            "FAQ's",
+                            style: TextStyle(
+        color: colorController.blackColor,
+        fontSize: 25,
+        fontWeight: FontWeight.bold,
+        fontFamily: 'tutorPhi'
+        
+      ),
+                          ),
                           reusablaSizaBox(context, 0.020),
                          CachedNetworkImage(imageUrl: MySharedPrefrence().get_faqs(),
                          errorWidget: (context, url, error) => Container(),

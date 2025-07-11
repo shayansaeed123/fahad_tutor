@@ -86,6 +86,7 @@ void updateTutorPlacement() {
   late FocusNode _homefocusNode;
 
   DateTime? selectedTime;
+  DateTime? selectedCnicDate;
   late DateTime lastDate = DateTime(1970, 1, 1);
 
   final _formkey = GlobalKey<FormState>();
@@ -191,7 +192,9 @@ void updateTutorPlacement() {
     reusabletextfieldcontroller.addressCon.text.isNotEmpty &&
     _selectedGender != null && 
     _selectedStatus != null &&
-    selectedPlacements.isNotEmpty
+    selectedPlacements.isNotEmpty && 
+    selectedTime != null && 
+    selectedCnicDate != null
     // (checkbox1 || checkbox2 || checkbox3)
   ) {
     signInWithGoogle();
@@ -219,6 +222,8 @@ void updateTutorPlacement() {
     errorMessage = "Primary and alternate phone numbers cannot be the same";
   } else if (reusabletextfieldcontroller.cnicCon.text.length != 13) {
     errorMessage = "Check CNIC number";
+  } else if (selectedCnicDate == null) {
+    errorMessage = 'Cnic issue date is missing';
   } else if (reusabletextfieldcontroller.registerPassCon.text.isEmpty) {
     errorMessage = "Password is missing";
   } else if (reusabletextfieldcontroller.rePassCon.text.isEmpty) {
@@ -229,6 +234,8 @@ void updateTutorPlacement() {
     errorMessage = "Password must be between 8 and 15 characters";
   } else if (reusabletextfieldcontroller.religionCon.text.isEmpty) {
     errorMessage = "Religion is missing";
+  } else if (selectedTime == null) {
+    errorMessage = 'DOB is missing';
   } else if (reusabletextfieldcontroller.addressCon.text.isEmpty) {
     errorMessage = "Address is missing";
   } else if (_selectedGender == null) {
@@ -237,7 +244,7 @@ void updateTutorPlacement() {
     errorMessage = 'Status is missing';
   } else if (selectedPlacements.isEmpty) {
     errorMessage = 'Please select at least one placement';
-  }
+  } 
 
   // 👇 Show the error message to the user
   if (errorMessage.isNotEmpty) {
@@ -259,7 +266,7 @@ void updateTutorPlacement() {
     });
     try {
       setState(() {
-        isLoading = false;
+        isLoading = true;
       });
       GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
@@ -510,6 +517,7 @@ void updateTutorPlacement() {
             'area_id': areaId.toString(),
             'home_address':reusabletextfieldcontroller.addressCon.text.toString(),
             'date_of_birth': selectedTime.toString(),
+            'Cnic_date': selectedCnicDate.toString(),
             'DigitalPad':_selectedValue1.toString(),
             'onlineTeaching_experience': _selectedValue2.toString(),
             'online_Skill':'',
@@ -1117,6 +1125,13 @@ void updateTutorPlacement() {
                                   keyboardType: TextInputType.number,
                                 ),
                                 reusablaSizaBox(context, .015),
+                                reusableDateofBirthField(context, lastDate, selectedCnicDate, (DateTime timeofday){
+                                  setState(() {
+                                            selectedCnicDate = timeofday;
+                                            print('Cnic date $selectedCnicDate');
+                                          });
+                                }, Icon(Icons.calendar_month_outlined),'Cnic Issue Date',),
+                                reusablaSizaBox(context, .015),
                                 reusablePassField(
                                     context,
                                     reusabletextfieldcontroller.registerPassCon,
@@ -1187,7 +1202,7 @@ void updateTutorPlacement() {
                                             selectedTime = timeofday;
                                             print('time date $selectedTime');
                                           });
-                                }, Icon(Icons.calendar_month_outlined)),
+                                }, Icon(Icons.calendar_month_outlined),'Date of Birth'),
                                 reusablaSizaBox(context, .015),
                                 
                                 reusableTextField(
