@@ -22,6 +22,7 @@ import 'package:fahad_tutor/views/profile/faq.dart';
 import 'package:fahad_tutor/views/profile/feedback.dart';
 import 'package:fahad_tutor/views/profile/qualification.dart';
 import 'package:fahad_tutor/views/profile/registrationcharges.dart';
+import 'package:fahad_tutor/views/profile/registrationchargeselanguage.dart';
 import 'package:fahad_tutor/views/profile/registrationchargesquran.dart';
 import 'package:fahad_tutor/views/profile/resetpassword.dart';
 import 'package:fahad_tutor/views/profile/termsconditions.dart';
@@ -71,14 +72,14 @@ class _ProfileState extends State<Profile> {
     print("Could not launch $phoneUri");
   }
 }
-  Future<void> _launchGooglePlayStore() async {
-  const url = 'https://play.google.com/store/apps/details?id=com.example.app'; // Replace with your app's URL
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
-  }
-}
+//   Future<void> _launchGooglePlayStore() async {
+//   const url = 'https://play.google.com/store/apps/details?id=com.example.app'; // Replace with your app's URL
+//   if (await canLaunch(url)) {
+//     await launch(url);
+//   } else {
+//     throw 'Could not launch $url';
+//   }
+// }
 void loginClear(){
     reusabletextfieldcontroller.emailCon.clear();
     reusabletextfieldcontroller.loginPassCon.clear();
@@ -344,6 +345,40 @@ void loginClear(){
                 // }
                  
               },'assets/images/reg_charges_slip_icon.png',repository.registration_slip_quran.value,widget: Container(
+                width: MediaQuery.of(context).size.width * .24,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    if(value == '20')
+                    // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                    CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 15,)),backgroundColor: colorController.greenColor,maxRadius: 11,), 
+                    if(value == '21')
+                    reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
+                    if(value == '8')
+                    Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                    if(value == '19')
+                    Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                      // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+                    Icon(Icons.arrow_forward_ios)
+                  ],
+                ),
+              ));
+              },) : Container();
+              },),
+
+              ValueListenableBuilder(valueListenable: repository.payment_recipt_option_english, builder: (context, value, child) {
+                return value == 1 ? ValueListenableBuilder(valueListenable: repository.english_payment_recipt, builder: (context, value, child) {
+                return reusablelisttile(context,(){
+                  print(value);
+                // if(value == '8' || value == '19'){
+
+                // if(repository.is_term_accepted.value == '0'){
+                //   reusableAnimationdialog(context, 'Restrict', 'Before accepting registration slip, Fill all the steps sequentially');
+                // }else{
+                   Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationChargesELanguage(),));
+                // }
+                 
+              },'assets/images/reg_charges_slip_icon.png',repository.registration_slip_english.value,widget: Container(
                 width: MediaQuery.of(context).size.width * .24,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,

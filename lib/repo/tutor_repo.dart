@@ -119,6 +119,12 @@ class TutorRepository {
   String _registration_heading_quran = '';
   String get registration_heading_quran => _registration_heading_quran;
 
+  String _Registration_text_english = '';
+  String get Registration_text_english => _Registration_text_english;
+
+  String _registration_heading_english = '';
+  String get registration_heading_english => _registration_heading_english;
+
   int _success = 0;
   int get success => _success;
 
@@ -142,11 +148,17 @@ class TutorRepository {
   final ValueNotifier<String> _quran_payment_recipt = ValueNotifier<String>('');
   ValueNotifier<String> get quran_payment_recipt => _quran_payment_recipt;
 
+  final ValueNotifier<String> _english_payment_recipt = ValueNotifier<String>('');
+  ValueNotifier<String> get english_payment_recipt => _english_payment_recipt;
+
   final ValueNotifier<int> _payment_recipt_option = ValueNotifier<int>(0);
   ValueNotifier<int> get payment_recipt_option => _payment_recipt_option;
 
   final ValueNotifier<int> _payment_recipt_option_quran = ValueNotifier<int>(0);
   ValueNotifier<int> get payment_recipt_option_quran => _payment_recipt_option_quran;
+
+  final ValueNotifier<int> _payment_recipt_option_english = ValueNotifier<int>(0);
+  ValueNotifier<int> get payment_recipt_option_english => _payment_recipt_option_english;
 
   final ValueNotifier<String> _bank_details = ValueNotifier<String>('');
   ValueNotifier<String> get bank_details => _bank_details;
@@ -198,6 +210,9 @@ class TutorRepository {
 
   final ValueNotifier<String> _charges_image_quran = ValueNotifier<String>('');
   ValueNotifier<String> get charges_image_quran => _charges_image_quran;
+
+  final ValueNotifier<String> _charges_image_english = ValueNotifier<String>('');
+  ValueNotifier<String> get charges_image_english => _charges_image_english;
 
   final ValueNotifier<String> _cnic_f = ValueNotifier<String>('');
   ValueNotifier<String> get cnic_f => _cnic_f;
@@ -308,6 +323,9 @@ class TutorRepository {
 
   final ValueNotifier<String> _registration_slip_quran = ValueNotifier<String>('');
   ValueNotifier<String> get registration_slip_quran => _registration_slip_quran;
+
+  final ValueNotifier<String> _registration_slip_english = ValueNotifier<String>('');
+  ValueNotifier<String> get registration_slip_english => _registration_slip_english;
  
  String formatInfo(String info) {
     return info.replaceAll(';', '\n');
@@ -620,8 +638,11 @@ class TutorRepository {
         _registration_heading = jsonResponse['registration_heading'];
         _Registration_text_quran = jsonResponse['Registration_text_quran'];
         _registration_heading_quran = jsonResponse['registration_heading_quran'];
+        _Registration_text_english = jsonResponse['Registration_text_english'];
+        _registration_heading_english = jsonResponse['registration_heading_english'];
         _registration_slip.value = jsonResponse['registration_slip'];
         _registration_slip_quran.value = jsonResponse['registration_slip_quran']; 
+        _registration_slip_english.value = jsonResponse['registration_slip_english']; 
         _basicInfo.value = jsonResponse['basic_info'];
         _qualification_pref.value = jsonResponse['qualification_pref'];
         _docs_att.value = jsonResponse['docs_att'];
@@ -631,6 +652,7 @@ class TutorRepository {
         _is_term_home.value = jsonResponse['is_term_home'];
         _payment_recipt.value = jsonResponse['payment_recipt'];
         _quran_payment_recipt.value = jsonResponse['quran_payment_recipt'];
+        _english_payment_recipt.value = jsonResponse['payment_recipt_english'];
         _term_condition_heading.value = jsonResponse["term_condition_heading"];
         _term_condition_heading_home.value = jsonResponse['term_condition_heading_home'];
         _is_term_accepted_online_option.value = jsonResponse['term_condition_online_option'];
@@ -639,6 +661,7 @@ class TutorRepository {
         _attention_option.value = jsonResponse['attention_popup'];
         _payment_recipt_option.value = jsonResponse['option'];
         _payment_recipt_option_quran.value = jsonResponse['quran_option'];
+        _payment_recipt_option_english.value = jsonResponse['english_option'];
          MySharedPrefrence().set_term_condition_image(jsonResponse['term_condition_image']);
          MySharedPrefrence().set_faqs_images(jsonResponse['faqs_images']);
         MySharedPrefrence().set_term_condition_image_online(jsonResponse['term_condition_image_ftalive_pfg']);
@@ -853,6 +876,7 @@ class TutorRepository {
           _is_term_accept.value = jsonResponse['is_term_accepted'];
           _charges_image.value = jsonResponse['payment_recipt'];
           _charges_image_quran.value = jsonResponse['payment_recipt_quran'];
+          _charges_image_english.value = jsonResponse['payment_recipt_english_l'];
           // MySharedPrefrence().set_profile_img(profile);
         // });
       } else {
