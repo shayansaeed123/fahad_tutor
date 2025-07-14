@@ -202,7 +202,14 @@ Future<void> _uploadImages() async {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          reusableText(repository.registration_heading_quran,color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
+                          Text(repository.registration_heading_quran,
+                          style: TextStyle(
+                            color: colorController.blackColor,
+                            fontSize: 23,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'tutorPhi'),
+                          ),
+                          // reusableText(repository.registration_heading_quran,color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
                           reusablaSizaBox(context, 0.020),
                           ValueListenableBuilder(valueListenable: repository.popup, builder: (context, value, child) {
               if(value == 1){
