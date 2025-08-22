@@ -39,9 +39,9 @@ class Rigister extends StatefulWidget {
 class _RigisterState extends State<Rigister> {
   // TextEditingController _selectDateCon = TextEditingController();
   String _selectedValue = 'Tutor';
-  String _selectedValue1 = 'Yes';
-  String? _selectedValue2 = 'none';
-  bool isHomeWidgetVisible = false;
+  String _selectedValue1 = '';
+  String? _selectedValue2;
+  bool isHomeWidgetVisible = true;
   final TextEditingController _biography = TextEditingController();
   TutorRepository repository = TutorRepository();
   int _charCount = 0;
@@ -59,6 +59,11 @@ void updateTutorPlacement() {
   if (checkbox1) selectedPlacements.add('1');
   if (checkbox2) selectedPlacements.add('2');
   if (checkbox3) selectedPlacements.add("3");
+}
+
+void updateTutorSegments() {
+  selectedSegmentMapList = selectedSegmentIds.map((id) => {"id": id}).toList();
+  print("Formatted Segment List: $selectedSegmentMapList");
 }
 
 // void updateTutorPlacement(String selectedValue) {
@@ -106,11 +111,15 @@ void updateTutorPlacement() {
   String cityId = '';
   String areaName = '';
   String areaId = '';
+
+  List<Map<String, dynamic>> segments = [];
+Set<String> selectedSegmentIds = {};
+List<Map<String, String>> selectedSegmentMapList = [];
   
   @override
   void initState() {
     super.initState();
-    repository.getBasepath();
+    // repository.getBasepath();
     selectCountry();
     repository.get_Token();
     _biography.addListener(_updateCharCount);
@@ -133,6 +142,7 @@ void updateTutorPlacement() {
     _homefocusNode = FocusNode();
     _homefocusNode.addListener(_onFocusChange);
     repository.fetchData('Experience_listing','Experience', onlineExperienceList, [], (){},(val)=> setState(() {isLoading = val;}));
+    fetchSegmentData();  
   }
   
 
@@ -167,12 +177,11 @@ void updateTutorPlacement() {
   }
 
   void _validateForm() {
-  bool isBiographyValid = !checkbox2 || (_biography.text.length >= 500 && _biography.text.length <= 800);
-  // !(selectedPlacements.contains('2')) || 
-  // (_biography.text.length >= 500 && _biography.text.length <= 800);
+  // bool isBiographyValid = !checkbox2 || (_biography.text.length >= 500 && _biography.text.length <= 800);
+  bool isBiographyValid = _biography.text.length >= 500 && _biography.text.length <= 800;
 
+  print('valuueeeee $_selectedValue2');
   if (
-    isBiographyValid &&
     cityName.isNotEmpty &&
     reusabletextfieldcontroller.teacherCon.text.isNotEmpty &&
     reusabletextfieldcontroller.fatherCon.text.isNotEmpty &&
@@ -192,9 +201,13 @@ void updateTutorPlacement() {
     reusabletextfieldcontroller.addressCon.text.isNotEmpty &&
     _selectedGender != null && 
     _selectedStatus != null &&
+    selectedSegmentIds.isNotEmpty &&
     selectedPlacements.isNotEmpty && 
     selectedTime != null && 
-    selectedCnicDate != null
+    selectedCnicDate != null &&
+    _selectedValue1.isNotEmpty &&
+    _selectedValue2 != null && _selectedValue2 != 'null' && _selectedValue2 != 'Select Experience' &&
+    isBiographyValid 
     // (checkbox1 || checkbox2 || checkbox3)
   ) {
     signInWithGoogle();
@@ -202,11 +215,7 @@ void updateTutorPlacement() {
   } else {
   String errorMessage = '';
 
-  if (!isBiographyValid) {
-    errorMessage = _biography.text.length < 500
-        ? 'Biography must be at least 500 characters'
-        : 'Biography must not exceed 800 characters';
-  } else if (cityName.isEmpty) {
+  if (cityName.isEmpty) {
     errorMessage = 'City is Missing';
   } else if (areaName.isEmpty) {
     errorMessage = 'Area is missing';
@@ -241,10 +250,20 @@ void updateTutorPlacement() {
   } else if (_selectedGender == null) {
     errorMessage = 'Gender is missing';
   } else if (_selectedStatus == null) {
-    errorMessage = 'Status is missing';
-  } else if (selectedPlacements.isEmpty) {
+    errorMessage = 'Marital Status is missing';
+  } else if(selectedSegmentIds.isEmpty){
+    errorMessage = 'Please select segment';
+  }else if (selectedPlacements.isEmpty) {
     errorMessage = 'Please select at least one placement';
-  } 
+  }else if (_selectedValue1.isEmpty) {
+    errorMessage = 'Please select Digital Pad';
+  }else if (_selectedValue2 == null || _selectedValue2 == 'null' || _selectedValue2 == 'Select Experience') {
+    errorMessage = 'Please select Experience';
+  }else if (!isBiographyValid) {
+    errorMessage = _biography.text.length < 500
+        ? 'Biography must be at least 500 characters'
+        : 'Biography must not exceed 800 characters';
+  }  
 
   // 👇 Show the error message to the user
   if (errorMessage.isNotEmpty) {
@@ -298,6 +317,18 @@ void updateTutorPlacement() {
     }
   }
 
+  Future<void> fetchSegmentData() async {
+  String url = '${Utils.baseUrl}all_in.php?Segment_listing=1';
+      final response = await http.get(Uri.parse(url));
+  if (response.statusCode == 200) {
+    final data = json.decode(response.body);
+    final List<dynamic> listing = data['Segment_listing'];
+    setState(() {
+      segments = List<Map<String, dynamic>>.from(listing);
+    });
+  }
+}
+
   Future<void> selectCountry() async {
     setState(() {
       isLoading = true;
@@ -306,7 +337,7 @@ void updateTutorPlacement() {
     try {
       
       final response = await http.get(
-        Uri.parse('${MySharedPrefrence().get_baseUrl()}country.php?code=10'),
+        Uri.parse('${Utils.baseUrl}country.php?code=10'),
       );
       if (response.statusCode == 200) {
         if (response.body.isNotEmpty) {
@@ -346,7 +377,7 @@ void updateTutorPlacement() {
     });
     try {
       final response = await http.post(
-          Uri.parse('${MySharedPrefrence().get_baseUrl()}city.php'),
+          Uri.parse('${Utils.baseUrl}city.php'),
           body: {
             'code': '10',
             'country_id': countryId.toString(),
@@ -389,7 +420,7 @@ void updateTutorPlacement() {
     });
     try {
       final response = await http.post(
-          Uri.parse('${MySharedPrefrence().get_baseUrl()}area.php'),
+          Uri.parse('${Utils.baseUrl}area.php'),
           body: {
             'code': '10',
             'city_id': MySharedPrefrence().get_city_id().toString(),
@@ -434,7 +465,7 @@ void updateTutorPlacement() {
     try {
       final response = await http.post(
           // Uri.parse('https://fahadtutors.com/acoount_check.php'),
-          Uri.parse('${MySharedPrefrence().get_baseUrl()}acoount_check.php'),
+          Uri.parse('${Utils.baseUrl}acoount_check.php'),
           body: {
             'contact_number':reusabletextfieldcontroller.contactCon.text.toString(),
             'cnic': reusabletextfieldcontroller.cnicCon.text.toString(),
@@ -500,7 +531,7 @@ void updateTutorPlacement() {
       print('cell_token ${MySharedPrefrence().get_cell_token()}');
       print('bio ${bio.toString()}');
       final response = await http.post(
-          Uri.parse('${MySharedPrefrence().get_baseUrl()}sign_up.php'),
+          Uri.parse('${Utils.baseUrl}sign_up.php'),
           body: {
             'contact_number':reusabletextfieldcontroller.contactCon.text.toString(),
             'cnic': reusabletextfieldcontroller.cnicCon.text.toString(),
@@ -524,6 +555,7 @@ void updateTutorPlacement() {
             'Biography': bio.toString(),
             'tutor_placement': jsonEncode(selectedPlacements),
             'cell_access_token': MySharedPrefrence().get_cell_token(),
+            'Segment_Tutors': jsonEncode(selectedSegmentMapList),
           });
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
@@ -572,7 +604,7 @@ void updateTutorPlacement() {
   //     // final email = reusabletextfieldcontroller.emailCon.text.toString();
   //     //   final password = reusabletextfieldcontroller.loginPassCon.text.toString();
   //     final response = await http.post(
-  //     Uri.parse('${MySharedPrefrence().get_baseUrl()}login.php'),
+  //     Uri.parse('${Utils.baseUrl}login.php'),
   //     body: {
   //       'cell_access_token': MySharedPrefrence().get_cell_token().toString(),
   //       'deviceid': '1'.toString(),
@@ -1244,6 +1276,36 @@ void updateTutorPlacement() {
                                           'Widowed',])
                                   ],
                                 ),
+                                Column(
+    children: [
+      reusablaSizaBox(context, 0.020),
+      reusableText('For which segment do you want to get Register', fontsize: 19),
+      Wrap(
+        spacing: 12,
+        children: segments.map((segment) {
+          final name = segment['name'];
+          final id = segment['id'];
+          final isSelected = selectedSegmentIds.contains(id);
+          print('hfhksdgk $id');
+
+          return buildCheckboxWithTitle(
+            name,
+            isSelected,
+            () {
+              setState(() {
+                if (isSelected) {
+                  selectedSegmentIds.remove(id);
+                } else {
+                  selectedSegmentIds.add(id);
+                }
+                updateTutorSegments();
+              });
+            },
+          );
+        }).toList(),
+      ),
+    ],
+  ),
                                 reusablaSizaBox(context, .03),
                                 reusableText('Tutors Placment', fontsize: 21),
                                 Row(
@@ -1272,7 +1334,12 @@ void updateTutorPlacement() {
                   setState(() {});
                 });
                                     }) :  SizedBox.shrink(),
-                                    buildCheckboxWithTitle('Online', checkbox2,(){},),
+                                    buildCheckboxWithTitle('Online', checkbox2,(){
+                                      setState(() {});
+                                      checkbox2 = !checkbox2;
+                                        updateTutorPlacement();
+                                        print(selectedPlacements);
+                                    },),
 
           //       buildRadioWithTitle(
           //   'Home',
@@ -1325,7 +1392,12 @@ void updateTutorPlacement() {
                                 MySharedPrefrence().get_city_id() == '1' || MySharedPrefrence().get_city_id() == '2' || 
                                 MySharedPrefrence().get_city_id() == '3' || MySharedPrefrence().get_city_id() == '4' ? 
                                 buildCheckboxWithTitle(
-                                    "At Tutor's Place", checkbox3, (){},) : SizedBox.shrink(),
+                                    "At Tutor's Place", checkbox3, (){
+                                      setState(() {});
+                                      checkbox3 = !checkbox3;
+                                        updateTutorPlacement();
+                                        print(selectedPlacements);
+                                    },) : SizedBox.shrink(),
 
       //           buildRadioWithTitle(
       //   "At Tutor's Place",
@@ -1613,45 +1685,45 @@ void updateTutorPlacement() {
     );
   }
 
-  Widget buildCheckboxWithTitle(String title, bool value,Function ontap,){
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Checkbox(
-          shape: ContinuousRectangleBorder(),
-          overlayColor: MaterialStatePropertyAll(colorController.blueColor),
-          activeColor: colorController.blueColor,
-          side: BorderSide(color: colorController.blueColor, width: 1.5),
-          value: value,
-          onChanged: (newValue) {
-            setState(() {
-              if (title == 'Home') {
-                // checkbox1 = newValue ?? false;
-                ontap();
-              } else if (title == 'Online') {
-                checkbox2 = newValue ?? false;
-                if (newValue == true) {
-                  isHomeWidgetVisible = true;
-                  updateTutorPlacement();
-                   print(selectedPlacements);
-                } else {
-                  updateTutorPlacement();
-                   print(selectedPlacements);
-                  isHomeWidgetVisible = false;
-                }
-              } else if (title == "At Tutor's Place") {
-                checkbox3 = newValue ?? false;
-                updateTutorPlacement();
-                 print(selectedPlacements);
-                // ontap();
-              }
-            });
-          },
-        ),
-        reusableText(title, fontsize: 15),
-      ],
-    );
-  }
+  // Widget buildCheckboxWithTitle(String title, bool value,Function ontap,){
+  //   return Row(
+  //     mainAxisAlignment: MainAxisAlignment.center,
+  //     children: [
+  //       Checkbox(
+  //         shape: ContinuousRectangleBorder(),
+  //         overlayColor: MaterialStatePropertyAll(colorController.blueColor),
+  //         activeColor: colorController.blueColor,
+  //         side: BorderSide(color: colorController.blueColor, width: 1.5),
+  //         value: value,
+  //         onChanged: (newValue) {
+  //           setState(() {
+  //             if (title == 'Home') {
+  //               // checkbox1 = newValue ?? false;
+  //               ontap();
+  //             } else if (title == 'Online') {
+  //               checkbox2 = newValue ?? false;
+  //               // if (newValue == true) {
+  //               //   isHomeWidgetVisible = true;
+  //               //   updateTutorPlacement();
+  //               //    print(selectedPlacements);
+  //               // } else {
+  //               //   updateTutorPlacement();
+  //               //    print(selectedPlacements);
+  //               //   isHomeWidgetVisible = false;
+  //               // }
+  //             } else if (title == "At Tutor's Place") {
+  //               checkbox3 = newValue ?? false;
+  //               updateTutorPlacement();
+  //                print(selectedPlacements);
+  //               // ontap();
+  //             }
+  //           });
+  //         },
+  //       ),
+  //       reusableText(title, fontsize: 15),
+  //     ],
+  //   );
+  // }
 
 //   Widget buildRadioWithTitle(String title, String? groupValue, String value, Function onTap) {
 //   return Row(

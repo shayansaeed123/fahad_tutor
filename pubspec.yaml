@@ -52,7 +52,7 @@ dependencies:
   google_sign_in: 
   firebase_auth:
   change_app_package_name: 
-  connectivity_plus: ^2.3.1
+  connectivity_plus: ^5.0.2
   shimmer: 
   webview_flutter: ^2.4.0
   cached_network:
@@ -61,13 +61,14 @@ dependencies:
   firebase_messaging: 
   firebase_core: 
   rename_app:
-  flutter_secure_storage: 
+  # flutter_secure_storage: 
   shared_preferences:
   permission_handler: ^9.2.0
   provider: 
   flutter_local_notifications:
   youtube_player_flutter: 
   syncfusion_flutter_pdfviewer: ^20.4.50
+  flutter_image_compress: 
    
 
 dev_dependencies:

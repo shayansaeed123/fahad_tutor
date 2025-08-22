@@ -6,6 +6,7 @@ import 'package:fahad_tutor/repo/tutor_repo.dart';
 import 'package:fahad_tutor/views/dashboard/nav_bar.dart';
 import 'package:fahad_tutor/views/login/login.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -47,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     checkLoginStatus();
-    repository.getBasepath();
+    // repository.getBasepath();
   }
 
   @override
@@ -59,14 +60,28 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Image.asset(
-          'assets/images/fta_logo.png',
-          filterQuality: FilterQuality.high,
-          fit: BoxFit.contain,
-          width: MediaQuery.of(context).size.width * .8,
-          height: MediaQuery.of(context).size.height * .28,
-        ),
+      
+      body: Stack(
+        fit: StackFit.expand, 
+        children: [
+          /// 🔹 Background Lottie Animation
+          Lottie.asset(
+            'assets/images/splashanim.json', 
+            fit: BoxFit.fill,
+            repeat: true,
+          ),
+
+          /// 🔹 Center Image
+          Center(
+            child: Image.asset(
+              'assets/images/splashicon.png',
+              filterQuality: FilterQuality.high,
+              fit: BoxFit.contain,
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: MediaQuery.of(context).size.height * 0.28,
+            ),
+          ),
+        ],
       ),
     );
   }

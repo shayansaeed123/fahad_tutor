@@ -32,6 +32,9 @@ final TextEditingController _registerPassCon = TextEditingController();
   final TextEditingController _cnicCon = TextEditingController();
   TextEditingController get cnicCon => _cnicCon;
 
+  final TextEditingController _bankCnicCon = TextEditingController();
+  TextEditingController get bankCnicCon => _bankCnicCon;
+
   final TextEditingController _rePassCon = TextEditingController();
   TextEditingController get rePassCon => _rePassCon;
 

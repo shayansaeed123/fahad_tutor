@@ -38,7 +38,7 @@ import 'package:image_picker/image_picker.dart';
   //  try{
   //   _isLoading = false;
   //   String url =
-  //         '${MySharedPrefrence().get_baseUrl()}/tuitions.php?code=10&tutor_id=31110&start=$start&end=${limit}';
+  //         '${Utils.baseUrl}/tuitions.php?code=10&tutor_id=31110&start=$start&end=${limit}';
   //    final response = await http.get(Uri.parse(url));
   //    print('url $url');
 
@@ -331,30 +331,29 @@ class TutorRepository {
     return info.replaceAll(';', '\n');
   }
 
-  Future<void> getBasepath() async {
-    try{
-
-      String url = "https://surveyors.com.pk/mobile_app/fta_application.php";
-      final response = await http.get(Uri.parse(url));
-      if(response.statusCode == 200){
-        final data = response.body.toString();
-        print(data);
-        MySharedPrefrence().set_baseUrl(data);
-        print(MySharedPrefrence().get_baseUrl());
-      }
-    }catch(e){
-      print(e);
-    }finally{
-      print('final');
-    }
-  }
+  // Future<void> getBasepath() async {
+  //   try{
+  //     String url = "https://surveyors.com.pk/mobile_app/fta_application.php";
+  //     final response = await http.get(Uri.parse(url));
+  //     if(response.statusCode == 200){
+  //       final data = response.body.toString();
+  //       print(data);
+  //       MySharedPrefrence().set_baseUrl(data);
+  //       print(Utils.baseUrl);
+  //     }
+  //   }catch(e){
+  //     print(e);
+  //   }finally{
+  //     print('final');
+  //   }
+  // }
   
 
     Future<void> getSingleTuitions(String reference) async {
     _isLoading = true;
     try {
       String url =
-          '${MySharedPrefrence().get_baseUrl()}single_tuition.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&tuition=$reference';
+          '${Utils.baseUrl}single_tuition.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&tuition=$reference';
       final response = await http.get(Uri.parse(url));
       print('url $url');
       print('refrence id $reference');
@@ -396,7 +395,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${MySharedPrefrence().get_baseUrl()}apply_tuition.php?code=10&group_id=$g_id&tutor_id=${MySharedPrefrence().get_user_ID()}';
+          '${Utils.baseUrl}apply_tuition.php?code=10&group_id=$g_id&tutor_id=${MySharedPrefrence().get_user_ID()}';
       final response = await http.get(Uri.parse(url));
       print('url $url');
       print('group id $g_id');
@@ -438,7 +437,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${MySharedPrefrence().get_baseUrl()}tuitions.php?code=10&tutor_id=0&start=$start&end=$limit';
+          '${Utils.baseUrl}tuitions.php?code=10&tutor_id=0&start=$start&end=$limit';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 
@@ -469,7 +468,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${MySharedPrefrence().get_baseUrl()}tuitions.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=$limit';
+          '${Utils.baseUrl}tuitions.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=$limit';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 
@@ -501,7 +500,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${MySharedPrefrence().get_baseUrl()}preferred_tuition.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=$limit&cell_access_token=${MySharedPrefrence().get_cell_token().toString()}&version=106';
+          '${Utils.baseUrl}preferred_tuition.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start&end=$limit&cell_access_token=${MySharedPrefrence().get_cell_token().toString()}&version=107';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 
@@ -548,7 +547,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${MySharedPrefrence().get_baseUrl()}group_class.php?code=10&group_id=$g_id';
+          '${Utils.baseUrl}group_class.php?code=10&group_id=$g_id';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 
@@ -574,7 +573,7 @@ class TutorRepository {
      print(reusabletextfieldcontroller.feedback.text);
     try {
       String url =
-          '${MySharedPrefrence().get_baseUrl()}feedback.php';
+          '${Utils.baseUrl}feedback.php';
       final response = await http.post(Uri.parse(url),body: {
         'tutor_id' : MySharedPrefrence().get_user_ID().toString(),
         'remakrs' : reusabletextfieldcontroller.feedback.text,
@@ -604,7 +603,7 @@ class TutorRepository {
     // });
     try{
       final response = await http.get(
-      Uri.parse('${MySharedPrefrence().get_baseUrl()}step_1.php?code=10&tutor_id=${tutorId}'),
+      Uri.parse('${Utils.baseUrl}step_1.php?code=10&tutor_id=${tutorId}'),
     );
     if (response.statusCode == 200) {
               final Map<String, dynamic> responseData =
@@ -627,7 +626,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${MySharedPrefrence().get_baseUrl()}check_popup.php?step_check=1&tutor_id=${MySharedPrefrence().get_user_ID()}';
+          '${Utils.baseUrl}check_popup.php?step_check=1&tutor_id=${MySharedPrefrence().get_user_ID()}';
       final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
@@ -688,7 +687,7 @@ class TutorRepository {
      _isLoading = true;
     try {
       String url =
-          '${MySharedPrefrence().get_baseUrl()}check_popup.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}';
+          '${Utils.baseUrl}check_popup.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}';
       final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
@@ -713,7 +712,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${MySharedPrefrence().get_baseUrl()}check_popup.php?delete_check=1';
+          '${Utils.baseUrl}check_popup.php?delete_check=1';
       final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
@@ -743,7 +742,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${MySharedPrefrence().get_baseUrl()}deletemyaccount.php';
+          '${Utils.baseUrl}deletemyaccount.php';
       final response = await http.post(Uri.parse(url),body: {
         'celltoken' : MySharedPrefrence().get_cell_token().toString(),
         'tutor_id' : MySharedPrefrence().get_user_ID().toString(),
@@ -782,7 +781,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${MySharedPrefrence().get_baseUrl()}password_rest.php';
+          '${Utils.baseUrl}password_rest.php';
       final response = await http.post(Uri.parse(url),body: {
         'tutor_id' : MySharedPrefrence().get_user_ID().toString(),
         'code':'10'.toString(),
@@ -820,7 +819,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${MySharedPrefrence().get_baseUrl()}get_notification.php?tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start';
+          '${Utils.baseUrl}get_notification.php?tutor_id=${MySharedPrefrence().get_user_ID()}&start=$start';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 
@@ -854,7 +853,7 @@ class TutorRepository {
 
     try {
       String url =
-          '${MySharedPrefrence().get_baseUrl()}get_ducoments.php?code=10&tutors_ids=${MySharedPrefrence().get_user_ID()}';
+          '${Utils.baseUrl}get_ducoments.php?code=10&tutors_ids=${MySharedPrefrence().get_user_ID()}';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 
@@ -929,7 +928,7 @@ class TutorRepository {
   }
 
   Future<List<Bank>> fetchBanks() async {
-  final response = await http.get(Uri.parse("${MySharedPrefrence().get_baseUrl()}all_in.php?banks=1"));
+  final response = await http.get(Uri.parse("${Utils.baseUrl}all_in.php?banks=1"));
 
   if (response.statusCode == 200) {
     final data = json.decode(response.body);
@@ -941,7 +940,7 @@ class TutorRepository {
 }
 
 Future<List<Wallet>> fetchWalletBanks() async {
-  final response = await http.get(Uri.parse("${MySharedPrefrence().get_baseUrl()}all_in.php?cash_wallet=1"));
+  final response = await http.get(Uri.parse("${Utils.baseUrl}all_in.php?cash_wallet=1"));
 
   if (response.statusCode == 200) {
     final data = json.decode(response.body);
@@ -958,7 +957,7 @@ Future<void> fetchData(String type,String responseName, List<dynamic> newItems, 
     // });
     setLoading(true);
     try {
-      String url = '${MySharedPrefrence().get_baseUrl()}all_in.php?$type=1';
+      String url = '${Utils.baseUrl}all_in.php?$type=1';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 
@@ -1001,6 +1000,31 @@ Future<void> fetchData(String type,String responseName, List<dynamic> newItems, 
       //   isLoading = false;
       // });
       setLoading(false);
+    }
+  }
+
+  Future<void> fetchSegmentData(List<Map<String, dynamic>> segments)async{
+    //  setLoading(true);
+    try {
+      String url = '${Utils.baseUrl}all_in.php?Segment_listing=1';
+      final response = await http.get(Uri.parse(url));
+      print('url $url');
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body.toString());
+        final List<dynamic> listing = data['Segment_listing'];
+        segments = List<Map<String, dynamic>>.from(listing);
+        print(segments);
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error hello: $e');
+    } finally {
+      // setState(() {
+      //   isLoading = false;
+      // });
+      // setLoading(false);
     }
   }
 
@@ -1170,6 +1194,8 @@ String removeBom(String responseBody) {
       ),
     );
   }
+
+  
 
   
 

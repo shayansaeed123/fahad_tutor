@@ -42,6 +42,26 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
   List<dynamic> newItemsAcademyExperienceOnlie = [];
   TextEditingController home = TextEditingController();
   TextEditingController furtherInfo = TextEditingController();
+//   List<dynamic> newItemsExperience = [];
+// List<dynamic> newItemsExperiencePhysical = [];
+// String? selectedQuranExperiencePhysical;
+// String? _rawQuranExperience; // ← jo API se aaye
+// String? get selectedQuranExperience {
+//   final valid = newItemsExperience
+//       .map((e) => e['Experience_name'].toString())
+//       .toSet();
+
+//   return valid.contains(_rawQuranExperience) ? _rawQuranExperience : 'None';
+// }
+String? Zoom;
+String? client;
+List<Map<String, dynamic>> segments = [];
+Set<String> selectedSegmentIds = {};
+List<Map<String, String>> selectedSegmentMapList = [];
+// String? laptop = '';
+// List<dynamic> newItemsTime = [];
+// List<Map<String, String>> selectedIdsTime = [];
+// List<String> selectedNamesTime = [];
   @override
   void initState() {
     // TODO: implement initState
@@ -57,8 +77,31 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
     repository.fetchData('Languages_listing','Languages', newItemsLanguage, selectedIdsLanguage, updateSelectedNamesLanguage,(val)=> setState(() {isLoading = val;}));
     repository.fetchData('Experience_listing','Experience', newItemsAcademyExperience, [], (){},(val)=> setState(() {isLoading = val;}));
     repository.fetchData('Experience_listing','Experience', newItemsAcademyExperienceOnlie, [], (){},(val)=> setState(() {isLoading = val;}));
+    // repository.fetchData('Preferred_Time','Preferred_Time', newItemsTime, selectedIdsTime, updateSelectedNamesTime,(val)=> setState(() {isLoading = val;}));
     saveLanguagesData();
+    fetchSegmentData();
   }
+  Future<void> fetchSegmentData() async {
+  String url = '${Utils.baseUrl}all_in.php?Segment_listing=1';
+      final response = await http.get(Uri.parse(url));
+  if (response.statusCode == 200) {
+    final data = json.decode(response.body);
+    final List<dynamic> listing = data['Segment_listing'];
+    setState(() {
+      segments = List<Map<String, dynamic>>.from(listing);
+    });
+  }
+}
+
+//   void updateSelectedNamesTime() {
+//   selectedNamesTime = selectedIdsTime.map((selected) {
+//     return (newItemsTime.firstWhere(
+//       (item) => item['id'] == selected['id'],
+//       orElse: () => {'name': 'Unknown'},
+//     )['name'] as String);
+//   }).toList();
+//   // print('Selected Group Names: $selectedNamesGroup');
+// }
 
   void getValues()async{
     await getAddtionalInfo();
@@ -114,9 +157,9 @@ class _AdditionalInfoState extends State<AdditionalInfo> {
     }
   }
   String _selectedValue = 'Tutor';
-  String _selectedValue1 = '';
-  String _selectedValue2 = '';
-  bool isHomeWidgetVisible = false;
+  String? _selectedValue1;
+  String? _selectedValue2;
+  bool isHomeWidgetVisible = true;
   String update_status = '';
   String source = '';
   bool visible = true;
@@ -154,11 +197,16 @@ List<String> selectedNamesLanguage = [];
   String PlacementId3 = '';
   // String? selectedPlacement; // This will store the selected placement ID
 
-void updateTutorPlacement() {
+void updateTutorSegments() {
+  selectedSegmentMapList = selectedSegmentIds.map((id) => {"id": id}).toList();
+  print("Formatted Segment List: $selectedSegmentMapList");
+}
+
+  void updateTutorPlacement() {
   selectedPlacements.clear();
-  if (checkbox1) selectedPlacements.add(PlacementId1);
-  if (checkbox2) selectedPlacements.add(PlacementId2);
-  if (checkbox3) selectedPlacements.add(PlacementId3);
+  if (checkbox1) selectedPlacements.add('1');
+  if (checkbox2) selectedPlacements.add('2');
+  if (checkbox3) selectedPlacements.add("3");
 }
 
  // Update the selected placements based on the radio button selection
@@ -173,26 +221,58 @@ void updateTutorPlacement() {
   bool checkbox3 = false;
 
   void _validateForm() {
-  bool isBiographyValid = !checkbox2 || (_biography.text.length >= 500 && _biography.text.length <= 800);
+  // bool isBiographyValid = !checkbox2 || (_biography.text.length >= 500 && _biography.text.length <= 800);
+  bool isBiographyValid = _biography.text.length >= 500 && _biography.text.length <= 800;
+
+  bool isValidField(String? value) {
+    return value != null && value.isNotEmpty && value != "0" && value.toLowerCase() != "null" && value != 'Select Experience';
+  }
 
   if (
-    isBiographyValid && reusabletextfieldcontroller.furtherInfo.text.isNotEmpty &&
-    reusabletextfieldcontroller.addressCon.text.isNotEmpty 
+    reusabletextfieldcontroller.furtherInfo.text.isNotEmpty &&
+    reusabletextfieldcontroller.addressCon.text.isNotEmpty &&
+    selectedSegmentIds.isNotEmpty &&
+    isValidField(client) &&
+    isValidField(Zoom) &&
+    _selectedValue1 != null &&
+    _selectedValue2 != null &&
+    isValidField(selectedTeachingExp) &&
+    isValidField(oLevel) &&
+    isValidField(aLevel) &&
+    selectedIdsLanguage.isNotEmpty &&
+    isBiographyValid
   ) {
     updateAdditionalInfo();
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => NavBar()));
   } else {
     Utils.snakbar(
       context,
-      !isBiographyValid
-          ? (_biography.text.length < 500
-              ? 'Biography must be at least 500 characters'
-              : 'Biography must not exceed 800 characters') :
-              reusabletextfieldcontroller.furtherInfo.text.isEmpty
-                            ? "Enter Further Information" :
-                            reusabletextfieldcontroller.addressCon.text.isEmpty
-                            ? "Enter Home Address" 
-                                                                          : "Fill correct fields",
+      reusabletextfieldcontroller.furtherInfo.text.isEmpty
+        ? "Enter Further Information"
+        : reusabletextfieldcontroller.addressCon.text.isEmpty
+          ? "Enter Home Address"
+          : selectedSegmentIds.isEmpty 
+            ? "Select at least one segment"
+            : !isValidField(client)
+              ? "Select International client"
+              : !isValidField(Zoom)
+                ? "Select Zoom proficiency"
+                : _selectedValue1 == null 
+                  ? "Select Digital pad"
+                  : _selectedValue2 == null 
+                    ? "Select Online Teaching Experience"
+                      : !isValidField(selectedTeachingExp)
+                        ? "Select Teaching Experience"
+                        : !isValidField(oLevel)
+                          ? "Select O-Level Qualification"
+                          : !isValidField(aLevel)
+                            ? "Select A-Level Qualification"
+                            : selectedIdsLanguage.isEmpty
+                              ? "Select at least one language"
+                              : !isBiographyValid
+                                ? (_biography.text.length < 500
+                                    ? 'Biography must be at least 500 characters'
+                                    : 'Biography must not exceed 800 characters')
+                                : "Fill all required fields",
     );
   }
   }
@@ -211,6 +291,12 @@ void updateTutorPlacement() {
         newItems = newItemsLanguage;
         updateSelectedNames = updateSelectedNamesLanguage;
         break;
+      // case 'name':
+      //   selectedIds = selectedIdsTime;
+      //   selectedNames = selectedNamesTime;
+      //   newItems = newItemsTime;
+      //   updateSelectedNames = updateSelectedNamesTime;
+      //   break;
       default:
         return;
     }
@@ -256,7 +342,7 @@ void updateSelectedNamesLanguage() {
 Future<void> saveLanguagesData() async {
   try {
     final response = await http.get(
-      Uri.parse('${MySharedPrefrence().get_baseUrl()}step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
+      Uri.parse('${Utils.baseUrl}step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
     );
 
     if (response.statusCode == 200) {
@@ -266,8 +352,12 @@ Future<void> saveLanguagesData() async {
           selectedIdsLanguage = (jsonResponse['preferred_languages'] as List)
               .map<Map<String, String>>((item) => {'id': item['id'].toString()})
               .toList();
+          // selectedIdsTime = (jsonResponse['preferred_time_query'] as List)
+          //     .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+          //     .toList();
           
           updateSelectedNamesLanguage();
+          // updateSelectedNamesTime();
         // });
       } else {
         throw Exception('Empty response body');
@@ -289,9 +379,13 @@ Future<void> saveLanguagesData() async {
         return {'preferred_languages_id': languages['id']};
       }).toList();
       String languagesjson = jsonEncode(languages_id);
+      // List<Map<String, dynamic>> preferred_time_query = selectedIdsTime.map((time) {
+      //   return {'Preferred_Time_id': time['id']};
+      // }).toList();
+      // String preferredTimejson = jsonEncode(preferred_time_query);
     final bio = _biography.text.toString();
     final response = await http.post(
-      Uri.parse('${MySharedPrefrence().get_baseUrl()}step_3_update.php'),
+      Uri.parse('${Utils.baseUrl}step_3_update.php'),
       body: {
         'code': '10',
         'success' : 1.toString(),
@@ -313,6 +407,9 @@ Future<void> saveLanguagesData() async {
         'tutor_placement': jsonEncode(selectedPlacements),
         'source': '',
         'preferred_languages': languagesjson,
+        'Zoom_Proficiency': Zoom.toString(),
+        'International_client': client.toString(),
+        'Segment_Tutors': jsonEncode(selectedSegmentMapList),
       }
     );
     print(bio);
@@ -354,7 +451,7 @@ Future<void> getAddtionalInfo() async {
     final userId = MySharedPrefrence().get_user_ID().toString();
     print('Fetching data for user ID: $userId');
     final response = await http.get(
-      Uri.parse('${MySharedPrefrence().get_baseUrl()}step_3.php?code=10&tutor_id=$userId')
+      Uri.parse('${Utils.baseUrl}step_3.php?code=10&tutor_id=$userId')
     );
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
@@ -409,8 +506,13 @@ Future<void> getAddtionalInfo() async {
       _selectedValue2 = responseData['onlineTeaching_experience'] ?? '';
       Biography = responseData['Biography'] ?? '';
       placement = responseData['placements'] ?? [];
-      
-      print(placement);
+      Zoom = responseData['Zoom_Proficiency'] ?? [];
+      client = responseData['International_client'] ?? [];
+      // Remove duplicates using Set
+      final savedSegments = List<Map<String, dynamic>>.from(responseData['Segment_Tutors'] ?? []);
+      selectedSegmentIds = savedSegments.map((seg) => seg['id'].toString()).toSet();
+      updateTutorSegments();
+      print(savedSegments);
     } else {
       print('Error: ${response.statusCode}');
     }
@@ -431,7 +533,7 @@ Future<void> getAddtionalInfo() async {
 //     final userId = MySharedPrefrence().get_user_ID().toString();
 //     print('Fetching data for user ID: $userId');
 //     final response = await http.get(
-//       Uri.parse('${MySharedPrefrence().get_baseUrl()}step_3.php?code=10&tutor_id=$userId')
+//       Uri.parse('${Utils.baseUrl}step_3.php?code=10&tutor_id=$userId')
 //     );
 //     if (response.statusCode == 200) {
 //       final Map<String, dynamic> responseData = json.decode(response.body);
@@ -665,8 +767,40 @@ Future<void> getAddtionalInfo() async {
                       },
                     ),
                   ),
+                
+                  Column(
+    children: [
+      reusablaSizaBox(context, 0.020),
+      reusableText('For which segment do you want to get Register', fontsize: 19),
+      Wrap(
+        spacing: 12,
+        children: segments.map((segment) {
+          final name = segment['name'];
+          final id = segment['id'];
+          final isSelected = selectedSegmentIds.contains(id);
+          print('hfhksdgk $id');
+
+          return buildCheckboxWithTitle(
+            name,
+            isSelected,
+            () {
+              setState(() {
+                if (isSelected) {
+                  selectedSegmentIds.remove(id);
+                } else {
+                  selectedSegmentIds.add(id);
+                }
+                updateTutorSegments();
+              });
+            },
+          );
+        }).toList(),
+      ),
+    ],
+  ),
+
                                   reusablaSizaBox(context, .020),
-                                  reusableText('Tutors Placment', fontsize: 21),
+                                  reusableText('Tutors Placment', fontsize: 19),
                                 Row(
                                   mainAxisAlignment: MySharedPrefrence().get_city_id() == '1' || MySharedPrefrence().get_city_id() == '2' || 
                                     MySharedPrefrence().get_city_id() == '3' || MySharedPrefrence().get_city_id() == '4' ? MainAxisAlignment.spaceEvenly :
@@ -697,10 +831,11 @@ Future<void> getAddtionalInfo() async {
                                       setState(() { 
                                         checkbox2 = !checkbox2;
                                         updateTutorPlacement();
-                                        isHomeWidgetVisible = checkbox2; // Update visibility state
                                         print(selectedPlacements);
                                       });
                                     },),
+
+                                    
 
         //         buildRadioWithTitle('Home', PlacementId1, (newValue) {
         //   setState(() {
@@ -740,6 +875,101 @@ Future<void> getAddtionalInfo() async {
         //   });
         // }),
                                 reusablaSizaBox(context, .02),
+                                Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // reusablaSizaBox(context, .020),
+                  // reusablequlification(context, 'Preferred Time', () {
+                  //   repository.search(context, newItemsTime, selectedIdsTime, 'name',toggleSelection);
+                  // }),
+                  // reusablaSizaBox(context, .020),
+                  // Container(
+                  //   constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.3),
+                  //   child: ListView.builder(
+                  //     shrinkWrap: true,
+                  //     physics: NeverScrollableScrollPhysics(),
+                  //     itemCount: selectedNamesTime.length,
+                  //     itemBuilder: (context, index) {
+                  //       return Container(
+                  //         margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .012),
+                  //         padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
+                  //         decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(15),
+                  //           color: colorController.qualificationItemsColors,
+                  //         ),
+                  //         child: Row(
+                  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //           children: [
+                  //             Expanded(
+                  //               child: Text(
+                  //                 selectedNamesTime[index],
+                  //                 softWrap: true,
+                  //                 overflow: TextOverflow.ellipsis,
+                  //                 maxLines: 1,
+                  //                 style: TextStyle(fontSize: 13, color: colorController.whiteColor),
+                  //               ),
+                  //             ),
+                  //             InkWell(
+                  //               onTap: () {
+                  //                 setState(() {
+                  //                   // Remove the selected item from the list
+                  //                   selectedNamesTime.removeAt(index);
+                  //                   selectedNamesTime.removeAt(index);
+                  //                   // updateSelectedNames(); // Update the names here
+                  //                   print('idddddddddddddd $selectedNamesTime');
+                  //                 });
+                  //               },
+                  //               child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.050,),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
+                  // reusablaSizaBox(context, .02),
+                  // reusableExperienceDropdown(selectedQuranExperience!, newItemsExperience, (value){
+                  //   setState(() {});
+                  //   _rawQuranExperience = value;
+                  // },'Online Teaching Experience '),
+                  // reusablaSizaBox(context, .02),
+                  // reusableExperienceDropdown(selectedQuranExperiencePhysical!, newItemsExperiencePhysical, (value){
+                  //   setState(() {});
+                  //   selectedQuranExperiencePhysical = value;
+                  //   print(selectedQuranExperiencePhysical);
+                  // },'Physical Teaching Experience '),
+                  reusableText('Have you ever taught international client?',color: colorController.grayTextColor,fontsize: 17.0),
+                  reusablaSizaBox(context, .01),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(child: buildRadioButton('Yes', 'yes',client,(String? newValue){setState(() {client = newValue;});},)),
+                      Expanded(child: buildRadioButton('No','no',client,(String? newValue){setState((){client = newValue;});})),
+                    ],
+                  ),           
+                  reusablaSizaBox(context, .02),
+                  reusableText('Zoom Proficiency',color: colorController.grayTextColor,fontsize: 17.0),
+                  reusablaSizaBox(context, .01),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(child: buildRadioButton('Beginner', 'Beginner',Zoom,(String? newValue){setState(() {Zoom = newValue;});},)),
+                      Expanded(child: buildRadioButton('Intermediate','Intermediate',Zoom,(String? newValue){setState((){Zoom = newValue;});})),
+                      Expanded(child: buildRadioButton('Advance','Advance',Zoom,(String? newValue){setState((){Zoom = newValue;});})),
+                    ],
+                  ),
+                  reusablaSizaBox(context, .02),
+                  // reusableText('Do you have a laptop',color: colorController.blackColor,fontsize: 17.0),
+                  // reusablaSizaBox(context, .01),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Expanded(child: buildRadioButton('Yes', 'yes',laptop,(String? newValue){setState(() {laptop = newValue;});},)),
+                  //     Expanded(child: buildRadioButton('No','no',laptop,(String? newValue){setState((){laptop = newValue;});})),
+                  //   ],
+                  // ),
+                ],
+              ),
                                 onlineVisibility(
                                   context,
                                   isHomeWidgetVisible,
@@ -787,45 +1017,7 @@ Future<void> getAddtionalInfo() async {
     );
   }
 
-    Widget buildCheckboxWithTitle(String title, bool value,Function ontap,){
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Checkbox(
-          shape: ContinuousRectangleBorder(),
-          overlayColor: MaterialStatePropertyAll(colorController.blueColor),
-          activeColor: colorController.blueColor,
-          side: BorderSide(color: colorController.blueColor, width: 1.5),
-          value: value,
-          onChanged: (newValue) {
-            ontap();
-            // setState(() {
-            //   if (title == 'Home') {
-            //     checkbox1 = newValue ?? false;
-            //     ontap();
-            //   } else if (title == 'Online') {
-            //     checkbox2 = value ?? false;
-            //     if (value == true) {
-            //       isHomeWidgetVisible = true;
-            //       updateTutorPlacement();
-            //        print(selectedPlacements);
-            //     } else {
-            //       updateTutorPlacement();
-            //        print(selectedPlacements);
-            //       isHomeWidgetVisible = false;
-            //     }
-            //   } else if (title == "At Tutor's Place") {
-            //     checkbox3 = value ?? false;
-            //     updateTutorPlacement();
-            //      print(selectedPlacements);
-            //   }
-            // });
-          },
-        ),
-        reusableText(title, fontsize: 15),
-      ],
-    );
-  }
+    
 // // Function to create radio buttons with titles
 //   Widget buildRadioWithTitle(String title, String value, Function onChanged) {
 //     return Row(

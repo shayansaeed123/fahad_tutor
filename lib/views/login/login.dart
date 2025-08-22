@@ -45,7 +45,7 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     super.initState();
-    repository.getBasepath();
+    // repository.getBasepath();
     _emailfocusNode = FocusNode();
     _emailfocusNode.addListener(_onFocusChange);
     _passfocusNode = FocusNode();
@@ -95,7 +95,7 @@ class _LoginState extends State<Login> {
       // final email = reusabletextfieldcontroller.emailCon.text.toString();
       //   final password = reusabletextfieldcontroller.loginPassCon.text.toString();
       final response = await http.post(
-      Uri.parse('${MySharedPrefrence().get_baseUrl()}login.php'),
+      Uri.parse('${Utils.baseUrl}login.php'),
       body: {
         'cell_access_token': MySharedPrefrence().get_cell_token().toString(),
         'deviceid': '1'.toString(),

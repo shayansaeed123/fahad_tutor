@@ -28,7 +28,7 @@ class _TrainingVideosState extends State<TrainingVideos> {
     });
     try{
       String url =
-          '${MySharedPrefrence().get_baseUrl()}trainingvideoslinks.php';
+          '${Utils.baseUrl}trainingvideoslinks.php';
       final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {

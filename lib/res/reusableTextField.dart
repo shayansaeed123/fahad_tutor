@@ -436,37 +436,75 @@ Widget reusableDropdownAdditional(
     );
   }
 
-Widget reusableExperienceDropdown(
+  Widget reusableExperienceDropdown(
   String? selectedValue,
   List<dynamic> items,
-  Function(String) onChanged,
+  Function(String?) onChanged,
   String label,
 ) {
   final validOptions = items.map((e) => e['Experience_name'].toString()).toList();
 
-  // ✅ Set default value if not found
-  final dropdownValue = validOptions.contains(selectedValue) ? selectedValue : 'None';
-
   return DropdownButtonFormField<String>(
-    value: dropdownValue,
+    value: validOptions.contains(selectedValue) ? selectedValue : null, // ✅ null if not selected
     isExpanded: true,
-    items: items.map<DropdownMenuItem<String>>((item) {
-      final name = item['Experience_name'].toString();
-      return DropdownMenuItem<String>(
-        value: name,
-        child: Text(name),
-      );
-    }).toList(),
-    onChanged: (value) => onChanged(value!),
+    items: [
+      const DropdownMenuItem<String>(
+        value: null, // ✅ default null option
+        child: Text("Select Experience", style: TextStyle(color: Colors.grey)),
+      ),
+      ...items.map<DropdownMenuItem<String>>((item) {
+        final name = item['Experience_name'].toString();
+        return DropdownMenuItem<String>(
+          value: name,
+          child: Text(name),
+        );
+      }).toList(),
+    ],
+    onChanged: onChanged,
     decoration: InputDecoration(
       labelText: label,
-      contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10), // 👈 Rounded Border
-    ),
+      hintText: "Select Experience",
+      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
     ),
   );
 }
+
+
+// Widget reusableExperienceDropdown(
+//   String? selectedValue,
+//   List<dynamic> items,
+//   Function(String) onChanged,
+//   String label,
+// ) {
+//   final validOptions = items.map((e) => e['Experience_name'].toString()).toList();
+
+//   // ✅ Set default value if not found
+//   final dropdownValue = validOptions.contains(selectedValue) ? selectedValue : 'Select Experience';
+
+//   return DropdownButtonFormField<String>(
+//     value: dropdownValue,
+//     isExpanded: true,
+//     items: items.map<DropdownMenuItem<String>>((item) {
+//       final name = item['Experience_name'].toString();
+//       return DropdownMenuItem<String>(
+//         value: name,
+//         child: Text(name),
+//       );
+//     }).toList(),
+//     onChanged: (value) => onChanged(value!),
+//     decoration: InputDecoration(
+//       labelText: label,
+//       hintText: 'Select',
+//       contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+//     border: OutlineInputBorder(
+//       borderRadius: BorderRadius.circular(10), // 👈 Rounded Border
+//     ),
+//     ),
+//   );
+// }
 
 
   reusableDropdownBankDetails<T>(

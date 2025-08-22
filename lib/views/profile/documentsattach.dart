@@ -16,8 +16,11 @@ import 'package:fahad_tutor/res/reusablevisibility.dart';
 import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
 
 class DocumentsAttach extends StatefulWidget {
   const DocumentsAttach({super.key});
@@ -60,7 +63,7 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
 
   //   try {
   //     String url =
-  //         '${MySharedPrefrence().get_baseUrl()}get_ducoments.php?code=10&tutors_ids=${MySharedPrefrence().get_user_ID()}';
+  //         '${Utils.baseUrl}get_ducoments.php?code=10&tutors_ids=${MySharedPrefrence().get_user_ID()}';
   //     final response = await http.get(Uri.parse(url));
   //     print('url $url');
 
@@ -91,225 +94,450 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
   //   }
   // }
 
-  Future<void> _pickImage(ImageSource source, String imageType) async {
-  final pickedFile = await picker.pickImage(source: source);
+  Future<File> compressImage(File file) async {
+  try {
+    if (!Platform.isAndroid && !Platform.isIOS) {
+      // Web/Desktop fallback
+      debugPrint("Compression not supported on this platform");
+      return file;
+    }
 
-  if (pickedFile != null) {
-    File? selectedImage;
+    final dir = await getTemporaryDirectory();
+    final targetPath =
+        path.join(dir.path, 'temp_${DateTime.now().millisecondsSinceEpoch}_${path.basename(file.path)}');
+
+    final compressedFile = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      targetPath,
+      quality: 70,
+      minWidth: 1080,
+      minHeight: 1080,
+    );
+
+    return compressedFile != null ? File(compressedFile.path) : file;
+  } catch (e) {
+    debugPrint('Compression error: $e');
+    return file;
+  }
+}
+
+Future<void> _pickImage(ImageSource source, String imageType) async {
+  try {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source);
+
+    if (pickedFile == null) {
+      debugPrint('No image selected');
+      return;
+    }
+
+    File selectedImage = File(pickedFile.path);
+
+    // Compress only if camera
+    if (source == ImageSource.camera) {
+      selectedImage = await compressImage(selectedImage);
+    }
 
     setState(() {
       switch (imageType) {
         case 'front':
-          _cnicFront = File(pickedFile.path);
-          selectedImage = _cnicFront;
+          _cnicFront = selectedImage;
           break;
         case 'back':
-          _cnicBack = File(pickedFile.path);
-          selectedImage = _cnicBack;
+          _cnicBack = selectedImage;
           break;
         case 'profile':
-          _profile = File(pickedFile.path);
-          selectedImage = _profile;
+          _profile = selectedImage;
           break;
         case 'qualification':
-          _last_document = File(pickedFile.path);
-          selectedImage = _last_document;
+          _last_document = selectedImage;
           break;
         case 'other1':
-          _other1 = File(pickedFile.path);
-          selectedImage = _other1;
+          _other1 = selectedImage;
           break;
         case 'other2':
-          _other2 = File(pickedFile.path);
-          selectedImage = _other2;
+          _other2 = selectedImage;
           break;
         case 'other3':
-          _other3 = File(pickedFile.path);
-          selectedImage = _other3;
+          _other3 = selectedImage;
           break;
         case 'other4':
-          _other4 = File(pickedFile.path);
-          selectedImage = _other4;
+          _other4 = selectedImage;
           break;
         case 'other5':
-          _other5 = File(pickedFile.path);
-          selectedImage = _other5;
+          _other5 = selectedImage;
           break;
         case 'other6':
-          _other6 = File(pickedFile.path);
-          selectedImage = _other6;
+          _other6 = selectedImage;
           break;
       }
-      print(imageType);
     });
 
-    if (selectedImage != null) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Image Updated'),
-          content: Container(
-            width: MediaQuery.of(context).size.width * 0.3,
-            height: MediaQuery.of(context).size.height * 0.3,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: FileImage(selectedImage!),
-                fit: BoxFit.contain,
-              ),
-            ),
-          ),
-          actions: [
-            Padding(
-              padding: EdgeInsets.all(5),
-              child: reusableBtn(context, 'Cancel', () {
-                Navigator.pop(context);
-              }),
-            ),
-            Padding(
-              padding: EdgeInsets.all(5),
-              child: reusableBtn(context, 'Submit', () {
-                setState(() {
-                  _uploadImages(imageType);
-                });
-                Navigator.pop(context);
-                Navigator.pop(context);
-              }),
-            ),
-          ],
+    // Preview Dialog
+    if (!mounted) return; // safety check
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Image Updated'),
+        content: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.3,
+          height: MediaQuery.of(context).size.height * 0.3,
+          child: Image.file(selectedImage, fit: BoxFit.contain),
         ),
-      );
-    } else {
-      print('No image selected');
-    }
-  } else {
-    print('No image selected');
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(5),
+            child: reusableBtn(context, 'Cancel', () {
+              Navigator.of(context).pop();
+            }),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(5),
+            child: reusableBtn(context, 'Submit', () async {
+              await _uploadImages(imageType);
+              if (mounted) Navigator.of(context).pop(); // close dialog only
+              if (mounted) Navigator.of(context).pop(); // close dialog only
+            }),
+          ),
+        ],
+      ),
+    );
+  } catch (e) {
+    debugPrint("Pick Image Error: $e");
   }
 }
 
-  Future<void> _uploadImages(String imageType) async {
-    setState(() {
-      isLoading = true;
-    });
+Future<void> _uploadImages(String imageType) async {
+  setState(() {
+    isLoading = true;
+  });
 
-    try{
-      // String uploadUrl = 'https://fahadtutors.com/upload_doc_4.php';
-      String uploadUrl = '${MySharedPrefrence().get_baseUrl()}upload_doc_4.php';
+  try {
+    String uploadUrl = '${Utils.baseUrl}upload_doc_4.php';
     var request = http.MultipartRequest('POST', Uri.parse(uploadUrl));
 
-    switch (imageType) {
-      case 'front':
-        if (_cnicFront != null) {
-          request.files.add(await http.MultipartFile.fromPath('CNIC_F', _cnicFront!.path));
-        }
-        break;
-      case 'back':
-        if (_cnicBack != null) {
-          request.files.add(await http.MultipartFile.fromPath('CNIC_B', _cnicBack!.path));
-        }
-        break;
-      case 'profile':
-        if (_profile != null) {
-          request.files.add(await http.MultipartFile.fromPath('profile_pic', _profile!.path));
-        }
-        break;
-      case 'qualification':
-        if (_last_document != null) {
-          request.files.add(await http.MultipartFile.fromPath('Qualification', _last_document!.path));
-        }
-        break;
-      case 'other1':
-        if (_other1 != null) {
-          request.files.add(await http.MultipartFile.fromPath('other_1', _other1!.path));
-        }
-        break;
-      case 'other2':
-        if (_other2 != null) {
-          request.files.add(await http.MultipartFile.fromPath('other_2', _other2!.path));
-        }
-        break;
-      case 'other3':
-        if (_other3 != null) {
-          request.files.add(await http.MultipartFile.fromPath('other_3', _other3!.path));
-        }
-        break;
-      case 'other4':
-        if (_other4 != null) {
-          request.files.add(await http.MultipartFile.fromPath('other_4', _other4!.path));
-        }
-        break;
-      case 'other5':
-        if (_other5 != null) {
-          request.files.add(await http.MultipartFile.fromPath('other_5', _other5!.path));
-        }
-        break;
-      case 'other6':
-        if (_other6 != null) {
-          request.files.add(await http.MultipartFile.fromPath('other_6', _other6!.path));
-        }
-        break;
+    // Map imageType to file field
+    final fileMap = <String, File?>{
+      'front': _cnicFront,
+      'back': _cnicBack,
+      'profile': _profile,
+      'qualification': _last_document,
+      'other1': _other1,
+      'other2': _other2,
+      'other3': _other3,
+      'other4': _other4,
+      'other5': _other5,
+      'other6': _other6,
+    };
+
+    final fieldMap = <String, String>{
+      'front': 'CNIC_F',
+      'back': 'CNIC_B',
+      'profile': 'profile_pic',
+      'qualification': 'Qualification',
+      'other1': 'other_1',
+      'other2': 'other_2',
+      'other3': 'other_3',
+      'other4': 'other_4',
+      'other5': 'other_5',
+      'other6': 'other_6',
+    };
+
+    final fileToUpload = fileMap[imageType];
+    if (fileToUpload != null) {
+      request.files.add(
+        await http.MultipartFile.fromPath(fieldMap[imageType]!, fileToUpload.path),
+      );
     }
 
-    var response = await request.send();
+    final response = await request.send();
 
     if (response.statusCode == 200) {
-       final responseString = await response.stream.bytesToString();
+      final responseString = await response.stream.bytesToString();
       final responseData = json.decode(responseString);
-      print('Response Data: $responseData');
+      debugPrint('Response Data: $responseData');
 
-      // Update state variables based on response
       setState(() {
         switch (imageType) {
           case 'front':
-            // cnic_f = responseData['CNIC_F'] ?? cnic_f;
-            repository.cnic_f.value = responseData['CNIC_F'] ?? repository.cnic_f.value;
+            repository.cnic_f.value =
+                responseData['CNIC_F'] ?? repository.cnic_f.value;
             break;
           case 'back':
-            // cnic_b = responseData['CNIC_B'] ?? cnic_b;
-            repository.cnic_b.value = responseData['CNIC_B'] ?? repository.cnic_b.value;
+            repository.cnic_b.value =
+                responseData['CNIC_B'] ?? repository.cnic_b.value;
             break;
           case 'profile':
-            // profile = responseData['profile_pic'] ?? profile;
-            repository.profile_image.value = responseData['profile_pic'] ?? repository.profile_image.value;
+            repository.profile_image.value =
+                responseData['profile_pic'] ?? repository.profile_image.value;
             break;
           case 'qualification':
-            // last_document = responseData['Qualification'] ?? last_document;
-            repository.last_document.value = responseData['Qualification'] ?? repository.last_document.value;
+            repository.last_document.value =
+                responseData['Qualification'] ?? repository.last_document.value;
             break;
           case 'other1':
-            repository.other_1.value = responseData['other_1'] ?? repository.other_1.value;
+            repository.other_1.value =
+                responseData['other_1'] ?? repository.other_1.value;
             break;
           case 'other2':
-            repository.other_2.value = responseData['other_2'] ?? repository.other_2.value;
+            repository.other_2.value =
+                responseData['other_2'] ?? repository.other_2.value;
             break;
           case 'other3':
-            repository.other_3.value = responseData['other_3'] ?? repository.other_3.value;
+            repository.other_3.value =
+                responseData['other_3'] ?? repository.other_3.value;
             break;
           case 'other4':
-            repository.other_4.value = responseData['other_4'] ?? repository.other_4.value;
+            repository.other_4.value =
+                responseData['other_4'] ?? repository.other_4.value;
             break;
           case 'other5':
-            repository.other_5.value = responseData['other_5'] ?? repository.other_5.value;
+            repository.other_5.value =
+                responseData['other_5'] ?? repository.other_5.value;
             break;
           case 'other6':
-            repository.other_6.value = responseData['other_6'] ?? repository.other_6.value;
+            repository.other_6.value =
+                responseData['other_6'] ?? repository.other_6.value;
             break;
         }
       });
-      // print('State Updated: profile=$profile, cnic_f=$cnic_f, cnic_b=$cnic_b, last_document=$last_document, other1=$other1, other2=$other2');
-      print(responseData);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Upload failed')),
-      );
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Upload failed')));
     }
-    }catch(e){
-      print(e);
-    }finally{
+  } catch (e) {
+    debugPrint("Upload Error: $e");
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('Error uploading image')));
+  } finally {
+    if (mounted) {
       setState(() {
         isLoading = false;
       });
     }
   }
+}
+
+
+//   Future<void> _pickImage(ImageSource source, String imageType) async {
+//   final pickedFile = await picker.pickImage(source: source);
+
+//   if (pickedFile != null) {
+//     File? selectedImage;
+
+//     setState(() {
+//       switch (imageType) {
+//         case 'front':
+//           _cnicFront = File(pickedFile.path);
+//           selectedImage = _cnicFront;
+//           break;
+//         case 'back':
+//           _cnicBack = File(pickedFile.path);
+//           selectedImage = _cnicBack;
+//           break;
+//         case 'profile':
+//           _profile = File(pickedFile.path);
+//           selectedImage = _profile;
+//           break;
+//         case 'qualification':
+//           _last_document = File(pickedFile.path);
+//           selectedImage = _last_document;
+//           break;
+//         case 'other1':
+//           _other1 = File(pickedFile.path);
+//           selectedImage = _other1;
+//           break;
+//         case 'other2':
+//           _other2 = File(pickedFile.path);
+//           selectedImage = _other2;
+//           break;
+//         case 'other3':
+//           _other3 = File(pickedFile.path);
+//           selectedImage = _other3;
+//           break;
+//         case 'other4':
+//           _other4 = File(pickedFile.path);
+//           selectedImage = _other4;
+//           break;
+//         case 'other5':
+//           _other5 = File(pickedFile.path);
+//           selectedImage = _other5;
+//           break;
+//         case 'other6':
+//           _other6 = File(pickedFile.path);
+//           selectedImage = _other6;
+//           break;
+//       }
+//       print(imageType);
+//     });
+
+//     if (selectedImage != null) {
+//       showDialog(
+//         context: context,
+//         builder: (context) => AlertDialog(
+//           title: Text('Image Updated'),
+//           content: Container(
+//             width: MediaQuery.of(context).size.width * 0.3,
+//             height: MediaQuery.of(context).size.height * 0.3,
+//             decoration: BoxDecoration(
+//               image: DecorationImage(
+//                 image: FileImage(selectedImage!),
+//                 fit: BoxFit.contain,
+//               ),
+//             ),
+//           ),
+//           actions: [
+//             Padding(
+//               padding: EdgeInsets.all(5),
+//               child: reusableBtn(context, 'Cancel', () {
+//                 Navigator.pop(context);
+//               }),
+//             ),
+//             Padding(
+//               padding: EdgeInsets.all(5),
+//               child: reusableBtn(context, 'Submit', () {
+//                 setState(() {
+//                   _uploadImages(imageType);
+//                 });
+//                 Navigator.pop(context);
+//                 Navigator.pop(context);
+//               }),
+//             ),
+//           ],
+//         ),
+//       );
+//     } else {
+//       print('No image selected');
+//     }
+//   } else {
+//     print('No image selected');
+//   }
+// }
+
+//   Future<void> _uploadImages(String imageType) async {
+//     setState(() {
+//       isLoading = true;
+//     });
+
+//     try{
+//       // String uploadUrl = 'https://fahadtutors.com/upload_doc_4.php';
+//       String uploadUrl = '${Utils.baseUrl}upload_doc_4.php';
+//     var request = http.MultipartRequest('POST', Uri.parse(uploadUrl));
+
+//     switch (imageType) {
+//       case 'front':
+//         if (_cnicFront != null) {
+//           request.files.add(await http.MultipartFile.fromPath('CNIC_F', _cnicFront!.path));
+//         }
+//         break;
+//       case 'back':
+//         if (_cnicBack != null) {
+//           request.files.add(await http.MultipartFile.fromPath('CNIC_B', _cnicBack!.path));
+//         }
+//         break;
+//       case 'profile':
+//         if (_profile != null) {
+//           request.files.add(await http.MultipartFile.fromPath('profile_pic', _profile!.path));
+//         }
+//         break;
+//       case 'qualification':
+//         if (_last_document != null) {
+//           request.files.add(await http.MultipartFile.fromPath('Qualification', _last_document!.path));
+//         }
+//         break;
+//       case 'other1':
+//         if (_other1 != null) {
+//           request.files.add(await http.MultipartFile.fromPath('other_1', _other1!.path));
+//         }
+//         break;
+//       case 'other2':
+//         if (_other2 != null) {
+//           request.files.add(await http.MultipartFile.fromPath('other_2', _other2!.path));
+//         }
+//         break;
+//       case 'other3':
+//         if (_other3 != null) {
+//           request.files.add(await http.MultipartFile.fromPath('other_3', _other3!.path));
+//         }
+//         break;
+//       case 'other4':
+//         if (_other4 != null) {
+//           request.files.add(await http.MultipartFile.fromPath('other_4', _other4!.path));
+//         }
+//         break;
+//       case 'other5':
+//         if (_other5 != null) {
+//           request.files.add(await http.MultipartFile.fromPath('other_5', _other5!.path));
+//         }
+//         break;
+//       case 'other6':
+//         if (_other6 != null) {
+//           request.files.add(await http.MultipartFile.fromPath('other_6', _other6!.path));
+//         }
+//         break;
+//     }
+
+//     var response = await request.send();
+
+//     if (response.statusCode == 200) {
+//        final responseString = await response.stream.bytesToString();
+//       final responseData = json.decode(responseString);
+//       print('Response Data: $responseData');
+
+//       // Update state variables based on response
+//       setState(() {
+//         switch (imageType) {
+//           case 'front':
+//             // cnic_f = responseData['CNIC_F'] ?? cnic_f;
+//             repository.cnic_f.value = responseData['CNIC_F'] ?? repository.cnic_f.value;
+//             break;
+//           case 'back':
+//             // cnic_b = responseData['CNIC_B'] ?? cnic_b;
+//             repository.cnic_b.value = responseData['CNIC_B'] ?? repository.cnic_b.value;
+//             break;
+//           case 'profile':
+//             // profile = responseData['profile_pic'] ?? profile;
+//             repository.profile_image.value = responseData['profile_pic'] ?? repository.profile_image.value;
+//             break;
+//           case 'qualification':
+//             // last_document = responseData['Qualification'] ?? last_document;
+//             repository.last_document.value = responseData['Qualification'] ?? repository.last_document.value;
+//             break;
+//           case 'other1':
+//             repository.other_1.value = responseData['other_1'] ?? repository.other_1.value;
+//             break;
+//           case 'other2':
+//             repository.other_2.value = responseData['other_2'] ?? repository.other_2.value;
+//             break;
+//           case 'other3':
+//             repository.other_3.value = responseData['other_3'] ?? repository.other_3.value;
+//             break;
+//           case 'other4':
+//             repository.other_4.value = responseData['other_4'] ?? repository.other_4.value;
+//             break;
+//           case 'other5':
+//             repository.other_5.value = responseData['other_5'] ?? repository.other_5.value;
+//             break;
+//           case 'other6':
+//             repository.other_6.value = responseData['other_6'] ?? repository.other_6.value;
+//             break;
+//         }
+//       });
+//       // print('State Updated: profile=$profile, cnic_f=$cnic_f, cnic_b=$cnic_b, last_document=$last_document, other1=$other1, other2=$other2');
+//       print(responseData);
+//     } else {
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(content: Text('Upload failed')),
+//       );
+//     }
+//     }catch(e){
+//       print(e);
+//     }finally{
+//       setState(() {
+//         isLoading = false;
+//       });
+//     }
+//   }
 
   void _validateForm() {
   if (repository.profile_image.value != 'https://www.fahadtutors.com/fta_admin/' &&
@@ -344,7 +572,7 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
     });
     try {
       final response = await http.post(
-          Uri.parse('${MySharedPrefrence().get_baseUrl()}step_4_update.php'),
+          Uri.parse('${Utils.baseUrl}step_4_update.php'),
           body: {
         'code': '10',
         'update_status': '4',

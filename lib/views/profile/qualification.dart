@@ -107,16 +107,24 @@ String? get selectedQuranExperience {
       .map((e) => e['Experience_name'].toString())
       .toSet();
 
-  return valid.contains(_rawQuranExperience) ? _rawQuranExperience : 'None';
+  return valid.contains(_rawQuranExperience) ? _rawQuranExperience : 'Select Experience';
 }
-String? client = '';
-String? maslak = '';
-String? Zoom = '';
-String? laptop = '';
+String? get selectedQuranExperiencePhy {
+  final valid = newItemsExperiencePhysical
+      .map((e) => e['Experience_name'].toString())
+      .toSet();
+
+  return valid.contains(selectedQuranExperiencePhysical) ? selectedQuranExperiencePhysical : 'Select Experience';
+}
+String? client;
+String? maslak;
+String? Zoom;
+String? laptop;
 
 @override
   void initState() {
     super.initState();
+    print('expppppp $selectedQuranExperiencePhysical');
     repository.Check_popup();
     repository.fetchData('Institute','Institute', newItemsinstitute, selectedIdsinstitute, updateSelectedNamesInstitute,(val)=> setState(() {isLoading = val;}));
     repository.fetchData('Qualification','Qualification', newItemsQualification, selectedIdsQualification, updateSelectedNamesQualification,(val)=> setState(() {isLoading = val;}));
@@ -149,35 +157,73 @@ String? laptop = '';
     await repository.check_msg();
   }
 
-
+  bool isFilled(String? value) {
+  return value != null && value.trim().isNotEmpty;
+}
 
   void _validateForm() {
-     if (selectedNamesinstitute.isNotEmpty && selectedIdsQualification.isNotEmpty 
-     && selectedIdsArea.isNotEmpty && selectedIdsBoard.isNotEmpty 
-    //  && selectedIdsCourse.isNotEmpty 
-     && selectedIdsGroup.isNotEmpty  && selectedClasses.isNotEmpty 
-                        ) {
-                  updateStatus();
-                } else {
-                  Utils.snakbar(
-                    context,
-                    selectedNamesinstitute.isEmpty
-                        ? "Select Atleast 1 Institute"
-                        : selectedIdsQualification.isEmpty
-                            ? "Select Atleast 1 Qualification"
-                            : selectedIdsArea.isEmpty
-                            ? "Select Atleast 1 Area"
-                            : selectedIdsBoard.isEmpty
-                            ? "Select Atleast 1 Board"
-                            : selectedIdsGroup.isEmpty
-                            ? "Select Atleast 1 Group" 
-                            // : selectedIdsCourse.isEmpty
-                            // ? "Select Atleast 1 Course" 
-                            : selectedClasses.isEmpty
-                            ? "Select Atleast 1 Preffered Class with Subject": "Fill Correct Fields",
-                  );
-                }
+  bool quranSelected = isQuranClassSelected();
+
+  bool isValidField(String? value) {
+    return value != null &&
+        value.isNotEmpty &&
+        value != "0" &&
+        value.toLowerCase() != "null" &&
+        value != "Select Experience";
   }
+
+  if (selectedNamesinstitute.isNotEmpty &&
+      selectedIdsQualification.isNotEmpty &&
+      selectedIdsArea.isNotEmpty &&
+      selectedIdsBoard.isNotEmpty &&
+      selectedIdsGroup.isNotEmpty &&
+      selectedClasses.isNotEmpty &&
+
+      // Agar Quran selected hai to ye extra fields bhi required hon
+      (!quranSelected ||
+          (selectedNamesTime.isNotEmpty &&
+              isValidField(_rawQuranExperience) &&
+              isValidField(selectedQuranExperiencePhysical) &&
+              isValidField(client) &&
+              isValidField(maslak) &&
+              isValidField(Zoom) &&
+              isValidField(laptop)))) {
+    updateStatus();
+  } else {
+    Utils.snakbar(
+      context,
+      selectedNamesinstitute.isEmpty
+          ? "Select Atleast 1 Institute"
+          : selectedIdsQualification.isEmpty
+              ? "Select Atleast 1 Qualification"
+              : selectedIdsArea.isEmpty
+                  ? "Select Atleast 1 Area"
+                  : selectedIdsBoard.isEmpty
+                      ? "Select Atleast 1 Board"
+                      : selectedIdsGroup.isEmpty
+                          ? "Select Atleast 1 Group"
+                          : selectedClasses.isEmpty
+                              ? "Select Atleast 1 Preferred Class with Subject"
+                              : (quranSelected && selectedNamesTime.isEmpty)
+                                  ? "Select Preferred Time"
+                                  : (quranSelected && !isValidField(_rawQuranExperience))
+                                      ? "Select Quran Online Teaching Experience"
+                                      : (quranSelected && !isValidField(selectedQuranExperiencePhysical))
+                                          ? "Select Quran Physical Teaching Experience"
+                                          : (quranSelected && !isValidField(client))
+                                              ? "Select International Client Option"
+                                              : (quranSelected && !isValidField(maslak))
+                                                  ? "Select Maslak"
+                                                  : (quranSelected && !isValidField(Zoom))
+                                                      ? "Select Zoom Proficiency"
+                                                      : (quranSelected && !isValidField(laptop))
+                                                          ? "Select Laptop Option"
+                                                          : "Fill Correct Fields",
+    );
+  }
+}
+
+
   
   Future<void> updateStatus() async {
     setState(() {
@@ -255,15 +301,16 @@ String classListJson = jsonEncode(classList);
         'preferred_course': preferredcoursejson,
         'preferred_time_query': preferredTimejson,
         'Quran_Experience': selectedQuranExperience ?? '',
-        'tutor_quran_teaching_ex': selectedQuranExperiencePhysical ?? '',
+        'tutor_quran_teaching_ex': selectedQuranExperiencePhy ?? '',
         'International_client': client.toString(),
         'Zoom_Proficiency': Zoom.toString(),
         'have_a_laptop': laptop.toString(),
         'Add_Maslak':maslak.toString(),
       };
       print('quran Ex $selectedQuranExperiencePhysical');
+      print('helooooooooo $classListJson');
       final response = await http.post(
-        Uri.parse('${MySharedPrefrence().get_baseUrl()}step_2_update.php'),
+        Uri.parse('${Utils.baseUrl}step_2_update.php'),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
@@ -296,7 +343,7 @@ String classListJson = jsonEncode(classList);
   Future<void> saveAreaData() async {
   try {
     final response = await http.get(
-      Uri.parse('${MySharedPrefrence().get_baseUrl()}step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
+      Uri.parse('${Utils.baseUrl}step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
     );
 
     if (response.statusCode == 200) {
@@ -322,7 +369,7 @@ String classListJson = jsonEncode(classList);
 Future<void> saveQualificationData() async {
   try {
     final response = await http.get(
-      Uri.parse('${MySharedPrefrence().get_baseUrl()}step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
+      Uri.parse('${Utils.baseUrl}step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
     );
 
     if (response.statusCode == 200) {
@@ -377,8 +424,7 @@ Future<void> saveQualificationData() async {
             );
           }).toList();
           _rawQuranExperience = jsonResponse['Quran_Experience']?.toString();
-          selectedQuranExperiencePhysical = jsonResponse['tutor_quran_teaching_ex']?.toString() ?? 'None';
-          print('fs,gfd,g $selectedQuranExperiencePhysical');
+          selectedQuranExperiencePhysical = jsonResponse['tutor_quran_teaching_ex']?.toString();
           client = jsonResponse['International_client'];
           maslak = jsonResponse['Add_Maslak'];
           Zoom = jsonResponse['Zoom_Proficiency'];
@@ -409,7 +455,7 @@ Future<void> saveQualificationData() async {
       isLoading = true;
     });
     try {
-      String url = '${MySharedPrefrence().get_baseUrl()}all_in.php?$type=1';
+      String url = '${Utils.baseUrl}all_in.php?$type=1';
       final response = await http.get(Uri.parse(url));
       print('url $url');
 
@@ -445,7 +491,7 @@ Future<void> saveQualificationData() async {
   //     isLoading = true;
   //   });
   //   try {
-  //     String url = '${MySharedPrefrence().get_baseUrl()}all_in.php?$type=1';
+  //     String url = '${Utils.baseUrl}all_in.php?$type=1';
   //     final response = await http.get(Uri.parse(url));
   //     print('url $url');
 
@@ -500,7 +546,7 @@ Future<void> saveQualificationData() async {
 
 //   try {
 //     final response = await http.get(
-//       Uri.parse('${MySharedPrefrence().get_baseUrl()}step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
+//       Uri.parse('${Utils.baseUrl}step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
 //     );
 //     print(MySharedPrefrence().get_user_ID());
 //     if (response.statusCode == 200) {
@@ -568,7 +614,7 @@ Future<void> selectArea() async {
     try {
       print('heell ${MySharedPrefrence().get_city_id()}');
       final response = await http.post(
-          Uri.parse('${MySharedPrefrence().get_baseUrl()}area.php'),
+          Uri.parse('${Utils.baseUrl}area.php'),
           body: {
             'code': '10',
             'city_id': MySharedPrefrence().get_city_id(),
@@ -1146,6 +1192,7 @@ Future<void> classSelect(Function parentSetState) {
                                                       visualDensity: VisualDensity(horizontal: 0, vertical: -4),
                                                       title: reusableText(filteredItemsClass[index]['class_name'], fontsize: 12, color: colorController.lightblackColor),
                                                       onTap: () {
+                                                        print(MySharedPrefrence().get_class_id());
                                                         setState(() {
                                                           tempSelectedIdsSubject.clear(); // Clear the list
                                                           tempSelectedNamesSubject.clear(); // Clear the list
@@ -1272,6 +1319,7 @@ Future<void> classSelect(Function parentSetState) {
               showCustomSnackbar(context, 'Please select both a class and at least one subject.');
             } else {
               // Check if the selected class is already added
+              print(MySharedPrefrence().get_class_id());
               bool classAlreadyExists = selectedClasses.any((classItem) =>
                   classItem.classId == MySharedPrefrence().get_class_id());
             
@@ -1287,6 +1335,12 @@ Future<void> classSelect(Function parentSetState) {
                       subjectNames: List.from(tempSelectedNamesSubject),
                     ),
                   );
+                  print(MyClass(
+                      classId: MySharedPrefrence().get_class_id(),
+                      className: MySharedPrefrence().get_class_name_institute(),
+                      subjectIds: List.from(tempSelectedIdsSubject),
+                      subjectNames: List.from(tempSelectedNamesSubject),
+                    ),);
                   tempSelectedIdsSubject.clear();
                   tempSelectedNamesSubject.clear();
                 });
@@ -2361,10 +2415,9 @@ if (isQuranClassSelected())
                     _rawQuranExperience = value;
                   },'Quran Online Teaching Experience '),
                   reusablaSizaBox(context, .02),
-                  reusableExperienceDropdown(selectedQuranExperiencePhysical!, newItemsExperiencePhysical, (value){
+                  reusableExperienceDropdown(selectedQuranExperiencePhy!, newItemsExperiencePhysical, (value){
                     setState(() {});
                     selectedQuranExperiencePhysical = value;
-                    print(selectedQuranExperiencePhysical);
                   },'Quran Physical Teaching Experience '),
                                   // ),
             //       Row(

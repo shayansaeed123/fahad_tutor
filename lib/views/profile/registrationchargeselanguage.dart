@@ -109,7 +109,7 @@ Future<void> _uploadImages() async {
     });
     try{
       // String uploadUrl = 'https://fahadtutors.com/upload_doc_5.php';
-      String uploadUrl = '${MySharedPrefrence().get_baseUrl()}upload_doc_5.php';
+      String uploadUrl = '${Utils.baseUrl}upload_doc_5.php';
     var request = http.MultipartRequest('POST', Uri.parse(uploadUrl));
     // ✅ Add the field Registration_Quran_check = 1
     request.fields['Registration_english_check'] = '1';
@@ -160,7 +160,7 @@ Future<void> _uploadImages() async {
     });
     try {
       final response = await http.post(
-          Uri.parse('${MySharedPrefrence().get_baseUrl()}step_5_update.php'),
+          Uri.parse('${Utils.baseUrl}step_5_update.php'),
           body: {
         'code': '10',
         'update_status': '4',
