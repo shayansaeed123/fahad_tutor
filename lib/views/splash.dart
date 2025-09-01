@@ -61,28 +61,36 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       
-      body: Stack(
-        fit: StackFit.expand, 
-        children: [
-          /// 🔹 Background Lottie Animation
-          Lottie.asset(
-            'assets/images/splashanim.json', 
-            fit: BoxFit.fill,
-            repeat: true,
-          ),
+      body: Center(
+        child: Image.asset(
+          'assets/images/fta_logo.png',
+          filterQuality: FilterQuality.high,
+          fit: BoxFit.contain,
+          width: MediaQuery.of(context).size.width * .8,
+          height: MediaQuery.of(context).size.height * .28,
+        ),)
+      //   Stack(
+      //   fit: StackFit.expand, 
+      //   children: [
+      //     /// 🔹 Background Lottie Animation
+      //     Lottie.asset(
+      //       'assets/images/splashanim.json', 
+      //       fit: BoxFit.fill,
+      //       repeat: true,
+      //     ),
 
-          /// 🔹 Center Image
-          Center(
-            child: Image.asset(
-              'assets/images/splashicon.png',
-              filterQuality: FilterQuality.high,
-              fit: BoxFit.contain,
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: MediaQuery.of(context).size.height * 0.28,
-            ),
-          ),
-        ],
-      ),
+      //     /// 🔹 Center Image
+      //     Center(
+      //       child: Image.asset(
+      //         'assets/images/splashicon.png',
+      //         filterQuality: FilterQuality.high,
+      //         fit: BoxFit.contain,
+      //         width: MediaQuery.of(context).size.width * 0.8,
+      //         height: MediaQuery.of(context).size.height * 0.28,
+      //       ),
+      //     ),
+      //   ],
+      // ),
     );
   }
 }
