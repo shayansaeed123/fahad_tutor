@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
@@ -13,6 +14,7 @@ import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:http/http.dart' as http;
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
@@ -49,6 +51,10 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
     _term = widget.term;
     faq();
     print(_title);
+    // Screenshot aur recording disable
+    if (Platform.isAndroid) {
+      FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+    }
   }
 
   Future<void> isAccepted()async{
@@ -73,6 +79,15 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
       throw Exception(e);
     } finally {
       _isLoading = false;
+    }
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    // Jab user Terms page se bahar nikle, to wapas screenshot enable kar do
+    if (Platform.isAndroid) {
+      FlutterWindowManager.clearFlags(FlutterWindowManager.FLAG_SECURE);
     }
   }
   @override

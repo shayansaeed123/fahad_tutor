@@ -167,7 +167,8 @@ class _AccountDetailsState extends State<AccountDetails> {
   
   // At least one section must be fully filled
   if (!isBankFullyFilled && !isWalletFullyFilled) {
-    Utils.snakbar(context, 'Please complete either all Bank or all Wallet details');
+    // Utils.snakbar(context, 'Please complete either all Bank or all Wallet details');
+    Utils.snakbar(context, 'Please complete all Wallet details');
     return;
   }else{
     updateAccountDetails();
@@ -318,30 +319,30 @@ class _AccountDetailsState extends State<AccountDetails> {
               if(value == 1){
                 return reusableVisiblityMesage(context, MySharedPrefrence().get_popup_text(), (){setState(() {visible=false;});}, visible);
                 }else{return Container();}},),
-                reusablaSizaBox(context, 0.020),
-                reusableDropdownBankDetails(_banks, _selectedBank, 'Select Bank', (bank) => bank.name, (value) {
-                  setState(() {
-                  _selectedBank = value;
-                  });
-                },),
-                reusablaSizaBox(context, 0.020),
-                          reusableTextField(context, 
-                          reusabletextfieldcontroller.title,'Title', _title.hasFocus
-                        ? colorController.blueColor
-                        : colorController.textfieldBorderColorBefore, _title, () {
-                      _title.unfocus();
-                      FocusScope.of(context).requestFocus(_bankname);
-                    }, ),
-                    reusablaSizaBox(context, 0.020),
-                    reusableTextField(context, 
-                          reusabletextfieldcontroller.ibannumber, 'PK**ABCD***********', _ibannumber.hasFocus
-                        ? colorController.blueColor
-                        : colorController.textfieldBorderColorBefore, _ibannumber, () {
-                      _ibannumber.unfocus();
-                      FocusScope.of(context).requestFocus(_accounttitle);
-                    }, ),
-                    reusablaSizaBox(context, 0.020),
-                    Center(child: reusableText('OR',color: colorController.grayTextColor,fontsize: 16,fontweight: FontWeight.bold)),
+                // reusablaSizaBox(context, 0.020),
+                // reusableDropdownBankDetails(_banks, _selectedBank, 'Select Bank', (bank) => bank.name, (value) {
+                //   setState(() {
+                //   _selectedBank = value;
+                //   });
+                // },),
+                // reusablaSizaBox(context, 0.020),
+                //           reusableTextField(context, 
+                //           reusabletextfieldcontroller.title,'Title', _title.hasFocus
+                //         ? colorController.blueColor
+                //         : colorController.textfieldBorderColorBefore, _title, () {
+                //       _title.unfocus();
+                //       FocusScope.of(context).requestFocus(_bankname);
+                //     }, ),
+                //     reusablaSizaBox(context, 0.020),
+                //     reusableTextField(context, 
+                //           reusabletextfieldcontroller.ibannumber, 'PK**ABCD***********', _ibannumber.hasFocus
+                //         ? colorController.blueColor
+                //         : colorController.textfieldBorderColorBefore, _ibannumber, () {
+                //       _ibannumber.unfocus();
+                //       FocusScope.of(context).requestFocus(_accounttitle);
+                //     }, ),
+                //     reusablaSizaBox(context, 0.020),
+                //     Center(child: reusableText('OR',color: colorController.grayTextColor,fontsize: 16,fontweight: FontWeight.bold)),
                     reusablaSizaBox(context, 0.020),
                     reusableDropdownBankDetails(_walletbanks, _selectedWalletBank, 'Select Wallet', (wallet) => wallet.walletName, (value) {
                      setState(() {

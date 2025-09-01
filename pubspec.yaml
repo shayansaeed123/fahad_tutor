@@ -69,6 +69,7 @@ dependencies:
   youtube_player_flutter: 
   syncfusion_flutter_pdfviewer: ^20.4.50
   flutter_image_compress: 
+  flutter_windowmanager: 
    
 
 dev_dependencies:
