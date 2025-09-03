@@ -9,6 +9,7 @@ Widget reusableText(String text,
     double fontsize = 12,
     FontWeight fontweight = FontWeight.normal}) {
   return Text(text,
+  overflow: TextOverflow.ellipsis,
       style: TextStyle(
         color: color,
         fontSize: fontsize,

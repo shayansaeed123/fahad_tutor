@@ -3,6 +3,7 @@
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
+import 'package:fahad_tutor/res/reusablecardbtn.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
@@ -29,7 +30,7 @@ class _OnlineportalState extends State<Onlineportal> {
           reusableText("Online Portal",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
                           reusablaSizaBox(context, 0.020),
           Container(
-            height: MediaQuery.sizeOf(context).height * 0.38,
+            height: MediaQuery.sizeOf(context).height * 0.39,
             decoration: BoxDecoration(
               border: Border.all(color: colorController.btnColor,style: BorderStyle.solid,width: 5),
               borderRadius: BorderRadius.all(Radius.circular(12.0)),
@@ -63,31 +64,48 @@ class _OnlineportalState extends State<Onlineportal> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(child: reusableText('Application No : ApplicationNo',color: colorController.whiteColor,fontsize: 15,)),
+                        Expanded(child: reusableText('Tuition id: 12345',color: colorController.whiteColor,fontsize: 15,)),
                         SizedBox(width: MediaQuery.sizeOf(context).width * 0.03,),
-                        Expanded(child: reusableText('Invoice Date : invoiceDate',color: colorController.whiteColor,fontsize: 15,)),
+                        // Expanded(child: reusableText('Invoice Date : invoiceDate',color: colorController.whiteColor,fontsize: 15,)),
+                        Expanded(child: reusablecardbtn(context, 'Join Room', colorController.btnColor, colorController.whiteColor))
                       ],
                     ),
                     reusablaSizaBox(context, 0.01),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(child: reusableText('Requested For : reqFor',color: colorController.whiteColor,fontsize: 15,)),
+                        Expanded(child: reusableText('Class: reqFor',color: colorController.whiteColor,fontsize: 15,)),
                         SizedBox(width: MediaQuery.sizeOf(context).width * 0.03,),
-                        Expanded(child: reusableText('Address : Address',color: colorController.whiteColor,fontsize: 15,)),
+                        Expanded(child: reusableText('Subject: Address',color: colorController.whiteColor,fontsize: 15,)),
                       ],
                     ),
                     reusablaSizaBox(context, 0.01),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(child: reusableText('Model : model',color: colorController.whiteColor,fontsize: 15,)),
+                        Expanded(child: reusableText('Date: 12/01/2025',color: colorController.whiteColor,fontsize: 15,)),
                         SizedBox(width: MediaQuery.sizeOf(context).width * 0.03,),
-                        Expanded(child: reusableText('Year : year',color: colorController.whiteColor,fontsize: 15,)),
+                        Expanded(child: reusableText('🏠: online',color: colorController.whiteColor,fontsize: 15,)),
                       ],
                     ),
                     reusablaSizaBox(context, 0.01),
-                    reusableBtn(context, 'All Details', (){
+                    reusableText('HostKey: model',color: colorController.whiteColor,fontsize: 15,),
+                    reusablaSizaBox(context, 0.01),
+                    reusableText('Meeting Id: model',color: colorController.whiteColor,fontsize: 15,),
+                    reusablaSizaBox(context, 0.01),
+                    reusableText('Meeting Passcode: model',color: colorController.whiteColor,fontsize: 15,),
+                    reusablaSizaBox(context, 0.015),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(child: reusablecardbtn(context, 'Meeting Info', colorController.btnColor, colorController.whiteColor)),
+                        SizedBox(width: MediaQuery.sizeOf(context).width * 0.03,),
+                        // Expanded(child: reusableText('Invoice Date : invoiceDate',color: colorController.whiteColor,fontsize: 15,)),
+                        Expanded(child: reusablecardbtn(context, 'Daily Progress', colorController.btnColor, colorController.whiteColor))
+                      ],
+                    ),
+                    reusablaSizaBox(context, 0.015),
+                    reusableBtn(context, 'Chat', (){
                       // ontap();
                     },width: 0.45)
                   ],
