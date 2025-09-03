@@ -14,9 +14,9 @@ import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:http/http.dart' as http;
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:flutter_windowmanager_plus/flutter_windowmanager_plus.dart';
 
 class TermsAndConditions extends StatefulWidget {
   final String imageUrl;
@@ -53,7 +53,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
     print(_title);
     // Screenshot aur recording disable
     if (Platform.isAndroid) {
-      FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+      FlutterWindowManagerPlus.addFlags(FlutterWindowManagerPlus.FLAG_SECURE);
     }
   }
 
@@ -87,7 +87,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
     super.dispose();
     // Jab user Terms page se bahar nikle, to wapas screenshot enable kar do
     if (Platform.isAndroid) {
-      FlutterWindowManager.clearFlags(FlutterWindowManager.FLAG_SECURE);
+      FlutterWindowManagerPlus.clearFlags(FlutterWindowManagerPlus.FLAG_SECURE);
     }
   }
   @override
