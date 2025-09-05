@@ -73,14 +73,6 @@ class _ProfileState extends State<Profile> {
     print("Could not launch $phoneUri");
   }
 }
-//   Future<void> _launchGooglePlayStore() async {
-//   const url = 'https://play.google.com/store/apps/details?id=com.example.app'; // Replace with your app's URL
-//   if (await canLaunch(url)) {
-//     await launch(url);
-//   } else {
-//     throw 'Could not launch $url';
-//   }
-// }
 void loginClear(){
     reusabletextfieldcontroller.emailCon.clear();
     reusabletextfieldcontroller.loginPassCon.clear();
