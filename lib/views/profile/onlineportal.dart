@@ -67,7 +67,7 @@ class _OnlineportalState extends State<Onlineportal> {
                         Expanded(child: reusableText('Tuition id: 12345',color: colorController.whiteColor,fontsize: 15,)),
                         SizedBox(width: MediaQuery.sizeOf(context).width * 0.03,),
                         // Expanded(child: reusableText('Invoice Date : invoiceDate',color: colorController.whiteColor,fontsize: 15,)),
-                        Expanded(child: reusablecardbtn(context, 'Join Room', colorController.btnColor, colorController.whiteColor))
+                        Expanded(child: reusablecardbtn(context, '👨‍💻 Join Room', colorController.btnColor, colorController.whiteColor))
                       ],
                     ),
                     reusablaSizaBox(context, 0.01),
@@ -98,10 +98,10 @@ class _OnlineportalState extends State<Onlineportal> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(child: reusablecardbtn(context, 'Meeting Info', colorController.btnColor, colorController.whiteColor)),
+                        Expanded(child: reusablecardbtn(context, 'ℹ️ Meeting Info', colorController.btnColor, colorController.whiteColor)),
                         SizedBox(width: MediaQuery.sizeOf(context).width * 0.03,),
                         // Expanded(child: reusableText('Invoice Date : invoiceDate',color: colorController.whiteColor,fontsize: 15,)),
-                        Expanded(child: reusablecardbtn(context, 'Daily Progress', colorController.btnColor, colorController.whiteColor))
+                        Expanded(child: reusablecardbtn(context, '📊 Daily Progress', colorController.btnColor, colorController.whiteColor))
                       ],
                     ),
                     reusablaSizaBox(context, 0.015),
