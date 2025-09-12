@@ -131,6 +131,18 @@ final TextEditingController _title = TextEditingController();
   final TextEditingController _furtherInfo = TextEditingController();
   TextEditingController get furtherInfo => _furtherInfo;
 
+  final TextEditingController _zoomlink = TextEditingController();
+  TextEditingController get zoomlink => _zoomlink;
+
+  final TextEditingController _meetingid = TextEditingController();
+  TextEditingController get meetingid => _meetingid;
+
+  final TextEditingController _meetingpass = TextEditingController();
+  TextEditingController get meetingpass => _meetingpass;
+
+  final TextEditingController _meetinghost = TextEditingController();
+  TextEditingController get meetinghost => _meetinghost;
+
    @override
   void onClose() {
     _title.dispose();

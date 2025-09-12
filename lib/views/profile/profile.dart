@@ -20,7 +20,7 @@ import 'package:fahad_tutor/views/profile/contactus.dart';
 import 'package:fahad_tutor/views/profile/documentsattach.dart';
 import 'package:fahad_tutor/views/profile/faq.dart';
 import 'package:fahad_tutor/views/profile/feedback.dart';
-import 'package:fahad_tutor/views/profile/onlineportal.dart';
+import 'package:fahad_tutor/views/profile/online/onlineportal.dart';
 import 'package:fahad_tutor/views/profile/qualification.dart';
 import 'package:fahad_tutor/views/profile/registrationcharges.dart';
 import 'package:fahad_tutor/views/profile/registrationchargeselanguage.dart';

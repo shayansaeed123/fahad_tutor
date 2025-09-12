@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:fahad_tutor/controller/text_field_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/model/banksmodel.dart';
+import 'package:fahad_tutor/model/onlineportallistingmodel.dart';
 import 'package:fahad_tutor/model/searchmodel.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusableText.dart';
@@ -1195,7 +1196,44 @@ String removeBom(String responseBody) {
     );
   }
 
-  
+
+  Future<List<Meeting>> fetchOnlinePortalListing() async {
+  final url = Uri.parse("${Utils.baseUrl}online_portal_api.php?listing_meeting=1&user_id=${MySharedPrefrence().get_user_ID()}&app_user_type=2");
+  final response = await http.get(url);
+  print(MySharedPrefrence().get_user_ID());
+  if (response.statusCode == 200) {
+    final List<dynamic> data = jsonDecode(response.body);
+    return data.map((e) => Meeting.fromJson(e)).toList();
+  } else {
+    throw Exception("Failed to load meetings");
+  }
+}
+
+
+Future<void> updateMeetingInfo({
+  required String id,
+  required String zoomLink,
+  required String meetingId,
+  required String meetingPass,
+  required String meetingHost,
+}) async {
+  final url = Uri.parse("${Utils.baseUrl}online_portal_api.php");
+
+  final response = await http.post(url, body: {
+    "id": id,
+    "zoom_link": zoomLink,
+    "meeting_id": meetingId,
+    "meeting_password": meetingPass,
+    "meeting_hostkey": meetingHost,
+  });
+
+  if (response.statusCode == 200) {
+    final res = jsonDecode(response.body);
+    print("Update Success: $res");
+  } else {
+    throw Exception("Failed to update meeting info");
+  }
+}
 
   
 
