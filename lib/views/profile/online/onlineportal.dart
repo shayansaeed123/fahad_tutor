@@ -10,6 +10,7 @@ import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/views/profile/online/meetinginfo.dart';
+import 'package:fahad_tutor/views/profile/online/progressreport.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -119,11 +120,19 @@ class _OnlineportalState extends State<Onlineportal> {
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   Expanded(child: InkWell(
-                                                    onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => MeetingInfo(id: meeting.id,zoomLink: meeting.zoomLink,meetingid: meeting.meetingId,meetingpass: meeting.meetingPassword,meetinghost: meeting.meetingHostkey,),));},
+                                                    onTap: ()async{
+                                                      final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => MeetingInfo(id: meeting.id,zoomLink: meeting.zoomLink,meetingid: meeting.meetingId,meetingpass: meeting.meetingPassword,meetinghost: meeting.meetingHostkey,),));
+                                                      if (result == true) {setState(() {});}
+                                                      },
                                                     child: reusablecardbtn(context, 'ℹ️ Meeting Info', colorController.btnColor, colorController.whiteColor))),
                                                   SizedBox(width: MediaQuery.sizeOf(context).width * 0.03,),
                                                   // Expanded(child: reusableText('Invoice Date : invoiceDate',color: colorController.whiteColor,fontsize: 15,)),
-                                                  Expanded(child: reusablecardbtn(context, '📊 Daily Progress', colorController.btnColor, colorController.whiteColor))
+                                                  Expanded(child: InkWell(
+                                                    onTap: ()async{
+                                                      final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => Progressreport(tutor_id: meeting.tutorId, tuition_id: meeting.clientId,sName: meeting.clientName,className: meeting.className,date: meeting.datetime),));
+                                                      if (result == true) {setState(() {});}
+                                                    },
+                                                    child: reusablecardbtn(context, '📊 Daily Progress', colorController.btnColor, colorController.whiteColor)))
                                                 ],
                                               ),
                                               reusablaSizaBox(context, 0.015),

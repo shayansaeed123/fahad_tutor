@@ -180,7 +180,7 @@ class _MeetingInfoState extends State<MeetingInfo> {
     );
 
     Utils.snakbarSuccess(context, 'Meeting Info Updated');
-    Navigator.pop(context);
+    Navigator.pop(context,true);
   } catch (e) {
     Utils.snakbarSuccess(context, 'Error $e');
   }

@@ -1220,11 +1220,44 @@ Future<void> updateMeetingInfo({
   final url = Uri.parse("${Utils.baseUrl}online_portal_api.php");
 
   final response = await http.post(url, body: {
+    "meeting_info": '1',
     "id": id,
     "zoom_link": zoomLink,
     "meeting_id": meetingId,
     "meeting_password": meetingPass,
     "meeting_hostkey": meetingHost,
+  });
+
+  if (response.statusCode == 200) {
+    final res = jsonDecode(response.body);
+    print("Update Success: $res");
+  } else {
+    throw Exception("Failed to update meeting info");
+  }
+}
+
+
+Future<void> updateProgressReport({
+  required String date,
+  required String tuition_id,
+  required String topic_covered,
+  required String topic_plan,
+  required String teacher_re,
+  required String t_name,
+  required String tutor_id,
+}) async {
+  final url = Uri.parse("${Utils.baseUrl}online_portal_api.php");
+
+  final response = await http.post(url, body: {
+    "tuition_id": tuition_id,
+    "daily": '1',
+    "progress_report": '1',
+    "datetime": date,
+    "topics_covered": topic_covered,
+    "topics_planed": topic_plan,
+    "teacher_remarks": teacher_re,
+    "tutor_Name": t_name,
+    "tutor_id": tutor_id,
   });
 
   if (response.statusCode == 200) {

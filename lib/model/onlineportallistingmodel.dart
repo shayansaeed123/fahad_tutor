@@ -54,7 +54,7 @@ class Meeting {
       teacherName: json['teacher_name'] ?? '',
       areaName: json['area_name'] ?? '',
       unreadCount: json['unread_count'] ?? '',
-      className: json['class_name'] ?? '',
+      className: json['class'] ?? '',
       subjects:  json['subjects'] ?? '',
     );
   }

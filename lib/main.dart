@@ -7,6 +7,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,6 +43,15 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey, // Use the global navigator key
       home: const SplashScreen(),
+      localizationsDelegates: const [
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+      MonthYearPickerLocalizations.delegate, 
+    ],
+    supportedLocales: const [
+      Locale('en', ''), 
+    ],
     );
   }
 }

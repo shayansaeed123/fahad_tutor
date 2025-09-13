@@ -143,6 +143,18 @@ final TextEditingController _title = TextEditingController();
   final TextEditingController _meetinghost = TextEditingController();
   TextEditingController get meetinghost => _meetinghost;
 
+  final TextEditingController _tName = TextEditingController();
+  TextEditingController get tName => _tName;
+
+  final TextEditingController _tCovered = TextEditingController();
+  TextEditingController get tCovered => _tCovered;
+
+  final TextEditingController _tPlan = TextEditingController();
+  TextEditingController get tPlan => _tPlan;
+
+  final TextEditingController _tRemarks= TextEditingController();
+  TextEditingController get tRemarks => _tRemarks;
+
    @override
   void onClose() {
     _title.dispose();
