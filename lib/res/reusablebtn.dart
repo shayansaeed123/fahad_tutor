@@ -1,6 +1,7 @@
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 Widget reusableBtn(
   BuildContext context,
@@ -54,4 +55,14 @@ Widget reusablewhite(
       )),
     ),
   );
+}
+
+copybutton(BuildContext context,String value,String text){
+  return IconButton(
+      icon: const Icon(Icons.copy, size: 18, color: Colors.grey),
+      onPressed: () {
+        Clipboard.setData(ClipboardData(text: value));
+        Utils.snakbar(context, '$text Copied!');
+      },
+    );
 }

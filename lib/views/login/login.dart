@@ -14,6 +14,7 @@ import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/views/dashboard/nav_bar.dart';
 import 'package:fahad_tutor/views/dashboard/view_tuitions.dart';
 import 'package:fahad_tutor/views/login/register.dart';
+import 'package:fahad_tutor/views/profile/online/onlineportal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
@@ -113,6 +114,7 @@ class _LoginState extends State<Login> {
               print('message $apiMessage');
               MySharedPrefrence().setUserLoginStatus(true);
               MySharedPrefrence().set_user_ID(responseData['ID']);
+              MySharedPrefrence().set_application_type(responseData['application_type']);
               setState(() {});
               MySharedPrefrence().set_tutor_name(responseData['teacher_name']);
               MySharedPrefrence().set_gender(responseData['gender']);
@@ -120,17 +122,28 @@ class _LoginState extends State<Login> {
                 print('Tutor ID ${MySharedPrefrence().get_user_ID()}');
                 print('gender ${MySharedPrefrence().get_gender()}');
                 print('tutor status ${MySharedPrefrence().getUserLoginStatus()}');
+                print('tutor status ${MySharedPrefrence().get_application_type()}');
                 _fetchBasicInfo();
                 setState(() {
                   
                 });
-                    Navigator.pushReplacement(context,MaterialPageRoute(
+                    if(MySharedPrefrence().get_application_type() == 1){
+                      Navigator.pushReplacement(context,MaterialPageRoute(
           builder: (context) => WillPopScope(
             onWillPop: () async => false,
             child: NavBar(),
           ),
         ),
       );
+                    }else{
+                      Navigator.pushReplacement(context,MaterialPageRoute(
+          builder: (context) => WillPopScope(
+            onWillPop: () async => false,
+            child: Onlineportal(),
+          ),
+        ),
+      );
+                    }
                         Utils.snakbarSuccess(context, apiMessage);
               } else {
                 Utils.snakbarFailed(context, apiMessage);

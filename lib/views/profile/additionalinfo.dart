@@ -240,6 +240,7 @@ void updateTutorSegments() {
     isValidField(oLevel) &&
     isValidField(aLevel) &&
     selectedIdsLanguage.isNotEmpty &&
+    selectedPlacements.isNotEmpty && 
     isBiographyValid
   ) {
     updateAdditionalInfo();
@@ -252,6 +253,8 @@ void updateTutorSegments() {
           ? "Enter Home Address"
           : selectedSegmentIds.isEmpty 
             ? "Select at least one segment"
+            : selectedPlacements.isEmpty 
+            ? "Select at least one Placment"
             : !isValidField(client)
               ? "Select International client"
               : !isValidField(Zoom)
@@ -972,7 +975,7 @@ Future<void> getAddtionalInfo() async {
               ),
                                 onlineVisibility(
                                   context,
-                                  isHomeWidgetVisible,
+                                  // isHomeWidgetVisible,
                                   reusableRadioBtn(
                                     context,
                                     '1',

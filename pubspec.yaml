@@ -72,6 +72,9 @@ dependencies:
   flutter_windowmanager_plus: ^1.0.1
   month_year_picker: 
   flutter_localization: 
+  # flutter_webrtc: 
+  # flutter_inappwebview:
+  # crypto: 
    
 
 dev_dependencies:

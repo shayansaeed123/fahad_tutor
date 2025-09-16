@@ -5,6 +5,7 @@ import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/repo/tutor_repo.dart';
 import 'package:fahad_tutor/views/dashboard/nav_bar.dart';
 import 'package:fahad_tutor/views/login/login.dart';
+import 'package:fahad_tutor/views/profile/online/onlineportal.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -37,11 +38,19 @@ class _SplashScreenState extends State<SplashScreen> {
     if (!mounted) return; // Check if the widget is still mounted
     print('tutor ID ${MySharedPrefrence().get_user_ID()}');
     print('tutor status ${MySharedPrefrence().getUserLoginStatus()}');
-    if (MySharedPrefrence().get_user_ID() != '') {
+    print('Application status ${MySharedPrefrence().get_application_type()}');
+    if (MySharedPrefrence().get_application_type() == 1){
+      if (MySharedPrefrence().get_user_ID() != '') {
       Navigator.push(context, MaterialPageRoute(builder: (context) => NavBar(),));
     } else {
       Navigator.push(context, MaterialPageRoute(builder: (context) => Login(),));
     }
+    }else if(MySharedPrefrence().get_application_type() == 2){
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Onlineportal(),));
+    }else{
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Login(),));
+    }
+    
   }
 
   @override

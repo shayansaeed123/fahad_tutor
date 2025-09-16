@@ -9,6 +9,7 @@ import 'package:fahad_tutor/res/reusablecardbtn.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
+import 'package:fahad_tutor/views/login/login.dart';
 import 'package:fahad_tutor/views/profile/online/meetinginfo.dart';
 import 'package:fahad_tutor/views/profile/online/progressreport.dart';
 import 'package:flutter/cupertino.dart';
@@ -32,7 +33,14 @@ class _OnlineportalState extends State<Onlineportal> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          reusableText("Online Portal",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
+          MySharedPrefrence().get_application_type() == 1 ? reusableText("Online Portal",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold) 
+          : InkWell(
+            onTap: (){
+              MySharedPrefrence().logout();
+                  // loginClear();
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Login(),));
+            },
+            child: reusableText("Logout",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold)),
                           reusablaSizaBox(context, 0.020),
                           FutureBuilder(
                             future: repository.fetchOnlinePortalListing(), 
@@ -109,14 +117,30 @@ class _OnlineportalState extends State<Onlineportal> {
                                                   Expanded(child: reusableText('🏠: ${meeting.clientName}|${meeting.areaName}',color: colorController.portaltextColor,fontsize: 15,)),
                                                 ],
                                               ),
-                                              reusablaSizaBox(context, 0.01),
-                                              reusableText('HostKey: ${meeting.meetingHostkey}',color: colorController.portaltextColor,fontsize: 15,),
-                                              reusablaSizaBox(context, 0.01),
-                                              reusableText('Meeting Id: ${meeting.meetingId}',color: colorController.portaltextColor,fontsize: 15,),
-                                              reusablaSizaBox(context, 0.01),
-                                              reusableText('Meeting Passcode: ${meeting.meetingPassword}',color: colorController.portaltextColor,fontsize: 15,),
-                                              reusablaSizaBox(context, 0.015),
+                                              // reusablaSizaBox(context, 0.01),
                                               Row(
+                                                children: [
+                                                  reusableText('HostKey: ${meeting.meetingHostkey}',color: colorController.portaltextColor,fontsize: 15,),
+                                                  copybutton(context, meeting.meetingHostkey, 'HostKey')
+                                                ],
+                                              ),
+                                              // reusablaSizaBox(context, 0.01),
+                                              Row(
+                                                children: [
+                                                  
+                                              reusableText('Meeting Id: ${meeting.meetingId}',color: colorController.portaltextColor,fontsize: 15,),
+                                              copybutton(context, meeting.meetingId, 'Meeting Id')
+                                                ],
+                                              ),
+                                              // reusablaSizaBox(context, 0.01),
+                                              Row(
+                                                children: [
+                                                  reusableText('Meeting Passcode: ${meeting.meetingPassword}',color: colorController.portaltextColor,fontsize: 15,),
+                                                  copybutton(context, meeting.meetingPassword, 'Meeting Pass')
+                                                ],
+                                              ),
+                                              // reusablaSizaBox(context, 0.015),
+                                              MySharedPrefrence().get_application_type() == 1 ? Row(
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   Expanded(child: InkWell(
@@ -134,7 +158,7 @@ class _OnlineportalState extends State<Onlineportal> {
                                                     },
                                                     child: reusablecardbtn(context, '📊 Daily Progress', colorController.btnColor, colorController.whiteColor)))
                                                 ],
-                                              ),
+                                              ) : SizedBox.shrink(),
                                               reusablaSizaBox(context, 0.015),
                                               reusableBtn(context, 'Chat', (){
                                                 // ontap();

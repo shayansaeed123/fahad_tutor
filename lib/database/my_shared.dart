@@ -251,6 +251,14 @@ void set_user_ID(String? userID) {
     return ''.val('tutor_id', getBox: preferences).val;
   }
 
+  void set_application_type(int? application_type) {
+    0.val('application_type', getBox: preferences).val = application_type ?? 0;
+  }
+
+  int get_application_type() {
+    return 0.val('application_type', getBox: preferences).val;
+  }
+
   void set_profile_img(String? profile_img) {
     ''.val('profile_img', getBox: preferences).val = profile_img ?? '';
   }

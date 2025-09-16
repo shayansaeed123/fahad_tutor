@@ -1198,7 +1198,7 @@ String removeBom(String responseBody) {
 
 
   Future<List<Meeting>> fetchOnlinePortalListing() async {
-  final url = Uri.parse("${Utils.baseUrl}online_portal_api.php?listing_meeting=1&user_id=${MySharedPrefrence().get_user_ID()}&app_user_type=2");
+  final url = Uri.parse("${Utils.baseUrl}online_portal_api.php?listing_meeting=1&user_id=${MySharedPrefrence().get_user_ID()}&app_user_type=${MySharedPrefrence().get_application_type() == 1 ? 2 :1}");
   final response = await http.get(url);
   print(MySharedPrefrence().get_user_ID());
   if (response.statusCode == 200) {
@@ -1250,7 +1250,7 @@ Future<void> updateProgressReport({
 
   final response = await http.post(url, body: {
     "tuition_id": tuition_id,
-    "daily": '1',
+    "daily": '2',
     "progress_report": '1',
     "datetime": date,
     "topics_covered": topic_covered,

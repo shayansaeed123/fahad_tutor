@@ -66,13 +66,17 @@ Widget reusableVisiblityWarning(BuildContext context,String text,Function ontap,
   );
 }
 
-onlineVisibility(BuildContext context,bool isHomeWidgetVisible,Widget widget,String? _selectedValue2,List<dynamic> items, Function(String?) onChanged,TextEditingController controlle,
+onlineVisibility(BuildContext context,
+// bool isHomeWidgetVisible,
+Widget widget,String? _selectedValue2,List<dynamic> items, Function(String?) onChanged,TextEditingController controlle,
 int count,
 //  Widget widget2
  ){
-  return Visibility(
-            visible: isHomeWidgetVisible,
-            child: Column(
+  return 
+  // Visibility(
+  //           visible: isHomeWidgetVisible,
+  //           child: 
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 reusableText('Do you have Digital Pad?',color: colorController.grayTextColor,fontsize: 20,),
@@ -130,7 +134,7 @@ int count,
             ),
             Row(mainAxisAlignment:MainAxisAlignment.end,children: [reusableText('$count/800',color: count > 800 ? colorController.redColor : colorController.blackColor)],)
               ],
-            ),
+            // ),
           );
 }
 
