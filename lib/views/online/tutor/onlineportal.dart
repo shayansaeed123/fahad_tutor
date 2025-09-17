@@ -10,8 +10,9 @@ import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/views/login/login.dart';
-import 'package:fahad_tutor/views/profile/online/meetinginfo.dart';
-import 'package:fahad_tutor/views/profile/online/progressreport.dart';
+import 'package:fahad_tutor/views/online/tutor/chat.dart';
+import 'package:fahad_tutor/views/online/tutor/meetinginfo.dart';
+import 'package:fahad_tutor/views/online/tutor/progressreport.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -33,14 +34,7 @@ class _OnlineportalState extends State<Onlineportal> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          MySharedPrefrence().get_application_type() == 1 ? reusableText("Online Portal",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold) 
-          : InkWell(
-            onTap: (){
-              MySharedPrefrence().logout();
-                  // loginClear();
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Login(),));
-            },
-            child: reusableText("Logout",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold)),
+         reusableText("Online Portal Tutor",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
                           reusablaSizaBox(context, 0.020),
                           FutureBuilder(
                             future: repository.fetchOnlinePortalListing(), 
@@ -140,7 +134,7 @@ class _OnlineportalState extends State<Onlineportal> {
                                                 ],
                                               ),
                                               // reusablaSizaBox(context, 0.015),
-                                              MySharedPrefrence().get_application_type() == 1 ? Row(
+                                              Row(
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   Expanded(child: InkWell(
@@ -158,10 +152,10 @@ class _OnlineportalState extends State<Onlineportal> {
                                                     },
                                                     child: reusablecardbtn(context, '📊 Daily Progress', colorController.btnColor, colorController.whiteColor)))
                                                 ],
-                                              ) : SizedBox.shrink(),
+                                              ),
                                               reusablaSizaBox(context, 0.015),
                                               reusableBtn(context, 'Chat', (){
-                                                // ontap();
+                                                Navigator.push(context, MaterialPageRoute(builder: (context) => Chats(meetingId: meeting.fullCode,userId: meeting.tutorId,user_type: '2',),));
                                               },width: 0.45)
                                             ],
                                           ),
@@ -169,7 +163,8 @@ class _OnlineportalState extends State<Onlineportal> {
                                       ),
                                     ); 
                                     },);
-                            },)
+                            },
+                            )
           
         ],
       ),

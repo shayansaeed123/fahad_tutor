@@ -14,7 +14,8 @@ import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/views/dashboard/nav_bar.dart';
 import 'package:fahad_tutor/views/dashboard/view_tuitions.dart';
 import 'package:fahad_tutor/views/login/register.dart';
-import 'package:fahad_tutor/views/profile/online/onlineportal.dart';
+import 'package:fahad_tutor/views/online/client/onlineportalclient.dart';
+import 'package:fahad_tutor/views/online/tutor/onlineportal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
@@ -139,7 +140,7 @@ class _LoginState extends State<Login> {
                       Navigator.pushReplacement(context,MaterialPageRoute(
           builder: (context) => WillPopScope(
             onWillPop: () async => false,
-            child: Onlineportal(),
+            child: OnlineportalClient(),
           ),
         ),
       );

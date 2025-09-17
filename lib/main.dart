@@ -1,5 +1,4 @@
 import 'package:device_preview/device_preview.dart';
-import 'package:fahad_tutor/bb/hom.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/service/notificationservice.dart';
 import 'package:fahad_tutor/views/splash.dart';

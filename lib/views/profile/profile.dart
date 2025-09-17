@@ -20,7 +20,7 @@ import 'package:fahad_tutor/views/profile/contactus.dart';
 import 'package:fahad_tutor/views/profile/documentsattach.dart';
 import 'package:fahad_tutor/views/profile/faq.dart';
 import 'package:fahad_tutor/views/profile/feedback.dart';
-import 'package:fahad_tutor/views/profile/online/onlineportal.dart';
+import 'package:fahad_tutor/views/online/tutor/onlineportal.dart';
 import 'package:fahad_tutor/views/profile/qualification.dart';
 import 'package:fahad_tutor/views/profile/registrationcharges.dart';
 import 'package:fahad_tutor/views/profile/registrationchargeselanguage.dart';
@@ -441,7 +441,7 @@ void loginClear(){
               },),
               reusablelisttile(context, (){
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>Onlineportal()));
-              }, 'assets/images/reset_password.png', 'Online Portal'),
+              }, 'assets/images/web_icon.png', 'Online Portal'),
               reusablelisttile(context,(){
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>ResetPassword()));
               },'assets/images/reset_password.png','Change Password',borderWidth: 0.000001),

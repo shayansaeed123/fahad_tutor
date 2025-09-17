@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:fahad_tutor/controller/text_field_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/model/banksmodel.dart';
+import 'package:fahad_tutor/model/chatmessage.dart';
 import 'package:fahad_tutor/model/onlineportallistingmodel.dart';
 import 'package:fahad_tutor/model/searchmodel.dart';
 import 'package:fahad_tutor/repo/utils.dart';
@@ -1268,6 +1269,57 @@ Future<void> updateProgressReport({
   }
 }
 
+  Future<List<ChatMessage>> fetchChat({
+    required String meetingId,
+    required String userId,
+    required String user_type,
+  }) async {
+    final url = Uri.parse("${Utils.baseUrl}online_portal_api.php");
+    final response = await http.post(
+      url,
+      body: {
+        "meeting_id": meetingId,
+        "app_user_type": user_type,
+        "user_id": userId,
+        "chat_listing": "1",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final decoded = json.decode(response.body);
+
+      if (decoded['success'] == 1 && decoded['messages'] is List) {
+        final List messages = decoded['messages'];
+        return messages.map((e) => ChatMessage.fromJson(e)).toList();
+      } else {
+        return [];
+      }
+    } else {
+      throw Exception("Failed to load chat");
+    }
+  }
+
+  Future<void> sendMessage({
+    required String meetingId,
+    required String userId,
+    required String message,
+    required String user_type,
+  }) async {
+    final url = Uri.parse("${Utils.baseUrl}online_portal_api.php");
+    final response = await http.post(
+      url,
+      body: {
+        "meeting_id": meetingId,
+        "app_user_type": user_type,
+        "user_id": userId,
+        "message": message,
+      },
+    );
+    print(response.body.toString());
+    if (response.statusCode != 200) {
+      throw Exception("Failed to send message");
+    }
+  }
   
 
 }
