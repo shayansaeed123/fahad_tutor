@@ -8,12 +8,9 @@ import 'package:fahad_tutor/res/reusableappimage.dart';
 import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusablecardbtn.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
-import 'package:fahad_tutor/res/reusableprofilewidget.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/views/login/login.dart';
 import 'package:fahad_tutor/views/online/tutor/chat.dart';
-import 'package:fahad_tutor/views/online/tutor/meetinginfo.dart';
-import 'package:fahad_tutor/views/online/tutor/progressreport.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
