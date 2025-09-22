@@ -76,9 +76,11 @@ class _ChatsState extends State<Chats> {
       }
 
       final messages = snapshot.data!;
-      messages.sort((a, b) => b.message.compareTo(a.datetime),);
+      // messages.sort((a, b) => b.message.compareTo(a.datetime),);
+      // ✅ Sort ascending by id (smallest → largest)
+      messages.sort((a, b) => int.parse(a.id).compareTo(int.parse(b.id)));
       return ListView.builder(
-        reverse: true,
+        reverse: false,
         itemCount: messages.length,
         itemBuilder: (context, index) {
           final msg = messages[index];

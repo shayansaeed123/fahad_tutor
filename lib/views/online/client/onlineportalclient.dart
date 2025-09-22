@@ -13,6 +13,7 @@ import 'package:fahad_tutor/views/login/login.dart';
 import 'package:fahad_tutor/views/online/tutor/chat.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OnlineportalClient extends StatefulWidget {
   const OnlineportalClient({super.key});
@@ -137,7 +138,9 @@ class _OnlineportalClientState extends State<OnlineportalClient> {
                                                     Expanded(child: reusableText('Tuition id: ${meeting.clientId}',color: colorController.portaltextColor,fontsize: 15,)),
                                                     SizedBox(width: MediaQuery.sizeOf(context).width * 0.03,),
                                                     // Expanded(child: reusableText('Invoice Date : invoiceDate',color: colorController.whiteColor,fontsize: 15,)),
-                                                    Expanded(child: reusablecardbtn(context, '👨‍💻 Join Room', colorController.btnColor, colorController.whiteColor))
+                                                    Expanded(child: InkWell(
+                                                      onTap: (){launch('${meeting.zoomLink}');},
+                                                      child: reusablecardbtn(context, '👨‍💻 Join Room', colorController.btnColor, colorController.whiteColor)))
                                                   ],
                                                 ),
                                                 reusablaSizaBox(context, 0.01),
