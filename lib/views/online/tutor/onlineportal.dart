@@ -155,7 +155,9 @@ class _OnlineportalState extends State<Onlineportal> {
                                               ),
                                               reusablaSizaBox(context, 0.015),
                                               reusableBtn(context, 'Chat', (){
-                                                Navigator.push(context, MaterialPageRoute(builder: (context) => Chats(meetingId: meeting.fullCode,userId: meeting.tutorId,user_type: '2',),));
+                                                Navigator.push(context, MaterialPageRoute(builder: (context) => Chats(meetingId: meeting.fullCode,userId: MySharedPrefrence().get_user_ID(),user_type: '2',),));
+                                                print(MySharedPrefrence().get_user_ID());
+                                                print(meeting.fullCode);
                                               },width: 0.45)
                                             ],
                                           ),

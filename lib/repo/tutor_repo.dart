@@ -1278,18 +1278,19 @@ Future<void> updateProgressReport({
     final response = await http.post(
       url,
       body: {
-        "meeting_id": meetingId,
-        "app_user_type": user_type,
-        "user_id": userId,
         "chat_listing": "1",
+        "user_id": userId,
+        "app_user_type": user_type,
+        "meeting_id": meetingId,
       },
     );
 
     if (response.statusCode == 200) {
       final decoded = json.decode(response.body);
-
-      if (decoded['success'] == 1 && decoded['messages'] is List) {
-        final List messages = decoded['messages'];
+      if (decoded['success'] == 1) {
+        // final List messages = decoded['messages'];
+        final List messages = decoded['data'][0]['chat_messages'];
+      print(messages.toString());
         return messages.map((e) => ChatMessage.fromJson(e)).toList();
       } else {
         return [];
@@ -1309,9 +1310,10 @@ Future<void> updateProgressReport({
     final response = await http.post(
       url,
       body: {
+        "chat_submit": '1',
         "meeting_id": meetingId,
-        "app_user_type": user_type,
-        "user_id": userId,
+        'user_type': user_type,
+        "profile_id": userId,
         "message": message,
       },
     );
