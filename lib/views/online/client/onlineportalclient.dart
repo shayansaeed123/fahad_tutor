@@ -82,7 +82,7 @@ class _OnlineportalClientState extends State<OnlineportalClient> {
             child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-            reusableText("Online Portal Client",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
+            reusableTextonline("Online Portal Client",color: colorController.blackColor,fontsize: 23,fontweight: FontWeight.bold),
                             reusablaSizaBox(context, 0.020),
                             FutureBuilder(
                               future: repository.fetchOnlinePortalListing(), 
@@ -135,9 +135,9 @@ class _OnlineportalClientState extends State<OnlineportalClient> {
                                                 Row(
                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
-                                                    Expanded(child: reusableText('Tuition id: ${meeting.clientId}',color: colorController.portaltextColor,fontsize: 15,)),
+                                                    Expanded(child: reusableTextonline('Tuition id: ${meeting.clientId}',color: colorController.portaltextColor,fontsize: 15,)),
                                                     SizedBox(width: MediaQuery.sizeOf(context).width * 0.03,),
-                                                    // Expanded(child: reusableText('Invoice Date : invoiceDate',color: colorController.whiteColor,fontsize: 15,)),
+                                                    // Expanded(child: reusableTextonline('Invoice Date : invoiceDate',color: colorController.whiteColor,fontsize: 15,)),
                                                     Expanded(child: InkWell(
                                                       onTap: (){launch('${meeting.zoomLink}');},
                                                       child: reusablecardbtn(context, '👨‍💻 Join Room', colorController.btnColor, colorController.whiteColor)))
@@ -147,24 +147,24 @@ class _OnlineportalClientState extends State<OnlineportalClient> {
                                                 Row(
                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
-                                                    Expanded(child: reusableText('Class: ${meeting.className}',color: colorController.portaltextColor,fontsize: 15,)),
+                                                    Expanded(child: reusableTextonline('Class: ${meeting.className}',color: colorController.portaltextColor,fontsize: 15,)),
                                                     SizedBox(width: MediaQuery.sizeOf(context).width * 0.03,),
-                                                    Expanded(child: reusableText('Subject: ${meeting.subjects}',color: colorController.portaltextColor,fontsize: 15,)),
+                                                    Expanded(child: reusableTextonline('Subject: ${meeting.subjects}',color: colorController.portaltextColor,fontsize: 15,)),
                                                   ],
                                                 ),
                                                 reusablaSizaBox(context, 0.01),
                                                 Row(
                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
-                                                    Expanded(child: reusableText('Date: ${meeting.datetime}',color: colorController.portaltextColor,fontsize: 15,)),
+                                                    Expanded(child: reusableTextonline('Date: ${meeting.datetime}',color: colorController.portaltextColor,fontsize: 15,)),
                                                     SizedBox(width: MediaQuery.sizeOf(context).width * 0.03,),
-                                                    Expanded(child: reusableText('🏠: ${meeting.clientName}|${meeting.areaName}',color: colorController.portaltextColor,fontsize: 15,)),
+                                                    Expanded(child: reusableTextonline('🏠: ${meeting.clientName}|${meeting.areaName}',color: colorController.portaltextColor,fontsize: 15,)),
                                                   ],
                                                 ),
                                                 // reusablaSizaBox(context, 0.01),
                                                 Row(
                                                   children: [
-                                                    reusableText('HostKey: ${meeting.meetingHostkey}',color: colorController.portaltextColor,fontsize: 15,),
+                                                    reusableTextonline('HostKey: ${meeting.meetingHostkey}',color: colorController.portaltextColor,fontsize: 15,),
                                                     copybutton(context, meeting.meetingHostkey, 'HostKey')
                                                   ],
                                                 ),
@@ -172,14 +172,14 @@ class _OnlineportalClientState extends State<OnlineportalClient> {
                                                 Row(
                                                   children: [
                                                     
-                                                reusableText('Meeting Id: ${meeting.meetingId}',color: colorController.portaltextColor,fontsize: 15,),
+                                                reusableTextonline('Meeting Id: ${meeting.meetingId}',color: colorController.portaltextColor,fontsize: 15,),
                                                 copybutton(context, meeting.meetingId, 'Meeting Id')
                                                   ],
                                                 ),
                                                 // reusablaSizaBox(context, 0.01),
                                                 Row(
                                                   children: [
-                                                    reusableText('Meeting Passcode: ${meeting.meetingPassword}',color: colorController.portaltextColor,fontsize: 15,),
+                                                    reusableTextonline('Meeting Passcode: ${meeting.meetingPassword}',color: colorController.portaltextColor,fontsize: 15,),
                                                     copybutton(context, meeting.meetingPassword, 'Meeting Pass')
                                                   ],
                                                 ),
@@ -194,7 +194,7 @@ class _OnlineportalClientState extends State<OnlineportalClient> {
                                                 //         },
                                                 //       child: reusablecardbtn(context, 'ℹ️ Meeting Info', colorController.btnColor, colorController.whiteColor))),
                                                 //     SizedBox(width: MediaQuery.sizeOf(context).width * 0.03,),
-                                                //     // Expanded(child: reusableText('Invoice Date : invoiceDate',color: colorController.whiteColor,fontsize: 15,)),
+                                                //     // Expanded(child: reusableTextonline('Invoice Date : invoiceDate',color: colorController.whiteColor,fontsize: 15,)),
                                                 //     Expanded(child: InkWell(
                                                 //       onTap: ()async{
                                                 //         final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => Progressreport(tutor_id: meeting.tutorId, tuition_id: meeting.clientId,sName: meeting.clientName,className: meeting.className,date: meeting.datetime),));

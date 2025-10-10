@@ -9,6 +9,19 @@ Widget reusableText(String text,
     double fontsize = 12,
     FontWeight fontweight = FontWeight.normal}) {
   return Text(text,
+  // overflow: TextOverflow.ellipsis,
+      style: TextStyle(
+        color: color,
+        fontSize: fontsize,
+        fontWeight: fontweight,
+      ));
+}
+
+Widget reusableTextonline(String text,
+    {Color color = Colors.black54,
+    double fontsize = 12,
+    FontWeight fontweight = FontWeight.normal}) {
+  return Text(text,
   overflow: TextOverflow.ellipsis,
       style: TextStyle(
         color: color,
