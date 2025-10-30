@@ -72,6 +72,9 @@ dependencies:
   flutter_windowmanager_plus: ^1.0.1
   month_year_picker: 
   flutter_localization: 
+  camera: 
+  flutter_riverpod: ^2.6.1
+  riverpod: 
   # flutter_webrtc: 
   # flutter_inappwebview:
   # crypto: 

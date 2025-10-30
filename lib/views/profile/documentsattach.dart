@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:fahad_tutor/controller/color_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
+import 'package:fahad_tutor/model/documentmodel.dart';
 import 'package:fahad_tutor/repo/tutor_repo.dart';
 import 'package:fahad_tutor/repo/utils.dart';
 import 'package:fahad_tutor/res/reusablebottomsheet.dart';
@@ -17,19 +19,22 @@ import 'package:fahad_tutor/views/profile/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 
-class DocumentsAttach extends StatefulWidget {
+class DocumentsAttach extends ConsumerStatefulWidget {
   const DocumentsAttach({super.key});
 
   @override
-  State<DocumentsAttach> createState() => _DocumentsAttachState();
+  ConsumerState<DocumentsAttach> createState() => _DocumentsAttachState();
 }
 
-class _DocumentsAttachState extends State<DocumentsAttach> {
+class _DocumentsAttachState extends ConsumerState<DocumentsAttach> {
 
   bool isLoading = false;
   // int doc_error = 0;
@@ -37,6 +42,7 @@ class _DocumentsAttachState extends State<DocumentsAttach> {
   bool visible = true;
   bool updateprofileimage = false;
   String base64updateprofileimage = '';
+  late CameraController cameraController;
 
   File? _cnicFront;
   File? _cnicBack;
@@ -617,6 +623,9 @@ Future<void> _uploadImages(String imageType) async {
     doc();
     repository.check_msg();
     print(MySharedPrefrence().get_user_ID());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+    ref.read(documentsAttachProvider.notifier).loadExistingDocuments();
+  });
   }
   void doc()async{
     setState(() {
@@ -630,6 +639,8 @@ Future<void> _uploadImages(String imageType) async {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(documentsAttachProvider);
+    final controller = ref.read(documentsAttachProvider.notifier);
     return 
     reusableprofileidget(context,
                 Padding(
@@ -649,13 +660,19 @@ Future<void> _uploadImages(String imageType) async {
             reusablaSizaBox(context, 0.020),
                               repository.doc_error.value == 1 ? reusableVisiblityWarning(context, '${repository.doc_msg.value.toString()}', (){setState(() {visible=false;});}, visible) : Container(),
                               reusablaSizaBox(context, 0.020),
-                              reusableDocuments1(context, '', 'Profile', repository.profile_image.value.toString(), 
+
+                              reusableDocuments1(context, '', 'Profile', state.profile != null
+              ? state.profile!.path
+              : repository.profile_image.value.toString(),
                               (){
                                 reuablebottomsheet(context, "Choose Profile Image",(){
-                                  _pickImage(ImageSource.gallery, 'profile');
+                                  // _pickImage(ImageSource.gallery, 'profile');
+                                  controller.pickImage(context, 'profile', ImageSource.gallery);
                                 },(){
-                                  _pickImage(ImageSource.camera,'profile');
+                                  // _pickImage(ImageSource.camera,'profile');
+                                  controller.pickImage(context, 'profile', ImageSource.camera);
                                 });
+                                // controller.showImagePickerSheet(context, 'profile');
                               }, 'assets/images/profile.png'),
                               // reusableDocuments(context,'','Add Image (Front)','Add Image (Back)' ,'Profile', 'CNIC Image', 
                               // // profile,cnic_f,cnic_b,
@@ -679,16 +696,22 @@ Future<void> _uploadImages(String imageType) async {
                               // 'assets/images/profile.png'
                               // ),
                                reusablaSizaBox(context, 0.010),
-                               reusableDocuments2(context, 'Add Image (Front)','Add Image (Back)', 'CNIC Image', repository.cnic_f.value.toString(),repository.cnic_b.value.toString(), 
+                               reusableDocuments2(context, 'Add Image (Front)','Add Image (Back)', 'CNIC Image', 
+                               state.cnicFront != null ? state.cnicFront!.path : repository.cnic_f.value.toString(),
+                               state.cnicBack != null ? state.cnicBack!.path : repository.cnic_b.value.toString(), 
                                (){reuablebottomsheet(context, "Choose CNIC Front Image",(){
-                                  _pickImage(ImageSource.gallery,'front');
+                                  // _pickImage(ImageSource.gallery,'front');
+                                  controller.pickImage(context, 'front', ImageSource.gallery);
                               },(){
-                                  _pickImage(ImageSource.camera,'front');
+                                  // _pickImage(ImageSource.camera,'front');
+                                  controller.pickImage(context, 'front', ImageSource.camera);
                               });},
                               (){reuablebottomsheet(context, "Choose CNIC Back Image",(){
-                                  _pickImage(ImageSource.gallery,'back');
+                                  // _pickImage(ImageSource.gallery,'back');
+                                  controller.pickImage(context, 'back', ImageSource.gallery);
                               },(){
-                                  _pickImage(ImageSource.camera,'back');
+                                  // _pickImage(ImageSource.camera,'back');
+                                  controller.pickImage(context, 'back', ImageSource.camera);
                               });},
                                'assets/images/add_img_placeholder.png'),
                               // reusableDocuments(context, 'Add Image', '', '', 'Last Qualification Proof', 'Attach other Documents(Optional)', 
@@ -713,60 +736,83 @@ Future<void> _uploadImages(String imageType) async {
                               // 'assets/images/add_img_placeholder.png'
                               // ),
                               reusablaSizaBox(context, 0.020),
-                              reusableDocuments1(context, 'Add Image', 'Last Qualification Proof', repository.last_document.value.toString(), 
+                              reusableDocuments1(context, 'Add Image', 'Last Qualification Proof', 
+                              state.qualification != null ? state.qualification!.path : repository.last_document.value.toString(),
                               (){
                                 reuablebottomsheet(context, "Choose Qualification Image",(){
-                                  _pickImage(ImageSource.gallery,'qualification');
+                                  // _pickImage(ImageSource.gallery,'qualification');
+                                  controller.pickImage(context, 'qualification', ImageSource.gallery);
                                 },(){
-                                  _pickImage(ImageSource.camera,'qualification');
+                                  // _pickImage(ImageSource.camera,'qualification');
+                                  controller.pickImage(context, 'qualification', ImageSource.camera);
                                 });
                               }, 'assets/images/add_img_placeholder.png'),
                               reusablaSizaBox(context, 0.010),
-                              reusableDocuments2(context, '','', 'Attach other Documents(Optional)', repository.other_1.value.toString(),repository.other_2.value.toString(),
+                              reusableDocuments2(context, '','', 'Attach other Documents(Optional)', 
+                              state.other1 != null ? state.other1!.path : repository.other_1.value.toString(),
+                               state.other2 != null ? state.other2!.path : repository.other_2.value.toString(), 
                                (){reuablebottomsheet(context, "Choose Other Image 1",(){
-                                _pickImage(ImageSource.gallery,'other1');
+                                // _pickImage(ImageSource.gallery,'other1');
+                                controller.pickImage(context, 'other1', ImageSource.gallery);
                               },(){
-                                _pickImage(ImageSource.camera,'other1');
+                                // _pickImage(ImageSource.camera,'other1');
+                                controller.pickImage(context, 'other1', ImageSource.camera);
                               });},
                               (){reuablebottomsheet(context, "Choose Other Image 2",(){
-                                _pickImage(ImageSource.gallery,'other2');
+                                // _pickImage(ImageSource.gallery,'other2');
+                                controller.pickImage(context, 'other2', ImageSource.gallery);
                               },(){
-                                _pickImage(ImageSource.camera,'other2');
+                                // _pickImage(ImageSource.camera,'other2');
+                                controller.pickImage(context, 'other2', ImageSource.camera);
                               });},
                                'assets/images/add_img_placeholder.png'),
-                              reusableDocuments2(context, '','', '', repository.other_3.value.toString(),repository.other_4.value.toString(),
+                              reusableDocuments2(context, '','', '', 
+                              state.other3 != null ? state.other3!.path : repository.other_3.value.toString(),
+                               state.other4 != null ? state.other4!.path : repository.other_4.value.toString(), 
                                (){reuablebottomsheet(context, "Choose Other Image 3",(){
-                                _pickImage(ImageSource.gallery,'other3');
+                                // _pickImage(ImageSource.gallery,'other3');
+                                controller.pickImage(context, 'other3', ImageSource.gallery);
                               },(){
-                                _pickImage(ImageSource.camera,'other3');
+                                // _pickImage(ImageSource.camera,'other3');
+                                controller.pickImage(context, 'other3', ImageSource.camera);
                               });},
                               (){reuablebottomsheet(context, "Choose Other Image 4",(){
-                                _pickImage(ImageSource.gallery,'other4');
+                                // _pickImage(ImageSource.gallery,'other4');
+                                controller.pickImage(context, 'other4', ImageSource.gallery);
                               },(){
-                                _pickImage(ImageSource.camera,'other4');
+                                // _pickImage(ImageSource.camera,'other4');
+                                controller.pickImage(context, 'other4', ImageSource.camera);
                               });},
                                'assets/images/add_img_placeholder.png'),
-                              reusableDocuments2(context, '','', '', repository.other_5.value.toString(),repository.other_6.value.toString(),
+                              reusableDocuments2(context, '','', '', 
+                              state.other5 != null ? state.other5!.path : repository.other_5.value.toString(),
+                               state.other6 != null ? state.other6!.path : repository.other_6.value.toString(), 
                                (){reuablebottomsheet(context, "Choose Other Image 5",(){
-                                _pickImage(ImageSource.gallery,'other5');
+                                // _pickImage(ImageSource.gallery,'other5');
+                                controller.pickImage(context, 'other5', ImageSource.gallery);
                               },(){
-                                _pickImage(ImageSource.camera,'other5');
+                                // _pickImage(ImageSource.camera,'other5');
+                                controller.pickImage(context, 'other5', ImageSource.camera);
                               });},
                               (){reuablebottomsheet(context, "Choose Other Image 6",(){
-                                _pickImage(ImageSource.gallery,'other6');
+                                // _pickImage(ImageSource.gallery,'other6');
+                                controller.pickImage(context, 'other6', ImageSource.gallery);
                               },(){
-                                _pickImage(ImageSource.camera,'other6');
+                                // _pickImage(ImageSource.camera,'other6');
+                                controller.pickImage(context, 'other6', ImageSource.camera);
                               });},
                                'assets/images/add_img_placeholder.png'),
                               repository.doc_error.value == 1 ? Container() :
-                              reusableBtn(context, 'Submit',(){
-                                setState(() {
+                              reusableBtn(context, 'Submit',()async{
+                                // setState(() {
                                   
-                                });
-                                _validateForm();
-                                setState(() {
+                                // });
+                                // _validateForm();
+                                // setState(() {
                                   
-                                });
+                                // });
+                                final controller = ref.read(documentsAttachProvider.notifier);
+                                await controller.uploadAllAndSubmit(context);
                                 }),
                               reusablaSizaBox(context, 0.010),
                             ],
