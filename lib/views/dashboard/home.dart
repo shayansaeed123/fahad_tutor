@@ -24,6 +24,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
+import 'package:in_app_review/in_app_review.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../login/login.dart';
@@ -53,6 +54,7 @@ class _HomeState extends State<Home> {
   TutorRepository repository = TutorRepository();
   List<dynamic> tuitions = [];
   List<dynamic> filteredTuitions = [];
+  final InAppReview _inAppReview = InAppReview.instance;
 
   String formatInfo(String info) {
     return info.replaceAll(';', '\n');
@@ -76,6 +78,7 @@ class _HomeState extends State<Home> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _fetchAndCheckPopup();
     });
+    
   }
 
   List<Tuition> searchResults = [];
@@ -127,6 +130,26 @@ class _HomeState extends State<Home> {
               Navigator.push(context, MaterialPageRoute(builder: (context) => Login(),));
       });
       });
+    }
+    // int ck =1;
+    // if(ck==1){
+    //   showReviewDialog(context);
+    // }
+    int show = 1;
+    if(show==1){
+      _openInAppReview();
+    }
+  }
+
+  Future<void> _openInAppReview() async {
+    if (await _inAppReview.isAvailable()) {
+      await _inAppReview.requestReview();
+    } else {
+      // Agar in-app review available nahi, to Play Store page open karega
+      await _inAppReview.openStoreListing(
+        appStoreId: 'YOUR_APP_STORE_ID', // only for iOS
+        microsoftStoreId: null,
+      );
     }
   }
 

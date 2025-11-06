@@ -75,6 +75,7 @@ dependencies:
   camera: 
   flutter_riverpod: ^2.6.1
   riverpod: 
+  in_app_review:
   # flutter_webrtc: 
   # flutter_inappwebview:
   # crypto: 
