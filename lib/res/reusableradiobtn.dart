@@ -94,25 +94,6 @@ Widget reusableRadioBtnOne(
                 // ),
               ),
         ),
-    // Expanded(
-    //   child: Row(
-    //       children: [
-    //         Radio<String>(
-    //           value: value2,
-    //           groupValue: _groupValue,
-    //           fillColor: MaterialStateColor.resolveWith(
-    //                           (states) => colorController.blueColor),
-    //           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-    //         visualDensity: VisualDensity.compact,
-    //         activeColor: MaterialStateColor.resolveWith(
-    //                           (states) => colorController.blueColor),
-    //           onChanged: onChanged,
-    //         ),
-    //         Flexible(child: Text(name2, overflow: TextOverflow.ellipsis,style: TextStyle(fontSize: 13),)),
-    //       ],
-    //     // ),
-    //   ),
-    // )
       ],
     ),
   );
