@@ -86,8 +86,7 @@ reusableappbar(BuildContext context, Color color, Function ontap,
 
 
 
-void showReviewDialog(BuildContext context) {
-    double rating = 0.0;
+void showReviewDialog(BuildContext context,double rating) {
 
     showDialog(
       context: context,

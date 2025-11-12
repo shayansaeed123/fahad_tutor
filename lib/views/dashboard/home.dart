@@ -45,6 +45,7 @@ class _HomeState extends State<Home> {
   int limit = 10;
   int success = 0;
   int is_apply = 0;
+  double rating = 0.0;
   String g_id = '';
   String tuition_id = '';
   String msg= '';
@@ -131,13 +132,9 @@ class _HomeState extends State<Home> {
       });
       });
     }
-    // int ck =1;
-    // if(ck==1){
-    //   showReviewDialog(context);
-    // }
-    int show = 1;
-    if(show==1){
-      _openInAppReview();
+    print(repository.app_review.value);
+    if(repository.app_review.value == 1){
+      showReviewDialog(context,rating);
     }
   }
 

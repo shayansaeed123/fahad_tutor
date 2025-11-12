@@ -252,6 +252,9 @@ class TutorRepository {
   final ValueNotifier<int> _goto_play = ValueNotifier<int>(0);
   ValueNotifier<int> get goto_play => _goto_play;
 
+  final ValueNotifier<int> _app_review = ValueNotifier<int>(0);
+  ValueNotifier<int> get app_review => _app_review;
+
 
   final ValueNotifier<String> _attention_popup_text = ValueNotifier<String>('');
   ValueNotifier<String> get attention_popup_text => _attention_popup_text;
@@ -518,6 +521,7 @@ class TutorRepository {
         _attention_popup_title.value = jsonResponse['attention_popup_title'][0];
         _account_check.value = jsonResponse['account_check'][0];
         _goto_play.value = jsonResponse['enable_popup_status'][0];
+        _app_review.value = jsonResponse['app_review'][0];
 
         print('img $_preferred_popup_image');
         if (start == 0) {
