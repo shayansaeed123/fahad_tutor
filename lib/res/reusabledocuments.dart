@@ -77,26 +77,6 @@ reusableDocuments2(BuildContext context,String add2,String add3,String title2,St
     Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-      //   Text(title1,
-      // style: TextStyle(
-      //   color: colorController.blackColor,
-      //   fontSize: 20,
-      //   fontWeight: FontWeight.bold,
-      //   fontFamily: 'tutorPhi'
-        
-      // ),),
-      //   // reusableText(title1, fontsize: 20,color: colorController.blackColor,fontweight: FontWeight.bold),
-      //   reusablaSizaBox(context, .030),
-      //   DottedBorder(
-      //     color: colorController.blackColor,
-      //       strokeWidth: 2,
-      //       dashPattern: [6, 3],
-      //       // radius: Radius.circular(15),
-      //       child:  reusableSelectImage1(context, (){ontap1();}, image1, imgCondition)
-      //   ),
-      //   reusablaSizaBox(context, .010),
-      //   reusableText(add1, color: colorController.btnColor,fontsize: 15),
-        // reusablaSizaBox(context, .030),
         reusableText(title2, fontsize: 20,color: colorController.blackColor,fontweight: FontWeight.bold),
         reusablaSizaBox(context, .030),
         Row(
