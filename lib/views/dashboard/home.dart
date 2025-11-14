@@ -79,7 +79,6 @@ class _HomeState extends State<Home> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _fetchAndCheckPopup();
     });
-    
   }
 
   List<Tuition> searchResults = [];
@@ -132,21 +131,20 @@ class _HomeState extends State<Home> {
       });
       });
     }
-    print(repository.app_review.value);
-    if(repository.app_review.value == 1){
-      showReviewDialog(context,rating);
-    }
+    if (repository.app_review.value == 1) {
+    showReviewDialog(context, (rating) async {
+      await repository.submitReview(rating);
+
+      if (repository.feedback_popup.value == 1) {
+        _openInAppReview();
+      }
+    });
   }
 
+  }
   Future<void> _openInAppReview() async {
     if (await _inAppReview.isAvailable()) {
       await _inAppReview.requestReview();
-    } else {
-      // Agar in-app review available nahi, to Play Store page open karega
-      await _inAppReview.openStoreListing(
-        appStoreId: 'YOUR_APP_STORE_ID', // only for iOS
-        microsoftStoreId: null,
-      );
     }
   }
 

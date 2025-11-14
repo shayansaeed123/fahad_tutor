@@ -265,6 +265,9 @@ class TutorRepository {
   final ValueNotifier<int> _attention_popup = ValueNotifier<int>(0);
   ValueNotifier<int> get attention_popup => _attention_popup;
 
+  final ValueNotifier<int> _feedback_popup = ValueNotifier<int>(0);
+  ValueNotifier<int> get feedback_popup => _feedback_popup;
+
   final ValueNotifier<int> _account_check = ValueNotifier<int>(0);
   ValueNotifier<int> get account_check => _account_check;
 
@@ -1328,4 +1331,30 @@ Future<void> updateProgressReport({
   }
   
 
+
+  Future<void> submitReview(double rating) async {
+    _isLoading = true;
+    _showLoadMoreButton = false;
+
+    try {
+      String url =
+          '${Utils.baseUrl}check_popup.php?rating=$rating';
+      final response = await http.get(Uri.parse(url));
+      print('url $url');
+
+      if (response.statusCode == 200) {
+        dynamic jsonResponse = jsonDecode(response.body);
+        _feedback_popup.value = jsonResponse['feedback_popup'];
+        print(_feedback_popup);
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception(e);
+    } finally {
+      _isLoading = false;
+      _showLoadMoreButton = true;
+    }
+  }
 }

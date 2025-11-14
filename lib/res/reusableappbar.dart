@@ -86,95 +86,77 @@ reusableappbar(BuildContext context, Color color, Function ontap,
 
 
 
-void showReviewDialog(BuildContext context,double rating) {
+void showReviewDialog(
+  BuildContext context,
+  Function(double rating) onSubmit,
+) {
+  double rating = 0;
 
-    showDialog(
-      context: context,
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              title: const Text('Rate your experience'),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
+  showDialog(
+    context: context,
+    builder: (context) {
+      return StatefulBuilder(
+        builder: (context, setState) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            title: const Text('Rate your experience'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                reusablaSizaBox(context, 0.015),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(5, (index) {
+                    return IconButton(
+                      icon: Icon(
+                        index < rating ? Icons.star : Icons.star_border,
+                        color: Colors.amber,
+                        size: 30,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          rating = index + 1.0;
+                        });
+                      },
+                    );
+                  }),
+                ),
+                reusablaSizaBox(context, 0.015),
+              ],
+            ),
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  reusablaSizaBox(context, 0.015),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(5, (index) {
-                      return IconButton(
-                        icon: Icon(
-                          index < rating ? Icons.star : Icons.star_border,
-                          color: Colors.amber,
-                          size: 30,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            rating = index + 1.0;
-                          });
-                        },
-                      );
+                  Expanded(
+                    child: reusableBtn(context, 'Cancel', () {
+                      Navigator.pop(context);
                     }),
                   ),
-                  reusablaSizaBox(context, 0.015),
-                ],
-              ),
-              actions: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(child: reusableBtn(context, 'Cancel', (){Navigator.pop(context);})),
-                    reusablaSizaBox(context, 0.03),
-                // TextButton(
-                //   onPressed: () => Navigator.pop(context),
-                //   child: const Text('Cancel'),
-                // ),
-                Expanded(
-                  child: reusableBtn(context, 'Submit', (){
-                    if (rating == 0) {
+                  reusablaSizaBox(context, 0.03),
+                  Expanded(
+                    child: reusableBtn(context, 'Submit', () async {
+                      if (rating == 0) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                               content: Text('Please select a rating first')),
                         );
                         return;
                       }
-                  
-                      // Here you can send the review data to your backend or Firebase
-                      debugPrint('Rating: $rating');
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Review submitted!')),
-                      );
-                  }),
-                ),
-                  ],
-                )
-                // ElevatedButton(
-                //   onPressed: () {
-                //     if (rating == 0) {
-                //       ScaffoldMessenger.of(context).showSnackBar(
-                //         const SnackBar(
-                //             content: Text('Please select a rating first')),
-                //       );
-                //       return;
-                //     }
 
-                //     // Here you can send the review data to your backend or Firebase
-                //     debugPrint('Rating: $rating');
-                //     Navigator.pop(context);
-                //     ScaffoldMessenger.of(context).showSnackBar(
-                //       const SnackBar(content: Text('Review submitted!')),
-                //     );
-                //   },
-                //   child: const Text('Submit'),
-                // ),
-              ],
-            );
-          },
-        );
-      },
-    );
-  }
+                      Navigator.pop(context);
+
+                      onSubmit(rating); // 🔥 RETURN RATING UPWARDS
+                    }),
+                  ),
+                ],
+              )
+            ],
+          );
+        },
+      );
+    },
+  );
+}
