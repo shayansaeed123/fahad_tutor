@@ -58,16 +58,16 @@ dependencies:
   cached_network:
   dotted_border: 
   image_picker: 
-  firebase_messaging: 
+  firebase_messaging: ^16.0.4
   firebase_core: 
   rename_app:
   # flutter_secure_storage: 
   shared_preferences:
   permission_handler: ^9.2.0
-  provider: 
-  flutter_local_notifications:
+  provider: ^6.0.5
+  flutter_local_notifications: ^19.0.0
   youtube_player_flutter: 
-  syncfusion_flutter_pdfviewer: ^20.4.50
+  syncfusion_flutter_pdfviewer: ^24.1.47
   flutter_image_compress: 
   flutter_windowmanager_plus: ^1.0.1
   month_year_picker: 
@@ -76,6 +76,7 @@ dependencies:
   flutter_riverpod: ^2.6.1
   riverpod: 
   in_app_review:
+  firebase_crashlytics: ^5.0.5
   # flutter_webrtc: 
   # flutter_inappwebview:
   # crypto: 

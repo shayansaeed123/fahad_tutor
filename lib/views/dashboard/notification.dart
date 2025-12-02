@@ -9,6 +9,7 @@ import 'package:fahad_tutor/res/reusablebtn.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusablesizebox.dart';
 import 'package:fahad_tutor/res/reusabletutordetails.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -55,6 +56,8 @@ class _NotificationsState extends State<Notifications> {
   void initState() {
     super.initState();
     fetchNotification();
+    FirebaseCrashlytics.instance.setCustomKey("notification_page", "NotificationPage");
+    FirebaseCrashlytics.instance.log("Notification banner show attempt");
   }
 
   String formatApply(String info) {

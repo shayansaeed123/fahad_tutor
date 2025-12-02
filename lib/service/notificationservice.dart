@@ -5,6 +5,7 @@ import 'package:fahad_tutor/main.dart';
 import 'package:fahad_tutor/repo/tutor_repo.dart';
 import 'package:fahad_tutor/res/reusableloading.dart';
 import 'package:fahad_tutor/res/reusabletutordetails.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -89,6 +90,7 @@ static void handleNotificationClick(RemoteMessage message) {
     print('Tuition ID $tuitionId');
 
   print("🟢 Background Notification Clicked: $data");
+  FirebaseCrashlytics.instance.log("Notification received: ${message.data['tution_id']}");
 
   if (tuitionId != null && tuitionId.isNotEmpty) {
     _showNotificationDialog(tuitionId, data, title,body); // ✅ Pass tuitionId and data
@@ -125,7 +127,7 @@ static void handleNotificationClick(RemoteMessage message) {
   
 
   static void _showNotificationDialog(String tuitionId,Map<String, dynamic> data, String title,String body) {
-    
+    FirebaseCrashlytics.instance.log("Showing notification dialog for tuitionId: $tuitionId");
     TutorRepository repository = TutorRepository();
     final navigator = navigatorKey.currentContext;
     if (navigator == null) return;

@@ -4,6 +4,7 @@ import 'package:fahad_tutor/controller/documents_attach_controller.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/service/notificationservice.dart';
 import 'package:fahad_tutor/views/splash.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ void main()async {
     NotificationService.handleNotificationClick(initialMessage);
   }
   NotificationService.initialize(); // Initialize the notification handler
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   runApp(
     // const MyApp()
     ProviderScope(
