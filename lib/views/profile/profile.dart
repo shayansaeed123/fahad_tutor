@@ -21,6 +21,7 @@ import 'package:fahad_tutor/views/profile/documentsattach.dart';
 import 'package:fahad_tutor/views/profile/faq.dart';
 import 'package:fahad_tutor/views/profile/feedback.dart';
 import 'package:fahad_tutor/views/online/tutor/onlineportal.dart';
+import 'package:fahad_tutor/views/profile/preferences.dart';
 import 'package:fahad_tutor/views/profile/qualification.dart';
 import 'package:fahad_tutor/views/profile/registrationcharges.dart';
 import 'package:fahad_tutor/views/profile/registrationchargeselanguage.dart';
@@ -193,8 +194,8 @@ void loginClear(){
               },),
               ValueListenableBuilder(valueListenable: repository.qualification_pref, builder: (context, value, child) {
                 return reusablelisttile(context,(){
-               Navigator.push(context, MaterialPageRoute(builder: (context) => QualificationAndPreferences(),));
-              },'assets/images/qual_pref_icon.png','Qulification and Preferences',widget: Container(
+               Navigator.push(context, MaterialPageRoute(builder: (context) => Qualification(),));
+              },'assets/images/qual_pref_icon.png','Qulification',widget: Container(
                 width: MediaQuery.of(context).size.width * .24,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -214,6 +215,32 @@ void loginClear(){
                 ),
               ));
               },),
+
+              ValueListenableBuilder(valueListenable: repository.qualification_pref, builder: (context, value, child) {
+                return reusablelisttile(context,(){
+               Navigator.push(context, MaterialPageRoute(builder: (context) => QualificationAndPreferences(),));
+              },'assets/images/qual_pref_icon.png','Preferences',widget: Container(
+                width: MediaQuery.of(context).size.width * .24,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    if(value == '20')
+                    // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                    CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 15,)),backgroundColor: colorController.greenColor,maxRadius: 11,), 
+                    if(value == '21')
+                    reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
+                    if(value == '8')
+                    Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                    if(value == '19')
+                    Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                    
+                    Icon(Icons.arrow_forward_ios)
+                  ],
+                ),
+              ));
+              },),
+
+
               ValueListenableBuilder(valueListenable: repository.docs_att, builder: (context, value, child) {
                 return reusablelisttile(context,(){
                 if(repository.qualification_pref.value == '8' || repository.qualification_pref.value == '19'){

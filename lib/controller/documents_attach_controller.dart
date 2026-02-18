@@ -41,6 +41,7 @@ class DocumentsAttachController extends StateNotifier<DocumentsAttachState> {
   /// Pick image from camera or gallery, compress if needed, then show preview dialog
   Future<void> pickImage(BuildContext context, String type, ImageSource source) async {
     try {
+       final bottomSheetContext = context; // store bottom sheet context
       final picked = await _picker.pickImage(source: source);
       if (picked == null) {
         debugPrint('No image selected');
@@ -60,26 +61,28 @@ class DocumentsAttachController extends StateNotifier<DocumentsAttachState> {
       if (!mounted) return; // safety check
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         title: const Text('Image Updated'),
         content: SizedBox(
           width: MediaQuery.of(context).size.width * 0.3,
           height: MediaQuery.of(context).size.height * 0.3,
-          child: Image.file(selectedImage, fit: BoxFit.contain),
+          child: Image.file(selectedImage, fit: BoxFit.cover,
+          cacheHeight: 300,  // LOW MEMORY PREVIEW
+            cacheWidth: 300,),
         ),
         actions: [
           Padding(
             padding: const EdgeInsets.all(5),
             child: reusableBtn(context, 'Cancel', () {
-              Navigator.of(context).pop();
+              Navigator.of(dialogContext).pop();
             }),
           ),
           Padding(
             padding: const EdgeInsets.all(5),
             child: reusableBtn(context, 'Submit', () async {
-              await uploadSingleFile(type,selectedImage,context);
-              if (mounted) Navigator.of(context).pop(); // close dialog only
-              if (mounted) Navigator.of(context).pop(); // close dialog only
+              await uploadSingleFile(type,selectedImage,dialogContext);
+              if (mounted) Navigator.of(dialogContext).pop(); // close dialog only
+              if (mounted) Navigator.of(bottomSheetContext).pop(); // close dialog only
             }),
           ),
         ],
@@ -171,7 +174,7 @@ class DocumentsAttachController extends StateNotifier<DocumentsAttachState> {
         if (jsonResp.containsKey('other_5')) repository.other_5.value = jsonResp['other_5'];
         if (jsonResp.containsKey('other_6')) repository.other_6.value = jsonResp['other_6'];
 
-        Utils.snakbar(context, 'Upload successful');
+        Utils.snakbarSuccess(context, 'Upload successful');
       } else {
         Utils.snakbar(context, 'Upload failed with status ${streamed.statusCode}');
       }
