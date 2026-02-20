@@ -204,6 +204,15 @@ class TutorRepository {
   final ValueNotifier<String> _profile_image = ValueNotifier<String>('');
   ValueNotifier<String> get profile_image => _profile_image;
 
+  final ValueNotifier<String> _proof_image1 = ValueNotifier<String>('');
+  ValueNotifier<String> get proof_image1 => _proof_image1;
+
+  final ValueNotifier<String> _proof_image2 = ValueNotifier<String>('');
+  ValueNotifier<String> get proof_image2 => _proof_image2;
+
+  final ValueNotifier<String> _proof_image3 = ValueNotifier<String>('');
+  ValueNotifier<String> get proof_image3 => _proof_image3;
+
   final ValueNotifier<String> _cnic_b= ValueNotifier<String>('');
   ValueNotifier<String> get cnic_b => _cnic_b;
 

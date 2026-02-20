@@ -83,6 +83,15 @@ final TextEditingController _registerPassCon = TextEditingController();
   final TextEditingController _feedback = TextEditingController();
   TextEditingController get feedback => _feedback;
 
+  final TextEditingController _institute1 = TextEditingController();
+  TextEditingController get institute1 => _institute1;
+
+  final TextEditingController _institute2 = TextEditingController();
+  TextEditingController get institute2 => _institute2;
+
+  final TextEditingController _institute3 = TextEditingController();
+  TextEditingController get institute3 => _institute3;
+
   final TextEditingController _oldPass = TextEditingController();
   TextEditingController get oldPass => _oldPass;
 

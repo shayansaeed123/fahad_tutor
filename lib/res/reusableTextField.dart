@@ -302,6 +302,70 @@ Widget reusableDateofBirthField(
 }
 
 
+Widget reusableSelectYear(
+  BuildContext context,
+  String label,
+  int? selectedYear,
+  void Function(int year) onYearSelected,
+) {
+  Future<void> pickYear() async {
+    final currentYear = DateTime.now().year;
+
+    final picked = await showDialog<int>(
+      context: context,
+      builder: (context) {
+        int tempYear = selectedYear ?? currentYear;
+
+        return AlertDialog(
+          title: Text(label),
+          content: SizedBox(
+            width: 300,
+            height: 300,
+            child: YearPicker(
+              firstDate: DateTime(1950),
+              lastDate: DateTime(2100),
+              selectedDate: DateTime(tempYear),
+              onChanged: (dateTime) {
+                Navigator.pop(context, dateTime.year);
+              },
+            ),
+          ),
+        );
+      },
+    );
+
+    if (picked != null) {
+      onYearSelected(picked);
+    }
+  }
+
+  return GestureDetector(
+    onTap: pickYear,
+    child: Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            selectedYear?.toString() ?? label,
+            style: TextStyle(
+              fontSize: 14,
+              color: selectedYear == null ? Colors.grey : Colors.black,
+            ),
+          ),
+          const Icon(Icons.calendar_today, size: 18),
+        ],
+      ),
+    ),
+  );
+}
+
+
+
 Widget reusableOnlinePortalDate(
   BuildContext context,
   DateTime lastDate,

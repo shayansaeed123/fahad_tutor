@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:fahad_tutor/controller/repo_provider.dart';
 import 'package:fahad_tutor/database/my_shared.dart';
 import 'package:fahad_tutor/model/documentmodel.dart';
 import 'package:fahad_tutor/repo/tutor_repo.dart';
@@ -16,13 +17,22 @@ import 'package:path/path.dart' as path;
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 class DocumentsAttachController extends StateNotifier<DocumentsAttachState> {
-   final Ref ref;
+  //  final Ref ref;
   final ImagePicker _picker = ImagePicker();
+  // late TutorRepository repository;
+
+  // DocumentsAttachController(this.ref) : super(DocumentsAttachState.initial()) {
+  //   repository = TutorRepository();
+  //   loadExistingDocuments(); // auto call when provider created
+  // }
+
+   final Ref ref;
   late TutorRepository repository;
 
-  DocumentsAttachController(this.ref) : super(DocumentsAttachState.initial()) {
-    repository = TutorRepository();
-    loadExistingDocuments(); // auto call when provider created
+  DocumentsAttachController(this.ref)
+      : super(DocumentsAttachState.initial()) {
+
+    repository = ref.read(tutorRepositoryProvider); // ✅ correct
   }
 
   /// Fetch existing documents from backend
@@ -138,6 +148,12 @@ class DocumentsAttachController extends StateNotifier<DocumentsAttachState> {
         return state.copyWith(other5: file);
       case 'other6':
         return state.copyWith(other6: file);
+      case 'proof1':
+        return state.copyWith(proof1: file);
+      case 'proof2':
+        return state.copyWith(proof2: file);
+      case 'proof3':
+        return state.copyWith(proof3: file);
       default:
         return state;
     }
@@ -162,6 +178,7 @@ class DocumentsAttachController extends StateNotifier<DocumentsAttachState> {
 
       if (streamed.statusCode == 200) {
         final jsonResp = json.decode(respStr);
+        print(jsonResp.toString());
         // update repository values accordingly
         if (jsonResp.containsKey('profile_pic')) repository.profile_image.value = jsonResp['profile_pic'];
         if (jsonResp.containsKey('CNIC_F')) repository.cnic_f.value = jsonResp['CNIC_F'];
@@ -173,6 +190,9 @@ class DocumentsAttachController extends StateNotifier<DocumentsAttachState> {
         if (jsonResp.containsKey('other_4')) repository.other_4.value = jsonResp['other_4'];
         if (jsonResp.containsKey('other_5')) repository.other_5.value = jsonResp['other_5'];
         if (jsonResp.containsKey('other_6')) repository.other_6.value = jsonResp['other_6'];
+        if (jsonResp.containsKey('proof1')) {repository.proof_image1.value = jsonResp['proof1']; print("proof1 saved = ${repository.proof_image1.value}");};
+        if (jsonResp.containsKey('proof2')) repository.proof_image2.value = jsonResp['proof2'];
+        if (jsonResp.containsKey('proof3')) repository.proof_image3.value = jsonResp['proof3'];
 
         Utils.snakbarSuccess(context, 'Upload successful');
       } else {
@@ -208,6 +228,12 @@ class DocumentsAttachController extends StateNotifier<DocumentsAttachState> {
         return 'other_5';
       case 'other6':
         return 'other_6';
+      case 'proof1':
+        return 'proof1';
+      case 'proof2':
+        return 'proof2';
+      case 'proof3':
+        return 'proof3';
       default:
         return '';
     }
