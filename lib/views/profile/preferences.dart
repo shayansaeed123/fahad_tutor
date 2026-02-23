@@ -310,7 +310,7 @@ String classListJson = jsonEncode(classList);
       print('quran Ex $selectedQuranExperiencePhysical');
       print('helooooooooo $classListJson');
       final response = await http.post(
-        Uri.parse('${Utils.baseUrl}step_2_update.php'),
+        Uri.parse('${Utils.baseUrl}step_new_2_update.php'),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
@@ -343,7 +343,7 @@ String classListJson = jsonEncode(classList);
   Future<void> saveAreaData() async {
   try {
     final response = await http.get(
-      Uri.parse('${Utils.baseUrl}step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
+      Uri.parse('${Utils.baseUrl}step_new_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
     );
 
     if (response.statusCode == 200) {

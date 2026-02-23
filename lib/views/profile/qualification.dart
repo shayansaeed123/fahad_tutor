@@ -321,7 +321,12 @@ late TutorRepository repository;
       List<Map<String, dynamic>> qualificationId1 = selectedIdsQualification1.map((qualif) {
         return {'Qualification_id': qualif['id']};
       }).toList();
-      String qualificationjson1 = jsonEncode(qualificationId1);
+      // String qualificationjson1 = jsonEncode(qualificationId1);
+
+      String qualificationjson1 = qualificationId1.isNotEmpty
+      ? qualificationId1.first['Qualification_id'].toString()
+      : '';
+
 
 
       // List<Map<String, dynamic>> institude_id1 = selectedIdsinstitute1.map((institute) {
@@ -332,7 +337,10 @@ late TutorRepository repository;
       List<Map<String, dynamic>> qualificationId2 = selectedIdsQualification2.map((qualif) {
         return {'Qualification_id': qualif['id']};
       }).toList();
-      String qualificationjson2 = jsonEncode(qualificationId2);
+      // String qualificationjson2 = jsonEncode(qualificationId2);
+      String qualificationjson2 = qualificationId2.isNotEmpty
+      ? qualificationId2.first['Qualification_id'].toString()
+      : '';
 
 
       // List<Map<String, dynamic>> institude_id2 = selectedIdsinstitute2.map((institute) {
@@ -343,7 +351,10 @@ late TutorRepository repository;
       List<Map<String, dynamic>> qualificationId3 = selectedIdsQualification3.map((qualif) {
         return {'Qualification_id': qualif['id']};
       }).toList();
-      String qualificationjson3 = jsonEncode(qualificationId3);
+      // String qualificationjson3 = jsonEncode(qualificationId3);
+      String qualificationjson3 = qualificationId3.isNotEmpty
+      ? qualificationId3.first['Qualification_id'].toString()
+      : '';
 
 
       // List<Map<String, dynamic>> institude_id3 = selectedIdsinstitute3.map((institute) {
@@ -421,36 +432,97 @@ Future<void> saveQualificationData() async {
       if (response.body.isNotEmpty) {
         final Map<String, dynamic> jsonResponse = json.decode(response.body);
 
-          // selectedIdsinstitute1 = (jsonResponse['Institute_listing'] as List)
-          //     .map<Map<String, String>>((item) => {'id': item['id'].toString()})
-          //     .toList();
+        if (jsonResponse['qualifications'] != null &&
+            jsonResponse['qualifications'].isNotEmpty) {
 
-          selectedIdsQualification1 = (jsonResponse['Institute_Qualification1'] as List)
-              .map<Map<String, String>>((item) => {'id': item['id'].toString()})
-              .toList();
+          final qualification = jsonResponse['qualifications'][0];
 
-          // selectedIdsinstitute2 = (jsonResponse['Institute_listing'] as List)
-          //     .map<Map<String, String>>((item) => {'id': item['id'].toString()})
-          //     .toList();
-              
-          selectedIdsQualification2 = (jsonResponse['Institute_Qualification2'] as List)
-              .map<Map<String, String>>((item) => {'id': item['id'].toString()})
-              .toList();
+          setState(() {
 
-          // selectedIdsinstitute3 = (jsonResponse['Institute_listing'] as List)
-          //     .map<Map<String, String>>((item) => {'id': item['id'].toString()})
-          //     .toList();
+            /// ✅ YEAR
+            year = int.tryParse(qualification['startyear'].toString());
 
-          selectedIdsQualification3 = (jsonResponse['Institute_Qualification3'] as List)
-              .map<Map<String, String>>((item) => {'id': item['id'].toString()})
-              .toList();    
-          
-          // updateSelectedNamesInstitute1();
-          updateSelectedNamesQualification1();
-          // updateSelectedNamesInstitute2();
-          updateSelectedNamesQualification2();
-          // updateSelectedNamesInstitute3();
-          updateSelectedNamesQualification3();
+            /// ✅ INSTITUTE
+            reusabletextfieldcontroller.institute1.text =
+                qualification['Institute1'] ?? '';
+
+            reusabletextfieldcontroller.institute2.text =
+                qualification['Institute2'] ?? '';
+
+            reusabletextfieldcontroller.institute3.text =
+                qualification['Institute3'] ?? '';
+
+            /// ✅ DEGREE IDS (IMPORTANT)
+            selectedIdsQualification1.clear();
+            selectedIdsQualification2.clear();
+            selectedIdsQualification3.clear();
+
+            selectedNamesQualification1.clear();
+            selectedNamesQualification2.clear();
+            selectedNamesQualification3.clear();
+
+            if (qualification['Degree1'] != null &&
+                qualification['Degree1'].toString().isNotEmpty) {
+
+              selectedIdsQualification1.add({
+                'id': qualification['Degree1']
+              });
+
+              /// agar degree list already loaded hai
+              final match = newItemsQualification1.firstWhere(
+                    (item) => item['id'].toString() ==
+                    qualification['Degree1'].toString(),
+                orElse: () => null,
+              );
+
+              if (match != null) {
+                selectedNamesQualification1.add(match['degree_title1']);
+              }
+            }
+
+            if (qualification['Degree2'] != null &&
+                qualification['Degree2'].toString().isNotEmpty) {
+
+              selectedIdsQualification2.add({
+                'id': qualification['Degree2']
+              });
+
+              final match = newItemsQualification2.firstWhere(
+                    (item) => item['id'].toString() ==
+                    qualification['Degree2'].toString(),
+                orElse: () => null,
+              );
+
+              if (match != null) {
+                selectedNamesQualification2.add(match['degree_title2']);
+              }
+            }
+
+            if (qualification['Degree3'] != null &&
+                qualification['Degree3'].toString().isNotEmpty) {
+
+              selectedIdsQualification3.add({
+                'id': qualification['Degree3']
+              });
+
+              final match = newItemsQualification3.firstWhere(
+                    (item) => item['id'].toString() ==
+                    qualification['Degree3'].toString(),
+                orElse: () => null,
+              );
+
+              if (match != null) {
+                selectedNamesQualification3.add(match['degree_title3']);
+              }
+            }
+
+            /// ✅ PROOF IMAGES
+            repository.proof_image1.value = qualification['proof1'] ?? '';
+            repository.proof_image2.value = qualification['proof2'] ?? '';
+            repository.proof_image3.value = qualification['proof3'] ?? '';
+
+          });
+        }
         // });
       } else {
         throw Exception('Empty response body');
