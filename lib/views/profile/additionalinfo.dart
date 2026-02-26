@@ -28,6 +28,7 @@ class AdditionalInfo extends StatefulWidget {
 }
 
 class _AdditionalInfoState extends State<AdditionalInfo> {
+  
   bool isLoading = false;
   DateTime? selectedTime;
   DateTime? selectedCnicDate;
@@ -74,11 +75,11 @@ List<Map<String, String>> selectedSegmentMapList = [];
     repository.check_msg();
     getValues();
     getAddtionalInfo();
-    repository.fetchData('Languages_listing','Languages', newItemsLanguage, selectedIdsLanguage, updateSelectedNamesLanguage,(val)=> setState(() {isLoading = val;}));
+    // repository.fetchData('Languages_listing','Languages', newItemsLanguage, selectedIdsLanguage, updateSelectedNamesLanguage,(val)=> setState(() {isLoading = val;}));
     repository.fetchData('Experience_listing','Experience', newItemsAcademyExperience, [], (){},(val)=> setState(() {isLoading = val;}));
     repository.fetchData('Experience_listing','Experience', newItemsAcademyExperienceOnlie, [], (){},(val)=> setState(() {isLoading = val;}));
     // repository.fetchData('Preferred_Time','Preferred_Time', newItemsTime, selectedIdsTime, updateSelectedNamesTime,(val)=> setState(() {isLoading = val;}));
-    saveLanguagesData();
+    // saveLanguagesData();
     fetchSegmentData();
   }
   Future<void> fetchSegmentData() async {
@@ -165,9 +166,9 @@ List<Map<String, String>> selectedSegmentMapList = [];
   bool visible = true;
   final TextEditingController _biography = TextEditingController();
   int _charCount = 0;
-  List<dynamic> newItemsLanguage = [];
-List<Map<String, String>> selectedIdsLanguage = [];
-List<String> selectedNamesLanguage = [];
+//   List<dynamic> newItemsLanguage = [];
+// List<Map<String, String>> selectedIdsLanguage = [];
+// List<String> selectedNamesLanguage = [];
   TutorRepository repository = TutorRepository();
 
   void _updateCharCount() {
@@ -239,7 +240,7 @@ void updateTutorSegments() {
     isValidField(selectedTeachingExp) &&
     isValidField(oLevel) &&
     isValidField(aLevel) &&
-    selectedIdsLanguage.isNotEmpty &&
+    // selectedIdsLanguage.isNotEmpty &&
     selectedPlacements.isNotEmpty && 
     isBiographyValid
   ) {
@@ -269,8 +270,8 @@ void updateTutorSegments() {
                           ? "Select O-Level Qualification"
                           : !isValidField(aLevel)
                             ? "Select A-Level Qualification"
-                            : selectedIdsLanguage.isEmpty
-                              ? "Select at least one language"
+                            // : selectedIdsLanguage.isEmpty
+                            //   ? "Select at least one language"
                               : !isBiographyValid
                                 ? (_biography.text.length < 500
                                     ? 'Biography must be at least 500 characters'
@@ -287,101 +288,106 @@ void updateTutorSegments() {
     List<dynamic> newItems;
     Function updateSelectedNames;
 
-    switch (itemType) {
-      case 'language_name':
-        selectedIds = selectedIdsLanguage;
-        selectedNames = selectedNamesLanguage;
-        newItems = newItemsLanguage;
-        updateSelectedNames = updateSelectedNamesLanguage;
-        break;
-      // case 'name':
-      //   selectedIds = selectedIdsTime;
-      //   selectedNames = selectedNamesTime;
-      //   newItems = newItemsTime;
-      //   updateSelectedNames = updateSelectedNamesTime;
-      //   break;
-      default:
-        return;
-    }
+    // switch (itemType) {
+    //   case 'language_name':
+    //     selectedIds = selectedIdsLanguage;
+    //     selectedNames = selectedNamesLanguage;
+    //     newItems = newItemsLanguage;
+    //     updateSelectedNames = updateSelectedNamesLanguage;
+    //     break;
+    //   // case 'name':
+    //   //   selectedIds = selectedIdsTime;
+    //   //   selectedNames = selectedNamesTime;
+    //   //   newItems = newItemsTime;
+    //   //   updateSelectedNames = updateSelectedNamesTime;
+    //   //   break;
+    //   default:
+    //     return;
+    // }
 
-    if (selectedIds.any((element) => element['id'] == id)) {
-      selectedIds.removeWhere((element) => element['id'] == id);
-      selectedNames.remove(name);
-    } else {
-      // // Check length constraint only for 'names' and 'degree_title'
-      // if (itemType == 'names' || itemType == 'degree_title') {
-      //   if (selectedIds.length < 2) {
-      //     selectedIds.add({'id': id});
-      //     selectedNames.add(name);
-      //   } else {
-      //     Utils.snakbar(context, 'Select only 2');
-      //   }
-      // } else if (itemType == 'course_name') {
-      //   if (selectedIds.length < 6) {
-      //     selectedIds.add({'id': id});
-      //     selectedNames.add(name);
-      //   } else {
-      //     Utils.snakbar(context, 'Select only 6');
-      //   }
-      // } else {
-        selectedIds.add({'id': id});
-        selectedNames.add(name);
-      // }
-    }
+    // if (selectedIds.any((element) => element['id'] == id)) {
+    //   selectedIds.removeWhere((element) => element['id'] == id);
+    //   selectedNames.remove(name);
+    // } else {
+    //   // // Check length constraint only for 'names' and 'degree_title'
+    //   // if (itemType == 'names' || itemType == 'degree_title') {
+    //   //   if (selectedIds.length < 2) {
+    //   //     selectedIds.add({'id': id});
+    //   //     selectedNames.add(name);
+    //   //   } else {
+    //   //     Utils.snakbar(context, 'Select only 2');
+    //   //   }
+    //   // } else if (itemType == 'course_name') {
+    //   //   if (selectedIds.length < 6) {
+    //   //     selectedIds.add({'id': id});
+    //   //     selectedNames.add(name);
+    //   //   } else {
+    //   //     Utils.snakbar(context, 'Select only 6');
+    //   //   }
+    //   // } else {
+    //     selectedIds.add({'id': id});
+    //     selectedNames.add(name);
+    //   // }
+    // }
 
-    updateSelectedNames();
+    // updateSelectedNames();
   });
 }
 
-void updateSelectedNamesLanguage() {
-  selectedNamesLanguage = selectedIdsLanguage.map((selected) {
-    return (newItemsLanguage.firstWhere(
-      (item) => item['id'] == selected['id'],
-      orElse: () => {'language_name': 'Unknown'},
-    )['language_name'] as String);
-  }).toList();
-  // print('Selected Group Names: $selectedNamesGroup');
-}
-Future<void> saveLanguagesData() async {
-  try {
-    final response = await http.get(
-      Uri.parse('${Utils.baseUrl}step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
-    );
+// void updateSelectedNamesLanguage() {
+//   selectedNamesLanguage = selectedIdsLanguage.map((selected) {
+//     return (newItemsLanguage.firstWhere(
+//       (item) => item['id'] == selected['id'],
+//       orElse: () => {'language_name': 'Unknown'},
+//     )['language_name'] as String);
+//   }).toList();
+//   // print('Selected Group Names: $selectedNamesGroup');
+// }
 
-    if (response.statusCode == 200) {
-      if (response.body.isNotEmpty) {
-        final Map<String, dynamic> jsonResponse = json.decode(response.body);
 
-          selectedIdsLanguage = (jsonResponse['preferred_languages'] as List)
-              .map<Map<String, String>>((item) => {'id': item['id'].toString()})
-              .toList();
-          // selectedIdsTime = (jsonResponse['preferred_time_query'] as List)
-          //     .map<Map<String, String>>((item) => {'id': item['id'].toString()})
-          //     .toList();
+
+// Future<void> saveLanguagesData() async {
+//   try {
+//     final response = await http.get(
+//       Uri.parse('${Utils.baseUrl}step_2.php?code=10&tutor_id=${MySharedPrefrence().get_user_ID()}'),
+//     );
+
+//     if (response.statusCode == 200) {
+//       if (response.body.isNotEmpty) {
+//         final Map<String, dynamic> jsonResponse = json.decode(response.body);
+
+//           selectedIdsLanguage = (jsonResponse['preferred_languages'] as List)
+//               .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+//               .toList();
+//           // selectedIdsTime = (jsonResponse['preferred_time_query'] as List)
+//           //     .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+//           //     .toList();
           
-          updateSelectedNamesLanguage();
-          // updateSelectedNamesTime();
-        // });
-      } else {
-        throw Exception('Empty response body');
-      }
-    } else {
-      throw Exception('Failed to load country details');
-    }
-  } catch (e) {
-    print('gfksgdf$e');
-  }
-}
+//           updateSelectedNamesLanguage();
+//           // updateSelectedNamesTime();
+//         // });
+//       } else {
+//         throw Exception('Empty response body');
+//       }
+//     } else {
+//       throw Exception('Failed to load country details');
+//     }
+//   } catch (e) {
+//     print('gfksgdf$e');
+//   }
+// }
 
   Future<void> updateAdditionalInfo() async {
   setState(() {
     isLoading = true;
   });
   try {
-    List<Map<String, dynamic>> languages_id = selectedIdsLanguage.map((languages) {
-        return {'preferred_languages_id': languages['id']};
-      }).toList();
-      String languagesjson = jsonEncode(languages_id);
+    // List<Map<String, dynamic>> languages_id = selectedIdsLanguage.map((languages) {
+    //     return {'preferred_languages_id': languages['id']};
+    //   }).toList();
+    //   String languagesjson = jsonEncode(languages_id);
+
+
       // List<Map<String, dynamic>> preferred_time_query = selectedIdsTime.map((time) {
       //   return {'Preferred_Time_id': time['id']};
       // }).toList();
@@ -409,7 +415,7 @@ Future<void> saveLanguagesData() async {
         'Biography': bio.toString(),
         'tutor_placement': jsonEncode(selectedPlacements),
         'source': '',
-        'preferred_languages': languagesjson,
+        // 'preferred_languages': languagesjson,
         'Zoom_Proficiency': Zoom.toString(),
         'International_client': client.toString(),
         'Segment_Tutors': jsonEncode(selectedSegmentMapList),
@@ -721,55 +727,55 @@ Future<void> getAddtionalInfo() async {
                                   },'A-Level Qualified', ['Yes','No']))
                                     ],
                                   ),
-                                  reusablaSizaBox(context, 0.020),
-                  reusablequlification(context, 'Can Speak Languages', () {
-                   repository.search(context, newItemsLanguage, selectedIdsLanguage, 'language_name',toggleSelection);
-                  }),
-                  reusablaSizaBox(context, .020),
-                  Container(
-                    constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.3),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: selectedNamesLanguage.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .012),
-                          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: colorController.qualificationItemsColors,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  selectedNamesLanguage[index],
-                                  softWrap: true,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: TextStyle(fontSize: 13, color: colorController.whiteColor),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    // Remove the selected item from the list
-                                    selectedIdsLanguage.removeAt(index);
-                                    selectedNamesLanguage.removeAt(index);
-                                    // updateSelectedNames(); // Update the names here
-                                    print('idddddddddddddd $selectedIdsLanguage');
-                                  });
-                                },
-                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.050,),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                  //                 reusablaSizaBox(context, 0.020),
+                  // reusablequlification(context, 'Can Speak Languages', () {
+                  //  repository.search(context, newItemsLanguage, selectedIdsLanguage, 'language_name',toggleSelection);
+                  // }),
+                  // reusablaSizaBox(context, .020),
+                  // Container(
+                  //   constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.3),
+                  //   child: ListView.builder(
+                  //     shrinkWrap: true,
+                  //     physics: NeverScrollableScrollPhysics(),
+                  //     itemCount: selectedNamesLanguage.length,
+                  //     itemBuilder: (context, index) {
+                  //       return Container(
+                  //         margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .012),
+                  //         padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
+                  //         decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(15),
+                  //           color: colorController.qualificationItemsColors,
+                  //         ),
+                  //         child: Row(
+                  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //           children: [
+                  //             Expanded(
+                  //               child: Text(
+                  //                 selectedNamesLanguage[index],
+                  //                 softWrap: true,
+                  //                 overflow: TextOverflow.ellipsis,
+                  //                 maxLines: 1,
+                  //                 style: TextStyle(fontSize: 13, color: colorController.whiteColor),
+                  //               ),
+                  //             ),
+                  //             InkWell(
+                  //               onTap: () {
+                  //                 setState(() {
+                  //                   // Remove the selected item from the list
+                  //                   selectedIdsLanguage.removeAt(index);
+                  //                   selectedNamesLanguage.removeAt(index);
+                  //                   // updateSelectedNames(); // Update the names here
+                  //                   print('idddddddddddddd $selectedIdsLanguage');
+                  //                 });
+                  //               },
+                  //               child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.050,),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
                 
                   Column(
     children: [

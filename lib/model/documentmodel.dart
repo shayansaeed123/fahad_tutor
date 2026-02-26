@@ -27,6 +27,7 @@ class DocumentsAttachState {
   final File? proof1;
   final File? proof2;
   final File? proof3;
+  final File? image1;
 
   DocumentsAttachState({
     this.isLoading = false,
@@ -43,6 +44,7 @@ class DocumentsAttachState {
     this.proof1,
     this.proof2,
     this.proof3,
+    this.image1,
   });
 
   DocumentsAttachState copyWith({
@@ -60,6 +62,7 @@ class DocumentsAttachState {
     File? proof1,
     File? proof2,
     File? proof3,
+    File? image1,
   }) {
     return DocumentsAttachState(
       isLoading: isLoading ?? this.isLoading,
@@ -76,6 +79,7 @@ class DocumentsAttachState {
       proof1: proof1 ?? this.proof1,
       proof2: proof2 ?? this.proof2,
       proof3: proof3 ?? this.proof3,
+      image1: image1 ?? this.image1,
     );
   }
   factory DocumentsAttachState.initial() => DocumentsAttachState();

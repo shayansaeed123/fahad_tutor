@@ -92,6 +92,12 @@ final TextEditingController _registerPassCon = TextEditingController();
   final TextEditingController _institute3 = TextEditingController();
   TextEditingController get institute3 => _institute3;
 
+  final TextEditingController _otherCourse1 = TextEditingController();
+  TextEditingController get otherCourse1 => _otherCourse1;
+
+  final TextEditingController _otherCourse2 = TextEditingController();
+  TextEditingController get otherCourse2 => _otherCourse2;
+
   final TextEditingController _oldPass = TextEditingController();
   TextEditingController get oldPass => _oldPass;
 

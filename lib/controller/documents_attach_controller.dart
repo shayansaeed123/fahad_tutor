@@ -154,6 +154,8 @@ class DocumentsAttachController extends StateNotifier<DocumentsAttachState> {
         return state.copyWith(proof2: file);
       case 'proof3':
         return state.copyWith(proof3: file);
+      case 'image1':
+        return state.copyWith(image1: file);
       default:
         return state;
     }
@@ -180,7 +182,7 @@ class DocumentsAttachController extends StateNotifier<DocumentsAttachState> {
         final jsonResp = json.decode(respStr);
         print(jsonResp.toString());
         // update repository values accordingly
-        if (jsonResp.containsKey('profile_pic')) repository.profile_image.value = jsonResp['profile_pic'];
+        if (jsonResp.containsKey('profile_pic')) {repository.profile_image.value = jsonResp['profile_pic'];  print("profile image = ${repository.profile_image.value }");}
         if (jsonResp.containsKey('CNIC_F')) repository.cnic_f.value = jsonResp['CNIC_F'];
         if (jsonResp.containsKey('CNIC_B')) repository.cnic_b.value = jsonResp['CNIC_B'];
         if (jsonResp.containsKey('Qualification')) repository.last_document.value = jsonResp['Qualification'];
@@ -193,6 +195,7 @@ class DocumentsAttachController extends StateNotifier<DocumentsAttachState> {
         if (jsonResp.containsKey('proof1')) {repository.proof_image1.value = jsonResp['proof1']; print("proof1 saved = ${repository.proof_image1.value}");};
         if (jsonResp.containsKey('proof2')) repository.proof_image2.value = jsonResp['proof2'];
         if (jsonResp.containsKey('proof3')) repository.proof_image3.value = jsonResp['proof3'];
+        if (jsonResp.containsKey('image1')) repository.proof_image4.value = jsonResp['image1'];
 
         Utils.snakbarSuccess(context, 'Upload successful');
       } else {
@@ -234,6 +237,8 @@ class DocumentsAttachController extends StateNotifier<DocumentsAttachState> {
         return 'proof2';
       case 'proof3':
         return 'proof3';
+      case 'image1':
+        return 'image1';
       default:
         return '';
     }
@@ -297,7 +302,7 @@ class DocumentsAttachController extends StateNotifier<DocumentsAttachState> {
       'update_status': '4',
       'tutor_id': MySharedPrefrence().get_user_ID().toString(),
       'is_term_accepted': repository.is_term_accept.value.toString(),
-      'profile_img': repository.profile_image.value.toString(),
+      // 'profile_img': repository.profile_image.value.toString(),
       'cnic_f': repository.cnic_f.value.toString(),
       'cnic_b': repository.cnic_b.value.toString(),
       'last_document': repository.last_document.value.toString(),

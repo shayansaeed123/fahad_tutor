@@ -250,6 +250,15 @@ List<dynamic> newItemsQualification3 = [];
 List<Map<String, String>> selectedIdsQualification3 = [];
 List<String> selectedNamesQualification3 = [];
 
+
+List<dynamic> newItemsBoard = [];
+List<Map<String, String>> selectedIdsBoard = [];
+List<String> selectedNamesBoard = [];
+
+List<dynamic> newItemsLanguage = [];
+List<Map<String, String>> selectedIdsLanguage = [];
+List<String> selectedNamesLanguage = [];
+
 late TutorRepository repository;
 
 
@@ -264,6 +273,8 @@ late TutorRepository repository;
     repository.fetchData('Qualification2','Qualification', newItemsQualification2, selectedIdsQualification2, updateSelectedNamesQualification2,(val)=> setState(() {isLoading = val;}));
     // repository.fetchData('Institute','Institute', newItemsinstitute3, selectedIdsinstitute3, updateSelectedNamesInstitute3,(val)=> setState(() {isLoading = val;}));
     repository.fetchData('Qualification3','Qualification', newItemsQualification3, selectedIdsQualification3, updateSelectedNamesQualification3,(val)=> setState(() {isLoading = val;}));
+    repository.fetchData('Board', 'Board', newItemsBoard, selectedIdsBoard, updateSelectedNamesBoard,(val)=> setState(() {isLoading = val;}));
+    repository.fetchData('Languages_listing','Languages', newItemsLanguage, selectedIdsLanguage, updateSelectedNamesLanguage,(val)=> setState(() {isLoading = val;}));
     saveQualificationData();
     repository.check_msg();
     allFunction();
@@ -275,7 +286,8 @@ late TutorRepository repository;
     repository.fetchData('Qualification2','Qualification', newItemsQualification2, selectedIdsQualification2, updateSelectedNamesQualification2,(val)=> setState(() {isLoading = val;}));
     // repository.fetchData('Institute','Institute', newItemsinstitute3, selectedIdsinstitute3, updateSelectedNamesInstitute3,(val)=> setState(() {isLoading = val;}));
     repository.fetchData('Qualification3','Qualification', newItemsQualification3, selectedIdsQualification3, updateSelectedNamesQualification3,(val)=> setState(() {isLoading = val;}));
-    await saveQualificationData();
+    repository.fetchData('Board', 'Board', newItemsBoard, selectedIdsBoard, updateSelectedNamesBoard,(val)=> setState(() {isLoading = val;}));
+     saveQualificationData();
     await repository.check_msg();
   }
 
@@ -363,16 +375,34 @@ late TutorRepository repository;
       // String institudejson3 = jsonEncode(institude_id3);
       // final repositoryy = ref.read(tutorRepositoryProvider);
 
+      List<Map<String, dynamic>> preferred_borad = selectedIdsBoard.map((board) {
+        return {'preferred_board_id': board['id']};
+      }).toList();
+      String preferredboardjson = preferred_borad.isNotEmpty
+      ? preferred_borad.first['preferred_board_id'].toString()
+      : '';
+
+      List<Map<String, dynamic>> languages_id = selectedIdsLanguage.map((languages) {
+        return {'preferred_languages_id': languages['id']};
+      }).toList();
+      String languagesjson = jsonEncode(languages_id);
+
       print('year ${year.toString()}');
       print('deg1 ${qualificationjson1}');
       print('deg2 ${qualificationjson2}');
       print('deg3 ${qualificationjson3}');
       print('ins1 ${reusabletextfieldcontroller.institute1.text}');
       print('ins2 ${reusabletextfieldcontroller.institute2.text}');
-      print('ins3 ${reusabletextfieldcontroller.institute3.text}');
+      print('ins3 ${preferredboardjson}');
       print('p1 ${repository.proof_image1.value.toString()}');
       print('p2 ${repository.proof_image2.value.toString()}');
       print('p3 ${repository.proof_image3.value.toString()}');
+
+
+      print('or1 ${reusabletextfieldcontroller.otherCourse1.text}');
+      print('orp1 ${repository.proof_image4.value.toString()}');
+      print('or2 ${reusabletextfieldcontroller.otherCourse2.text}');
+      print('ins3 ${languagesjson}');
 
       Map<String, String> body = {
         'code': '10',
@@ -386,8 +416,12 @@ late TutorRepository repository;
         'Institute2': reusabletextfieldcontroller.institute2.text,
         'proof2': repository.proof_image2.value.toString(),
         'Degree3': qualificationjson3,
-        'Institute3': reusabletextfieldcontroller.institute3.text,
+        'Institute3': preferredboardjson,
         'proof3': repository.proof_image3.value.toString(),
+        'other_course_1': reusabletextfieldcontroller.otherCourse1.text,
+        'other_course_1_proof': repository.proof_image4.value.toString(),
+        'other_course_2': reusabletextfieldcontroller.otherCourse2.text,
+        'preferred_languages': languagesjson,
       };
       final response = await http.post(
         Uri.parse('${Utils.baseUrl}qualification_update.php'),
@@ -452,14 +486,22 @@ Future<void> saveQualificationData() async {
             reusabletextfieldcontroller.institute3.text =
                 qualification['Institute3'] ?? '';
 
+            reusabletextfieldcontroller.otherCourse1.text =
+                qualification['other_course_1'] ?? '';
+
+            reusabletextfieldcontroller.otherCourse2.text =
+                qualification['other_course_2'] ?? '';
+
             /// ✅ DEGREE IDS (IMPORTANT)
             selectedIdsQualification1.clear();
             selectedIdsQualification2.clear();
             selectedIdsQualification3.clear();
+            selectedIdsBoard.clear();
 
             selectedNamesQualification1.clear();
             selectedNamesQualification2.clear();
             selectedNamesQualification3.clear();
+            selectedNamesBoard.clear();
 
             if (qualification['Degree1'] != null &&
                 qualification['Degree1'].toString().isNotEmpty) {
@@ -516,10 +558,39 @@ Future<void> saveQualificationData() async {
               }
             }
 
+            if (qualification['Institute3'] != null &&
+                qualification['Institute3'].toString().isNotEmpty) {
+
+              selectedIdsBoard.add({
+                'id': qualification['Institute3']
+              });
+
+              /// agar degree list already loaded hai
+              final match = newItemsBoard.firstWhere(
+                    (item) => item['id'].toString() ==
+                    qualification['Institute3'].toString(),
+                orElse: () => null,
+              );
+
+              if (match != null) {
+                selectedNamesBoard.add(match['board_name']);
+              }
+            }
+
+            selectedIdsLanguage = (jsonResponse['preferred_languages'] as List)
+              .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+              .toList();
+          // selectedIdsTime = (jsonResponse['preferred_time_query'] as List)
+          //     .map<Map<String, String>>((item) => {'id': item['id'].toString()})
+          //     .toList();
+          
+          updateSelectedNamesLanguage();
+
             /// ✅ PROOF IMAGES
             repository.proof_image1.value = qualification['proof1'] ?? '';
             repository.proof_image2.value = qualification['proof2'] ?? '';
             repository.proof_image3.value = qualification['proof3'] ?? '';
+            repository.proof_image4.value = qualification['image1'] ?? '';
 
           });
         }
@@ -594,6 +665,26 @@ void updateSelectedNamesQualification3() {
   }).toList();
 }
 
+void updateSelectedNamesBoard() {
+  selectedNamesBoard = selectedIdsBoard.map((selected) {
+    return (newItemsBoard.firstWhere(
+      (item) => item['id'] == selected['id'],
+      orElse: () => {'board_name': 'Unknown'},
+    )['board_name'] as String);
+  }).toList();
+  // print('Selected Board Names: $selectedNamesBoard');
+}
+
+void updateSelectedNamesLanguage() {
+  selectedNamesLanguage = selectedIdsLanguage.map((selected) {
+    return (newItemsLanguage.firstWhere(
+      (item) => item['id'] == selected['id'],
+      orElse: () => {'language_name': 'Unknown'},
+    )['language_name'] as String);
+  }).toList();
+  // print('Selected Group Names: $selectedNamesGroup');
+}
+
 
 
 void toggleSelection(String id, String name, String itemType) {
@@ -639,6 +730,18 @@ void toggleSelection(String id, String name, String itemType) {
         selectedNames = selectedNamesQualification3;
         newItems = newItemsQualification3;
         updateSelectedNames = updateSelectedNamesQualification3;
+        break;
+      case 'board_name':
+        selectedIds = selectedIdsBoard;
+        selectedNames = selectedNamesBoard;
+        newItems = newItemsBoard;
+        updateSelectedNames = updateSelectedNamesBoard;
+        break;
+      case 'language_name':
+        selectedIds = selectedIdsLanguage;
+        selectedNames = selectedNamesLanguage;
+        newItems = newItemsLanguage;
+        updateSelectedNames = updateSelectedNamesLanguage;
         break;
       default:
         return;
@@ -749,11 +852,59 @@ void showCustomSnackbar(BuildContext context, String message) {
                 }else{return Container();}
             },),
                   reusablaSizaBox(context, 0.020),
-                  reusableText("OnGoing", color: colorController.blackColor, fontsize: 21),
+                  reusableText("Ongoing Certificate/Degree", color: colorController.blackColor, fontsize: 21),
                    reusablaSizaBox(context, 0.020),
+                   reusablequlification(context, 'Certificate/Degree', () {
+                    repository.search(context, newItemsQualification1, selectedIdsQualification1, 'degree_title1',toggleSelection);
+                  }),
+                  reusablaSizaBox(context, .020),
+                  Container(
+                    constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.3),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: selectedNamesQualification1.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .012),
+                          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * .05, vertical: MediaQuery.of(context).size.height * .01),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: colorController.qualificationItemsColors,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  selectedNamesQualification1[index],
+                                  softWrap: true,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: TextStyle(fontSize: 13, color: colorController.whiteColor),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    // Remove the selected item from the list
+                                    selectedIdsQualification1.removeAt(index);
+                                    selectedNamesQualification1.removeAt(index);
+                                    // updateSelectedNames(); // Update the names here
+                                  });
+                                },
+                                child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.050,),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  reusablaSizaBox(context, 0.020),
                     reusableSelectYear(
                       context,
-                      "Select Start Year",
+                      "Select Start/Completed",
                       year,
                       (y) {
                         setState(() {
@@ -763,7 +914,7 @@ void showCustomSnackbar(BuildContext context, String message) {
                       },
                     ),
                    reusablaSizaBox(context, 0.020),
-                   reusablemultilineTextField(reusabletextfieldcontroller.institute1, 5, 'Institute Name'),
+                   reusablemultilineTextField(reusabletextfieldcontroller.institute1, 2, 'Institute Name'),
                   // reusablequlification(context, 'Institute', () {
                   //   repository.search(context, newItemsinstitute1, selectedIdsinstitute1, 'names',toggleSelection);
                   // }),
@@ -813,8 +964,25 @@ void showCustomSnackbar(BuildContext context, String message) {
                   //   ),
                   // ),
                   reusablaSizaBox(context, .020),
-                  reusablequlification(context, 'Qualification', () {
-                    repository.search(context, newItemsQualification1, selectedIdsQualification1, 'degree_title1',toggleSelection);
+                  
+                  reusableDocuments1(context, '', 'Proof', state.proof1 != null
+              ? state.proof1!.path
+              : repository.proof_image1.value.toString(),
+                              (){
+                                reuablebottomsheet(context, "Choose Image",(){
+                                  // _pickImage(ImageSource.gallery, 'profile');
+                                  controller.pickImage(context, 'proof1', ImageSource.gallery);
+                                },(){
+                                  // _pickImage(ImageSource.camera,'profile');
+                                  controller.pickImage(context, 'proof1', ImageSource.camera);
+                                });
+                                // controller.showImagePickerSheet(context, 'profile');
+                              }, 'assets/images/add_img_placeholder.png'),
+                  reusablaSizaBox(context, 0.020),
+                  reusableText("Highest Academic Certificate/Degree (Completed)", color: colorController.blackColor, fontsize: 21),
+                   reusablaSizaBox(context, 0.020),
+                   reusablequlification(context, 'Certificate/Degree', () {
+                    repository.search(context, newItemsQualification2, selectedIdsQualification2, 'degree_title2',toggleSelection);
                   }),
                   reusablaSizaBox(context, .020),
                   Container(
@@ -822,7 +990,7 @@ void showCustomSnackbar(BuildContext context, String message) {
                     child: ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: selectedNamesQualification1.length,
+                      itemCount: selectedNamesQualification2.length,
                       itemBuilder: (context, index) {
                         return Container(
                           margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .012),
@@ -836,7 +1004,7 @@ void showCustomSnackbar(BuildContext context, String message) {
                             children: [
                               Expanded(
                                 child: Text(
-                                  selectedNamesQualification1[index],
+                                  selectedNamesQualification2[index],
                                   softWrap: true,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
@@ -847,8 +1015,8 @@ void showCustomSnackbar(BuildContext context, String message) {
                                 onTap: () {
                                   setState(() {
                                     // Remove the selected item from the list
-                                    selectedIdsQualification1.removeAt(index);
-                                    selectedNamesQualification1.removeAt(index);
+                                    selectedIdsQualification2.removeAt(index);
+                                    selectedNamesQualification2.removeAt(index);
                                     // updateSelectedNames(); // Update the names here
                                   });
                                 },
@@ -861,23 +1029,7 @@ void showCustomSnackbar(BuildContext context, String message) {
                     ),
                   ),
                   reusablaSizaBox(context, 0.020),
-                  reusableDocuments1(context, '', 'Proof', state.proof1 != null
-              ? state.proof1!.path
-              : repository.proof_image1.value.toString(),
-                              (){
-                                reuablebottomsheet(context, "Choose Profile Image",(){
-                                  // _pickImage(ImageSource.gallery, 'profile');
-                                  controller.pickImage(context, 'proof1', ImageSource.gallery);
-                                },(){
-                                  // _pickImage(ImageSource.camera,'profile');
-                                  controller.pickImage(context, 'proof1', ImageSource.camera);
-                                });
-                                // controller.showImagePickerSheet(context, 'profile');
-                              }, 'assets/images/add_img_placeholder.png'),
-                  reusablaSizaBox(context, 0.020),
-                  reusableText("Intermediate", color: colorController.blackColor, fontsize: 21),
-                   reusablaSizaBox(context, 0.020),
-                   reusablemultilineTextField(reusabletextfieldcontroller.institute2, 5, 'Institute Name'),
+                   reusablemultilineTextField(reusabletextfieldcontroller.institute2, 2, 'Institute Name'),
                   // reusablequlification(context, 'Institute', () {
                   //   repository.search(context, newItemsinstitute2, selectedIdsinstitute2, 'names',toggleSelection);
                   // }),
@@ -927,8 +1079,25 @@ void showCustomSnackbar(BuildContext context, String message) {
                   //   ),
                   // ),
                   reusablaSizaBox(context, .020),
-                  reusablequlification(context, 'Qualification', () {
-                    repository.search(context, newItemsQualification2, selectedIdsQualification2, 'degree_title2',toggleSelection);
+                  
+                  reusableDocuments1(context, '', 'Proof', state.proof2 != null
+              ? state.proof2!.path
+              : repository.proof_image2.value.toString(),
+                              (){
+                                reuablebottomsheet(context, "Choose Image",(){
+                                  // _pickImage(ImageSource.gallery, 'profile');
+                                  controller.pickImage(context, 'proof2', ImageSource.gallery);
+                                },(){
+                                  // _pickImage(ImageSource.camera,'profile');
+                                  controller.pickImage(context, 'proof2', ImageSource.camera);
+                                });
+                                // controller.showImagePickerSheet(context, 'profile');
+                              }, 'assets/images/add_img_placeholder.png'),
+                  reusablaSizaBox(context, 0.020),
+                  reusableText("Higher Secondary Certificate (Intermediate)", color: colorController.blackColor, fontsize: 21),
+                   reusablaSizaBox(context, 0.020),
+                   reusablequlification(context, 'Certificate/Degree', () {
+                    repository.search(context, newItemsQualification3, selectedIdsQualification3, 'degree_title3',toggleSelection);
                   }),
                   reusablaSizaBox(context, .020),
                   Container(
@@ -936,7 +1105,7 @@ void showCustomSnackbar(BuildContext context, String message) {
                     child: ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: selectedNamesQualification2.length,
+                      itemCount: selectedNamesQualification3.length,
                       itemBuilder: (context, index) {
                         return Container(
                           margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .012),
@@ -950,7 +1119,7 @@ void showCustomSnackbar(BuildContext context, String message) {
                             children: [
                               Expanded(
                                 child: Text(
-                                  selectedNamesQualification2[index],
+                                  selectedNamesQualification3[index],
                                   softWrap: true,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
@@ -961,8 +1130,8 @@ void showCustomSnackbar(BuildContext context, String message) {
                                 onTap: () {
                                   setState(() {
                                     // Remove the selected item from the list
-                                    selectedIdsQualification2.removeAt(index);
-                                    selectedNamesQualification2.removeAt(index);
+                                    selectedIdsQualification3.removeAt(index);
+                                    selectedNamesQualification3.removeAt(index);
                                     // updateSelectedNames(); // Update the names here
                                   });
                                 },
@@ -975,23 +1144,19 @@ void showCustomSnackbar(BuildContext context, String message) {
                     ),
                   ),
                   reusablaSizaBox(context, 0.020),
-                  reusableDocuments1(context, '', 'Proof', state.proof2 != null
-              ? state.proof2!.path
-              : repository.proof_image2.value.toString(),
-                              (){
-                                reuablebottomsheet(context, "Choose Profile Image",(){
-                                  // _pickImage(ImageSource.gallery, 'profile');
-                                  controller.pickImage(context, 'proof2', ImageSource.gallery);
-                                },(){
-                                  // _pickImage(ImageSource.camera,'profile');
-                                  controller.pickImage(context, 'proof2', ImageSource.camera);
-                                });
-                                // controller.showImagePickerSheet(context, 'profile');
-                              }, 'assets/images/add_img_placeholder.png'),
-                  reusablaSizaBox(context, 0.020),
-                  reusableText("Higher Education", color: colorController.blackColor, fontsize: 21),
-                   reusablaSizaBox(context, 0.020),
-                   reusablemultilineTextField(reusabletextfieldcontroller.institute3, 5, 'Institute Name'),
+                  //  reusablemultilineTextField(reusabletextfieldcontroller.institute3, 5, 'Institute Name'),
+                  reusablequlification(context, 'preferred Board', () {
+                    repository.search(context, newItemsBoard, selectedIdsBoard, 'board_name',toggleSelection);
+                  }),
+                  reusablaSizaBox(context, .020),
+                  reusableSelectedItem(context, selectedNamesBoard, (index){
+                    setState(() {
+                                    // Remove the selected item from the list
+                                    selectedIdsBoard.removeAt(index);
+                                    selectedNamesBoard.removeAt(index);
+                                    // updateSelectedNames(); // Update the names here
+                                  });
+                  },),
                   // reusablequlification(context, 'Institute', () {
                   //   repository.search(context, newItemsinstitute3, selectedIdsinstitute3, 'names',toggleSelection);
                   // }),
@@ -1041,8 +1206,45 @@ void showCustomSnackbar(BuildContext context, String message) {
                   //   ),
                   // ),
                   reusablaSizaBox(context, .020),
-                  reusablequlification(context, 'Qualification', () {
-                    repository.search(context, newItemsQualification3, selectedIdsQualification3, 'degree_title3',toggleSelection);
+                  
+                  reusableDocuments1(context, '', 'Proof', state.proof3 != null
+              ? state.proof3!.path
+              : repository.proof_image3.value.toString(),
+                              (){
+                                reuablebottomsheet(context, "Choose Image",(){
+                                  // _pickImage(ImageSource.gallery, 'profile');
+                                  controller.pickImage(context, 'proof3', ImageSource.gallery);
+                                },(){
+                                  // _pickImage(ImageSource.camera,'profile');
+                                  controller.pickImage(context, 'proof3', ImageSource.camera);
+                                });
+                                // controller.showImagePickerSheet(context, 'profile');
+                              }, 'assets/images/add_img_placeholder.png'),
+                              reusablaSizaBox(context, .020),
+                              reusableText("Other Courses / Skills (If certificate available)", color: colorController.blackColor, fontsize: 21),
+                              reusablaSizaBox(context, .020),
+                              reusablemultilineTextField(reusabletextfieldcontroller.otherCourse1, 1, 'Other Courses / Skills'),
+                              reusablaSizaBox(context, .020),
+                              reusableDocuments1(context, '', 'Proof', state.image1 != null
+                              ? state.image1!.path
+                              : repository.proof_image4.value.toString(),
+                              (){
+                                reuablebottomsheet(context, "Choose Image",(){
+                                  // _pickImage(ImageSource.gallery, 'profile');
+                                  controller.pickImage(context, 'image1', ImageSource.gallery);
+                                },(){
+                                  // _pickImage(ImageSource.camera,'profile');
+                                  controller.pickImage(context, 'image1', ImageSource.camera);
+                                });
+                                // controller.showImagePickerSheet(context, 'profile');
+                              }, 'assets/images/add_img_placeholder.png'),
+                              reusablaSizaBox(context, .020),
+                              reusableText("Other Courses / Skills (If certificate not available)", color: colorController.blackColor, fontsize: 21),
+                              reusablaSizaBox(context, .020),
+                              reusablemultilineTextField(reusabletextfieldcontroller.otherCourse2, 1, 'Other Courses / Skills'),
+                              reusablaSizaBox(context, 0.020),
+                  reusablequlification(context, 'Can Speak Languages', () {
+                   repository.search(context, newItemsLanguage, selectedIdsLanguage, 'language_name',toggleSelection);
                   }),
                   reusablaSizaBox(context, .020),
                   Container(
@@ -1050,7 +1252,7 @@ void showCustomSnackbar(BuildContext context, String message) {
                     child: ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: selectedNamesQualification3.length,
+                      itemCount: selectedNamesLanguage.length,
                       itemBuilder: (context, index) {
                         return Container(
                           margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .012),
@@ -1064,7 +1266,7 @@ void showCustomSnackbar(BuildContext context, String message) {
                             children: [
                               Expanded(
                                 child: Text(
-                                  selectedNamesQualification3[index],
+                                  selectedNamesLanguage[index],
                                   softWrap: true,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
@@ -1075,9 +1277,10 @@ void showCustomSnackbar(BuildContext context, String message) {
                                 onTap: () {
                                   setState(() {
                                     // Remove the selected item from the list
-                                    selectedIdsQualification3.removeAt(index);
-                                    selectedNamesQualification3.removeAt(index);
+                                    selectedIdsLanguage.removeAt(index);
+                                    selectedNamesLanguage.removeAt(index);
                                     // updateSelectedNames(); // Update the names here
+                                    print('idddddddddddddd $selectedIdsLanguage');
                                   });
                                 },
                                 child: Icon(Icons.cancel_outlined, color: colorController.whiteColor,size: MediaQuery.of(context).size.width*.050,),
@@ -1088,20 +1291,6 @@ void showCustomSnackbar(BuildContext context, String message) {
                       },
                     ),
                   ),
-                  reusablaSizaBox(context, 0.020),
-                  reusableDocuments1(context, '', 'Proof', state.proof3 != null
-              ? state.proof3!.path
-              : repository.proof_image3.value.toString(),
-                              (){
-                                reuablebottomsheet(context, "Choose Profile Image",(){
-                                  // _pickImage(ImageSource.gallery, 'profile');
-                                  controller.pickImage(context, 'proof3', ImageSource.gallery);
-                                },(){
-                                  // _pickImage(ImageSource.camera,'profile');
-                                  controller.pickImage(context, 'proof3', ImageSource.camera);
-                                });
-                                // controller.showImagePickerSheet(context, 'profile');
-                              }, 'assets/images/add_img_placeholder.png'),
                   reusablaSizaBox(context, .050),
                   reusableBtn(context, 'Update', (){
                     setState(() {

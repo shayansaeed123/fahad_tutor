@@ -16,12 +16,14 @@ import 'package:fahad_tutor/views/dashboard/nav_bar.dart';
 import 'package:fahad_tutor/views/login/login.dart';
 import 'package:fahad_tutor/views/profile/accountdetails.dart';
 import 'package:fahad_tutor/views/profile/additionalinfo.dart';
+import 'package:fahad_tutor/views/profile/biography.dart';
 import 'package:fahad_tutor/views/profile/contactus.dart';
 import 'package:fahad_tutor/views/profile/documentsattach.dart';
 import 'package:fahad_tutor/views/profile/faq.dart';
 import 'package:fahad_tutor/views/profile/feedback.dart';
 import 'package:fahad_tutor/views/online/tutor/onlineportal.dart';
 import 'package:fahad_tutor/views/profile/preferences.dart';
+import 'package:fahad_tutor/views/profile/profileimage.dart';
 import 'package:fahad_tutor/views/profile/qualification.dart';
 import 'package:fahad_tutor/views/profile/registrationcharges.dart';
 import 'package:fahad_tutor/views/profile/registrationchargeselanguage.dart';
@@ -466,6 +468,56 @@ void loginClear(){
                 ),
               ));
               },),
+
+              ValueListenableBuilder(valueListenable: repository.additional_info, builder: (context, value, child) {
+                return reusablelisttile(context,(){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>Biography()));
+              },'assets/images/biography.png','Biography',widget: Container(
+                width: MediaQuery.of(context).size.width * .24,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    if(value == '20')
+                    // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                    CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 15,)),backgroundColor: colorController.greenColor,maxRadius: 11,), 
+                    if(value == '21')
+                    reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
+                    if(value == '8')
+                    Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                    if(value == '19')
+                    Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                      // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+                    Icon(Icons.arrow_forward_ios)
+                  ],
+                ),
+              ));
+              },),
+
+
+              ValueListenableBuilder(valueListenable: repository.additional_info, builder: (context, value, child) {
+                return reusablelisttile(context,(){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>Profileimage()));
+              },'assets/images/profile.png','Profile Image',widget: Container(
+                width: MediaQuery.of(context).size.width * .24,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    if(value == '20')
+                    // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                    CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 15,)),backgroundColor: colorController.greenColor,maxRadius: 11,), 
+                    if(value == '21')
+                    reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
+                    if(value == '8')
+                    Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                    if(value == '19')
+                    Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                      // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+                    Icon(Icons.arrow_forward_ios)
+                  ],
+                ),
+              ));
+              },),
+
               reusablelisttile(context, (){
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>Onlineportal()));
               }, 'assets/images/web_icon.png', 'Online Portal'),

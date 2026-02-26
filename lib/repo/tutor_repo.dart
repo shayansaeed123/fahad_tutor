@@ -213,6 +213,9 @@ class TutorRepository {
   final ValueNotifier<String> _proof_image3 = ValueNotifier<String>('');
   ValueNotifier<String> get proof_image3 => _proof_image3;
 
+  final ValueNotifier<String> _proof_image4 = ValueNotifier<String>('');
+  ValueNotifier<String> get proof_image4 => _proof_image4;
+
   final ValueNotifier<String> _cnic_b= ValueNotifier<String>('');
   ValueNotifier<String> get cnic_b => _cnic_b;
 
@@ -879,6 +882,7 @@ class TutorRepository {
         dynamic jsonResponse = jsonDecode(response.body);
       // setState(() {
           _profile_image.value = jsonResponse['personal_image'];
+          // print("helooooo${profile_image.value.toString()}");
           _cnic_f.value = jsonResponse['cnic_front'];
           _cnic_b.value = jsonResponse['cnic_back'];
           _last_document.value = jsonResponse['last_document'];
@@ -1355,6 +1359,32 @@ Future<void> updateProgressReport({
         dynamic jsonResponse = jsonDecode(response.body);
         _feedback_popup.value = jsonResponse['feedback_popup'];
         print(_feedback_popup);
+      } else {
+        print('Error: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception(e);
+    } finally {
+      _isLoading = false;
+      _showLoadMoreButton = true;
+    }
+  }
+
+  Future<void> getProfileImage() async {
+    _isLoading = true;
+    _showLoadMoreButton = false;
+
+    try {
+      String url =
+          '${Utils.baseUrl}check_popup.php?profile_image_select=1&tutor_id=${MySharedPrefrence().get_user_ID()}';
+      final response = await http.get(Uri.parse(url));
+      print('url $url');
+
+      if (response.statusCode == 200) {
+        dynamic jsonResponse = jsonDecode(response.body);
+        _profile_image.value = jsonResponse['personal_image'];
+        print(_profile_image);
       } else {
         print('Error: ${response.statusCode}');
       }

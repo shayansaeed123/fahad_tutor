@@ -661,19 +661,22 @@ Future<void> _uploadImages(String imageType) async {
                               repository.doc_error.value == 1 ? reusableVisiblityWarning(context, '${repository.doc_msg.value.toString()}', (){setState(() {visible=false;});}, visible) : Container(),
                               reusablaSizaBox(context, 0.020),
 
-                              reusableDocuments1(context, '', 'Profile', state.profile != null
-              ? state.profile!.path
-              : repository.profile_image.value.toString(),
-                              (){
-                                reuablebottomsheet(context, "Choose Profile Image",(){
-                                  // _pickImage(ImageSource.gallery, 'profile');
-                                  controller.pickImage(context, 'profile', ImageSource.gallery);
-                                },(){
-                                  // _pickImage(ImageSource.camera,'profile');
-                                  controller.pickImage(context, 'profile', ImageSource.camera);
-                                });
-                                // controller.showImagePickerSheet(context, 'profile');
-                              }, 'assets/images/profile.png'),
+              //                 reusableDocuments1(context, '', 'Profile', state.profile != null
+              // ? state.profile!.path
+              // : repository.profile_image.value.toString(),
+              //                 (){
+              //                   reuablebottomsheet(context, "Choose Profile Image",(){
+              //                     // _pickImage(ImageSource.gallery, 'profile');
+              //                     controller.pickImage(context, 'profile', ImageSource.gallery);
+              //                   },(){
+              //                     // _pickImage(ImageSource.camera,'profile');
+              //                     controller.pickImage(context, 'profile', ImageSource.camera);
+              //                   });
+              //                   // controller.showImagePickerSheet(context, 'profile');
+              //                 }, 'assets/images/profile.png'),
+
+
+
                               // reusableDocuments(context,'','Add Image (Front)','Add Image (Back)' ,'Profile', 'CNIC Image', 
                               // // profile,cnic_f,cnic_b,
                               // repository.profile_image.value.toString(),repository.cnic_f.value.toString(),repository.cnic_b.value.toString(),
@@ -695,7 +698,7 @@ Future<void> _uploadImages(String imageType) async {
                               // });},
                               // 'assets/images/profile.png'
                               // ),
-                               reusablaSizaBox(context, 0.010),
+                              //  reusablaSizaBox(context, 0.010),
                                reusableDocuments2(context, 'Add Image (Front)','Add Image (Back)', 'CNIC Image', 
                                state.cnicFront != null ? state.cnicFront!.path : repository.cnic_f.value.toString(),
                                state.cnicBack != null ? state.cnicBack!.path : repository.cnic_b.value.toString(), 
