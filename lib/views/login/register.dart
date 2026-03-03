@@ -42,15 +42,15 @@ class _RigisterState extends State<Rigister> {
   String _selectedValue1 = '';
   String? _selectedValue2;
   bool isHomeWidgetVisible = true;
-  final TextEditingController _biography = TextEditingController();
+  // final TextEditingController _biography = TextEditingController();
   TutorRepository repository = TutorRepository();
-  int _charCount = 0;
+  // int _charCount = 0;
 
-  void _updateCharCount() {
-    setState(() {
-      _charCount = _biography.text.length;
-    });
-  }
+  // void _updateCharCount() {
+  //   setState(() {
+  //     _charCount = _biography.text.length;
+  //   });
+  // }
 
   List<String> selectedPlacements = [];
 
@@ -122,7 +122,7 @@ List<Map<String, String>> selectedSegmentMapList = [];
     // repository.getBasepath();
     selectCountry();
     repository.get_Token();
-    _biography.addListener(_updateCharCount);
+    // _biography.addListener(_updateCharCount);
     _teacherfocusNode = FocusNode();
     _teacherfocusNode.addListener(_onFocusChange);
     _fatherfocusNode = FocusNode();
@@ -166,7 +166,7 @@ List<Map<String, String>> selectedSegmentMapList = [];
     _religionfocusNode.removeListener(_onFocusChange);
     _homefocusNode.dispose();
     _homefocusNode.removeListener(_onFocusChange);
-    _biography.dispose();
+    // _biography.dispose();
     super.dispose();
   }
 
@@ -177,8 +177,7 @@ List<Map<String, String>> selectedSegmentMapList = [];
   }
 
   void _validateForm() {
-  // bool isBiographyValid = !checkbox2 || (_biography.text.length >= 500 && _biography.text.length <= 800);
-  bool isBiographyValid = _biography.text.length >= 500 && _biography.text.length <= 800;
+  // bool isBiographyValid = _biography.text.length >= 500 && _biography.text.length <= 800;
 
   print('valuueeeee $_selectedValue2');
   if (
@@ -206,8 +205,8 @@ List<Map<String, String>> selectedSegmentMapList = [];
     selectedTime != null && 
     selectedCnicDate != null &&
     _selectedValue1.isNotEmpty &&
-    _selectedValue2 != null && _selectedValue2 != 'null' && _selectedValue2 != 'Select Experience' &&
-    isBiographyValid 
+    _selectedValue2 != null && _selectedValue2 != 'null' && _selectedValue2 != 'Select Experience' 
+    // && isBiographyValid 
     // (checkbox1 || checkbox2 || checkbox3)
   ) {
     signInWithGoogle();
@@ -259,11 +258,12 @@ List<Map<String, String>> selectedSegmentMapList = [];
     errorMessage = 'Please select Digital Pad';
   }else if (_selectedValue2 == null || _selectedValue2 == 'null' || _selectedValue2 == 'Select Experience') {
     errorMessage = 'Please select Experience';
-  }else if (!isBiographyValid) {
-    errorMessage = _biography.text.length < 500
-        ? 'Biography must be at least 500 characters'
-        : 'Biography must not exceed 800 characters';
-  }  
+  }
+  // else if (!isBiographyValid) {
+  //   errorMessage = _biography.text.length < 500
+  //       ? 'Biography must be at least 500 characters'
+  //       : 'Biography must not exceed 800 characters';
+  // }  
 
   // 👇 Show the error message to the user
   if (errorMessage.isNotEmpty) {
@@ -526,10 +526,9 @@ List<Map<String, String>> selectedSegmentMapList = [];
     });
     try {
       // updateTutorPlacement(); // Ensure the selected placements are updated
-      final bio = _biography.text.toString();
+      // final bio = _biography.text.toString();
       print('check email ${MySharedPrefrence().get_user_email()}');
       print('cell_token ${MySharedPrefrence().get_cell_token()}');
-      print('bio ${bio.toString()}');
       final response = await http.post(
           Uri.parse('${Utils.baseUrl}sign_up.php'),
           body: {
@@ -552,7 +551,7 @@ List<Map<String, String>> selectedSegmentMapList = [];
             'DigitalPad':_selectedValue1.toString(),
             'onlineTeaching_experience': _selectedValue2.toString(),
             'online_Skill':'',
-            'Biography': bio.toString(),
+            // 'Biography': bio.toString(),
             'tutor_placement': jsonEncode(selectedPlacements),
             'cell_access_token': MySharedPrefrence().get_cell_token(),
             'Segment_Tutors': jsonEncode(selectedSegmentMapList),
@@ -1442,15 +1441,8 @@ List<Map<String, String>> selectedSegmentMapList = [];
                                       print('Experience $_selectedValue2');
                                       });
                                     },
-                                  // (String? value) {
-                                  //   // onChanged function
-                                  //   setState(() {
-                                  //     _selectedValue2 = value!;
-                                  //     print('Experience $_selectedValue2');
-                                  //   });
-                                  // },
-                                  _biography,
-                                  _charCount,
+                                  // _biography,
+                                  // _charCount,
                                 ),
                                 reusablaSizaBox(context, .02),
                                 reusableBtn(context, 'Register', () {

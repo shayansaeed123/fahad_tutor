@@ -68,9 +68,9 @@ Widget reusableVisiblityWarning(BuildContext context,String text,Function ontap,
 
 onlineVisibility(BuildContext context,
 // bool isHomeWidgetVisible,
-Widget widget,String? _selectedValue2,List<dynamic> items, Function(String?) onChanged,TextEditingController controlle,
-int count,
-//  Widget widget2
+Widget widget,String? _selectedValue2,List<dynamic> items, Function(String?) onChanged,
+// TextEditingController controlle,
+// int count,
  ){
   return 
   // Visibility(
@@ -108,31 +108,31 @@ int count,
                 //   reusableText('5+ Years', fontsize: 14,),
                 // ],),
                 reusablaSizaBox(context, .01),
-                TextField(
-                  controller: controlle,
-                  maxLines: 10, // Set the maximum number of lines
-                  decoration: InputDecoration(
-                    alignLabelWithHint: true,
-                    label: reusableText('Biography'),
-                    labelStyle: TextStyle(color: colorController.grayTextColor),
-                    border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(
-                color: colorController.textfieldBorderColorBefore, width: 1.5)),
-        enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(
-                color: colorController.textfieldBorderColorBefore, width: 1.5)),
-        focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(
-                color: 
-                count > 800 ? colorController.redColor : 
-                colorController.textfieldBorderColorAfter, 
-                width: 1.5)),
-                  ),
-            ),
-            Row(mainAxisAlignment:MainAxisAlignment.end,children: [reusableText('$count/800',color: count > 800 ? colorController.redColor : colorController.blackColor)],)
+        //         TextField(
+        //           controller: controlle,
+        //           maxLines: 10, // Set the maximum number of lines
+        //           decoration: InputDecoration(
+        //             alignLabelWithHint: true,
+        //             label: reusableText('Biography'),
+        //             labelStyle: TextStyle(color: colorController.grayTextColor),
+        //             border: OutlineInputBorder(
+        //     borderRadius: BorderRadius.circular(10),
+        //     borderSide: BorderSide(
+        //         color: colorController.textfieldBorderColorBefore, width: 1.5)),
+        // enabledBorder: OutlineInputBorder(
+        //     borderRadius: BorderRadius.circular(10),
+        //     borderSide: BorderSide(
+        //         color: colorController.textfieldBorderColorBefore, width: 1.5)),
+        // focusedBorder: OutlineInputBorder(
+        //     borderRadius: BorderRadius.circular(10),
+        //     borderSide: BorderSide(
+        //         color: 
+        //         count > 800 ? colorController.redColor : 
+        //         colorController.textfieldBorderColorAfter, 
+        //         width: 1.5)),
+        //           ),
+        //     ),
+        //     Row(mainAxisAlignment:MainAxisAlignment.end,children: [reusableText('$count/800',color: count > 800 ? colorController.redColor : colorController.blackColor)],)
               ],
             // ),
           );

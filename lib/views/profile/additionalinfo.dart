@@ -71,7 +71,7 @@ List<Map<String, String>> selectedSegmentMapList = [];
     _furtherInfofocusNode.addListener(_onFocusChange);
      _homeAddress = FocusNode();
     _homeAddress.addListener(_onFocusChange);
-    _biography.addListener(_updateCharCount);
+    // _biography.addListener(_updateCharCount);
     repository.check_msg();
     getValues();
     getAddtionalInfo();
@@ -109,11 +109,11 @@ List<Map<String, String>> selectedSegmentMapList = [];
     setState(() {
       reusabletextfieldcontroller.addressCon.text = home_address;
       reusabletextfieldcontroller.furtherInfo.text = further_information;
-       _biography.text = Biography;
+      //  _biography.text = Biography;
 
       reusabletextfieldcontroller.addressCon.addListener(_updateTitle);
         reusabletextfieldcontroller.furtherInfo.addListener(_updateTitle);
-        _biography.addListener(_updateTitle);
+        // _biography.addListener(_updateTitle);
         if (date_of_birth.isNotEmpty) {selectedTime = DateTime.parse(date_of_birth);}
         if (cnic_date.isNotEmpty) {selectedCnicDate = DateTime.parse(cnic_date);}
         checkbox1 = placement.any((p) => p['id'] == PlacementId1);
@@ -141,8 +141,8 @@ List<Map<String, String>> selectedSegmentMapList = [];
     _homeAddress.removeListener(_onFocusChange);
     reusabletextfieldcontroller.addressCon.removeListener(_updateTitle);
     reusabletextfieldcontroller.furtherInfo.removeListener(_updateTitle);
-    _biography.removeListener(_updateTitle);
-    _biography.dispose();
+    // _biography.removeListener(_updateTitle);
+    // _biography.dispose();
   }
   void _onFocusChange() {
     setState(() {
@@ -153,7 +153,7 @@ List<Map<String, String>> selectedSegmentMapList = [];
       setState(() {
         home_address = reusabletextfieldcontroller.addressCon.text;
          further_information = reusabletextfieldcontroller.furtherInfo.text;
-         Biography = _biography.text;
+        //  Biography = _biography.text;
       });
     }
   }
@@ -164,18 +164,19 @@ List<Map<String, String>> selectedSegmentMapList = [];
   String update_status = '';
   String source = '';
   bool visible = true;
-  final TextEditingController _biography = TextEditingController();
-  int _charCount = 0;
+  // final TextEditingController _biography = TextEditingController();
+  // int _charCount = 0;
+
 //   List<dynamic> newItemsLanguage = [];
 // List<Map<String, String>> selectedIdsLanguage = [];
 // List<String> selectedNamesLanguage = [];
   TutorRepository repository = TutorRepository();
 
-  void _updateCharCount() {
-    setState(() {
-      _charCount = _biography.text.length;
-    });
-  }
+  // void _updateCharCount() {
+  //   setState(() {
+  //     _charCount = _biography.text.length;
+  //   });
+  // }
 
   List<String> selectedPlacements = [];
   List<dynamic> Placements = [];
@@ -189,7 +190,7 @@ List<Map<String, String>> selectedSegmentMapList = [];
   String _oLevel = '';
   String _alevel = '';
   String onlineTeaching_experience = '';
-  String Biography = '';
+  // String Biography = '';
   String PlacementName1 = '';
   String PlacementName2 = '';
   String PlacementName3 = '';
@@ -222,8 +223,7 @@ void updateTutorSegments() {
   bool checkbox3 = false;
 
   void _validateForm() {
-  // bool isBiographyValid = !checkbox2 || (_biography.text.length >= 500 && _biography.text.length <= 800);
-  bool isBiographyValid = _biography.text.length >= 500 && _biography.text.length <= 800;
+  // bool isBiographyValid = _biography.text.length >= 500 && _biography.text.length <= 800;
 
   bool isValidField(String? value) {
     return value != null && value.isNotEmpty && value != "0" && value.toLowerCase() != "null" && value != 'Select Experience';
@@ -240,9 +240,8 @@ void updateTutorSegments() {
     isValidField(selectedTeachingExp) &&
     isValidField(oLevel) &&
     isValidField(aLevel) &&
-    // selectedIdsLanguage.isNotEmpty &&
-    selectedPlacements.isNotEmpty && 
-    isBiographyValid
+    selectedPlacements.isNotEmpty 
+    // && isBiographyValid
   ) {
     updateAdditionalInfo();
   } else {
@@ -270,12 +269,10 @@ void updateTutorSegments() {
                           ? "Select O-Level Qualification"
                           : !isValidField(aLevel)
                             ? "Select A-Level Qualification"
-                            // : selectedIdsLanguage.isEmpty
-                            //   ? "Select at least one language"
-                              : !isBiographyValid
-                                ? (_biography.text.length < 500
-                                    ? 'Biography must be at least 500 characters'
-                                    : 'Biography must not exceed 800 characters')
+                              // : !isBiographyValid
+                              //   ? (_biography.text.length < 500
+                              //       ? 'Biography must be at least 500 characters'
+                              //       : 'Biography must not exceed 800 characters')
                                 : "Fill all required fields",
     );
   }
@@ -392,7 +389,8 @@ void updateTutorSegments() {
       //   return {'Preferred_Time_id': time['id']};
       // }).toList();
       // String preferredTimejson = jsonEncode(preferred_time_query);
-    final bio = _biography.text.toString();
+
+    // final bio = _biography.text.toString();
     final response = await http.post(
       Uri.parse('${Utils.baseUrl}step_3_update.php'),
       body: {
@@ -412,7 +410,7 @@ void updateTutorSegments() {
         'DigitalPad': _selectedValue1.toString(),
         'onlineTeaching_experience': _selectedValue2.toString(),
         'online_Skill': '',
-        'Biography': bio.toString(),
+        // 'Biography': bio.toString(),
         'tutor_placement': jsonEncode(selectedPlacements),
         'source': '',
         // 'preferred_languages': languagesjson,
@@ -421,7 +419,6 @@ void updateTutorSegments() {
         'Segment_Tutors': jsonEncode(selectedSegmentMapList),
       }
     );
-    print(bio);
     print('Request body: ${response.request}');
     print('$_selectedValue1+ $aLevel + $selectedTime + $selectedPlacements');
     if (response.statusCode == 200) {
@@ -513,7 +510,7 @@ Future<void> getAddtionalInfo() async {
       cnic_date = responseData['Cnic_date'] ?? '';
       _selectedValue1 = responseData['DigitalPad'] ?? '0';
       _selectedValue2 = responseData['onlineTeaching_experience'] ?? '';
-      Biography = responseData['Biography'] ?? '';
+      // Biography = responseData['Biography'] ?? '';
       placement = responseData['placements'] ?? [];
       Zoom = responseData['Zoom_Proficiency'] ?? [];
       client = responseData['International_client'] ?? [];
@@ -1008,8 +1005,8 @@ Future<void> getAddtionalInfo() async {
                                       print('Experience $_selectedValue2');
                                     });
                                   },
-                                  _biography,
-                                  _charCount,
+                                  // _biography,
+                                  // _charCount,
                                 ),
                                 reusablaSizaBox(context, 0.020),
                                 Padding(

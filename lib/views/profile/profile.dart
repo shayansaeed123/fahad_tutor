@@ -194,10 +194,60 @@ void loginClear(){
                 ),
               ));
               },),
+              
+              ValueListenableBuilder(valueListenable: repository.additional_info, builder: (context, value, child) {
+                return reusablelisttile(context,(){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>Profileimage()));
+              },'assets/images/profile.png','Profile Picture',widget: Container(
+                width: MediaQuery.of(context).size.width * .24,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    if(value == '20')
+                    // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                    CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 15,)),backgroundColor: colorController.greenColor,maxRadius: 11,), 
+                    if(value == '21')
+                    reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
+                    if(value == '8')
+                    Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                    if(value == '19')
+                    Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                      // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+                    Icon(Icons.arrow_forward_ios)
+                  ],
+                ),
+              ));
+              },),
+
+              ValueListenableBuilder(valueListenable: repository.additional_info, builder: (context, value, child) {
+                return reusablelisttile(context,(){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>Biography()));
+              },'assets/images/biography.png','Biography',widget: Container(
+                width: MediaQuery.of(context).size.width * .24,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    if(value == '20')
+                    // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                    CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 15,)),backgroundColor: colorController.greenColor,maxRadius: 11,), 
+                    if(value == '21')
+                    reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
+                    if(value == '8')
+                    Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                    if(value == '19')
+                    Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                      // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+                    Icon(Icons.arrow_forward_ios)
+                  ],
+                ),
+              ));
+              },),
+
+
               ValueListenableBuilder(valueListenable: repository.qualification_pref, builder: (context, value, child) {
                 return reusablelisttile(context,(){
                Navigator.push(context, MaterialPageRoute(builder: (context) => Qualification(),));
-              },'assets/images/qual_pref_icon.png','Qulification',widget: Container(
+              },'assets/images/graduation.png','Qualification, Courses & Skills',widget: Container(
                 width: MediaQuery.of(context).size.width * .24,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -221,7 +271,7 @@ void loginClear(){
               ValueListenableBuilder(valueListenable: repository.qualification_pref, builder: (context, value, child) {
                 return reusablelisttile(context,(){
                Navigator.push(context, MaterialPageRoute(builder: (context) => QualificationAndPreferences(),));
-              },'assets/images/qual_pref_icon.png','Preferences',widget: Container(
+              },'assets/images/qual_pref_icon.png','Teaching Preferences & Questionnaire',widget: Container(
                 width: MediaQuery.of(context).size.width * .24,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -270,6 +320,32 @@ void loginClear(){
                 ),
               ));
               },),
+
+              ValueListenableBuilder(valueListenable: repository.bank_details, builder: (context, value, child) {
+                return reusablelisttile(context,(){
+                 Navigator.push(context, MaterialPageRoute(builder: (context)=>AccountDetails()));
+              },'assets/images/bank_details_icon.png','Bank Details',widget: Container(
+                width: MediaQuery.of(context).size.width * .24,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    if(value == '20')
+                    // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+                    CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 15,)),backgroundColor: colorController.greenColor,maxRadius: 11,), 
+                    if(value == '21')
+                    reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
+                    if(value == '8')
+                    Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                    if(value == '19')
+                    Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+                      // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,),
+                    Icon(Icons.arrow_forward_ios)
+                  ],
+                ),
+              ));
+              },),
+
+
               ValueListenableBuilder(valueListenable: repository.is_term_home, builder: (context, value, child) {
                 return value == 1 ? ValueListenableBuilder(valueListenable: repository.is_term_accepted, builder: (context, value, child) {
                 return reusablelisttile(context,(){
@@ -295,31 +371,34 @@ void loginClear(){
               ));
               },) : Container();
               },),
-              ValueListenableBuilder(valueListenable: repository.is_term_accepted_online_option, builder: (context, value, child) {
-                return value == 1 ? ValueListenableBuilder(valueListenable: repository.is_term_accepted_online, builder: (context, value, child) {
-                return reusablelisttile(context,(){
-                if(repository.is_term_accepted.value == '8' || repository.is_term_accepted.value == '19'){
-                  reusableAnimationdialog(context, 'Restrict', 'Before accepting terms and conditions, Fill all the steps sequentially');
-                }else{
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditions(imageUrl: MySharedPrefrence().get_term_condition_image_online(),btn: repository.is_term_accepted_online.value,title: repository.term_condition_heading.value,term: 'term_condition_online',),));
-                }
-              },'assets/images/terms_and_conditions.png', repository.term_condition_heading.value,widget: Container(
-                width: MediaQuery.of(context).size.width * .24,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    if(value == '1')
-                    // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
-                    CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 15,)),backgroundColor: colorController.greenColor,maxRadius: 11,), 
-                    if(value == '0')
-                    Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
-                      // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
-                    Icon(Icons.arrow_forward_ios)
-                  ],
-                ),
-              ));
-              },) : Container();
-              },),
+
+              // ValueListenableBuilder(valueListenable: repository.is_term_accepted_online_option, builder: (context, value, child) {
+              //   return value == 1 ? ValueListenableBuilder(valueListenable: repository.is_term_accepted_online, builder: (context, value, child) {
+              //   return reusablelisttile(context,(){
+              //   if(repository.is_term_accepted.value == '8' || repository.is_term_accepted.value == '19'){
+              //     reusableAnimationdialog(context, 'Restrict', 'Before accepting terms and conditions, Fill all the steps sequentially');
+              //   }else{
+              //     Navigator.push(context, MaterialPageRoute(builder: (context) => TermsAndConditions(imageUrl: MySharedPrefrence().get_term_condition_image_online(),btn: repository.is_term_accepted_online.value,title: repository.term_condition_heading.value,term: 'term_condition_online',),));
+              //   }
+              // },'assets/images/terms_and_conditions.png', repository.term_condition_heading.value,widget: Container(
+              //   width: MediaQuery.of(context).size.width * .24,
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.end,
+              //     children: [
+              //       if(value == '1')
+              //       // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
+              //       CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 15,)),backgroundColor: colorController.greenColor,maxRadius: 11,), 
+              //       if(value == '0')
+              //       Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
+              //         // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
+              //       Icon(Icons.arrow_forward_ios)
+              //     ],
+              //   ),
+              // ));
+              // },) : Container();
+              // },),
+
+
               ValueListenableBuilder(valueListenable: repository.payment_recipt_option, builder: (context, value, child) {
                 return value == 1 ? ValueListenableBuilder(valueListenable: repository.payment_recipt, builder: (context, value, child) {
                 return reusablelisttile(context,(){
@@ -422,82 +501,11 @@ void loginClear(){
               },) : Container();
               },),
 
-              ValueListenableBuilder(valueListenable: repository.bank_details, builder: (context, value, child) {
-                return reusablelisttile(context,(){
-                 Navigator.push(context, MaterialPageRoute(builder: (context)=>AccountDetails()));
-              },'assets/images/bank_details_icon.png','Bank Details',widget: Container(
-                width: MediaQuery.of(context).size.width * .24,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    if(value == '20')
-                    // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
-                    CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 15,)),backgroundColor: colorController.greenColor,maxRadius: 11,), 
-                    if(value == '21')
-                    reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
-                    if(value == '8')
-                    Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
-                    if(value == '19')
-                    Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
-                      // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,),
-                    Icon(Icons.arrow_forward_ios)
-                  ],
-                ),
-              ));
-              },),
+              
               ValueListenableBuilder(valueListenable: repository.additional_info, builder: (context, value, child) {
                 return reusablelisttile(context,(){
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>AdditionalInfo()));
               },'assets/images/add_info_icon.png','Additional Information',widget: Container(
-                width: MediaQuery.of(context).size.width * .24,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    if(value == '20')
-                    // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
-                    CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 15,)),backgroundColor: colorController.greenColor,maxRadius: 11,), 
-                    if(value == '21')
-                    reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
-                    if(value == '8')
-                    Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
-                    if(value == '19')
-                    Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
-                      // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
-                    Icon(Icons.arrow_forward_ios)
-                  ],
-                ),
-              ));
-              },),
-
-              ValueListenableBuilder(valueListenable: repository.additional_info, builder: (context, value, child) {
-                return reusablelisttile(context,(){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>Biography()));
-              },'assets/images/biography.png','Biography',widget: Container(
-                width: MediaQuery.of(context).size.width * .24,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    if(value == '20')
-                    // Image.asset('assets/images/accept.png',width: MediaQuery.of(context).size.width * .058,),
-                    CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 15,)),backgroundColor: colorController.greenColor,maxRadius: 11,), 
-                    if(value == '21')
-                    reusableText('(Pending)',color: colorController.greenColor,fontweight: FontWeight.bold),
-                    if(value == '8')
-                    Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
-                    if(value == '19')
-                    Image.asset('assets/images/remove.png',width: MediaQuery.of(context).size.width * .058,),
-                      // CircleAvatar(child: Center(child: Icon(Icons.check,color: colorController.whiteColor,size: 17,)),backgroundColor: colorController.greenColor,maxRadius: 12,), 
-                    Icon(Icons.arrow_forward_ios)
-                  ],
-                ),
-              ));
-              },),
-
-
-              ValueListenableBuilder(valueListenable: repository.additional_info, builder: (context, value, child) {
-                return reusablelisttile(context,(){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>Profileimage()));
-              },'assets/images/profile.png','Profile Image',widget: Container(
                 width: MediaQuery.of(context).size.width * .24,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
