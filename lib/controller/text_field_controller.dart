@@ -44,6 +44,27 @@ final TextEditingController _registerPassCon = TextEditingController();
   final TextEditingController _addressCon = TextEditingController();
   TextEditingController get addressCon => _addressCon;
 
+  final TextEditingController _gender= TextEditingController();
+  TextEditingController get gender => _gender;
+
+  final TextEditingController _name = TextEditingController();
+  TextEditingController get name => _name;
+
+  final TextEditingController _country = TextEditingController();
+  TextEditingController get country => _country;
+
+  final TextEditingController _father = TextEditingController();
+  TextEditingController get father => _father;
+
+  final TextEditingController _numbr = TextEditingController();
+  TextEditingController get numbr => _numbr;
+
+  final TextEditingController _altnumbr = TextEditingController();
+  TextEditingController get altnumbr => _altnumbr;
+
+  final TextEditingController _mStatus = TextEditingController();
+  TextEditingController get mStatus => _mStatus;
+
   final TextEditingController _ChangeOldPassword = TextEditingController();
   TextEditingController get ChangeOldPassword => _ChangeOldPassword;
 
@@ -145,6 +166,12 @@ final TextEditingController _title = TextEditingController();
 
   final TextEditingController _furtherInfo = TextEditingController();
   TextEditingController get furtherInfo => _furtherInfo;
+
+  final TextEditingController _email = TextEditingController();
+  TextEditingController get email => _email;
+
+  final TextEditingController _cnic = TextEditingController();
+  TextEditingController get cnic => _cnic;
 
   final TextEditingController _zoomlink = TextEditingController();
   TextEditingController get zoomlink => _zoomlink;

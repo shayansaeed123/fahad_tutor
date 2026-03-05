@@ -88,7 +88,6 @@ void initState() {
   Widget build(BuildContext context) {
     final state = ref.watch(documentsAttachProvider);
     final controller = ref.read(documentsAttachProvider.notifier);
-    print(repository.profile_image.value.toString());
     return 
     reusableprofileidget( context,
                 Padding(

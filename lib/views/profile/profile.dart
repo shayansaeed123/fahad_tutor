@@ -16,6 +16,7 @@ import 'package:fahad_tutor/views/dashboard/nav_bar.dart';
 import 'package:fahad_tutor/views/login/login.dart';
 import 'package:fahad_tutor/views/profile/accountdetails.dart';
 import 'package:fahad_tutor/views/profile/additionalinfo.dart';
+import 'package:fahad_tutor/views/profile/basicinfo.dart';
 import 'package:fahad_tutor/views/profile/biography.dart';
 import 'package:fahad_tutor/views/profile/contactus.dart';
 import 'package:fahad_tutor/views/profile/documentsattach.dart';
@@ -180,7 +181,8 @@ void loginClear(){
               ValueListenableBuilder<int>(valueListenable: repository.basicInfo, builder: (context, basicInfo, child) {
                 return reusablelisttile(context,(){
                 print(repository.basicInfo);
-                reusableprofileInfoDialog(context,'${formatInfo(MySharedPrefrence().get_info())}',() => _launchEmail("info@fahadtutors.com"),);
+                // reusableprofileInfoDialog(context,'${formatInfo(MySharedPrefrence().get_info())}',() => _launchEmail("info@fahadtutors.com"),);
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>BasicInfo()));
               },'assets/images/basic_info_icon.png','Basic Info',widget: Container(
                 width: MediaQuery.of(context).size.width * .24,
                 child: Row(

@@ -72,6 +72,55 @@ Widget reusableTextField(
   );
 }
 
+Widget reusableReadOnlyTextField(
+  BuildContext context,
+  TextEditingController controller,
+  String labelText,
+  Color labelColor,
+) {
+  return Container(
+    width: MediaQuery.of(context).size.width * 1,
+    child: TextFormField(
+      controller: controller,
+      readOnly: true, // 🔒 readonly
+      style: TextStyle(fontSize: 12.5),
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: colorController.whiteColor,
+        labelText: labelText,
+        labelStyle: TextStyle(
+          color: labelColor,
+          fontSize: 11.5,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(
+            color: colorController.textfieldBorderColorBefore,
+            width: 1.5,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(
+            color: colorController.textfieldBorderColorBefore,
+            width: 1.5,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(
+            color: colorController.textfieldBorderColorAfter,
+            width: 1.5,
+          ),
+        ),
+        contentPadding:
+            EdgeInsets.symmetric(vertical: 0.0, horizontal: 10),
+      ),
+    ),
+  );
+}
+
+
 Widget reusableOnlineTextField(
   BuildContext context,
   TextEditingController controller,

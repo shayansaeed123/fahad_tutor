@@ -1396,4 +1396,5 @@ Future<void> updateProgressReport({
       _showLoadMoreButton = true;
     }
   }
+  
 }
